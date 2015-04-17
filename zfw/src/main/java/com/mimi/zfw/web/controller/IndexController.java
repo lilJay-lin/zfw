@@ -3,14 +3,20 @@ package com.mimi.zfw.web.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mimi.zfw.model.UserModel;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.pageUtil.CommonPageObject;
+import com.mimi.zfw.web.bind.annotation.CurrentUser;
 
 
 @Controller("indexController")
@@ -37,6 +44,42 @@ public class IndexController {
 	@Qualifier("IUserService")
 	private IUserService userService;
 
+
+    @RequestMapping("/aa")
+    public String index(@CurrentUser UserModel loginUser, Model model) {
+        Set<String> permissions = userService.findPermissions(loginUser.getUserName());
+//        List<Resource> menus = resourceService.findMenus(permissions);
+//        model.addAttribute("menus", menus);
+        model.addAttribute("loginedUserName", loginUser.getUserName());
+        return "index";
+    }
+
+//    @RequiresPermissions("bb")
+    @RequestMapping(method = RequestMethod.GET)
+    public String list(HttpServletRequest request,Model model) {
+//        model.addAttribute("userList", userService.listAll());
+//        return "user/list";
+		CommonPageObject<UserModel> page = userService.listAll(0);
+		request.setAttribute("page", page);
+		request.setAttribute("sn", request.getServerName());
+		return "index";
+    }
+
+    @RequestMapping(value = "/login"    )
+    public String showLoginForm(HttpServletRequest req, Model model) {
+        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");
+        String error = null;
+        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if(exceptionClassName != null) {
+            error = "其他错误：" + exceptionClassName;
+        }
+        model.addAttribute("error", error);
+        return "login";
+    }
+	
 	@RequestMapping(value = "/index", method = { RequestMethod.GET })
 	public String index(HttpServletRequest request) throws ServletRequestBindingException {
 //		String sBevName = (String) request.getAttribute("sBevName");

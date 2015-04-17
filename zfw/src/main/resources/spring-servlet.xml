@@ -113,6 +113,8 @@
 			</list>
 		</property>
 	</bean>
+<!-- 	<bean id="mappingJacksonHttpMessageConverter" -->
+<!-- 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes">
@@ -141,4 +143,8 @@
 		</property>
 	</bean>
 
+<!--     <bean class="com.github.zhangkaitao.shiro.chapter16.web.exception.DefaultExceptionHandler"/> -->
+
+    <import resource="spring-mvc-shiro.xml"/>
+    
 </beans>

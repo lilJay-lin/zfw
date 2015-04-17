@@ -1,11 +1,16 @@
 package com.mimi.zfw.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
@@ -33,12 +38,15 @@ public class UserModel extends AbstractModel {
 	private String id;
 
 	@Pattern(regexp = "[A-Za-z0-9_]{5,20}", message = "{username.illegal}")
+	@Column(unique = true)
 	private String userName;
 
 	@Email(message = "{email.illegal}")
+	@Column(unique = true)
 	private String email;
 
 	@Pattern(regexp = "[0-9_]{11}", message = "{phoneNum.illegal}")
+	@Column(unique = true)
 	private String phoneNum;
 
 	@Pattern(regexp = "[A-Za-z0-9]{5,80}", message = "{password.illegal}")
@@ -46,7 +54,13 @@ public class UserModel extends AbstractModel {
 
 	@DateFormat(message = "{register.date.error}")
 	private Date registerDate;
+	
+	private String salt;
 
+//	@ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "tr_user_role", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
+//	private List<RoleModel> roles;
+	
 	public String getId() {
 		return id;
 	}
@@ -70,7 +84,6 @@ public class UserModel extends AbstractModel {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 
 	public String getPhoneNum() {
 		return phoneNum;
@@ -96,23 +109,34 @@ public class UserModel extends AbstractModel {
 		this.registerDate = registerDate;
 	}
 
-//	@Override
-//	public int hashCode() {
-//		return Integer.parseInt(id);
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		UserModel other = (UserModel) obj;
-//		if (id != other.id)
-//			return false;
-//		return true;
-//	}
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+    public String getCredentialsSalt() {
+        return userName + salt;
+    }
+
+	// @Override
+	// public int hashCode() {
+	// return Integer.parseInt(id);
+	// }
+	//
+	// @Override
+	// public boolean equals(Object obj) {
+	// if (this == obj)
+	// return true;
+	// if (obj == null)
+	// return false;
+	// if (getClass() != obj.getClass())
+	// return false;
+	// UserModel other = (UserModel) obj;
+	// if (id != other.id)
+	// return false;
+	// return true;
+	// }
 
 }

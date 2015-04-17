@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -21,10 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.YinXiangMa.YinXiangMa;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.model.UserModel;
-import com.mimi.zfw.model.UserQueryModel;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.MD5Util;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
 import com.mimi.zfw.web.support.editor.DateEditor;
 
 @Controller
@@ -69,37 +72,108 @@ public class UserController extends BaseController {
 //		request.getSession().setAttribute(Constants.LOGIN_USER_NAME, null);
 //		return "login";
 //	}
-
 	@RequestMapping(value = "/user", method = { RequestMethod.GET })
 	public String index() {
 		return "ui/user/index";
 	}
-
-	@RequestMapping(value = "/user/login", method = { RequestMethod.GET })
-	public String toLogin(Model model) {
-		if (!model.containsAttribute(Constants.COMMAND)) {
-			model.addAttribute(Constants.COMMAND, new UserQueryModel());
-		}
-		return "ui/user/login";
+	@RequiresPermissions("user:view")
+	@RequestMapping(value = "/user/view", method = { RequestMethod.GET })
+	public String view() {
+		return "ui/user/index";
 	}
 
-	@RequestMapping(value = "/user/login", method = { RequestMethod.POST })
-	public String login(HttpServletRequest request,
-			@ModelAttribute(Constants.COMMAND) UserQueryModel command) {
-		CommonPageObject<UserModel> pages = userService.query(0, Constants.DEFAULT_PAGE_SIZE, command);
-		if(pages.getItemTotalNum()>0){
-			request.getSession().setAttribute(Constants.LOGIN_USER_NAME,
-					pages.getItems().get(0).getUserName());
-			request.getSession().setAttribute(Constants.LOGIN_USER_ID,
-					pages.getItems().get(0).getId());
-			return "ui/user/index";
-		}
-		request.setAttribute(Constants.ERROR_MESSAGE, "用户或密码错误，请重新输入！");
-//		request.getSession().setAttribute(Constants.ERROR_MESSAGE, "用户或密码错误，请重新输入！");
-		request.getSession().setAttribute(Constants.LOGIN_USER_NAME, null);
-		request.getSession().setAttribute(Constants.LOGIN_USER_ID, null);
-		return "ui/user/login";
+	@RequiresPermissions("user:add")
+	@RequestMapping(value = "/user/add", method = { RequestMethod.GET })
+	public String add() {
+		return "ui/user/index";
 	}
+
+	@RequiresPermissions("user:del")
+	@RequestMapping(value = "/user/del", method = { RequestMethod.GET })
+	public String del() {
+		return "ui/user/index";
+	}
+
+	@RequiresPermissions("user:update")
+	@RequestMapping(value = "/user/update", method = { RequestMethod.GET })
+	public String update() {
+		return "ui/user/index";
+	}
+	
+	
+
+//	@RequestMapping(value = "/user/login", method = { RequestMethod.GET })
+//	public String toLogin(Model model) {
+//		if (!model.containsAttribute(Constants.COMMAND)) {
+//			model.addAttribute(Constants.COMMAND, new UserQueryModel());
+//		}
+//		return "ui/user/login";
+//	}
+
+	@RequestMapping(value = "/user/login", method = { RequestMethod.POST,RequestMethod.GET })
+	public String login(HttpServletRequest request,Model model){
+//			@ModelAttribute(Constants.COMMAND) UserQueryModel command) {
+//		CommonPageObject<UserModel> pages = userService.query(0, Constants.DEFAULT_PAGE_SIZE, command);
+//		if(pages.getItemTotalNum()>0){
+//			request.getSession().setAttribute(Constants.LOGIN_USER_NAME,
+//					pages.getItems().get(0).getUserName());
+//			request.getSession().setAttribute(Constants.LOGIN_USER_ID,
+//					pages.getItems().get(0).getId());
+//			return "ui/user/index";
+//		}
+//		request.setAttribute(Constants.ERROR_MESSAGE, "用户或密码错误，请重新输入！");
+////		request.getSession().setAttribute(Constants.ERROR_MESSAGE, "用户或密码错误，请重新输入！");
+//		request.getSession().setAttribute(Constants.LOGIN_USER_NAME, null);
+//		request.getSession().setAttribute(Constants.LOGIN_USER_ID, null);
+//		return "ui/user/login";
+		
+
+        String exceptionClassName = (String)request.getAttribute("shiroLoginFailure");
+        String error = null;
+        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if(exceptionClassName != null) {
+            error = "其他错误：" + exceptionClassName;
+        }
+        model.addAttribute("error", error);
+        return "ui/user/login";
+	}
+	
+
+//	@RequestMapping(value = "/user/logout", method = { RequestMethod.POST,RequestMethod.GET })
+//	public String logout(HttpServletRequest request,Model model){
+////			@ModelAttribute(Constants.COMMAND) UserQueryModel command) {
+////		CommonPageObject<UserModel> pages = userService.query(0, Constants.DEFAULT_PAGE_SIZE, command);
+////		if(pages.getItemTotalNum()>0){
+////			request.getSession().setAttribute(Constants.LOGIN_USER_NAME,
+////					pages.getItems().get(0).getUserName());
+////			request.getSession().setAttribute(Constants.LOGIN_USER_ID,
+////					pages.getItems().get(0).getId());
+////			return "ui/user/index";
+////		}
+////		request.setAttribute(Constants.ERROR_MESSAGE, "用户或密码错误，请重新输入！");
+//////		request.getSession().setAttribute(Constants.ERROR_MESSAGE, "用户或密码错误，请重新输入！");
+////		request.getSession().setAttribute(Constants.LOGIN_USER_NAME, null);
+////		request.getSession().setAttribute(Constants.LOGIN_USER_ID, null);
+////		return "ui/user/login";
+//		
+//
+//        String exceptionClassName = (String)request.getAttribute("shiroLoginFailure");
+//        String error = null;
+//        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
+//            error = "用户名/密码错误";
+//        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+//            error = "用户名/密码错误";
+//        } else if(exceptionClassName != null) {
+//            error = "其他错误：" + exceptionClassName;
+//        }
+//        model.addAttribute("error", error);
+//        return "ui/user/login";
+//	}
+	
+	
 
 	@RequestMapping(value = "/user/register", method = { RequestMethod.GET })
 	public String toRegister(Model model) {
@@ -114,6 +188,13 @@ public class UserController extends BaseController {
 			@ModelAttribute(Constants.COMMAND) UserModel command) {
 		Date nowDate = new Date(System.currentTimeMillis());
 		command.setRegisterDate(nowDate);
+		String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+		SimpleHash sh = new SimpleHash("md5", command.getPassword(), command.getUserName() + salt, 2);
+//		SimpleHash sh = new SimpleHash("md5", command.getPassword());
+		command.setPassword(sh.toString());
+		command.setSalt(salt);
+//		MessageDigest.getInstance("md5").update(command.getPassword().getBytes())
+//		System.out.println(sh.toString()+"_"+MD5Util.MD5(MD5Util.MD5(command.getPassword()+command.getUserName()+salt)));
 		userService.save(command);
 		return "ui/user/index";
 	}

@@ -1,5 +1,7 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,26 @@ public class UserServiceImpl extends BaseService<UserModel, String> implements
 			UserQueryModel command) {
 		return PageUtil.getPage(userDao.countStrictQuery(command), pn,
 				userDao.strictQuery(pn, pageSize, command), pageSize);
+	}
+
+	public void changePassword(Long userId, String newPassword) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public UserModel findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<String> findRoles(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<String> findPermissions(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

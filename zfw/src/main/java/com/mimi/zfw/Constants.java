@@ -12,7 +12,7 @@ public class Constants {
 	public static final String SEARCH_DESCRIPTION = "searchDescription";
 
 	public static final String SEARCH_ALIVE_CONTENT = "searchAliveContent";
-	
+
 	public static final String SEARCH_TEMPLET_CONTENT = "searchTempletContent";
 
 	public static final String TIMELIMIT_STATE_ALL = "stateAll";
@@ -32,11 +32,13 @@ public class Constants {
 	public static final String DEFAULT_RESOURCE_URL = "http://resource.uniqueid.cn";
 
 	public static final String DEFAULT_DATA_URL = "http://data.uniqueid.cn";
-	
+
 	public static final String BAIDU_MAP_AK = "44843934aa23b524f4456723fea8dbdf";
-	
+
 	public static final int BAIDU_MAP_REAL_ESTATE_GEOTABLE_ID = 92345;
-	
+
 	public static final String BAIDU_MAP_BOUND_SEARCH_URL = "http://api.map.baidu.com/geosearch/v3/bound";
+	
+	public static final String CURRENT_USER = "user";
 
 }

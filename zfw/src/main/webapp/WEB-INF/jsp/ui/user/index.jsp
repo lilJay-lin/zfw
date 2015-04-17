@@ -13,5 +13,11 @@ user
        			<a href="<c:url value="/index"/>">首页</a>
        			<a href="<c:url value="/user/login"/>">登录</a>
        			<a href="<c:url value="/user/register"/>">注册</a>
+       			<a href="<c:url value="/user/logout"/>">退出</a>
+       			<a href="<c:url value="/user/view"/>">view</a>
+       			<a href="<c:url value="/user/add"/>">add</a>
+       			<a href="<c:url value="/user/del"/>">del</a>
+       			<a href="<c:url value="/user/update"/>">update</a>
+       			
 </body>
 </html>

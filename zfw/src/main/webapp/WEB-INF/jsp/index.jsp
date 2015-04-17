@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<h1>后台欢迎您 ${loginedUserName }!</h1><br/>
+<h1>后台欢迎您 <shiro:principal/>!</h1><br/>
 <h2>Hello World!</h2>
 				${sn }
        			<c:forEach items="${page.items}" var="t" varStatus="status">
@@ -21,6 +21,7 @@
 						</span>
 						<span class="sri6">电话：${t.phoneNum }</span>
 						<span class="sri3">邮箱：${t.email }</span>
+						<span class="sri3">密码：${t.password }</span>
 					</div>
        			</c:forEach>
        			<a href="<c:url value="/user/"/>">个人中心</a>
