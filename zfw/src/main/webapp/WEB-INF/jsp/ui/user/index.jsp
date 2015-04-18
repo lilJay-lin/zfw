@@ -18,6 +18,8 @@ user
        			<a href="<c:url value="/user/add"/>">add</a>
        			<a href="<c:url value="/user/del"/>">del</a>
        			<a href="<c:url value="/user/update"/>">update</a>
-       			
+       			<shiro:hasPermission name="user:add"><br/>you can add</shiro:hasPermission>
+       			<shiro:hasPermission name="user:view"><br/>you can view</shiro:hasPermission>
+       			<shiro:hasPermission name="user"><br/>you can user</shiro:hasPermission>
 </body>
 </html>
