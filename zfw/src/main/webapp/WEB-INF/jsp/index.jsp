@@ -25,5 +25,8 @@
 					</div>
        			</c:forEach>
        			<a href="<c:url value="/user/"/>">个人中心</a>
+       			<img src="${pageContext.request.contextPath}/assets/img/zhy1_02.jpg"/>
+				<script src="${pageContext.request.contextPath}/assets/js/testJs.js"></script>
+       			<a href="${pageContext.request.contextPath}/assets/js/testJs.js">${pageContext.request.contextPath}/assets/js/testJs.js</a>
 </body>
 </html>

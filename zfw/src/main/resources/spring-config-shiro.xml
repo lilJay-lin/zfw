@@ -117,8 +117,8 @@
 <!--            anon  即不需要登录即可访问 -->
 <!--             	/aa = anon  -->
 <!--             	/bb = authc -->
-<!--                 /user/login = authc -->
-<!--                 /user/logout = logout -->
+                /user/login = authc
+                /user/logout = logout
 <!--                 /mi/** = authc -->
 <!--                 /** = authc -->
                 /** = anon
