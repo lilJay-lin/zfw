@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mimi.zfw.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.mimi.zfw.pojo.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="headImgUrl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="locked" property="locked" jdbcType="BIT" />
+    <result column="createDate" property="createdate" jdbcType="DATE" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="updateDate" property="updatedate" jdbcType="DATE" />
+    <result column="lastEditor" property="lasteditor" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mimi.zfw.pojo.User" >
+    insert into user (id, name, email, 
+      phoneNum, description, headImgUrl, 
+      password, salt, locked, 
+      createDate, creater, updateDate, 
+      lastEditor)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phonenum,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{locked,jdbcType=BIT}, 
+      #{createdate,jdbcType=DATE}, #{creater,jdbcType=VARCHAR}, #{updatedate,jdbcType=DATE}, 
+      #{lasteditor,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mimi.zfw.pojo.User" >
+    update user
+    set name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phoneNum = #{phonenum,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      headImgUrl = #{headimgurl,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      locked = #{locked,jdbcType=BIT},
+      createDate = #{createdate,jdbcType=DATE},
+      creater = #{creater,jdbcType=VARCHAR},
+      updateDate = #{updatedate,jdbcType=DATE},
+      lastEditor = #{lasteditor,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, name, email, phoneNum, description, headImgUrl, password, salt, locked, 
+    createDate, creater, updateDate, lastEditor
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, email, phoneNum, description, headImgUrl, password, salt, locked, 
+    createDate, creater, updateDate, lastEditor
+    from user
+  </select>
+  
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, name, email, phoneNum, description, headImgUrl, password, salt, locked, 
+    createDate, creater, updateDate, lastEditor
+    from user
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,69 +1,46 @@
 package com.mimi.zfw.service.impl;
 
-import java.util.Set;
+import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
-import com.mimi.zfw.dao.IBaseDao;
-import com.mimi.zfw.dao.IUserDao;
-import com.mimi.zfw.model.UserModel;
-import com.mimi.zfw.model.UserQueryModel;
+import com.mimi.zfw.dao.UserMapper;
+import com.mimi.zfw.pojo.User;
 import com.mimi.zfw.service.IUserService;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
-import com.mimi.zfw.util.pageUtil.PageUtil;
 
-@Service("IUserService")
-public class UserServiceImpl extends BaseService<UserModel, String> implements
-		IUserService {
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(UserServiceImpl.class);
-
-	private IUserDao userDao;
-
-	@Autowired
-	@Qualifier("IUserDao")
+@Service("userService")
+public class UserServiceImpl implements IUserService {
+	@Resource
+	private UserMapper um;
 	@Override
-	public void setBaseDao(IBaseDao<UserModel, String> userDao) {
-		this.baseDao = userDao;
-		this.userDao = (IUserDao) userDao;
-	}
-
-	public CommonPageObject<UserModel> query(int pn, int pageSize,
-			UserQueryModel command) {
-		LOGGER.info("UserServiceImpl");
-		return PageUtil.getPage(userDao.countQuery(command), pn,
-				userDao.query(pn, pageSize, command), pageSize);
-	}
-
-	public CommonPageObject<UserModel> strictQuery(int pn, int pageSize,
-			UserQueryModel command) {
-		return PageUtil.getPage(userDao.countStrictQuery(command), pn,
-				userDao.strictQuery(pn, pageSize, command), pageSize);
-	}
-
-	public void changePassword(Long userId, String newPassword) {
+	public User getUserById(String id) {
 		// TODO Auto-generated method stub
-		
+		return this.um.selectByPrimaryKey(id);
 	}
-
-	public UserModel findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public void batchAddUsers(List<User> users) {
+	    // TODO Auto-generated method stub
+	    for (User user : users) {
+		um.insert(user);
+	    }
 	}
-
-	public Set<String> findRoles(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public User findByUsername(String name) {
+	    // TODO Auto-generated method stub
+	    
+	    return um.selectByName(name);
 	}
-
-	public Set<String> findPermissions(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public void save(User user) {
+	    // TODO Auto-generated method stub
+	    um.insert(user);
+	}
+	@Override
+	public List<User> listAll() {
+	    // TODO Auto-generated method stub
+	    return um.selectAll();
 	}
 
 }

@@ -10,8 +10,8 @@
 <body>
             <form:form method="POST" >
 		<ul data-role="listview">
-<li class="ui-field-contain"><label for="userName" class="label">名称:</label>
-	<form:input path="userName" /></li>
+<li class="ui-field-contain"><label for="name" class="label">名称:</label>
+	<form:input path="name" /></li>
 <li class="ui-field-contain"><label for="password" class="label">密码:</label>
 	<form:input path="password" /></li>
 <li class="ui-field-contain"><input type="submit" value="提交" /></li>

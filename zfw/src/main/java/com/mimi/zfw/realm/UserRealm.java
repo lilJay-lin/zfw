@@ -15,11 +15,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mimi.zfw.Constants;
-import com.mimi.zfw.model.UserModel;
-import com.mimi.zfw.model.UserQueryModel;
+import com.mimi.zfw.pojo.User;
 import com.mimi.zfw.service.IUserService;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
 
 /**
  * <p>
@@ -31,7 +28,7 @@ import com.mimi.zfw.util.pageUtil.CommonPageObject;
  */
 public class UserRealm extends AuthorizingRealm {
 
-	@Autowired
+    	@Autowired
 	private IUserService userService;
 
 	@Override
@@ -52,7 +49,6 @@ public class UserRealm extends AuthorizingRealm {
 		}else{
 			permissions.add("user:view");
 		}
-		System.out.println(username);
 		authorizationInfo.setRoles(roles);
 		authorizationInfo.setStringPermissions(permissions);
 //		authorizationInfo.setRoles(userService.findRoles(username));
@@ -68,16 +64,21 @@ public class UserRealm extends AuthorizingRealm {
 		String username = (String) token.getPrincipal();
 
 //		UserModel user = userService.findByUsername(username);
-		UserQueryModel command = new UserQueryModel();
-		command.setUserName(username);
-		CommonPageObject<UserModel> pages = userService.query(0, Constants.DEFAULT_PAGE_SIZE, command);
-		if(pages.getItemTotalNum()==0){
-			throw new UnknownAccountException();// 没找到帐号
-		}
-		UserModel user = pages.getItems().get(0);
-//		if (user == null) {
+		
+		User user = userService.findByUsername(username);
+//		UserQueryModel command = new UserQueryModel();
+//		command.setUserName(username);
+//		CommonPageObject<UserModel> pages = userService.query(0, Constants.DEFAULT_PAGE_SIZE, command);
+//		if(pages.getItemTotalNum()==0){
 //			throw new UnknownAccountException();// 没找到帐号
 //		}
+//		UserModel user = pages.getItems().get(0);
+		
+//		throw new UnknownAccountException();// 没找到帐号
+		
+		if (user == null) {
+			throw new UnknownAccountException();// 没找到帐号
+		}
 
 		// if(Boolean.TRUE.equals(user.getLocked())) {
 		// throw new LockedAccountException(); //帐号锁定
@@ -85,7 +86,7 @@ public class UserRealm extends AuthorizingRealm {
 
 		// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-				user.getUserName(), // 用户名
+				user.getName(), // 用户名
 				user.getPassword(), // 密码
 				ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
 				getName() // realm name

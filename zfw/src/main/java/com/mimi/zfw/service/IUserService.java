@@ -1,20 +1,19 @@
 package com.mimi.zfw.service;
 
+import java.util.List;
 import java.util.Set;
 
-import com.mimi.zfw.model.UserModel;
-import com.mimi.zfw.model.UserQueryModel;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
+import com.mimi.zfw.pojo.User;
 
-public interface IUserService extends IBaseService<UserModel, String> {
+public interface IUserService {
+	public User getUserById(String id);
+	
+	public void batchAddUsers(List<User> users);
+	
+	public User findByUsername(String user);
+	
+	public void save(User user);
+	
+	public List<User> listAll();
 
-	CommonPageObject<UserModel> query(int pn, int pageSize,
-			UserQueryModel command);
-
-	CommonPageObject<UserModel> strictQuery(int pn, int pageSize,
-			UserQueryModel command);
-	public void changePassword(Long userId, String newPassword); //修改密码
-	public UserModel findByUsername(String username); //根据用户名查找用户
-	public Set<String> findRoles(String username);// 根据用户名查找其角色
-	public Set<String> findPermissions(String username);// 根据用户名查找其权限
 }
