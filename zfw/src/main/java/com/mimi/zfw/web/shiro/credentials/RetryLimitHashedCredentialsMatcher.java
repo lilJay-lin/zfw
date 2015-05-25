@@ -1,4 +1,6 @@
-package com.mimi.zfw.credentials;
+package com.mimi.zfw.web.shiro.credentials;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -7,7 +9,7 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import com.mimi.zfw.Constants;
 
 /**
  * <p>User: Zhang Kaitao
@@ -20,6 +22,9 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
         passwordRetryCache = cacheManager.getCache("passwordRetryCache");
+        setHashAlgorithmName(Constants.SHIRO_HASH_ALGORITHM_NAME);
+        setHashIterations(Constants.SHIRO_HASH_ITERATIONS);
+        setStoredCredentialsHexEncoded(true);
     }
 
     @Override

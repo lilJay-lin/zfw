@@ -41,4 +41,6 @@ public class Constants {
 	
 	public static final String CURRENT_USER = "user";
 
+	public static final String SHIRO_HASH_ALGORITHM_NAME = "md5";
+	public static final int SHIRO_HASH_ITERATIONS = 2;
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mimi.zfw.pojo.Role;
+import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.service.IRoleService;
 
 @Controller

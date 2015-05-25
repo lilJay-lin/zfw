@@ -51,12 +51,12 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描mapping.xml文件 -->
-		<property name="mapperLocations" value="classpath:com/mimi/zfw/mapping/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/mimi/zfw/mybatis/mapping/*.xml"></property>
 	</bean>
 
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.mimi.zfw.dao" />
+		<property name="basePackage" value="com.mimi.zfw.mybatis.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 
@@ -81,6 +81,7 @@
 			<tx:method name="use*" propagation="REQUIRED" />
 			<tx:method name="import*" propagation="REQUIRED" />
 			<tx:method name="batch*" propagation="REQUIRED" />
+			<tx:method name="init*" propagation="REQUIRED" />
 			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="find*" propagation="REQUIRED" read-only="true" />

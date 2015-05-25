@@ -2,9 +2,7 @@ package com.mimi.zfw.service;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import com.mimi.zfw.pojo.Role;
+import com.mimi.zfw.mybatis.pojo.Role;
 
 public interface IRoleService{
 	public Role getRoleById(String id);
@@ -14,4 +12,8 @@ public interface IRoleService{
 	public List<Role> listAll();
 	
 	public int getK();
+	
+	public void initRole();
+	
+	public List<Role> getRolesByUserId(String id);
 }

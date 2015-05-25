@@ -1,8 +1,9 @@
-package com.mimi.zfw.pojo;
+package com.mimi.zfw.mybatis.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private String id;
 
     private String name;
@@ -10,8 +11,6 @@ public class User {
     private String email;
 
     private String phonenum;
-
-    private String description;
 
     private String headimgurl;
 
@@ -21,13 +20,17 @@ public class User {
 
     private Boolean locked;
 
-    private Date createdate;
+    private String description;
 
     private String creater;
 
-    private Date updatedate;
+    private String lastEditor;
 
-    private String lasteditor;
+    private Date createDate;
+
+    private Date updateDate;
+
+    private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
@@ -59,14 +62,6 @@ public class User {
 
     public void setPhonenum(String phonenum) {
         this.phonenum = phonenum == null ? null : phonenum.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 
     public String getHeadimgurl() {
@@ -101,12 +96,12 @@ public class User {
         this.locked = locked;
     }
 
-    public Date getCreatedate() {
-        return createdate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     public String getCreater() {
@@ -117,23 +112,27 @@ public class User {
         this.creater = creater == null ? null : creater.trim();
     }
 
-    public Date getUpdatedate() {
-        return updatedate;
+    public String getLastEditor() {
+        return lastEditor;
     }
 
-    public void setUpdatedate(Date updatedate) {
-        this.updatedate = updatedate;
+    public void setLastEditor(String lastEditor) {
+        this.lastEditor = lastEditor == null ? null : lastEditor.trim();
     }
 
-    public String getLasteditor() {
-        return lasteditor;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setLasteditor(String lasteditor) {
-        this.lasteditor = lasteditor == null ? null : lasteditor.trim();
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public String getCredentialsSalt() {
-	return name+salt;
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

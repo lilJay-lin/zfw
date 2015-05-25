@@ -1,9 +1,9 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import com.mimi.zfw.pojo.User;
+import com.mimi.zfw.mybatis.pojo.User;
 
 public interface IUserService {
 	public User getUserById(String id);
@@ -15,5 +15,8 @@ public interface IUserService {
 	public void save(User user);
 	
 	public List<User> listAll();
+	
+	public void initUser();
+	
 
 }
