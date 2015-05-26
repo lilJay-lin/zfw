@@ -19,93 +19,93 @@ import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRoleService;
 
-@Service("roleService")
-public class RoleServiceImpl implements IRoleService {
-	@Resource
-	private RoleMapper rm;
+@Service
+public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
+	implements IRoleService {
+    @Resource
+    private RoleMapper rm;
 
-	@Resource
-	private PermissionMapper pm;
+    @Resource
+    private PermissionMapper pm;
 
-	@Resource
-	private RelationRoleAndPermissionMapper rrpm;
-	
-	@Resource
-	private RelationUserAndRoleMapper rurm;
-	
-	public int k = 1;
-	public int getK(){
-	    return k++;
-	}
-	
-	@Override
-//	@Transactional
-	public void batchAddRoles(List<Role> roles) {
-	    // TODO Auto-generated method stub
-	    System.out.println(roles.size());
-	    for(int i=0;i<roles.size();i++){
-		rm.insert(roles.get(i));
-		int k = 1/(i-10);
-		System.out.print(k);
+    @Resource
+    private RelationRoleAndPermissionMapper rrpm;
+
+    @Resource
+    private RelationUserAndRoleMapper rurm;
+
+    @Resource
+    @Override
+    public void setBaseDao(IBaseDao<Role, RoleExample, String> baseDao) {
+	this.baseDao = baseDao;
+	this.rm = (RoleMapper) baseDao;
+    }
+
+    public int k = 1;
+
+    public int getK() {
+	return k++;
+    }
+
+    @Override
+    public void initRole() {
+	int count = rm.countByExample(null);
+	if (count < 1) {
+	    Date nowDate = new Date(System.currentTimeMillis());
+	    Role role = new Role();
+	    role.setId(UUID.randomUUID().toString());
+	    role.setName("超级管理员");
+	    role.setDescription("拥有最高权限");
+	    role.setCreateDate(nowDate);
+	    rm.insert(role);
+	    List<Permission> permissions = pm.selectByExample(null);
+	    for (int i = 0; i < permissions.size(); i++) {
+		RelationRoleAndPermission rrm = new RelationRoleAndPermission();
+		rrm.setId(UUID.randomUUID().toString());
+		rrm.setRoleId(role.getId());
+		rrm.setPermissionId(permissions.get(i).getId());
+		rrm.setCreateDate(nowDate);
+		rrpm.insert(rrm);
 	    }
-//	    for (Role role : roles) {
-//		rm.insert(role);
-//	    }
-	}
-	@Override
-	public Role getRoleById(String id) {
-	    // TODO Auto-generated method stub
-//		return this.rm.selectByPrimaryKey(id);
-	    return null;
-	}
-	@Override
-	public List<Role> listAll() {
-	    // TODO Auto-generated method stub
-		return rm.selectByExample(null);
-//	    return rm.selectAll();
-//	    return null;
-	}
-
-	@Override
-	public void initRole() {
-		int count = rm.countByExample(null);
-		if(count<1){
-			Date nowDate = new Date(System.currentTimeMillis());
-			Role role = new Role();
-			role.setId(UUID.randomUUID().toString());
-			role.setName("超级管理员");
-			role.setDescription("拥有最高权限");
-			role.setCreateDate(nowDate);
-			rm.insert(role);
-			List<Permission> permissions = pm.selectByExample(null);
-			for(int i=0;i<permissions.size();i++){
-				RelationRoleAndPermission rrm = new RelationRoleAndPermission();
-				rrm.setId(UUID.randomUUID().toString());
-				rrm.setRoleId(role.getId());
-				rrm.setPermissionId(permissions.get(i).getId());
-				rrm.setCreateDate(nowDate);
-				rrpm.insert(rrm);
-			}
+	    Role normal = new Role();
+	    normal.setId(UUID.randomUUID().toString());
+	    normal.setName("注册用户");
+	    normal.setDescription("注册用户默认权限");
+	    normal.setCreateDate(nowDate);
+	    rm.insert(normal);
+	    List<String> npns = new ArrayList<String>();
+	    npns.add("自管理");
+	    for (int i = 0; i < permissions.size(); i++) {
+		RelationRoleAndPermission rrm = new RelationRoleAndPermission();
+		if (npns.contains(permissions.get(i).getName())) {
+		    rrm.setId(UUID.randomUUID().toString());
+		    rrm.setRoleId(normal.getId());
+		    rrm.setPermissionId(permissions.get(i).getId());
+		    rrm.setCreateDate(nowDate);
+		    rrpm.insert(rrm);
 		}
+	    }
 	}
+    }
 
-	@Override
-	public List<Role> getRolesByUserId(String id) {
-		RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
-		rure.or().andUserIdEqualTo(id);
-		List<RelationUserAndRole> relations = rurm.selectByExample(rure);
-		List<String> roleIds = new ArrayList<String>();
-		for(int i=0;i<relations.size();i++){
-			String roleId = relations.get(i).getRoleId();
-			if(!roleIds.contains(roleId)){
-				roleIds.add(roleId);
-			}
-		}
-		RoleExample re = new RoleExample();
-		re.or().andIdIn(roleIds);
-		return rm.selectByExample(re);
+    @Override
+    public List<Role> getRolesByUserId(String id) {
+	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
+	rure.or().andUserIdEqualTo(id);
+	List<RelationUserAndRole> relations = rurm.selectByExample(rure);
+	List<String> roleIds = new ArrayList<String>();
+	for (int i = 0; i < relations.size(); i++) {
+	    String roleId = relations.get(i).getRoleId();
+	    if (!roleIds.contains(roleId)) {
+		roleIds.add(roleId);
+	    }
 	}
+	RoleExample re = new RoleExample();
+	re.or().andIdIn(roleIds);
+	return rm.selectByExample(re);
+    }
 
 }

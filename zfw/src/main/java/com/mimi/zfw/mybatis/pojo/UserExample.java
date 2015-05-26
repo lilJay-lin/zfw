@@ -1,11 +1,12 @@
 package com.mimi.zfw.mybatis.pojo;
 
+import com.mimi.zfw.plugin.BaseExample;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class UserExample {
+public class UserExample extends BaseExample {
     protected String orderByClause;
 
     protected boolean distinct;

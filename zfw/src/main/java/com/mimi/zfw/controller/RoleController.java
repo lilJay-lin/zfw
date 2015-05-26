@@ -44,7 +44,7 @@ public class RoleController {
 	    	    role.setName(name);
 	    	    roles.add(role);
 	    	}
-	    	roleService.batchAddRoles(roles);
+	    	roleService.saveBatch(roles);
 		model.addAttribute("roles", roleService.listAll());
 		long e = new Date().getTime();
 		model.addAttribute("time", (e-b)*0.001);

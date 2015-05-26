@@ -19,30 +19,27 @@ import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.mybatis.pojo.UserExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.MD5Util;
 
-@Service("userService")
-public class UserServiceImpl implements IUserService {
+@Service
+public class UserServiceImpl extends BaseService<User, UserExample, String> implements IUserService {
 	@Resource
 	private UserMapper um;
 	@Resource
 	private RoleMapper rm;
 	@Resource
 	private RelationUserAndRoleMapper rurm;
+
+	@Resource
+	@Override
+	public void setBaseDao(
+		IBaseDao<User, UserExample, String> baseDao) {
+	    this.baseDao = baseDao;
+	    this.um = (UserMapper) baseDao;
+	}
 	
-	@Override
-	public User getUserById(String id) {
-		// TODO Auto-generated method stub
-		return this.um.selectByPrimaryKey(id);
-	}
-	@Override
-	public void batchAddUsers(List<User> users) {
-	    // TODO Auto-generated method stub
-	    for (User user : users) {
-		um.insert(user);
-	    }
-	}
 	@Override
 	public User findByUsername(String name) {
 	    UserExample ue = new UserExample();
@@ -52,17 +49,6 @@ public class UserServiceImpl implements IUserService {
 		return null;
 	    }
 	    return users.get(0);
-	}
-	@Override
-	public void save(User user) {
-	    // TODO Auto-generated method stub
-	    um.insert(user);
-	}
-	@Override
-	public List<User> listAll() {
-	    // TODO Auto-generated method stub
-//	    return um.selectAll();
-		return um.selectByExample(null);
 	}
 	@Override
 	public void initUser() {

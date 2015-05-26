@@ -2,10 +2,11 @@ package com.mimi.zfw.mybatis.dao;
 
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.mybatis.pojo.UserExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserMapper {
+public interface UserMapper extends IBaseDao<User, UserExample, String> {
     int countByExample(UserExample example);
 
     int deleteByExample(UserExample example);

@@ -2,10 +2,11 @@ package com.mimi.zfw.mybatis.dao;
 
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.PermissionExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface PermissionMapper {
+public interface PermissionMapper extends IBaseDao<Permission, PermissionExample, String> {
     int countByExample(PermissionExample example);
 
     int deleteByExample(PermissionExample example);

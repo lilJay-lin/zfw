@@ -2,10 +2,11 @@ package com.mimi.zfw.mybatis.dao;
 
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermission;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermissionExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface RelationRoleAndPermissionMapper {
+public interface RelationRoleAndPermissionMapper extends IBaseDao<RelationRoleAndPermission, RelationRoleAndPermissionExample, String> {
     int countByExample(RelationRoleAndPermissionExample example);
 
     int deleteByExample(RelationRoleAndPermissionExample example);

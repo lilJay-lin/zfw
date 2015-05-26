@@ -2,10 +2,11 @@ package com.mimi.zfw.mybatis.dao;
 
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface RealEstateProjectMapper {
+public interface RealEstateProjectMapper extends IBaseDao<RealEstateProject, RealEstateProjectExample, String> {
     int countByExample(RealEstateProjectExample example);
 
     int deleteByExample(RealEstateProjectExample example);

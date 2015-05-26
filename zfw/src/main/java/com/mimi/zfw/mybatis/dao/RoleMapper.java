@@ -2,10 +2,11 @@ package com.mimi.zfw.mybatis.dao;
 
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface RoleMapper {
+public interface RoleMapper extends IBaseDao<Role, RoleExample, String> {
     int countByExample(RoleExample example);
 
     int deleteByExample(RoleExample example);

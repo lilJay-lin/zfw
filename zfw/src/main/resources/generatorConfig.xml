@@ -42,12 +42,13 @@
 <!--     <classPathEntry location="D:/maven/repo/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar"/>   -->
     <context id="mysql" targetRuntime="MyBatis3" defaultModelType="flat">   
     	<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"></plugin>  
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin> 
+<!--         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>  -->
 <!-- xml里面并没有使用分页的sql，只是后者所调用的List<T> selectByExampleWithRowbounds(FilterExample example, RowBounds rowBounds);这里面的RowBounds启了作用，这个RowBounds在内部的实现其实是用jdbc的ResultSet的游标分页，效率不高，也就是当RowBounds的offset和limit有赋值时，mybatis内部在得到jdbc的ResultSet的对象rs时用rs的游标定位到offset的位置，只处理limit条记录。并没有在sql中的语句中进行分页，也就是说其实他查询的还是符合条件的全部数据，只是利用游标进行定位了，这样的方式不建议使用，一旦数据量大的时候，使用游标分页是极费性能的。最好的还是在xml里面的sql中使用分页关键字来进行分页 -->
         <plugin type="org.mybatis.generator.plugins.CachePlugin">
         	<property name="cache_type" value="org.mybatis.caches.ehcache.EhcacheCache"/>
         </plugin> 
 		<plugin type="com.mimi.uniqueid.mybatis.plugin.PaginationPlugin" />  
+		<plugin type="com.mimi.zfw.plugin.BaseDaoPlugin" />  
         <commentGenerator>  
             <property name="suppressDate" value="true"/>  
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->  

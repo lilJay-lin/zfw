@@ -1,20 +1,11 @@
 package com.mimi.zfw.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.mimi.zfw.mybatis.pojo.User;
+import com.mimi.zfw.mybatis.pojo.UserExample;
 
-public interface IUserService {
-	public User getUserById(String id);
-	
-	public void batchAddUsers(List<User> users);
+public interface IUserService extends IBaseService<User, UserExample, String>{
 	
 	public User findByUsername(String user);
-	
-	public void save(User user);
-	
-	public List<User> listAll();
 	
 	public void initUser();
 	

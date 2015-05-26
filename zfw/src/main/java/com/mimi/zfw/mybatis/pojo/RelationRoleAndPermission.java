@@ -1,9 +1,9 @@
 package com.mimi.zfw.mybatis.pojo;
 
-import java.io.Serializable;
+import com.mimi.zfw.plugin.IBaseModel;
 import java.util.Date;
 
-public class RelationRoleAndPermission implements Serializable {
+public class RelationRoleAndPermission implements IBaseModel<String> {
     private String id;
 
     private String roleId;

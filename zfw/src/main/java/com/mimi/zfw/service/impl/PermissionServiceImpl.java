@@ -15,27 +15,42 @@ import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.PermissionExample;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermission;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermissionExample;
+import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IPermissionService;
 
-@Service("permissionService")
-public class PermissionServiceImpl implements IPermissionService {
+@Service
+public class PermissionServiceImpl extends BaseService<Permission, PermissionExample, String> implements IPermissionService {
 
 	@Resource
 	private PermissionMapper pm;
 
 	@Resource
 	private RelationRoleAndPermissionMapper rrpm;
+
+	@Resource
+	@Override
+	public void setBaseDao(
+		IBaseDao<Permission, PermissionExample, String> baseDao) {
+	    this.baseDao = baseDao;
+	    this.pm = (PermissionMapper) baseDao;
+	}
 	
 	@Override
 	public void initPermission() {
+//	    System.out.println(this.countAll());
+//	    List<Permission> list = this.listAll();
+//	    for(int i=0;i<list.size();i++){
+//		System.out.println(list.get(i).getName());
+//	    }
 		int count = pm.countByExample(null);
+//		System.out.println(count);
 		if(count<1){
 			Date nowDate = new Date(System.currentTimeMillis());
-			String[] names = {"管理用户","查询用户","浏览用户","添加用户","删除用户","修改用户",
+			String[] names = {"管理用户","查询用户","浏览用户","添加用户","删除用户","修改用户","自管理",
 					"管理角色","查询角色","浏览角色","添加角色","删除角色","修改角色"};
-			String[] codes = {"user","user:query","user:view","user:add","user:del","user:update",
+			String[] codes = {"user","user:query","user:view","user:add","user:del","user:update","user:self",
 					"role","role:query","role:view","role:add","role:del","role:update"};
-			String[] descs = {"","","","","","",
+			String[] descs = {"","","","","","","",
 					"","","","","",""};
 			for(int i=0;i<names.length;i++){
 				Permission p = new Permission();
