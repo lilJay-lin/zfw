@@ -32,9 +32,10 @@ ${errorMessage }<br/>
   <option value ="password">普通登录</option>
   <option value ="captcha">手机动态密码登录</option>
 </select><br/>
- 验证码：<input type="text" name="captcha" value="<shiro:principal/>"><br/>
+<%--  验证码：<input type="text" name="captcha" value="<shiro:principal/>"><br/> --%>
     自动登录：<input type="checkbox" name="rememberMe" value="true"><br/>
     <input type="submit" value="登录">
+<script async type="text/javascript" src="http://api.geetest.com/get.php?gt=${geetestId }&product=embed"></script>
 </form>
 <a href="${ctx }/user/register">注册</a>
 <%--  <a href="<c:url value="/user"/>">返回</a> --%>

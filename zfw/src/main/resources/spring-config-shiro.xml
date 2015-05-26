@@ -114,6 +114,10 @@
         <property name="loginMIUrl" value="/mi/user/login"/>
         <property name="successUrl" value="/user"/>
         <property name="successMIUrl" value="/mi"/>
+        <property name="geetest" ref="geetestLibBean"/>
+    </bean>
+    <!-- 极验证码  -->
+    <bean id="geetestLibBean" class="com.mimi.zfw.web.captcha.GeetestLib">
     </bean>
 
     <bean id="sysUserFilter" class="com.mimi.zfw.web.shiro.filter.SysUserFilter"/>

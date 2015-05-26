@@ -84,12 +84,14 @@ public class UserController {
 	@RequestMapping(value = "/user/login", method = { RequestMethod.GET })
 	public String toLogin(HttpServletRequest request,Model model){
 	    	setRSAParams(model);
+	    	setGeetestId(model);
 		return "ui/user/login";
 	}
 
 	@RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
     	public String toMILogin(HttpServletRequest request,Model model){
 	    	setRSAParams(model);
+	    	setGeetestId(model);
         	return "mi/user/login";
 	}
 	
@@ -97,6 +99,7 @@ public class UserController {
 	public String MILogin(HttpServletRequest request,Model model){
 		loginAction(request, model);
 	    	setRSAParams(model);
+	    	setGeetestId(model);
 		return "mi/user/login";
 	}
 	
@@ -104,6 +107,7 @@ public class UserController {
 	public String login(HttpServletRequest request,Model model){
 		loginAction(request, model);
 	    	setRSAParams(model);
+	    	setGeetestId(model);
 		return "ui/user/login";
 	}
 	
@@ -113,6 +117,10 @@ public class UserController {
 //		request.setAttribute("publicExponent", rpu.getPublicExponent().toString(16));
 		model.addAttribute("publicExponent",rpu.getPublicExponent().toString(16) );
 		model.addAttribute("modulus", rpu.getModulus().toString(16));
+	}
+	
+	private void setGeetestId(Model model){
+	    model.addAttribute("geetestId", Constants.GEETEST_ID);
 	}
 	
 	private void loginAction(HttpServletRequest request,Model model){
@@ -127,7 +135,8 @@ public class UserController {
                 } else if(ExcessiveAttemptsException.class.getName().equals(exceptionClassName)){
                 	error = "账号已锁定";
                 } else if(exceptionClassName != null) {
-                    error = "其他错误：" + exceptionClassName;
+//                    error = "其他错误：" + exceptionClassName;
+                    error = "登录失败，请稍后尝试";
                 }
                 model.addAttribute("error", error);
 	}

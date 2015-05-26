@@ -43,4 +43,7 @@ public class Constants {
 
 	public static final String SHIRO_HASH_ALGORITHM_NAME = "md5";
 	public static final int SHIRO_HASH_ITERATIONS = 2;
+	
+	public static final String GEETEST_ID = "61658dd2f0dfc210aeb78192ea4fde05";
+	public static final String GEETEST_KEY = "abceaa2fd512253fb743ba7e06780635";
 }
