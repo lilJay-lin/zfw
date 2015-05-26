@@ -9,6 +9,7 @@ import com.mimi.zfw.service.IRoleService;
   
 @Component  
 public class TestTask {  
+//    mimi
 //	@Resource
 //	private IRoleService roleService;
 //	
