@@ -1,132 +1,94 @@
 package com.mimi.zfw.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.mimi.zfw.Constants;
-import com.mimi.zfw.dao.IBaseDao;
+import com.mimi.zfw.plugin.BaseExample;
+import com.mimi.zfw.plugin.IBaseDao;
+import com.mimi.zfw.plugin.IBaseModel;
 import com.mimi.zfw.service.IBaseService;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
-import com.mimi.zfw.util.pageUtil.PageUtil;
 
-public abstract class BaseService<M extends java.io.Serializable, PK extends java.io.Serializable>
-		implements IBaseService<M, PK> {
+public abstract class BaseService<M extends IBaseModel<PK>, E extends BaseExample, PK extends Serializable>
+	implements IBaseService<M, E, PK> {
 
-	protected IBaseDao<M, PK> baseDao;
+    protected IBaseDao<M, E, PK> baseDao;
 
-	public abstract void setBaseDao(IBaseDao<M, PK> baseDao);
+    public abstract void setBaseDao(IBaseDao<M, E, PK> baseDao);
 
-	public M save(M model) {
-		baseDao.save(model);
-		return model;
+    public M save(M model) {
+	baseDao.insert(model);
+	return model;
+    }
+
+    public void saveOrUpdate(M model) {
+	if(exists(model.getId())){
+	    baseDao.insert(model);
+	}else{
+	    baseDao.updateByPrimaryKey(model);
 	}
+    }
 
-	public void merge(M model) {
-		baseDao.merge(model);
+    public void update(M model) {
+	baseDao.updateByPrimaryKey(model);
+    }
+
+    public void delete(PK id) {
+	baseDao.deleteByPrimaryKey(id);
+    }
+
+    public M get(PK id) {
+	return baseDao.selectByPrimaryKey(id);
+    }
+
+    public int countAll() {
+	return baseDao.countByExample(null);
+    }
+
+    public List<M> listAll() {
+	return baseDao.selectByExample(null);
+    }
+
+    public List<M> query(E example) {
+	return baseDao.selectByExample(example);
+    }
+
+    public int countQuery(E example) {
+	return baseDao.countByExample(example);
+    }
+
+    public boolean exists(PK id) {
+	return baseDao.selectByPrimaryKey(id) != null;
+    }
+
+    public List<M> saveBatch(List<M> modelList) {
+	for(int i=0;i<modelList.size();i++){
+	    baseDao.insert(modelList.get(i));
 	}
+	return modelList;
+    }
 
-	public void saveOrUpdate(M model) {
-		baseDao.saveOrUpdate(model);
+    public void saveOrUpdateBatch(List<M> modelList) {
+	for(int i=0;i<modelList.size();i++){
+	    saveOrUpdate(modelList.get(i));
 	}
+    }
 
-	public void update(M model) {
-		baseDao.update(model);
+    public void updateBatch(List<M> modelList) {
+	for(int i=0;i<modelList.size();i++){
+	    baseDao.updateByPrimaryKey(modelList.get(i));
 	}
+    }
 
-	public void delete(PK id) {
-		baseDao.delete(id);
+    public void deleteBatch(List<PK> ids) {
+	for(int i=0;i<ids.size();i++){
+	    baseDao.deleteByPrimaryKey(ids.get(i));
 	}
+    }
 
-	public void deleteObject(M model) {
-		baseDao.deleteObject(model);
+    public void deleteObjectBatch(List<M> modelList) {
+	for(int i=0;i<modelList.size();i++){
+	    baseDao.deleteByPrimaryKey(modelList.get(i).getId());
 	}
+    }
 
-	public M get(PK id) {
-		return baseDao.get(id);
-	}
-
-	public int countAll() {
-		return baseDao.countAll();
-	}
-
-	public List<M> listAll() {
-		return baseDao.listAll();
-	}
-
-	public CommonPageObject<M> listAll(int pn) {
-
-		return this.listAll(pn, Constants.DEFAULT_PAGE_SIZE);
-	}
-
-	public CommonPageObject<M> listAllWithOptimize(int pn) {
-		return this.listAllWithOptimize(pn, Constants.DEFAULT_PAGE_SIZE);
-	}
-
-	public CommonPageObject<M> listAll(int pn, int pageSize) {
-		Integer count = countAll();
-		List<M> items = baseDao.listAll(pn, pageSize);
-		return PageUtil.getPage(count, pn, items, pageSize);
-	}
-
-	public CommonPageObject<M> listAllWithOptimize(int pn, int pageSize) {
-		Integer count = countAll();
-		List<M> items = baseDao.listAll(pn, pageSize);
-		return PageUtil.getPage(count, pn, items, pageSize);
-	}
-
-	public CommonPageObject<M> pre(PK pk, int pn, int pageSize) {
-		Integer count = countAll();
-		List<M> items = baseDao.pre(pk, pn, pageSize);
-		return PageUtil.getPage(count, pn, items, pageSize);
-	}
-
-	public CommonPageObject<M> next(PK pk, int pn, int pageSize) {
-		Integer count = countAll();
-		List<M> items = baseDao.next(pk, pn, pageSize);
-		return PageUtil.getPage(count, pn, items, pageSize);
-	}
-
-	public CommonPageObject<M> pre(PK pk, int pn) {
-		return pre(pk, pn, Constants.DEFAULT_PAGE_SIZE);
-	}
-
-	public CommonPageObject<M> next(PK pk, int pn) {
-		return next(pk, pn, Constants.DEFAULT_PAGE_SIZE);
-	}
-
-	public List<M> saveBatch(List<M> modelList) {
-		for (M model : modelList) {
-			baseDao.save(model);
-		}
-		return modelList;
-	}
-
-	public void saveOrUpdateBatch(List<M> modelList) {
-		for (M model : modelList) {
-			baseDao.saveOrUpdate(model);
-		}
-	}
-
-	public void updateBatch(List<M> modelList) {
-		for (M model : modelList) {
-			baseDao.update(model);
-		}
-	}
-
-	public void mergeBatch(List<M> modelList) {
-		for (M model : modelList) {
-			baseDao.merge(model);
-		}
-	}
-
-	public void deleteBatch(List<PK> ids) {
-		for (PK id : ids) {
-			baseDao.delete(id);
-		}
-	}
-
-	public void deleteObjectBatch(List<M> modelList) {
-		for (M model : modelList) {
-			baseDao.deleteObject(model);
-		}
-	}
 }

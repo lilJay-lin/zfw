@@ -1,50 +1,40 @@
 package com.mimi.zfw.service;
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
+import com.mimi.zfw.plugin.BaseExample;
+import com.mimi.zfw.plugin.IBaseModel;
 
-public interface IBaseService<M extends java.io.Serializable, PK extends java.io.Serializable> {
+public interface IBaseService<M extends IBaseModel<PK>, E extends BaseExample, PK extends Serializable> {
 
-	public M save(M model);
+    public M get(PK id);
 
-	public void saveOrUpdate(M model);
+    public int countAll();
 
-	public void update(M model);
+    public List<M> listAll();
 
-	public void merge(M model);
+    public List<M> query(E example);
 
-	public void delete(PK id);
+    public int countQuery(E example);
 
-	public void deleteObject(M model);
+    public boolean exists(PK id);
 
-	public M get(PK id);
+    public M save(M model);
 
-	public int countAll();
+    public List<M> saveBatch(List<M> modelList);
 
-	public List<M> listAll();
+    public void saveOrUpdate(M model);
 
-	public CommonPageObject<M> listAll(int pn);
+    public void saveOrUpdateBatch(List<M> modelList);
 
-	public CommonPageObject<M> listAll(int pn, int pageSize);
+    public void update(M model);
 
-	public CommonPageObject<M> pre(PK pk, int pn, int pageSize);
+    public void delete(PK id);
 
-	public CommonPageObject<M> next(PK pk, int pn, int pageSize);
+    public void updateBatch(List<M> modelList);
 
-	public CommonPageObject<M> pre(PK pk, int pn);
+    public void deleteBatch(List<PK> ids);
 
-	public CommonPageObject<M> next(PK pk, int pn);
-
-	public List<M> saveBatch(List<M> modelList);
-
-	public void saveOrUpdateBatch(List<M> modelList);
-
-	public void updateBatch(List<M> modelList);
-
-	public void mergeBatch(List<M> modelList);
-
-	public void deleteBatch(List<PK> ids);
-
-	public void deleteObjectBatch(List<M> modelList);
+    public void deleteObjectBatch(List<M> modelList);
 }

@@ -21,12 +21,46 @@ ${errorMessage }<br/>
 <!-- 		</ul> -->
 <%--             </form:form> --%>
 <div class="error">${error}</div>
-<form action="" method="post">
-    用户名：<input type="text" name="username" value="<shiro:principal/>"><br/>
-    密码：<input type="password" name="password"><br/>
+<div>aa:${publicExponent } bb: ${modulus }</div>
+<form action="" method="post" onsubmit="return ckform(this);">
+    用户名：<input type="text" name="name" value="<shiro:principal/>"><br/>
+    密码：<input type="password" name="passwordDisplay"><br/>
+    <input type="hidden" name="password">
+		<input type="hidden" id="publicExponent" name="publicExponent" value="${publicExponent }" />
+		<input type="hidden" id="modulus" name="modulus" value="${modulus }"/>
+    type：<select name="loginType">
+  <option value ="password">普通登录</option>
+  <option value ="captcha">手机动态密码登录</option>
+</select><br/>
+<%--  验证码：<input type="text" name="captcha" value="<shiro:principal/>"><br/> --%>
     自动登录：<input type="checkbox" name="rememberMe" value="true"><br/>
     <input type="submit" value="登录">
+<script async type="text/javascript" src="http://api.geetest.com/get.php?gt=${geetestId }&product=embed"></script>
 </form>
- <a href="<c:url value="/user"/>">返回</a>
+<a href="${ctx }/user/register">注册</a>
+<%--  <a href="<c:url value="/user"/>">返回</a> --%>
 </body>
+<%request.setAttribute("encrypUrl", request.getContextPath()+"/assets/tools/encryption");%>
+<script type="text/javascript" src="${encrypUrl}/RSA.js"></script>
+<script type="text/javascript" src="${encrypUrl}/BigInt.js"></script>
+<script type="text/javascript" src="${encrypUrl}/Barrett.js"></script>
+<script type="text/javascript" src="${encrypUrl}/md5.js"></script>
+
+<script type="text/javascript">
+function ckform(){
+	var thisPwd = document.getElementsByName("passwordDisplay")[0].value;
+	thisPwd = hex_md5(thisPwd);
+	bodyRSA();
+	var result = encryptedString(key, encodeURIComponent(thisPwd));
+	document.getElementsByName("password")[0].value = encodeURIComponent(result);
+	return true;
+}
+var key ;
+function bodyRSA(){
+	setMaxDigits(130);
+	var publicExponent = document.getElementById("publicExponent").value;
+	var modulus = document.getElementById("modulus").value;
+  	key = new RSAKeyPair(publicExponent,"",modulus); 
+}
+</script>
 </html>
