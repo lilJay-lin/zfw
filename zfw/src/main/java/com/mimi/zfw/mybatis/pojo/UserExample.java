@@ -363,143 +363,143 @@ public class UserExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumIsNull() {
-            addCriterion("phoneNum is null");
+        public Criteria andPhoneNumIsNull() {
+            addCriterion("phone_num is null");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumIsNotNull() {
-            addCriterion("phoneNum is not null");
+        public Criteria andPhoneNumIsNotNull() {
+            addCriterion("phone_num is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumEqualTo(String value) {
-            addCriterion("phoneNum =", value, "phonenum");
+        public Criteria andPhoneNumEqualTo(String value) {
+            addCriterion("phone_num =", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumNotEqualTo(String value) {
-            addCriterion("phoneNum <>", value, "phonenum");
+        public Criteria andPhoneNumNotEqualTo(String value) {
+            addCriterion("phone_num <>", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumGreaterThan(String value) {
-            addCriterion("phoneNum >", value, "phonenum");
+        public Criteria andPhoneNumGreaterThan(String value) {
+            addCriterion("phone_num >", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumGreaterThanOrEqualTo(String value) {
-            addCriterion("phoneNum >=", value, "phonenum");
+        public Criteria andPhoneNumGreaterThanOrEqualTo(String value) {
+            addCriterion("phone_num >=", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumLessThan(String value) {
-            addCriterion("phoneNum <", value, "phonenum");
+        public Criteria andPhoneNumLessThan(String value) {
+            addCriterion("phone_num <", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumLessThanOrEqualTo(String value) {
-            addCriterion("phoneNum <=", value, "phonenum");
+        public Criteria andPhoneNumLessThanOrEqualTo(String value) {
+            addCriterion("phone_num <=", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumLike(String value) {
-            addCriterion("phoneNum like", value, "phonenum");
+        public Criteria andPhoneNumLike(String value) {
+            addCriterion("phone_num like", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumNotLike(String value) {
-            addCriterion("phoneNum not like", value, "phonenum");
+        public Criteria andPhoneNumNotLike(String value) {
+            addCriterion("phone_num not like", value, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumIn(List<String> values) {
-            addCriterion("phoneNum in", values, "phonenum");
+        public Criteria andPhoneNumIn(List<String> values) {
+            addCriterion("phone_num in", values, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumNotIn(List<String> values) {
-            addCriterion("phoneNum not in", values, "phonenum");
+        public Criteria andPhoneNumNotIn(List<String> values) {
+            addCriterion("phone_num not in", values, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumBetween(String value1, String value2) {
-            addCriterion("phoneNum between", value1, value2, "phonenum");
+        public Criteria andPhoneNumBetween(String value1, String value2) {
+            addCriterion("phone_num between", value1, value2, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumNotBetween(String value1, String value2) {
-            addCriterion("phoneNum not between", value1, value2, "phonenum");
+        public Criteria andPhoneNumNotBetween(String value1, String value2) {
+            addCriterion("phone_num not between", value1, value2, "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlIsNull() {
-            addCriterion("headImgUrl is null");
+        public Criteria andHeadImgUrlIsNull() {
+            addCriterion("head_img_url is null");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlIsNotNull() {
-            addCriterion("headImgUrl is not null");
+        public Criteria andHeadImgUrlIsNotNull() {
+            addCriterion("head_img_url is not null");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlEqualTo(String value) {
-            addCriterion("headImgUrl =", value, "headimgurl");
+        public Criteria andHeadImgUrlEqualTo(String value) {
+            addCriterion("head_img_url =", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlNotEqualTo(String value) {
-            addCriterion("headImgUrl <>", value, "headimgurl");
+        public Criteria andHeadImgUrlNotEqualTo(String value) {
+            addCriterion("head_img_url <>", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlGreaterThan(String value) {
-            addCriterion("headImgUrl >", value, "headimgurl");
+        public Criteria andHeadImgUrlGreaterThan(String value) {
+            addCriterion("head_img_url >", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlGreaterThanOrEqualTo(String value) {
-            addCriterion("headImgUrl >=", value, "headimgurl");
+        public Criteria andHeadImgUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("head_img_url >=", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlLessThan(String value) {
-            addCriterion("headImgUrl <", value, "headimgurl");
+        public Criteria andHeadImgUrlLessThan(String value) {
+            addCriterion("head_img_url <", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlLessThanOrEqualTo(String value) {
-            addCriterion("headImgUrl <=", value, "headimgurl");
+        public Criteria andHeadImgUrlLessThanOrEqualTo(String value) {
+            addCriterion("head_img_url <=", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlLike(String value) {
-            addCriterion("headImgUrl like", value, "headimgurl");
+        public Criteria andHeadImgUrlLike(String value) {
+            addCriterion("head_img_url like", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlNotLike(String value) {
-            addCriterion("headImgUrl not like", value, "headimgurl");
+        public Criteria andHeadImgUrlNotLike(String value) {
+            addCriterion("head_img_url not like", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlIn(List<String> values) {
-            addCriterion("headImgUrl in", values, "headimgurl");
+        public Criteria andHeadImgUrlIn(List<String> values) {
+            addCriterion("head_img_url in", values, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlNotIn(List<String> values) {
-            addCriterion("headImgUrl not in", values, "headimgurl");
+        public Criteria andHeadImgUrlNotIn(List<String> values) {
+            addCriterion("head_img_url not in", values, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlBetween(String value1, String value2) {
-            addCriterion("headImgUrl between", value1, value2, "headimgurl");
+        public Criteria andHeadImgUrlBetween(String value1, String value2) {
+            addCriterion("head_img_url between", value1, value2, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlNotBetween(String value1, String value2) {
-            addCriterion("headImgUrl not between", value1, value2, "headimgurl");
+        public Criteria andHeadImgUrlNotBetween(String value1, String value2) {
+            addCriterion("head_img_url not between", value1, value2, "headImgUrl");
             return (Criteria) this;
         }
 
@@ -1048,13 +1048,13 @@ public class UserExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andPhonenumLikeInsensitive(String value) {
-            addCriterion("upper(phoneNum) like", value.toUpperCase(), "phonenum");
+        public Criteria andPhoneNumLikeInsensitive(String value) {
+            addCriterion("upper(phone_num) like", value.toUpperCase(), "phoneNum");
             return (Criteria) this;
         }
 
-        public Criteria andHeadimgurlLikeInsensitive(String value) {
-            addCriterion("upper(headImgUrl) like", value.toUpperCase(), "headimgurl");
+        public Criteria andHeadImgUrlLikeInsensitive(String value) {
+            addCriterion("upper(head_img_url) like", value.toUpperCase(), "headImgUrl");
             return (Criteria) this;
         }
 

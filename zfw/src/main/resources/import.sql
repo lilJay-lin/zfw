@@ -14,8 +14,8 @@ CREATE TABLE tbl_user(
 id varchar(50) PRIMARY KEY,
 name varchar(50) unique,
 email varchar(100) unique,
-phoneNum varchar(50) unique,
-headImgUrl varchar(200),
+phone_num varchar(50) unique,
+head_img_url varchar(200),
 password varchar(50),
 salt varchar(50),
 locked tinyint(1),
@@ -124,7 +124,6 @@ create_date date,
 update_date date,
 del_flag tinyint(1) default false
 );
-
 drop table if exists tbl_rep_panorama;
 CREATE TABLE tbl_rep_panorama(
 id varchar(50) PRIMARY KEY,
@@ -234,8 +233,6 @@ update_date date,
 del_flag tinyint(1) default false
 );
 
-
-
 drop table if exists tbl_ad;
 CREATE TABLE tbl_ad(
 id varchar(50) PRIMARY KEY,
@@ -247,7 +244,3 @@ lastEditor varchar(50),
 createDate date,
 updateDate date
 );
-
-
-
-

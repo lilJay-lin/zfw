@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.PermissionMapper;
 import com.mimi.zfw.mybatis.dao.RelationRoleAndPermissionMapper;
 import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
@@ -57,7 +58,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    Date nowDate = new Date(System.currentTimeMillis());
 	    Role role = new Role();
 	    role.setId(UUID.randomUUID().toString());
-	    role.setName("超级管理员");
+	    role.setName(Constants.ROLE_NAME_ADMIN_DEFAULT);
 	    role.setDescription("拥有最高权限");
 	    role.setCreateDate(nowDate);
 	    rm.insert(role);
@@ -72,7 +73,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    }
 	    Role normal = new Role();
 	    normal.setId(UUID.randomUUID().toString());
-	    normal.setName("注册用户");
+	    normal.setName(Constants.ROLE_NAME_NORMAL_DEFAULT);
 	    normal.setDescription("注册用户默认权限");
 	    normal.setCreateDate(nowDate);
 	    rm.insert(normal);
@@ -104,7 +105,9 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    }
 	}
 	RoleExample re = new RoleExample();
-	re.or().andIdIn(roleIds);
+	if(!roleIds.isEmpty()){
+		re.or().andIdIn(roleIds);
+	}
 	return rm.selectByExample(re);
     }
 

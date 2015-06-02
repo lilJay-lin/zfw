@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
-    <result column="headImgUrl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="locked" property="locked" jdbcType="BIT" />
@@ -75,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, email, phoneNum, headImgUrl, password, salt, locked, description, creater, 
+    id, name, email, phone_num, head_img_url, password, salt, locked, description, creater, 
     last_editor, create_date, update_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.UserExample" >
@@ -113,12 +113,12 @@
   </delete>
   <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.User" >
     insert into tbl_user (id, name, email, 
-      phoneNum, headImgUrl, password, 
+      phone_num, head_img_url, password, 
       salt, locked, description, 
       creater, last_editor, create_date, 
       update_date)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{phonenum,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{headImgUrl,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{locked,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateDate,jdbcType=DATE})
@@ -135,11 +135,11 @@
       <if test="email != null" >
         email,
       </if>
-      <if test="phonenum != null" >
-        phoneNum,
+      <if test="phoneNum != null" >
+        phone_num,
       </if>
-      <if test="headimgurl != null" >
-        headImgUrl,
+      <if test="headImgUrl != null" >
+        head_img_url,
       </if>
       <if test="password != null" >
         password,
@@ -176,11 +176,11 @@
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="phonenum != null" >
-        #{phonenum,jdbcType=VARCHAR},
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
       </if>
-      <if test="headimgurl != null" >
-        #{headimgurl,jdbcType=VARCHAR},
+      <if test="headImgUrl != null" >
+        #{headImgUrl,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -226,11 +226,11 @@
       <if test="record.email != null" >
         email = #{record.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.phonenum != null" >
-        phoneNum = #{record.phonenum,jdbcType=VARCHAR},
+      <if test="record.phoneNum != null" >
+        phone_num = #{record.phoneNum,jdbcType=VARCHAR},
       </if>
-      <if test="record.headimgurl != null" >
-        headImgUrl = #{record.headimgurl,jdbcType=VARCHAR},
+      <if test="record.headImgUrl != null" >
+        head_img_url = #{record.headImgUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null" >
         password = #{record.password,jdbcType=VARCHAR},
@@ -266,8 +266,8 @@
     set id = #{record.id,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      phoneNum = #{record.phonenum,jdbcType=VARCHAR},
-      headImgUrl = #{record.headimgurl,jdbcType=VARCHAR},
+      phone_num = #{record.phoneNum,jdbcType=VARCHAR},
+      head_img_url = #{record.headImgUrl,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       salt = #{record.salt,jdbcType=VARCHAR},
       locked = #{record.locked,jdbcType=BIT},
@@ -289,11 +289,11 @@
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="phonenum != null" >
-        phoneNum = #{phonenum,jdbcType=VARCHAR},
+      <if test="phoneNum != null" >
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
       </if>
-      <if test="headimgurl != null" >
-        headImgUrl = #{headimgurl,jdbcType=VARCHAR},
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -326,8 +326,8 @@
     update tbl_user
     set name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      phoneNum = #{phonenum,jdbcType=VARCHAR},
-      headImgUrl = #{headimgurl,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      head_img_url = #{headImgUrl,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       locked = #{locked,jdbcType=BIT},

@@ -59,7 +59,7 @@ public class IndexController {
     // }
 
     // @RequiresPermissions("bb")
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/",method = RequestMethod.GET)
     public String list(HttpServletRequest request, Model model) {
 	// model.addAttribute("userList", userService.listAll());
 	// return "user/list";
@@ -68,6 +68,13 @@ public class IndexController {
 	request.setAttribute("page", userService.listAll());
 	request.setAttribute("sn", request.getServerName());
 	return "index";
+    }
+
+    @RequestMapping(value = "/mi",method = RequestMethod.GET)
+    public String indexMI(HttpServletRequest request, Model model) {
+	request.setAttribute("page", userService.listAll());
+	request.setAttribute("sn", request.getServerName());
+	return "mi/index";
     }
 
     @RequestMapping(value = "/unauthorized")
