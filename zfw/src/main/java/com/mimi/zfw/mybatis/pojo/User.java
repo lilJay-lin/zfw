@@ -10,9 +10,9 @@ public class User implements IBaseModel<String> {
 
     private String email;
 
-    private String phonenum;
+    private String phoneNum;
 
-    private String headimgurl;
+    private String headImgUrl;
 
     private String password;
 
@@ -56,20 +56,20 @@ public class User implements IBaseModel<String> {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getPhonenum() {
-        return phonenum;
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
-    public void setPhonenum(String phonenum) {
-        this.phonenum = phonenum == null ? null : phonenum.trim();
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum == null ? null : phoneNum.trim();
     }
 
-    public String getHeadimgurl() {
-        return headimgurl;
+    public String getHeadImgUrl() {
+        return headImgUrl;
     }
 
-    public void setHeadimgurl(String headimgurl) {
-        this.headimgurl = headimgurl == null ? null : headimgurl.trim();
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl == null ? null : headImgUrl.trim();
     }
 
     public String getPassword() {

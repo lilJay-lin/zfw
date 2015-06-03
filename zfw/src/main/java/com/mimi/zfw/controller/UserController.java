@@ -6,7 +6,11 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -14,6 +18,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +26,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
+import com.mimi.zfw.web.captcha.GeetestLib;
 import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
 
 @Controller
@@ -34,11 +41,22 @@ public class UserController {
 
 	@Resource
 	private IUserService userService;
+    	@Resource
+    	private GeetestLib geetest;
+    	
+    	
 	@RequestMapping(value = "/user", method = { RequestMethod.GET })
 	public String index() {
 //	    return "list";
 		return "ui/user/index";
 	}
+
+	@RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
+	public String indexMI() {
+//	    return "list";
+		return "mi/user/index";
+	}
+	
 	@RequiresPermissions("user:view")
 	@RequestMapping(value = "/user/view", method = { RequestMethod.GET })
 	public String view() {
@@ -148,24 +166,47 @@ public class UserController {
 		if (!model.containsAttribute(Constants.COMMAND)) {
 			model.addAttribute(Constants.COMMAND, new User());
 		    	setRSAParams(model);
+		    	setGeetestId(model);
 		}
 		return "ui/user/register";
 	}
 
 	@RequestMapping(value = "/user/register", method = { RequestMethod.POST })
-	public String register(HttpServletRequest request,
-			@ModelAttribute(Constants.COMMAND) User command) {
-		Date nowDate = new Date(System.currentTimeMillis());
-		command.setId(UUID.randomUUID().toString());
-		command.setCreateDate(nowDate);
-		String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
-		SimpleHash sh = new SimpleHash("md5", command.getPassword(), command.getId() + salt, 2);
-//		SimpleHash sh = new SimpleHash("md5", command.getPassword());
-		command.setPassword(sh.toString());
-		command.setSalt(salt);
-//		MessageDigest.getInstance("md5").update(command.getPassword().getBytes())
-//		System.out.println(sh.toString()+"_"+MD5Util.MD5(MD5Util.MD5(command.getPassword()+command.getUserName()+salt)));
-		userService.save(command);
+	public String register(HttpServletRequest request,HttpServletResponse response,
+			@ModelAttribute(Constants.COMMAND) User command){
+//		Date nowDate = new Date(System.currentTimeMillis());
+//		command.setId(UUID.randomUUID().toString());
+//		command.setCreateDate(nowDate);
+//		String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+//		SimpleHash sh = new SimpleHash("md5", command.getPassword(), command.getId() + salt, 2);
+////		SimpleHash sh = new SimpleHash("md5", command.getPassword());
+//		command.setPassword(sh.toString());
+//		command.setSalt(salt);
+////		MessageDigest.getInstance("md5").update(command.getPassword().getBytes())
+////		System.out.println(sh.toString()+"_"+MD5Util.MD5(MD5Util.MD5(command.getPassword()+command.getUserName()+salt)));
+//		userService.save(command);
+	   String password = "";
+	try {
+	    password = RSAUtil.getResult(
+	    	    request.getParameter("publicExponent"),
+	    	    request.getParameter("modulus"),command.getPassword());
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	   command.setPassword(password);
+	    boolean gtResult = false;
+		if (geetest.resquestIsLegal(request)) {
+		    gtResult = geetest.validateRequest(request);
+		} else {
+		    gtResult = false;
+		}
+
+		if (!gtResult) {
+		    throw new IncorrectCaptchaException("验证码错误！");
+		}
+	    command = userService.saveOriginUser(command);
+	    userService.login(command.getName(),password);
 		return "ui/user/index";
 	}
 	
@@ -202,6 +243,62 @@ public class UserController {
 		return "user/changePWD";
 	}
 
+
+	    @RequestMapping(value = "/public/json/user/checkLoginNameValid", method = RequestMethod.GET)
+	    public @ResponseBody
+	    Object loginNameValid(String name) {
+//		JSONArray joarr = new JSONArray();
+////		JSONArray.fromObject(params);
+//		for(int i=0;i<1;i++){
+//			JSONObject tjo = new JSONObject();
+//			tjo.put("address", "\u5e7f\u4e1c\u7701\u8087\u5e86\u5e02\u7aef\u5dde\u533a\u666f\u5fb7\u8def18\u53f7");
+//			tjo.put("city", "\u8087\u5e86\u5e02");
+//			tjo.put("content_id", 1);
+//			tjo.put("title", "\u661f\u6e56\u540d\u4ed5\u4f1a");
+//			tjo.put("location", "[112.495924,23.068761]");
+//			joarr.add(tjo);
+//		}
+//		boolean nameValid = userService.checkEamilFormat(name);
+//		if(userService.checkEamilFormat(name)){
+//		    User user = userService.findByEmail(name);
+//		    if(user!=null){
+//			nameValid = false;
+//		    }
+//		}
+//		}else if(userService.checkNameFormat(name))
+//		if()
+//		|| userService.checkNameFormat(name) || userService.checkPhoneNumFormat(name);
+//		String msg = "";
+//		if(nameValid){
+//		    User user = userService.findByUsername(name);
+//		    if(user!=null){
+//			nameValid = false;
+//		    }
+//		}else{
+//		    msg = "登录名格式有误";
+//		}
+		JSONObject jo = new JSONObject();
+		jo.put("success", true);
+		jo.put("value", name);
+//		if(!nameValid){
+//		    jo.put("msg", "");
+//		}
+//		jo.put("contents", joarr);
+		System.out.println(jo.toString());
+		return jo.toString();
+//		return '{"status":0,"total":1,"size":1,"contents":[{"address":"\u5e7f\u4e1c\u7701\u8087\u5e86\u5e02\u7aef\u5dde\u533a\u666f\u5fb7\u8def18\u53f7","city":"\u8087\u5e86\u5e02","content_id":1,"create_time":1421809324,"district":"\u7aef\u5dde\u533a","geotable_id":92345,"location":[112.495924,23.068761],"modify_time":1421891993,"on_sale":0,"price":9500,"province":"\u5e7f\u4e1c\u7701","tags":"\u697c\u76d8","title":"\u661f\u6e56\u540d\u4ed5\u4f1a","uid":627101714,"coord_type":3,"type":0,"distance":0,"weight":0}]}';
+//		return APIHttpClient.httpClientPost(url);
+	    }
+
+	    @RequestMapping(value = "/public/json/user/checkPhoneNumValid", method = RequestMethod.GET)
+	    public @ResponseBody
+	    Object phoneNumValid(String name) {
+		JSONObject jo = new JSONObject();
+		jo.put("success", true);
+		jo.put("value", name);
+		System.out.println(jo.toString());
+		return jo.toString();
+	    }
 	@RequestMapping(value = "/user/success", method = { RequestMethod.GET })
 	public String success() {
 		return "user/success";

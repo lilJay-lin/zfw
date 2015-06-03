@@ -147,6 +147,7 @@
 <!--                 /authenticated = authc -->
 <!--                 /** = user,sysUser -->
 				/assets/** = anon
+                /public/** = anon
 				/user/register = anon
 <!-- 				/mi/user/login = authc -->
 <!--                 /user/login = authc -->
@@ -170,6 +171,7 @@
 <!-- 					/unauthenticated -->
 					index
 				</prop>
+				<prop key="java.lang.Exception">index</prop>
 			</props>
 		</property>
 	</bean>
