@@ -10,6 +10,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 
 import com.mimi.zfw.Constants;
+import com.mimi.zfw.web.shiro.authc.UniqueidUsernamePasswordToken;
 
 /**
  * <p>User: Zhang Kaitao
@@ -41,7 +42,13 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             throw new ExcessiveAttemptsException();
         }
 
-        boolean matches = super.doCredentialsMatch(token, info);
+        boolean matches = false;
+        UniqueidUsernamePasswordToken uupt = (UniqueidUsernamePasswordToken)token;
+        if(Constants.LOGIN_TYPE_CAPTCHA.equals(uupt.getLoginType())){
+            matches = true;
+        }else{
+            matches = super.doCredentialsMatch(token, info);
+        }
         if(matches) {
             //clear retry count
             passwordRetryCache.remove(username);

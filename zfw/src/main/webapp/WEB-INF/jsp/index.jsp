@@ -19,7 +19,7 @@
 						<span class="sri2">
 							<a href="javascript:void(0)">${t.name }</a>
 						</span>
-						<span class="sri6">电话：${t.phonenum }</span>
+						<span class="sri6">电话：${t.phoneNum }</span>
 						<span class="sri3">邮箱：${t.email }</span>
 						<span class="sri3">密码：${t.password }</span>
 					</div>

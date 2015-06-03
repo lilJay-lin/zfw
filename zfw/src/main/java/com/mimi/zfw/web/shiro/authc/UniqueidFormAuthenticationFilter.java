@@ -59,13 +59,14 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     // 验证码校验
     protected void doCaptchaValidate(HttpServletRequest request,
 	    UniqueidUsernamePasswordToken token) {
-	boolean gtResult = false;
-
-	if (geetest.resquestIsLegal(request)) {
-	    gtResult = geetest.validateRequest(request);
-	} else {
-	    gtResult = false;
-	}
+	  boolean  gtResult = geetest.validateRequest(request);
+//	boolean gtResult = false;
+//
+//	if (geetest.resquestIsLegal(request)) {
+//	    gtResult = geetest.validateRequest(request);
+//	} else {
+//	    gtResult = false;
+//	}
 
 	if (!gtResult) {
 	    throw new IncorrectCaptchaException("验证码错误！");

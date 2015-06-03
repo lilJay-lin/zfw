@@ -52,4 +52,12 @@ public class Constants {
 	
 	public static final String USER_DEFAULT_ADMIN_NAME = "admin";
 	public static final String USER_DEFAULT_ADMIN_PASSWORD = "123456";
+	
+	public static final String LOGIN_TYPE_PWD = "password";
+	public static final String LOGIN_TYPE_CAPTCHA = "captcha";
+	
+	public static final String ACCESS_PHONE_NUM = "accessPhoneNum";
+	public static final String ACCESS_PHONE_CAPTCHA = "accessPhoneCaptcha";
+	
+	public static final String SMOOTH_CAPTCHA_ERROR = "滑动验证码错误";
 }

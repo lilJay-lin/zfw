@@ -122,10 +122,10 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    token.setPassword(password.toCharArray());  
 	    SecurityUtils.getSubject().login(token);  
     }
-
+    
     @Override
     public boolean checkNameFormat(String name) {
-	String regex = "^[a-z]([a-z0-9_]){6,32}";
+	String regex = "^[a-z]([a-z0-9_]){4,32}";
 	return checkValueFormat(name,regex);
     }
 
@@ -168,6 +168,26 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    return null;
 	}
 	return users.get(0);
+    }
+
+    @Override
+    public User findByLoginName(String loginName) {
+	if(checkPhoneNumFormat(loginName)){
+	    return findByPhoneNum(loginName);
+	}else if(checkNameFormat(loginName)){
+	    return findByName(loginName);
+	}else if(checkEamilFormat(loginName)){
+	    return findByEmail(loginName);
+	}
+	return null;
+    }
+
+    @Override
+    public void login(String loginName) {
+	UniqueidUsernamePasswordToken token = new UniqueidUsernamePasswordToken();  
+	    token.setUsername(loginName);  
+	    token.setLoginType(Constants.LOGIN_TYPE_CAPTCHA);
+	    SecurityUtils.getSubject().login(token);  	
     }
 
 }

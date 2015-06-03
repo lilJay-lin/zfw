@@ -12,16 +12,21 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
     public User findByEmail(String email);
     
     public User findByPhoneNum(String phoneNum);
+    
+    public User findByLoginName(String loginName);
 
     public void initUser();
 
     public void login(String name, String password);
+    
+    public void login(String loginName);
     
     public boolean checkNameFormat(String name);
     
     public boolean checkPhoneNumFormat(String phoneNum);
     
     public boolean checkEamilFormat(String eamil);
+
     
 
 }

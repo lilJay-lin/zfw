@@ -462,7 +462,7 @@ public class GeetestLib {
 	 * @return
 	 * @time 2014122_171529 by zheng
 	 */
-	private boolean validate(String challenge, String validate, String seccode) {
+	public boolean validate(String challenge, String validate, String seccode) {
 		String host = baseUrl;
 		String path = "/validate.php";
 		int port = 80;
