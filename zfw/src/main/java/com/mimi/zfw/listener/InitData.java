@@ -6,10 +6,12 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Repository;
 
+import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
+import com.mimi.zfw.web.captcha.GeetestLib;
 
 @Repository
 public class InitData implements ApplicationListener<ContextRefreshedEvent> {
@@ -20,28 +22,37 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private IRoleService roleService;
     @Resource
     private IPermissionService permissionService;
-	@Override
-	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// TODO Auto-generated method stub
-//		event.getApplicationContext().getDisplayName().equals("Root WebApplicationContext")
-//		System.out.println("0000-"+event.getApplicationContext().getDisplayName());
-		if(event.getApplicationContext().getDisplayName().equals("Root WebApplicationContext")){
-			init();
-		}
-//		Root WebApplicationContext
-//		WebApplicationContext for namespace 'SpringMVC-servlet'
-	}
-	
-	private void init(){
-		try {
-			RSAUtil.generateKeyPair();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		permissionService.initPermission();
-		roleService.initRole();
-		userService.initUser();
-	}
 
+    @Resource
+    private CCPRestSmsSDK ytxAPI;
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+	// TODO Auto-generated method stub
+	// event.getApplicationContext().getDisplayName().equals("Root WebApplicationContext")
+	// System.out.println("0000-"+event.getApplicationContext().getDisplayName());
+	if (event.getApplicationContext().getDisplayName()
+		.equals("Root WebApplicationContext")) {
+	    init();
+	}
+	// Root WebApplicationContext
+	// WebApplicationContext for namespace 'SpringMVC-servlet'
+    }
+
+    private void init() {
+	try {
+	    RSAUtil.generateKeyPair();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	ytxAPI.init("sandboxapp.cloopen.com", "8883");
+	ytxAPI.setAccount("8a48b5514d32a2a8014d95626ee147c3",
+		"ce3126c41d6a4181b13fb9399db922b2");
+	ytxAPI.setAppId("8a48b5514d32a2a8014d9562b2ca47c6");
+
+	permissionService.initPermission();
+	roleService.initRole();
+	userService.initUser();
+    }
 
 }

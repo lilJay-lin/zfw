@@ -27,11 +27,32 @@ img {
   vertical-align: middle;
   font-family: Arial, "Microsoft Yahei";
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
 .mt10 {
   margin-top: 10px ! important;
 }
+.whitebg {
+  background-color: #fff;
+}
 .flor {
   float: right;
+}
+.center {
+  text-align: center;
+}
+.mt15 {
+  margin-top: 15px !important;
+}
+.f12 {
+  font-size: 12px;
 }
 .main {
   position: relative;
@@ -123,16 +144,16 @@ header .back i {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-.mLogin .wapForm .tips {
-  margin-top: 5px;
-  font-size: 12px;
-  line-height: 18px;
-  color: #c00;
-}
 .mLogin .unlogin {
   margin: 15px auto 0 auto;
   width: 200px;
   font-size: 12px;
+}
+.tips {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #c00;
 }
 .flexbox {
   display: box;
@@ -218,4 +239,16 @@ header .back i {
   top: 10%;
   left: 10%;
   box-shadow: 2px 2px 13px gray;
+}
+.sfAgreement {
+  padding: 8px 8px 55px 8px;
+  line-height: 1.4;
+  font-size: 14px;
+}
+.sfAgreement p {
+  padding-bottom: 5px;
+  color: #999;
+}
+.sfAgreement h2 {
+  font-size: 16px;
 }

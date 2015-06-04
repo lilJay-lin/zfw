@@ -275,11 +275,39 @@ public class RSAUtil {
 	
 	public static String getResult(String publicExponent,String modulus,String code) throws Exception{
 		PrivateKey pk = RSAUtil.getFitPrivate(publicExponent,modulus);
-		byte[] codeBytes = new BigInteger(code, 16).toByteArray();
+//		byte[] codeBytes = new BigInteger(code, 16).toByteArray();
+		byte[] codeBytes = hexStringToBytes(code);
 		StringBuffer sb = new StringBuffer();
 		sb.append(new String(RSAUtil.decrypt(pk,codeBytes )));
 		return sb.reverse().toString();
 	}
+	   /**
+	    * 16进制 To byte[]
+	    * @param hexString
+	    * @return byte[]
+	    */
+	   public static byte[] hexStringToBytes(String hexString) {
+	       if (hexString == null || hexString.equals("")) {
+	           return null;
+	       }
+	       hexString = hexString.toUpperCase();
+	       int length = hexString.length() / 2;
+	       char[] hexChars = hexString.toCharArray();
+	       byte[] d = new byte[length];
+	       for (int i = 0; i < length; i++) {
+	           int pos = i * 2;
+	           d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
+	       }
+	       return d;
+	   }
+	   /**
+	    * Convert char to byte
+	    * @param c char
+	    * @return byte
+	    */
+	    private static byte charToByte(char c) {
+	       return (byte) "0123456789ABCDEF".indexOf(c);
+	   }
 
 	/**
 	 * * *
@@ -296,30 +324,40 @@ public class RSAUtil {
 //		System.out.println(new String(en_test));
 //		System.out.println(new String(de_test));
 //		System.out.println(new String(de_test2));
-		for(int i=0;i<1;i++){
-			RSAUtil.generateKeyPair();
-			for(int j=0;j<RSAUtil.pairs.size();j++){
-//				RSAPublicKey rsap = (RSAPublicKey) RSAUtil.generateKeyPair().getPublic();
-				RSAPrivateKey rpri = (RSAPrivateKey)RSAUtil.pairs.get(j).getPrivate();
-				RSAPublicKey rpu = (RSAPublicKey)RSAUtil.pairs.get(j).getPublic();
-//				System.out.println(i+"_"+j+":"+rpri.getPrivateExponent());
-				System.out.println(i+"_"+j+":"+rpri);
-				System.out.println(i+"_"+j+":"+rpu);
-//				System.out.println(rsap.getModulus());
-			}
-			if(i==0){
-//				String test = "ihep_公钥加密私钥解密hello world";
-//				byte[] en_test = encrypt(RSAUtil.pairs.get(0).getPublic(), test.getBytes());
-//				byte[] de_test = decrypt(RSAUtil.pairs.get(0).getPrivate(), en_test);
-//				byte[] de_test2 = decrypt(RSAUtil.pairs.get(1).getPrivate(), en_test);
-//				System.out.println(new String(en_test));
-//				System.out.println(new String(de_test));
-//				System.out.println(new String(de_test2));
-				System.out.println(RSAUtil.getCurrentModulus());
-				System.out.println(RSAUtil.getCurrentPublicExponent());
-				System.out.println(RSAUtil.getFitPrivateExponent(RSAUtil.getCurrentPublicExponent(),RSAUtil.getCurrentModulus()));
-				System.out.println(RSAUtil.getFitPrivateExponent(RSAUtil.getCurrentPublicExponent()+"sdf",RSAUtil.getCurrentModulus()));
-			}
+//		for(int i=0;i<1;i++){
+//			RSAUtil.generateKeyPair();
+//			for(int j=0;j<RSAUtil.pairs.size();j++){
+////				RSAPublicKey rsap = (RSAPublicKey) RSAUtil.generateKeyPair().getPublic();
+//				RSAPrivateKey rpri = (RSAPrivateKey)RSAUtil.pairs.get(j).getPrivate();
+//				RSAPublicKey rpu = (RSAPublicKey)RSAUtil.pairs.get(j).getPublic();
+////				System.out.println(i+"_"+j+":"+rpri.getPrivateExponent());
+//				System.out.println(i+"_"+j+":"+rpri);
+//				System.out.println(i+"_"+j+":"+rpu);
+////				System.out.println(rsap.getModulus());
+//			}
+//			if(i==0){
+////				String test = "ihep_公钥加密私钥解密hello world";
+////				byte[] en_test = encrypt(RSAUtil.pairs.get(0).getPublic(), test.getBytes());
+////				byte[] de_test = decrypt(RSAUtil.pairs.get(0).getPrivate(), en_test);
+////				byte[] de_test2 = decrypt(RSAUtil.pairs.get(1).getPrivate(), en_test);
+////				System.out.println(new String(en_test));
+////				System.out.println(new String(de_test));
+////				System.out.println(new String(de_test2));
+//				System.out.println(RSAUtil.getCurrentModulus());
+//				System.out.println(RSAUtil.getCurrentPublicExponent());
+//				System.out.println(RSAUtil.getFitPrivateExponent(RSAUtil.getCurrentPublicExponent(),RSAUtil.getCurrentModulus()));
+//				System.out.println(RSAUtil.getFitPrivateExponent(RSAUtil.getCurrentPublicExponent()+"sdf",RSAUtil.getCurrentModulus()));
+//			}
+//		}
+	    String code = "123123fdas";
+	    code = MD5Util.MD5(code);
+		byte[] codeBytes = new BigInteger(code, 16).toByteArray();
+		byte[] codeBytes2 = hexStringToBytes(code);
+		System.out.println(codeBytes.length+"_"+codeBytes2.length);
+		for(int i=0;i<codeBytes.length;i++){
+		    if(codeBytes[i]!=codeBytes2[i]){
+			System.out.println(i+":"+codeBytes[i]+"_"+codeBytes2[i]);
+		    }
 		}
 	}
 }

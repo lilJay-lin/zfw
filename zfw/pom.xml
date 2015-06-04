@@ -260,6 +260,11 @@
 		    <artifactId>bcprov-jdk15on</artifactId>
 		    <version>1.52</version>
 		</dependency>
+		<dependency>
+			<groupId>mimi.tools</groupId>
+			<artifactId>ytx</artifactId>
+			<version>2.6.3</version>
+		</dependency>
 		
 	</dependencies>
 	<build>

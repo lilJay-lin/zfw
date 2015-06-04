@@ -146,6 +146,7 @@
 <!--                 /logout = logout -->
 <!--                 /authenticated = authc -->
 <!--                 /** = user,sysUser -->
+				/user/captchaLogin = anon
 				/assets/** = anon
                 /public/** = anon
 				/user/register = anon

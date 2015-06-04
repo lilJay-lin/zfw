@@ -16,15 +16,19 @@
 		</header>
 		<div class="mLogin">
 			<div class="mTab flexbox">
-				<a href="javascript:void(0)" class="active" onclick="setLoginType('password',this)">普通登录</a> <a href="javascript:void(0)" 
-					onclick="setLoginType('captcha',this)">手机动态密码登录</a>
+				<a href="javascript:void(0)" id="setLoginTypeBtnPwd" class="active" onclick="setLoginType('password',this)">普通登录</a> <a href="javascript:void(0)" 
+					id="setLoginTypeBtnCaptcha" onclick="setLoginType('captcha',this)">手机动态密码登录</a>
 			</div>
 			<div class="wapForm normal mt10">
-				<form action="" method="post">
+				<div class="tips">${error }</div>
+				<form action="${ctx }/user/login" method="post">
 					<input type="hidden" id="password" name="password"> 
-					<input type="hidden" id="publicExponent" name="publicExponent"> 
-					<input type="hidden" id="modulus" name="modulus"> 
+					<input type="hidden" id="publicExponent" name="publicExponent" value="${publicExponent }" > 
+					<input type="hidden" id="modulus" name="modulus" value="${modulus }" > 
 					<input type="hidden" id="loginType" name="loginType" value="password">
+					<input type="hidden" name="geetest_challenge"> 
+					<input type="hidden" name="geetest_validate"> 
+					<input type="hidden" name="geetest_seccode"> 
 					<input type="text" id="txtName" name="name"
 						value="请输入用户名/手机/邮箱" class="ipt-text mt10"
 						onkeyup="return inputOnKeyup(event,this)"
@@ -45,10 +49,14 @@
 				</form>
 			</div>
 			<div class="wapForm phone mt10" style="display:none;">
-				<form action="" method="post">
+				<div class="tips">${error }</div>
+				<form action="${ctx }/user/captchaLogin" method="post">
 					<input type="hidden" id="loginType" name="loginType" value="captcha">
+					<input type="hidden" name="geetest_challenge"> 
+					<input type="hidden" name="geetest_validate"> 
+					<input type="hidden" name="geetest_seccode"> 
 					<input type="text"
-						id="txtPhoneNum" name="name" value="请填写您希望收到验证码的手机号" class="ipt-text mt10" maxlength="11"
+						id="txtPhoneNum" name="phoneNum" value="请填写您希望收到验证码的手机号" class="ipt-text mt10" maxlength="11"
 						onkeyup="return inputOnKeyup(event,this)"
 						onFocus="return inputOnFocus(event,this)"
 						onblur="return inputOnBlus(event,this)"
@@ -68,7 +76,7 @@
 			</div>
 			<div class="captcha">
 					<script type="text/javascript"
-						src="http://api.geetest.com/get.php?gt=61658dd2f0dfc210aeb78192ea4fde05&product=embed"></script>
+						src="http://api.geetest.com/get.php?gt=${geetestId }&product=embed"></script>
 			</div>
 					<a href="javascript:void(0);" class="formbtn02 mt10 jsUserSubmit disabled" onclick="submitForm()">登录</a>
 					<div class="unlogin">
@@ -77,21 +85,6 @@
 		</div>
 	</div>
 </body>
-<%-- <c:set var="cssTheme" value="blue"/>   --%>
-<%--  <c:choose>  --%>
-<%--          <c:when test="${cssTheme=='blue'}">  --%>
-<%--              <c:set var="cssMainColor" value="blue"/>  --%>
-<%--          </c:when>  --%>
-<%--          <c:when test="${cssTheme=='red'}">  --%>
-<%--              <c:set var="cssMainColor" value="red"/>  --%>
-<%--          </c:when>  --%>
-<%--          <c:when test="${cssTheme=='green'}">  --%>
-<%--              <c:set var="cssMainColor" value="green"/>  --%>
-<%--          </c:when>  --%>
-<%--          <c:otherwise>  --%>
-<%--              <c:set var="cssMainColor" value="blue"/>  --%>
-<%--          </c:otherwise>  --%>
-<%--      </c:choose>  --%>
 <%@include file="../inc/bottom.jsp" %>
 <%request.setAttribute("encrypUrl", request.getContextPath()+"/assets/tools/encryption");%>
 <script type="text/javascript" src="${encrypUrl}/RSA.js"></script>
@@ -109,11 +102,17 @@ const CAPTCHA_ID = "txtCaptcha";
 const LOGIN_TYPE_PWD = "password";
 const LOGIN_TYPE_CAPTCHA = "captcha";
 
+const GET_PHONE_CAPTCHA_URL = "${ctx}/public/json/user/getPhoneCaptcha";
+const CHECK_LOGIN_NAME_URL = "${ctx}/public/json/user/checkLoginNameValidAndExisted";
+const CHECK_PHONE_NUM_URL = "${ctx}/public/json/user/checkPhoneNumValidAndExisted";
+
+const GET_PHONE_CAPTCHA_WAIT_VALUE = 60;
+
 var textIdArr = [NAME_ID, PWD_ID, PHONE_ID, CAPTCHA_ID];
 var textErrorArr = ["nameError", "pwdError", "phoneNumError", "captchaError"];
 var notNullArr = [true,true,true,true];
 var regArr = [/([^a-zA-Z0-9\@\._-])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
-var regFormatArr = [/(^[a-z]([a-z0-9_]){6,32})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
+var regFormatArr = [/(^[a-z]([a-z0-9_]){4,32})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
 var formatErrorArr = ["登录账号格式有误", "密码格式有误", "电话号码格式有误", "验证码格式有误"];
 
 var regMap = new Object();
@@ -130,11 +129,11 @@ for (var i = 0; i < textIdArr.length; i++) {
 };
 
 var userNameCheckObject = new Object();
-userNameCheckObject.url = "${ctx}/public/json/user/checkLoginNameValid";
+userNameCheckObject.url = CHECK_LOGIN_NAME_URL;
 var phoneNumCheckObject = new Object();
-phoneNumCheckObject.url = "";
-
-	var captchaReady = false;
+phoneNumCheckObject.url = CHECK_PHONE_NUM_URL;
+var smoothCaptchObject = new Object();
+smoothCaptchObject.captchaReady = false;
 	var curLoginType = LOGIN_TYPE_PWD;
 
 	function RSAEncrypt() {
@@ -148,8 +147,7 @@ phoneNumCheckObject.url = "";
 		document.getElementById("password").value = encodeURIComponent(result);
 	}
 	
-	var waitDefaultValue = 10;
-	var waitSeconds = waitDefaultValue;
+	var waitSeconds = GET_PHONE_CAPTCHA_WAIT_VALUE;
 	function captchaTimeSpan(element) {
 		if (waitSeconds == 0) {
 			$(element).removeClass("disabled");
@@ -169,22 +167,38 @@ phoneNumCheckObject.url = "";
 			return false;
 		}
 		var phoneNumReady = checkElement(document.getElementById(PHONE_ID));
-		if(phoneNumReady && captchaReady){
+		if(phoneNumReady && smoothCaptchObject.captchaReady){
 			document.getElementById(errorMap[CAPTCHA_ID]).innerHTML = "";
 			if(phoneNumCheckObject.accessValue != document.getElementById(PHONE_ID).value){
 				phoneNumCheckObject.toCaptcha = true;
 				phoneNumValid();
 				return false;
 			}
+			var errorElement = document.getElementById(errorMap[CAPTCHA_ID]);
+			$.ajax({
+				type: "GET",
+				async: true,
+				url: GET_PHONE_CAPTCHA_URL,
+				data: {phoneNum:phoneNumCheckObject.accessValue,geetest_challenge:smoothCaptchObject.challenge,geetest_validate:smoothCaptchObject.validate,geetest_seccode:smoothCaptchObject.seccode},
+				dataType: "json",
+				success: function (data) {
+					if(!data.success){
+						errorElement.innerHTML = data.msg;
+					}
+				},
+				error: function (data) {
+					errorElement.innerHTML = "验证码发送失败，请稍后尝试！";
+				}
+			});
 			captchaTimeSpan(element);
 			return true;
 		}else{
 			var errStr = "";
-			if(!phoneNumReady && !captchaReady){
+			if(!phoneNumReady && !smoothCaptchObject.captchaReady){
 				errStr = "请输入正确的电话号码和滑动验证图片";
-			}else if(!phoneNumReady && captchaReady){
+			}else if(!phoneNumReady && smoothCaptchObject.captchaReady){
 				errStr = "请输入正确的电话号码";
-			}else if(phoneNumReady && !captchaReady){
+			}else if(phoneNumReady && !smoothCaptchObject.captchaReady){
 				errStr = "请滑动验证图片";
 			}
 			document.getElementById(errorMap[CAPTCHA_ID]).innerHTML = errStr;
@@ -193,11 +207,17 @@ phoneNumCheckObject.url = "";
 	}
 	function gt_custom_ajax(result, selector) {
 		if (result) {
-			captchaReady = true;
+			smoothCaptchObject.captchaReady = true;
+			smoothCaptchObject.challenge = selector(".geetest_challenge").value;
+			smoothCaptchObject.validate = selector(".geetest_validate").value;
+			smoothCaptchObject.seccode = selector(".geetest_seccode").value;
+			$("input[name='geetest_challenge']").val(smoothCaptchObject.challenge);
+			$("input[name='geetest_validate']").val(smoothCaptchObject.validate);
+			$("input[name='geetest_seccode']").val(smoothCaptchObject.seccode);
 			refreshSubmitBtn();
-			setTimeout(function() {
-				$(".captcha").hide();
-			}, 600)
+// 			setTimeout(function() {
+// 				$(".captcha").hide();
+// 			}, 600)
 		}
 	}
 	function setLoginType(type,element) {
@@ -211,6 +231,10 @@ phoneNumCheckObject.url = "";
 			$(".wapForm.phone").show();
 		}
 		curLoginType = type;
+		smoothCaptchObject.captchaReady = false;
+		if($(".gt_refresh_button")[0]){
+			$(".gt_refresh_button")[0].click();
+		}
 		refreshSubmitBtn();
 	}
 	
@@ -243,14 +267,15 @@ phoneNumCheckObject.url = "";
 			}
 		}
 	}
-	
-	function hideDefaultText(element){
-		if(element.value==element.defaultValue){
-			element.value='';
-			element.style.color='#000';
-			if(element.id==PWD_ID && element.getAttribute('type')=="text"){
-				element.setAttribute('type','password');
-			}
+
+	function hideDefaultText(element) {
+		element.style.color = '#000';
+		if ((element.id == PWD_ID)
+				&& element.getAttribute('type') == "text") {
+			element.setAttribute('type', 'password');
+		}
+		if (element.value == element.defaultValue) {
+			element.value = '';
 		}
 	}
 	
@@ -327,13 +352,23 @@ phoneNumCheckObject.url = "";
 			success: function (data) {
 				checkObject.checking = false;
 				if(data.success){
-					checkObject.accessValue = data.value;
-					if(checkObject.accessValue != checkObject.str2Check){
-						checkValidAction(loginType);
-					}else if(checkObject.toSubmit && curLoginType == loginType){
-						submitForm();
-					}else if(checkObject.toCaptcha && curLoginType == loginType){
-						getPhoneCaptcha($("#jsGetPhoneCaptchaBtn")[0]);
+					if(data.valid){
+						if(data.existed){
+							checkObject.accessValue = data.value;
+							if(checkObject.accessValue != checkObject.str2Check){
+								checkValidAction(loginType);
+							}else if(checkObject.toSubmit && curLoginType == loginType){
+								submitForm();
+							}else if(checkObject.toCaptcha && curLoginType == loginType){
+								getPhoneCaptcha($("#jsGetPhoneCaptchaBtn")[0]);
+							}
+						}else{
+							checkObject.accessValue = "";
+							errorElement.innerHTML = "登录名未注册";
+						}
+					}else{
+						checkObject.accessValue = "";
+						errorElement.innerHTML = "登录名格式有误";
 					}
 				}else{
 					checkObject.accessValue = "";
@@ -341,16 +376,7 @@ phoneNumCheckObject.url = "";
 				}
 			},
 			error: function (data) {
-// 				checkObject.accessValue = element.value;
-// 				if(checkObject.accessValue != checkObject.str2Check){
-// 					checkValidAction(loginType);
-// 				}else if(checkObject.toSubmit && curLoginType == loginType){
-// 					submitForm();
-// 				}else if(checkObject.toCaptcha && curLoginType == loginType){
-// 					getPhoneCaptcha($("#jsGetPhoneCaptchaBtn")[0]);
-// 				}
 				checkObject.checking = false;
-// 				checkObject.accessValue = "";
 				errorElement.innerHTML = "校验请求失败！";
 			},
 			complete:function (data) {
@@ -368,7 +394,7 @@ phoneNumCheckObject.url = "";
 			checkObject = phoneNumCheckObject;
 		}
 		var validReady = checkObject.accessValue == checkObject.str2Check;
-		if(captchaReady && checkAll(true) && validReady){
+		if(smoothCaptchObject.captchaReady && checkAll(true) && validReady){
 			$(".jsUserSubmit").removeClass("disabled");
 		}else{
 			$(".jsUserSubmit").addClass("disabled");
@@ -399,22 +425,23 @@ phoneNumCheckObject.url = "";
 			checkObject.toSubmit = true;
 			return;
 		}
-		if(captchaReady && checkAll()){
+		if(smoothCaptchObject.captchaReady && checkAll()){
 			var curForm;
 			if(curLoginType==LOGIN_TYPE_PWD){
 				RSAEncrypt();
-				curForm = $(".wapForm.normal");
+				curForm = $(".wapForm.normal").children("form");
 			}else{
-				curForm = $(".wapForm.phone");
+				curForm = $(".wapForm.phone").children("form");
 			}
 			curForm.submit();
 		}
 	}
 	
 	$(function(){
-// 		 $(".wapForm").submit(function(){
-// 			 alert("submit");
-// 		 })
+		var defaultLoginType = "${loginType}";
+		if(defaultLoginType==LOGIN_TYPE_CAPTCHA){
+			$("#setLoginTypeBtnCaptcha").click();
+		}
 	})
 </script>
 </html>
