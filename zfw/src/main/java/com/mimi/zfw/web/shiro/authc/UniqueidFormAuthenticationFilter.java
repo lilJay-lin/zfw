@@ -14,12 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mimi.zfw.util.RSAUtil;
-import com.mimi.zfw.web.captcha.GeetestLib;
+//import com.mimi.zfw.web.captcha.GeetestLib;
 import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
 
 public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     
-    private GeetestLib geetest;
+//    private GeetestLib geetest;
     
     public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
     public static final String DEFAULT_LOGIN_TYPE_PARAM = "loginType";
@@ -59,7 +59,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     // 验证码校验
     protected void doCaptchaValidate(HttpServletRequest request,
 	    UniqueidUsernamePasswordToken token) {
-	  boolean  gtResult = geetest.validateRequest(request);
+//	  boolean  gtResult = geetest.validateRequest(request);
 //	boolean gtResult = false;
 //
 //	if (geetest.resquestIsLegal(request)) {
@@ -68,9 +68,9 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 //	    gtResult = false;
 //	}
 
-	if (!gtResult) {
-	    throw new IncorrectCaptchaException("验证码错误！");
-	}
+//	if (!gtResult) {
+//	    throw new IncorrectCaptchaException("验证码错误！");
+//	}
 	// if (token.getCaptcha() == null ||
 	// !"mimi".equalsIgnoreCase(token.getCaptcha())) {
 	// throw new IncorrectCaptchaException("验证码错误！");
@@ -179,13 +179,13 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 	this.successMIUrl = successMIUrl;
     }
 
-    public GeetestLib getGeetest() {
-	return geetest;
-    }
-
-    public void setGeetest(GeetestLib geetest) {
-	this.geetest = geetest;
-    }
+//    public GeetestLib getGeetest() {
+//	return null;// geetest;
+//    }
+//
+//    public void setGeetest(GeetestLib geetest) {
+//	this.geetest = geetest;
+//    }
 
     // 保存异常对象到request
     // @Override
