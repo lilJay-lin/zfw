@@ -1,13 +1,16 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -67,10 +70,11 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    user.setName(Constants.USER_DEFAULT_ADMIN_NAME);
 	    user.setCreateDate(nowDate);
 	    String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
-	    SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
-		    MD5Util.MD5(Constants.USER_DEFAULT_ADMIN_PASSWORD),
-		    user.getId() + salt, Constants.SHIRO_HASH_ITERATIONS);
-	    user.setPassword(sh.toString());
+//	    SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
+//		    MD5Util.MD5(Constants.USER_DEFAULT_ADMIN_PASSWORD),
+//		    user.getId() + salt, Constants.SHIRO_HASH_ITERATIONS);
+//	    user.setPassword(sh.toString());
+		user.setPassword(getFinalPwd(user.getId(),salt,MD5Util.MD5(Constants.USER_DEFAULT_ADMIN_PASSWORD)));
 	    user.setSalt(salt);
 	    um.insert(user);
 
@@ -94,10 +98,11 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	user.setId(UUID.randomUUID().toString());
 	user.setCreateDate(nowDate);
 	String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
-	SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
-		user.getPassword(), user.getId() + salt,
-		Constants.SHIRO_HASH_ITERATIONS);
-	user.setPassword(sh.toString());
+//	SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
+//		user.getPassword(), user.getId() + salt,
+//		Constants.SHIRO_HASH_ITERATIONS);
+//	user.setPassword(sh.toString());
+	user.setPassword(getFinalPwd(user.getId(),salt,user.getPassword()));
 	user.setSalt(salt);
 	um.insert(user);
 
@@ -188,6 +193,96 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    token.setUsername(loginName);  
 	    token.setLoginType(Constants.LOGIN_TYPE_CAPTCHA);
 	    SecurityUtils.getSubject().login(token);  	
+    }
+
+    @Override
+    public String updatePassword(User user){
+	UserExample ue = new UserExample();
+	if(StringUtils.isNotBlank(user.getId())){
+		ue.or().andIdEqualTo(user.getId());
+	}else if(StringUtils.isNotBlank(user.getPhoneNum())){
+		ue.or().andPhoneNumEqualTo(user.getPhoneNum());
+	}else if(StringUtils.isNotBlank(user.getName())){
+		ue.or().andNameEqualTo(user.getName());
+	}else if(StringUtils.isNotBlank(user.getEmail())){
+		ue.or().andEmailEqualTo(user.getEmail());
+	}else{
+	    return "登录名不合法";
+	}
+	if(StringUtils.isBlank(user.getPassword())){
+	    return "密码不合法";
+	}
+	List<User> userList = um.selectByExample(ue);
+	if(userList==null || userList.isEmpty()){
+	    return "用户不存在";
+	}
+	User oldUser = userList.get(0);
+	oldUser.setPassword(getFinalPwd(oldUser.getId(),oldUser.getSalt(),user.getPassword()));
+	
+	String idStr = getCurUserId();
+	if(StringUtils.isBlank(idStr)){
+	    idStr = oldUser.getId();
+	}
+	Date nowDate = new Date(System.currentTimeMillis());
+	oldUser.setUpdateDate(nowDate);
+	oldUser.setLastEditor(idStr);
+
+	um.updateByExampleSelective(oldUser, ue);
+	
+	return "";
+    }
+    
+    private String getFinalPwd(String id,String salt,String pwd){
+	SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
+		pwd, id + salt,
+		Constants.SHIRO_HASH_ITERATIONS);
+	return sh.toString();
+    }
+    
+    private String getCurUserId(){
+	String idStr = "";
+	try{
+		SecurityUtils.getSubject().getPrincipals().asSet();
+		Set<String> set = SecurityUtils.getSubject().getPrincipals().asSet();
+		Iterator<String> it = set.iterator();
+		int i=0;
+		while(it.hasNext()){
+		    i++;
+		    String tempStr = it.next();
+		    if(i==2){
+			idStr = tempStr;
+		    }
+		}
+	}catch(Exception e){
+	    
+	}
+	return idStr;
+    }
+
+    @Override
+    public String updateCurUserHeadImgUrl(String headImgUrl) {
+	String idStr = getCurUserId();
+	if(StringUtils.isBlank(idStr)){
+	    return "未登录";
+	}
+	if(StringUtils.isBlank(headImgUrl)){
+	    return "头像路径错误";
+	}
+	UserExample ue = new UserExample();
+	ue.or().andIdEqualTo(idStr);
+	User user = new User();
+	user.setHeadImgUrl(headImgUrl);
+	um.updateByExampleSelective(user, ue);
+	return "";
+    }
+
+    @Override
+    public User getCurUser() {
+	String idStr = getCurUserId();
+	if(StringUtils.isBlank(idStr)){
+	    return null;
+	}
+	return um.selectByPrimaryKey(idStr);
     }
 
 }

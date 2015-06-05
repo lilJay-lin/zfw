@@ -1,16 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="../inc/top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="../inc/header.jsp" %>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/RSA.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/BigInt.js"></script>
+<script type="text/javascript"
+	src="../../../tools/encryption/Barrett.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/md5.js"></script>
 </head>
 <body>
 	<div class="main whitebg">
 		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
 		<header>
 			<div class="left">
-				<a href="${ctx }/index" class="hLogo"></a>
+				<a href="../index.html" class="hLogo"></a>
 			</div>
 			<div class="cent">个人中心</div>
 			<div class="show_redrict head-icon">
@@ -23,13 +35,13 @@
 		<div class="newNav none">
 			<div class="nav-box mt10">
 				<div class="nav-tit">
-					<a href="${ctx }/user"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
 				</div>
 				<div class="nav-menu">
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tbody>
 							<tr>
-								<td width="24%"><a href="${ctx }/index">首页</a></td>
+								<td width="24%"><a href="../index.html">首页</a></td>
 								<td width="24%"><a href="/xf/bj.html">新房</a></td>
 								<td width="24%"><a href="/esf/bj/">二手房</a></td>
 								<td width="24%"><a href="/zf/bj/">租房</a></td>
@@ -48,54 +60,31 @@
 		</div>
 		<div class="personCenter">
 			<div class="pc-banner">
-				<shiro:guest>
-				<div id="nologin">
+				<div id="login">
+					<a id="userhref" href="detail.html"
+						class="logined">
+						<dl>
+							<dt>
+								<div id="userphoto">
+									<img
+										src="../../../img/ui/accountbg.jpg"
+										width="50" height="50px">
+								</div>
+							</dt>
+							<dd>
+								<p id="phone" class="f18">150****8974</p>
+							</dd>
+						</dl>
+					</a>
+				</div>
+				<div id="nologin" class="none">
 					<div class="nologin pd10">
 						<p class="f16">欢迎登录肇房网</p>
 						<div class="btns">
-							<a href="${ctx }/user/register">注册</a> <a href="${ctx }/user/login">登录</a>
+							<a href="register.html">注册</a> <a href="login.html">登录</a>
 						</div>
 					</div>
 				</div>
-				</shiro:guest>
-				<shiro:notAuthenticated>
-					<div id="login">
-						<a id="userhref" href="${ctx }/user/detail"
-							class="logined">
-							<dl>
-								<dt>
-									<div id="userphoto">
-										<img
-											src="${headImgUrl }"
-											width="50" height="50px">
-									</div>
-								</dt>
-								<dd>
-									<p id="phone" class="f18"><shiro:principal></shiro:principal></p>
-								</dd>
-							</dl>
-						</a>
-					</div>
-				</shiro:notAuthenticated>
-				<shiro:authenticated>
-					<div id="login">
-						<a id="userhref" href="${ctx }/user/detail"
-							class="logined">
-							<dl>
-								<dt>
-									<div id="userphoto">
-										<img
-											src="${headImgUrl }"
-											width="50" height="50px">
-									</div>
-								</dt>
-								<dd>
-									<p id="phone" class="f18"><shiro:principal></shiro:principal></p>
-								</dd>
-							</dl>
-						</a>
-					</div>
-				</shiro:authenticated>
 			</div>
 			<div class="pc-content-list">
 				<a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
@@ -127,7 +116,6 @@
 		</div>
 	</div>
 </body>
-<%@include file="../inc/bottom.jsp" %>
 <script>
 	function hideOrOpenNav() {
 		var navObj = $(".newNav");

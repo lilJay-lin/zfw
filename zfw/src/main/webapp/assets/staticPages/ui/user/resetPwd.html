@@ -24,7 +24,7 @@
 				<a href="javascript:void(0);" onclick="history.back(-1);"
 					class="back"><i></i></a>
 			</div>
-			<div class="cent">注册</div>
+			<div class="cent">找回密码</div>
 		</header>
 		<div class="mLogin">
 			<div class="wapForm phone mt10">
@@ -53,7 +53,7 @@
 					<div id="captchaError" class="tips"></div>
 
 					<input type="text" maxlength="20" id="txtPwd" name="txtPwd"
-						value="请输入密码" class="ipt-text mt10" onpaste="return true;"
+						value="请输入新密码" class="ipt-text mt10" onpaste="return true;"
 						oncontextmenu="return false;" oncopy="return false;"
 						oncut="return false;" onkeyup="return inputOnKeyup(event,this)"
 						onFocus="return inputOnFocus(event,this)"
@@ -75,10 +75,7 @@
 					src="http://api.geetest.com/get.php?gt=61658dd2f0dfc210aeb78192ea4fde05&product=embed"></script>
 			</div>
 			<a href="javascript:void(0);"
-				class="formbtn02 mt10 jsUserSubmit disabled" onclick="submitForm()">注册</a>
-			<div class="center mt15 f12">
-				注册视为已经阅读并同意<a href="agreement.html">《服务协议》</a>
-			</div>
+				class="formbtn02 mt10 jsUserSubmit disabled" onclick="submitForm()">确定修改</a>
 		</div>
 	</div>
 </body>
@@ -261,9 +258,6 @@
 						if (data.success) {
 							if (data.valid) {
 								if (data.existed) {
-									checkObject.accessValue = "";
-									errorElement.innerHTML = "该号码已注册";
-								} else {
 									checkObject.accessValue = data.value;
 									if (checkObject.accessValue != checkObject.str2Check) {
 										checkValidAction();
@@ -272,6 +266,9 @@
 									} else if (checkObject.toCaptcha) {
 										getPhoneCaptcha($("#jsGetPhoneCaptchaBtn")[0]);
 									}
+								} else {
+									checkObject.accessValue = "";
+									errorElement.innerHTML = "该号码未注册";
 								}
 							} else {
 								checkObject.accessValue = "";

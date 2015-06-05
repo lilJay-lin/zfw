@@ -40,7 +40,7 @@
 					<input type="hidden" name="geetest_validate"> 
 					<input type="hidden" name="geetest_seccode"> 
 					<input type="text" id="txtName" name="name"
-						value="请输入用户名/手机/邮箱" class="ipt-text mt10"
+						value="请输入手机号码" class="ipt-text mt10"
 						onkeyup="return inputOnKeyup(event,this)"
 						onFocus="return inputOnFocus(event,this)"
 						onblur="return inputOnBlus(event,this)"
@@ -89,7 +89,7 @@
 			</div>
 					<a href="javascript:void(0);" class="formbtn02 mt10 jsUserSubmit disabled" onclick="submitForm()">登录</a>
 					<div class="unlogin">
-					<a href="register.html">免费注册</a> <a href="changePwd.html"  class="flor">找回密码</a>
+					<a href="register.html">免费注册</a> <a href="resetPwd.html"  class="flor">找回密码</a>
 			</div>
 		</div>
 	</div>
@@ -113,8 +113,10 @@ const GET_PHONE_CAPTCHA_WAIT_VALUE = 60;
 var textIdArr = [NAME_ID, PWD_ID, PHONE_ID, CAPTCHA_ID];
 var textErrorArr = ["nameError", "pwdError", "phoneNumError", "captchaError"];
 var notNullArr = [true,true,true,true];
-var regArr = [/([^a-zA-Z0-9\@\._-])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
-var regFormatArr = [/(^[a-z]([a-z0-9_]){6,32})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
+var regArr = [/([^0-9])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
+var regFormatArr = [/(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
+// var regArr = [/([^a-zA-Z0-9\@\._-])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
+// var regFormatArr = [/(^[a-z]([a-z0-9_]){6,32})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
 var formatErrorArr = ["登录账号格式有误", "密码格式有误", "电话号码格式有误", "验证码格式有误"];
 
 var regMap = new Object();

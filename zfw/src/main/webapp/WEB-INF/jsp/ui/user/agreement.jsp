@@ -1,21 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="../inc/top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="author" content="">
-<meta name="keywords" content="">
-<meta name="viewport"
-	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Insert title here</title>
-
-<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
-
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-<script type="text/javascript" src="../../../tools/encryption/RSA.js"></script>
-<script type="text/javascript" src="../../../tools/encryption/BigInt.js"></script>
-<script type="text/javascript"
-	src="../../../tools/encryption/Barrett.js"></script>
-<script type="text/javascript" src="../../../tools/encryption/md5.js"></script>
+<%@include file="../inc/header.jsp" %>
 </head>
 <body>
 	<div class="main whitebg">
@@ -150,7 +138,7 @@
 		</div>
 	</div>
 </body>
+<%@include file="../inc/bottom.jsp" %>
 <script>
-	
 </script>
 </html>

@@ -23,6 +23,7 @@
 				<div class="tips">${error }</div>
 				<form action="${ctx }/user/login" method="post">
 					<input type="hidden" id="password" name="password"> 
+					<input type="hidden" id="rememberMe" name="rememberMe" value="true"> 
 					<input type="hidden" id="publicExponent" name="publicExponent" value="${publicExponent }" > 
 					<input type="hidden" id="modulus" name="modulus" value="${modulus }" > 
 					<input type="hidden" id="loginType" name="loginType" value="password">
@@ -30,7 +31,7 @@
 					<input type="hidden" name="geetest_validate"> 
 					<input type="hidden" name="geetest_seccode"> 
 					<input type="text" id="txtName" name="name"
-						value="请输入用户名/手机/邮箱" class="ipt-text mt10"
+						value="请输入手机号码" class="ipt-text mt10"
 						onkeyup="return inputOnKeyup(event,this)"
 						onFocus="return inputOnFocus(event,this)"
 						onblur="return inputOnBlus(event,this)"
@@ -80,7 +81,7 @@
 			</div>
 					<a href="javascript:void(0);" class="formbtn02 mt10 jsUserSubmit disabled" onclick="submitForm()">登录</a>
 					<div class="unlogin">
-					<a href="${ctx }/user/register">免费注册</a> <a href="${ctx }/user/register"  class="flor">找回密码</a>
+					<a href="${ctx }/user/register">免费注册</a> <a href="${ctx }/user/resetPwd"  class="flor">找回密码</a>
 			</div>
 		</div>
 	</div>
@@ -103,7 +104,7 @@ const LOGIN_TYPE_PWD = "password";
 const LOGIN_TYPE_CAPTCHA = "captcha";
 
 const GET_PHONE_CAPTCHA_URL = "${ctx}/public/json/user/getPhoneCaptcha";
-const CHECK_LOGIN_NAME_URL = "${ctx}/public/json/user/checkLoginNameValidAndExisted";
+const CHECK_LOGIN_NAME_URL = "${ctx}/public/json/user/checkPhoneNumValidAndExisted";
 const CHECK_PHONE_NUM_URL = "${ctx}/public/json/user/checkPhoneNumValidAndExisted";
 
 const GET_PHONE_CAPTCHA_WAIT_VALUE = 60;
@@ -111,8 +112,10 @@ const GET_PHONE_CAPTCHA_WAIT_VALUE = 60;
 var textIdArr = [NAME_ID, PWD_ID, PHONE_ID, CAPTCHA_ID];
 var textErrorArr = ["nameError", "pwdError", "phoneNumError", "captchaError"];
 var notNullArr = [true,true,true,true];
-var regArr = [/([^a-zA-Z0-9\@\._-])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
-var regFormatArr = [/(^[a-z]([a-z0-9_]){4,32})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
+var regArr = [/([^0-9])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
+var regFormatArr = [/(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
+// var regArr = [/([^a-zA-Z0-9\@\._-])+/g, /([^A-Za-z0-9\!\@\#\$\%\^\&\*\(\)])+/g,  /([^0-9])+/g, /([^0-9])+/g];
+// var regFormatArr = [/(^[a-z]([a-z0-9_]){6,32})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(^1[0-9]{10}$)/, /^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]{6,32}$/, /^1[0-9]{10}/, /^[0-9]{6}$/];
 var formatErrorArr = ["登录账号格式有误", "密码格式有误", "电话号码格式有误", "验证码格式有误"];
 
 var regMap = new Object();

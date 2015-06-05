@@ -60,4 +60,6 @@ public class Constants {
 	public static final String ACCESS_PHONE_CAPTCHA = "accessPhoneCaptcha";
 	
 	public static final String SMOOTH_CAPTCHA_ERROR = "滑动验证码错误";
+	
+	public static final String HEAD_IMG_DEFAULT_URL = "/assets/img/ui/logo.jpg";
 }

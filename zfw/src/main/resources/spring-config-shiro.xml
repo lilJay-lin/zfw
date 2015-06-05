@@ -146,6 +146,9 @@
 <!--                 /logout = logout -->
 <!--                 /authenticated = authc -->
 <!--                 /** = user,sysUser -->
+				/user = anon
+				/user/agreement = anon
+				/user/resetPwd = anon
 				/user/captchaLogin = anon
 				/assets/** = anon
                 /public/** = anon
@@ -172,7 +175,7 @@
 <!-- 					/unauthenticated -->
 					index
 				</prop>
-				<prop key="java.lang.Exception">index</prop>
+				<prop key="java.lang.Exception">error_all</prop>
 			</props>
 		</property>
 	</bean>

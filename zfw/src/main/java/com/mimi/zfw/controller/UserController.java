@@ -1,16 +1,19 @@
 package com.mimi.zfw.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,17 +21,15 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.Constants;
@@ -49,15 +50,94 @@ public class UserController {
     private CCPRestSmsSDK ytxAPI;
 
     @RequestMapping(value = "/user", method = { RequestMethod.GET })
-    public String index() {
-	// return "list";
+    public String user(HttpServletRequest request) {
+	addHeadImgUrl(request);
 	return "ui/user/index";
     }
 
-    @RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
-    public String indexMI() {
-	// return "list";
-	return "mi/user/index";
+    @RequestMapping(value = "/user/index", method = { RequestMethod.GET })
+    public String index(HttpServletRequest request) {
+	addHeadImgUrl(request);
+	return "ui/user/index";
+    }
+    
+    private void addHeadImgUrl(HttpServletRequest request){
+	User user = userService.getCurUser();
+	String hiu = Constants.HEAD_IMG_DEFAULT_URL;
+	if(user!=null && StringUtils.isNotBlank(user.getHeadImgUrl())){
+	    hiu = user.getHeadImgUrl();
+	}
+	if(hiu.indexOf("http://")==-1 && hiu.indexOf(request.getContextPath())==-1){
+	    hiu = request.getContextPath()+hiu;
+	}
+	request.setAttribute("headImgUrl", hiu);
+    }
+
+    @RequestMapping(value = "/user/agreement", method = { RequestMethod.GET })
+    public String agreement() {
+	return "ui/user/agreement";
+    }
+
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/user/resetHeadImgUrl", method = { RequestMethod.POST })
+    public @ResponseBody Object resetHeadImgUrl(String headImgUrl) {
+	String error = userService.updateCurUserHeadImgUrl(headImgUrl);
+	JSONObject jo = new JSONObject();
+	if(StringUtils.isBlank(error)){
+	    jo.put("success", true);
+	}else{
+	    jo.put("success", false);
+	    jo.put("msg", error);
+	}
+	return jo.toString();
+    }
+
+
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/user/resetPwd", method = { RequestMethod.GET })
+    public String toResetPwd(HttpServletRequest request, Model model) {
+	setRSAParams(model);
+	setGeetestId(model);
+//	model.addAttribute("halfPhoneNum", getHalfPhoneNum((String) request.getAttribute("phoneNum")));
+	return "ui/user/resetPwd";
+    }
+
+
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/user/resetPwd", method = { RequestMethod.POST })
+    public String resetPwd(HttpServletRequest request, @ModelAttribute(Constants.COMMAND) User command,  Model model) {
+
+	request.setAttribute("phoneNum", request.getParameter("phoneNum"));
+	
+	String checkResult = checkPhoneNumAndPhoneCaptcha(request);
+	if (StringUtils.isBlank(checkResult)) {
+	    String password = "";
+	    try {
+		password = RSAUtil.getResult(
+			request.getParameter("publicExponent"),
+			request.getParameter("modulus"), command.getPassword());
+	    } catch (Exception e) {
+		request.setAttribute("error", "密码解析出错，请稍后重试");
+		return "ui/user/resetPwd";
+	    }
+	    command.setPassword(password);
+	    checkResult = userService.updatePassword(command);
+	    if(StringUtils.isBlank(checkResult)){
+		    return "ui/user/index";
+	    }
+	}
+	    request.setAttribute("error", checkResult);
+		setGeetestId(model);
+		setRSAParams(model);
+	    return "ui/user/resetPwd";
+    }
+    
+
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/user/detail", method = { RequestMethod.GET })
+    public String detail(HttpServletRequest request) {
+	addHeadImgUrl(request);
+	return "ui/user/detail";
     }
 
     @RequiresPermissions("user:view")
@@ -83,27 +163,6 @@ public class UserController {
     public String update() {
 	return "ui/user/index";
     }
-
-    // @RequestMapping(value = "/user/login", method = {
-    // RequestMethod.POST,RequestMethod.GET })
-    // public String login(HttpServletRequest request,Model model){
-    //
-    //
-    // String exceptionClassName =
-    // (String)request.getAttribute("shiroLoginFailure");
-    // String error = null;
-    // if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
-    // error = "用户名/密码错误";
-    // } else
-    // if(IncorrectCredentialsException.class.getName().equals(exceptionClassName))
-    // {
-    // error = "用户名/密码错误";
-    // } else if(exceptionClassName != null) {
-    // error = "其他错误：" + exceptionClassName;
-    // }
-    // model.addAttribute("error", error);
-    // return "ui/user/login";
-    // }
 
     @RequestMapping(value = "/user/login", method = { RequestMethod.GET })
     public String toLogin(HttpServletRequest request, Model model) {
@@ -132,14 +191,6 @@ public class UserController {
     public String captchaLogin(HttpServletRequest request, Model model) {
 	String phoneNum = request.getParameter("phoneNum");
 	request.setAttribute("phoneNum", phoneNum);
-//	boolean gtResult = geetest.validateRequest(request);
-//	if (!gtResult) {
-//	    request.setAttribute("error", Constants.SMOOTH_CAPTCHA_ERROR);
-//		setGeetestId(model);
-//		setRSAParams(model);
-//	    return "ui/user/login";
-//	}
-	
 	String checkResult = checkPhoneNumAndPhoneCaptcha(request);
 	if ("".equals(checkResult)) {
 	    userService.login(phoneNum);
@@ -151,21 +202,6 @@ public class UserController {
 		model.addAttribute("loginType", Constants.LOGIN_TYPE_CAPTCHA);
 	    return "ui/user/login";
 	}
-    }
-
-    @RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
-    public String toMILogin(HttpServletRequest request, Model model) {
-	setRSAParams(model);
-	setGeetestId(model);
-	return "mi/user/login";
-    }
-
-    @RequestMapping(value = "/mi/user/login", method = { RequestMethod.POST })
-    public String MILogin(HttpServletRequest request, Model model) {
-	loginAction(request, model);
-	setRSAParams(model);
-	setGeetestId(model);
-	return "mi/user/login";
     }
 
     private void setRSAParams(Model model) {
@@ -272,38 +308,6 @@ public class UserController {
 	    result = "验证码错误";
 	}
 	return result;
-    }
-
-    private void setCommonData(Model model) {
-	// 设置通用属性
-    }
-
-    @RequestMapping(value = "/user/changePWD", method = { RequestMethod.GET })
-    public String toChangePWD(Model model) {
-
-	if (!model.containsAttribute(Constants.COMMAND)) {
-	    model.addAttribute(Constants.COMMAND, new User());
-	}
-	setCommonData(model);
-	return "user/changePWD";
-    }
-
-    @RequestMapping(value = "/user/changePWD", method = { RequestMethod.POST })
-    public String changePWD(HttpServletRequest request, Model model,
-	    @ModelAttribute("command") @Valid User command, BindingResult result) {
-	// command = userService.get(command.getId());
-	// if (StringUtils.equals(
-	// MD5Util.MD5(request.getParameter("oldPassword")),
-	// command.getPassword())) {
-	// if (StringUtils.equals(request.getParameter("newPassword"),
-	// request.getParameter("newPasswordRP"))) {
-	// command.setPassword(MD5Util.MD5(request
-	// .getParameter("newPassword")));
-	// userService.update(command);
-	// return "redirect:/user/success";
-	// }
-	// }
-	return "user/changePWD";
     }
 
     @RequestMapping(value = "/public/json/user/checkLoginNameValidAndExisted", method = RequestMethod.GET)
@@ -418,6 +422,81 @@ public class UserController {
     @RequestMapping(value = "/user/success", method = { RequestMethod.GET })
     public String success() {
 	return "user/success";
+    }
+
+    @RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
+    public String indexMI() {
+	return "mi/user/index";
+    }
+
+    @RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
+    public String toMILogin(HttpServletRequest request, Model model) {
+	setRSAParams(model);
+	setGeetestId(model);
+	return "mi/user/login";
+    }
+
+    @RequestMapping(value = "/mi/user/login", method = { RequestMethod.POST })
+    public String MILogin(HttpServletRequest request, Model model) {
+	loginAction(request, model);
+	setRSAParams(model);
+	setGeetestId(model);
+	return "mi/user/login";
+    }
+
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/user/uploadHeadImg", method = { RequestMethod.POST,RequestMethod.GET })
+    public @ResponseBody
+    Object upload(HttpServletRequest request,
+	    @RequestParam("theFile") MultipartFile theFile) {
+
+	JSONObject jo = new JSONObject();
+	try {
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(new Date());  
+	    cal.getTimeInMillis();
+	    int year = cal.get(Calendar.YEAR);
+	    int month = cal.get(Calendar.MONTH)+1;
+	    int day = cal.get(Calendar.DAY_OF_MONTH);
+	    int hour = cal.get(Calendar.HOUR_OF_DAY);
+	    String path = "/assets/upload/"+year+"/"+month+"/"+day+"/"+hour+"/";
+	    path = request.getContextPath()+path+saveFileToServer(theFile,request.getSession().getServletContext().getRealPath("/")+path);
+	    jo.put("imgPath", path);
+	    jo.put("success", true);
+	} catch (IOException e) {
+	    jo.put("success", false);
+	    jo.put("msg", "保存图片失败");
+	}
+	return jo.toString();
+    }
+
+
+    public String saveFileToServer(MultipartFile multifile, String path)
+	    throws IOException {
+	// 创建目录
+	File dir = new File(path);
+	if (!dir.exists()) {
+	    dir.mkdirs();
+	}
+	String fileName = multifile.getOriginalFilename();
+	fileName = UUID.randomUUID().toString()+fileName.substring(fileName.lastIndexOf("."));
+//	String fileName = UUID.randomUUID().toString();
+	// 读取文件流并保持在指定路径
+	InputStream inputStream = multifile.getInputStream();
+	OutputStream outputStream = new FileOutputStream(path
+		+ fileName);
+	byte[] buffer = multifile.getBytes();
+	int bytesum = 0;
+	int byteread = 0;
+	while ((byteread = inputStream.read(buffer)) != -1) {
+	    bytesum += byteread;
+	    outputStream.write(buffer, 0, byteread);
+	    outputStream.flush();
+	}
+	outputStream.close();
+	inputStream.close();
+
+	return fileName;
     }
 
     public static void main(String args[]) {
