@@ -100,8 +100,6 @@ public class UserController {
     public String toResetPwd(HttpServletRequest request, Model model) {
 	setRSAParams(model);
 	setGeetestId(model);
-	// model.addAttribute("halfPhoneNum", getHalfPhoneNum((String)
-	// request.getAttribute("phoneNum")));
 	return "ui/user/resetPwd";
     }
 
@@ -126,6 +124,7 @@ public class UserController {
 	    command.setPassword(password);
 	    checkResult = userService.updatePassword(command);
 	    if (StringUtils.isBlank(checkResult)) {
+		addHeadImgUrl(request);
 		return "ui/user/index";
 	    }
 	}
@@ -142,33 +141,10 @@ public class UserController {
 	return "ui/user/detail";
     }
 
-    @RequiresPermissions("user:view")
-    @RequestMapping(value = "/user/view", method = { RequestMethod.GET })
-    public String view() {
-	return "ui/user/index";
-    }
-
-    @RequiresPermissions("user:add")
-    @RequestMapping(value = "/user/add", method = { RequestMethod.GET })
-    public String add() {
-	return "ui/user/index";
-    }
-
-    @RequiresPermissions("user:del")
-    @RequestMapping(value = "/user/del", method = { RequestMethod.GET })
-    public String del() {
-	return "ui/user/index";
-    }
-
-    @RequiresPermissions("user:update")
-    @RequestMapping(value = "/user/update", method = { RequestMethod.GET })
-    public String update() {
-	return "ui/user/index";
-    }
-
     @RequestMapping(value = "/user/login", method = { RequestMethod.GET })
     public String toLogin(HttpServletRequest request, Model model) {
-	if (userService.isLogined()) {
+	if (userService.isLogined() || userService.isRememberMe()) {
+	    addHeadImgUrl(request);
 	    return "ui/user/index";
 	}
 	setRSAParams(model);
@@ -178,7 +154,8 @@ public class UserController {
 
     @RequestMapping(value = "/user/login", method = { RequestMethod.POST })
     public String login(HttpServletRequest request, Model model) {
-	if (userService.isLogined()) {
+	if (userService.isLogined() || userService.isRememberMe()) {
+	    addHeadImgUrl(request);
 	    return "ui/user/index";
 	}
 	loginAction(request, model);
@@ -189,7 +166,8 @@ public class UserController {
 
     @RequestMapping(value = "/user/captchaLogin", method = { RequestMethod.GET })
     public String toCaptchaLogin(HttpServletRequest request, Model model) {
-	if (userService.isLogined()) {
+	if (userService.isLogined() || userService.isRememberMe()) {
+	    addHeadImgUrl(request);
 	    return "ui/user/index";
 	}
 	setRSAParams(model);
@@ -200,7 +178,8 @@ public class UserController {
 
     @RequestMapping(value = "/user/captchaLogin", method = { RequestMethod.POST })
     public String captchaLogin(HttpServletRequest request, Model model) {
-	if (userService.isLogined()) {
+	if (userService.isLogined() || userService.isRememberMe()) {
+	    addHeadImgUrl(request);
 	    return "ui/user/index";
 	}
 	String phoneNum = request.getParameter("phoneNum");
@@ -209,6 +188,7 @@ public class UserController {
 	if ("".equals(checkResult)) {
 	    try {
 		userService.login(phoneNum);
+		addHeadImgUrl(request);
 		return "ui/user/index";
 	    } catch (Exception e) {
 		checkResult = getErrorFromLoginExceptionName(e.getClass()
@@ -224,9 +204,6 @@ public class UserController {
 
     private void setRSAParams(Model model) {
 	RSAPublicKey rpu = RSAUtil.getCurrentPublicKey();
-	// request.setAttribute("modulus", rpu.getModulus().toString(16));
-	// request.setAttribute("publicExponent",
-	// rpu.getPublicExponent().toString(16));
 	model.addAttribute("publicExponent",
 		rpu.getPublicExponent().toString(16));
 	model.addAttribute("modulus", rpu.getModulus().toString(16));
@@ -261,7 +238,6 @@ public class UserController {
 		exceptionClassName)) {
 	    error = "账号已冻结";
 	} else if (exceptionClassName != null) {
-	    // error = "其他错误：" + exceptionClassName;
 	    error = "登录失败，请稍后尝试";
 	}
 	return error;
@@ -283,14 +259,6 @@ public class UserController {
 	    @ModelAttribute(Constants.COMMAND) User command, Model model) {
 
 	request.setAttribute("phoneNum", request.getParameter("phoneNum"));
-	// boolean gtResult = geetest.validateRequest(request);
-	// if (!gtResult) {
-	// request.setAttribute("error", Constants.SMOOTH_CAPTCHA_ERROR);
-	// setGeetestId(model);
-	// setRSAParams(model);
-	// return "ui/user/register";
-	// }
-
 	String checkResult = checkPhoneNumAndPhoneCaptcha(request);
 	if ("".equals(checkResult)) {
 	    String password = "";
@@ -307,6 +275,7 @@ public class UserController {
 
 	    try {
 		userService.login(command.getPhoneNum(), password);
+		addHeadImgUrl(request);
 		return "ui/user/index";
 	    } catch (Exception e) {
 		checkResult = getErrorFromLoginExceptionName(e.getClass()
@@ -345,18 +314,6 @@ public class UserController {
     @RequestMapping(value = "/public/json/user/checkLoginNameValidAndExisted", method = RequestMethod.GET)
     public @ResponseBody
     Object loginNameValid(String name) {
-	// JSONArray joarr = new JSONArray();
-	// // JSONArray.fromObject(params);
-	// for(int i=0;i<1;i++){
-	// JSONObject tjo = new JSONObject();
-	// tjo.put("address",
-	// "\u5e7f\u4e1c\u7701\u8087\u5e86\u5e02\u7aef\u5dde\u533a\u666f\u5fb7\u8def18\u53f7");
-	// tjo.put("city", "\u8087\u5e86\u5e02");
-	// tjo.put("content_id", 1);
-	// tjo.put("title", "\u661f\u6e56\u540d\u4ed5\u4f1a");
-	// tjo.put("location", "[112.495924,23.068761]");
-	// joarr.add(tjo);
-	// }
 	JSONObject jo = new JSONObject();
 	jo.put("value", name);
 	boolean nameValid = false;
@@ -534,17 +491,6 @@ public class UserController {
 	inputStream.close();
 
 	return fileName;
-    }
-
-    public static void main(String args[]) {
-	for (int i = 0; i < 10; i++) {
-	    int rNum = (int) (Math.random() * 999999);
-	    String rNumStr = String.valueOf(rNum);
-	    while (rNumStr.length() < 6) {
-		rNumStr = "0" + rNumStr;
-	    }
-	    System.out.println(rNumStr);
-	}
     }
 
 }

@@ -153,9 +153,11 @@
 				/assets/** = anon
                 /public/** = anon
 				/user/register = anon
-<!-- 				/mi/user/login = authc -->
-<!--                 /user/login = authc -->
+				/mi/user/login = authc
+                /user/login = authc
                 /user/logout = logout
+                /mi/** = perms["user:mi"]
+                /mi = perms["user:mi"]
                 /** = authc
             </value>
         </property>

@@ -62,7 +62,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    role.setDescription("拥有最高权限");
 	    role.setCreateDate(nowDate);
 	    rm.insertSelective(role);
-//	    rm.insert(role);
+	    // rm.insert(role);
 	    List<Permission> permissions = pm.selectByExample(null);
 	    for (int i = 0; i < permissions.size(); i++) {
 		RelationRoleAndPermission rrm = new RelationRoleAndPermission();
@@ -78,7 +78,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    normal.setDescription("注册用户默认权限");
 	    normal.setCreateDate(nowDate);
 	    rm.insertSelective(normal);
-//	    rm.insert(normal);
+	    // rm.insert(normal);
 	    List<String> npns = new ArrayList<String>();
 	    npns.add("自管理");
 	    for (int i = 0; i < permissions.size(); i++) {
@@ -96,6 +96,9 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
     @Override
     public List<Role> getRolesByUserId(String id) {
+	if (id == null) {
+	    return null;
+	}
 	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
 	rure.or().andUserIdEqualTo(id).andDelFlagEqualTo(false);
 	List<RelationUserAndRole> relations = rurm.selectByExample(rure);
@@ -107,10 +110,12 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    }
 	}
 	RoleExample re = new RoleExample();
-	if(!roleIds.isEmpty()){
-		re.or().andIdIn(roleIds).andDelFlagEqualTo(false);
+	if (!roleIds.isEmpty()) {
+	    re.or().andIdIn(roleIds).andDelFlagEqualTo(false);
+	    return rm.selectByExample(re);
+	} else {
+	    return null;
 	}
-	return rm.selectByExample(re);
     }
 
 }

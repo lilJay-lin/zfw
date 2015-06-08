@@ -170,6 +170,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     @Override
     public void login(String name, String password) {
 	UniqueidUsernamePasswordToken token = new UniqueidUsernamePasswordToken();
+	token.setRememberMe(true);
 	token.setUsername(name);
 	token.setPassword(password.toCharArray());
 	token.setLoginType(Constants.LOGIN_TYPE_PWD);
@@ -238,6 +239,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     @Override
     public void login(String loginName) {
 	UniqueidUsernamePasswordToken token = new UniqueidUsernamePasswordToken();
+	token.setRememberMe(true);
 	token.setUsername(loginName);
 	token.setLoginType(Constants.LOGIN_TYPE_CAPTCHA);
 	SecurityUtils.getSubject().login(token);
@@ -288,7 +290,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	return sh.toString();
     }
 
-    private String getCurUserId() {
+    @Override
+    public String getCurUserId() {
 	String idStr = "";
 	try {
 	    SecurityUtils.getSubject().getPrincipals().asSet();
@@ -307,6 +310,11 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	}
 	return idStr;
+    }
+    
+    @Override
+    public String getCurUserPrincipal(){
+	return (String) SecurityUtils.getSubject().getPrincipal();
     }
 
     @Override
@@ -346,4 +354,9 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	return SecurityUtils.getSubject().isAuthenticated();
     }
 
+
+    @Override
+    public boolean isRememberMe() {
+	return SecurityUtils.getSubject().isRemembered();
+    }
 }

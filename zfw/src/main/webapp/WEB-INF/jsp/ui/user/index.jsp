@@ -58,7 +58,7 @@
 					</div>
 				</div>
 				</shiro:guest>
-				<shiro:notAuthenticated>
+				<shiro:user>
 					<div id="login">
 						<a id="userhref" href="${ctx }/user/detail"
 							class="logined">
@@ -76,26 +76,7 @@
 							</dl>
 						</a>
 					</div>
-				</shiro:notAuthenticated>
-				<shiro:authenticated>
-					<div id="login">
-						<a id="userhref" href="${ctx }/user/detail"
-							class="logined">
-							<dl>
-								<dt>
-									<div id="userphoto">
-										<img
-											src="${headImgUrl }"
-											width="50" height="50px">
-									</div>
-								</dt>
-								<dd>
-									<p id="phone" class="f18"><shiro:principal></shiro:principal></p>
-								</dd>
-							</dl>
-						</a>
-					</div>
-				</shiro:authenticated>
+				</shiro:user>
 			</div>
 			<div class="pc-content-list">
 				<a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">

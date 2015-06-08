@@ -33,6 +33,11 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
 
     public User getCurUser();
     
+    public String getCurUserPrincipal();
+    
+    public String getCurUserId();
+    
     public boolean isLogined();
 
+    public boolean isRememberMe();
 }

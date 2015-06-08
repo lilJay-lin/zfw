@@ -2,6 +2,7 @@ package com.mimi.zfw.web.shiro.authc;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -14,14 +15,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mimi.zfw.Constants;
+import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
 import com.mimi.zfw.web.captcha.GeetestLib;
 import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
 
 public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
-    
+
     private GeetestLib geetest;
-    
+
+    @Resource
+    private IUserService userService;
+
     public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
     public static final String DEFAULT_LOGIN_TYPE_PARAM = "loginType";
     private String captchaParam = DEFAULT_CAPTCHA_PARAM;
@@ -29,7 +34,6 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 
     private String loginMIUrl = DEFAULT_LOGIN_URL;
     private String successMIUrl = DEFAULT_SUCCESS_URL;
-
 
     private static final Logger LOG = LoggerFactory
 	    .getLogger(UniqueidFormAuthenticationFilter.class);
@@ -60,22 +64,10 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     // 验证码校验
     protected void doCaptchaValidate(HttpServletRequest request,
 	    UniqueidUsernamePasswordToken token) {
-	  boolean  gtResult = geetest.validateRequest(request);
-//	boolean gtResult = false;
-//
-//	if (geetest.resquestIsLegal(request)) {
-//	    gtResult = geetest.validateRequest(request);
-//	} else {
-//	    gtResult = false;
-//	}
-
+	boolean gtResult = geetest.validateRequest(request);
 	if (!gtResult) {
 	    throw new IncorrectCaptchaException("验证码错误！");
 	}
-	// if (token.getCaptcha() == null ||
-	// !"mimi".equalsIgnoreCase(token.getCaptcha())) {
-	// throw new IncorrectCaptchaException("验证码错误！");
-	// }
     }
 
     @Override
@@ -92,7 +84,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 	    e.printStackTrace();
 	}
 	String captcha = getCaptcha(request);
-//	String loginType = getLoginType(request);
+	// String loginType = getLoginType(request);
 	String loginType = Constants.LOGIN_TYPE_PWD;
 	boolean rememberMe = isRememberMe(request);
 	String host = getHost(request);
@@ -162,9 +154,20 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 			.length() - 1)) {
 	    WebUtils.issueRedirect(request, response, loginMIUrl);
 	} else {
-	    WebUtils.issueRedirect(request, response, loginUrl);
+	    if (userService.isRememberMe()) {
+		try {
+		    userService.getCurUser();
+		    userService.login(userService.getCurUserPrincipal());
+		    issueSuccessRedirect(request, response);
+		} catch (Exception e) {
+		    WebUtils.issueRedirect(request, response, loginUrl);
+		}
+	    } else {
+		WebUtils.issueRedirect(request, response, loginUrl);
+	    }
 	}
     }
+
     public String getLoginMIUrl() {
 	return loginMIUrl;
     }
