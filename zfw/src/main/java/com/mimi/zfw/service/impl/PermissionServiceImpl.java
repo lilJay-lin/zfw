@@ -59,7 +59,7 @@ public class PermissionServiceImpl extends BaseService<Permission, PermissionExa
 				p.setCode(codes[i]);
 				p.setDescription(descs[i]);
 				p.setCreateDate(nowDate);
-				pm.insert(p);
+				pm.insertSelective(p);
 			}
 //			for(int i=0;i<10000;i++){
 //				Permission p = new Permission();

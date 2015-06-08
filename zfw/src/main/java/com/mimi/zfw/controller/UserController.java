@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -60,15 +61,16 @@ public class UserController {
 	addHeadImgUrl(request);
 	return "ui/user/index";
     }
-    
-    private void addHeadImgUrl(HttpServletRequest request){
+
+    private void addHeadImgUrl(HttpServletRequest request) {
 	User user = userService.getCurUser();
 	String hiu = Constants.HEAD_IMG_DEFAULT_URL;
-	if(user!=null && StringUtils.isNotBlank(user.getHeadImgUrl())){
+	if (user != null && StringUtils.isNotBlank(user.getHeadImgUrl())) {
 	    hiu = user.getHeadImgUrl();
 	}
-	if(hiu.indexOf("http://")==-1 && hiu.indexOf(request.getContextPath())==-1){
-	    hiu = request.getContextPath()+hiu;
+	if (hiu.indexOf("http://") == -1
+		&& hiu.indexOf(request.getContextPath()) == -1) {
+	    hiu = request.getContextPath() + hiu;
 	}
 	request.setAttribute("headImgUrl", hiu);
     }
@@ -80,35 +82,36 @@ public class UserController {
 
     @RequiresPermissions("user:self")
     @RequestMapping(value = "/user/resetHeadImgUrl", method = { RequestMethod.POST })
-    public @ResponseBody Object resetHeadImgUrl(String headImgUrl) {
+    public @ResponseBody
+    Object resetHeadImgUrl(String headImgUrl) {
 	String error = userService.updateCurUserHeadImgUrl(headImgUrl);
 	JSONObject jo = new JSONObject();
-	if(StringUtils.isBlank(error)){
+	if (StringUtils.isBlank(error)) {
 	    jo.put("success", true);
-	}else{
+	} else {
 	    jo.put("success", false);
 	    jo.put("msg", error);
 	}
 	return jo.toString();
     }
 
-
     @RequiresPermissions("user:self")
     @RequestMapping(value = "/user/resetPwd", method = { RequestMethod.GET })
     public String toResetPwd(HttpServletRequest request, Model model) {
 	setRSAParams(model);
 	setGeetestId(model);
-//	model.addAttribute("halfPhoneNum", getHalfPhoneNum((String) request.getAttribute("phoneNum")));
+	// model.addAttribute("halfPhoneNum", getHalfPhoneNum((String)
+	// request.getAttribute("phoneNum")));
 	return "ui/user/resetPwd";
     }
 
-
     @RequiresPermissions("user:self")
     @RequestMapping(value = "/user/resetPwd", method = { RequestMethod.POST })
-    public String resetPwd(HttpServletRequest request, @ModelAttribute(Constants.COMMAND) User command,  Model model) {
+    public String resetPwd(HttpServletRequest request,
+	    @ModelAttribute(Constants.COMMAND) User command, Model model) {
 
 	request.setAttribute("phoneNum", request.getParameter("phoneNum"));
-	
+
 	String checkResult = checkPhoneNumAndPhoneCaptcha(request);
 	if (StringUtils.isBlank(checkResult)) {
 	    String password = "";
@@ -122,16 +125,15 @@ public class UserController {
 	    }
 	    command.setPassword(password);
 	    checkResult = userService.updatePassword(command);
-	    if(StringUtils.isBlank(checkResult)){
-		    return "ui/user/index";
+	    if (StringUtils.isBlank(checkResult)) {
+		return "ui/user/index";
 	    }
 	}
-	    request.setAttribute("error", checkResult);
-		setGeetestId(model);
-		setRSAParams(model);
-	    return "ui/user/resetPwd";
+	request.setAttribute("error", checkResult);
+	setGeetestId(model);
+	setRSAParams(model);
+	return "ui/user/resetPwd";
     }
-    
 
     @RequiresPermissions("user:self")
     @RequestMapping(value = "/user/detail", method = { RequestMethod.GET })
@@ -166,6 +168,9 @@ public class UserController {
 
     @RequestMapping(value = "/user/login", method = { RequestMethod.GET })
     public String toLogin(HttpServletRequest request, Model model) {
+	if (userService.isLogined()) {
+	    return "ui/user/index";
+	}
 	setRSAParams(model);
 	setGeetestId(model);
 	return "ui/user/login";
@@ -173,6 +178,9 @@ public class UserController {
 
     @RequestMapping(value = "/user/login", method = { RequestMethod.POST })
     public String login(HttpServletRequest request, Model model) {
+	if (userService.isLogined()) {
+	    return "ui/user/index";
+	}
 	loginAction(request, model);
 	setRSAParams(model);
 	setGeetestId(model);
@@ -181,6 +189,9 @@ public class UserController {
 
     @RequestMapping(value = "/user/captchaLogin", method = { RequestMethod.GET })
     public String toCaptchaLogin(HttpServletRequest request, Model model) {
+	if (userService.isLogined()) {
+	    return "ui/user/index";
+	}
 	setRSAParams(model);
 	setGeetestId(model);
 	model.addAttribute("loginType", Constants.LOGIN_TYPE_CAPTCHA);
@@ -189,19 +200,26 @@ public class UserController {
 
     @RequestMapping(value = "/user/captchaLogin", method = { RequestMethod.POST })
     public String captchaLogin(HttpServletRequest request, Model model) {
+	if (userService.isLogined()) {
+	    return "ui/user/index";
+	}
 	String phoneNum = request.getParameter("phoneNum");
 	request.setAttribute("phoneNum", phoneNum);
 	String checkResult = checkPhoneNumAndPhoneCaptcha(request);
 	if ("".equals(checkResult)) {
-	    userService.login(phoneNum);
-	    return "ui/user/index";
-	} else {
-	    request.setAttribute("error", checkResult);
-		setGeetestId(model);
-		setRSAParams(model);
-		model.addAttribute("loginType", Constants.LOGIN_TYPE_CAPTCHA);
-	    return "ui/user/login";
+	    try {
+		userService.login(phoneNum);
+		return "ui/user/index";
+	    } catch (Exception e) {
+		checkResult = getErrorFromLoginExceptionName(e.getClass()
+			.getName());
+	    }
 	}
+	request.setAttribute("error", checkResult);
+	setGeetestId(model);
+	setRSAParams(model);
+	model.addAttribute("loginType", Constants.LOGIN_TYPE_CAPTCHA);
+	return "ui/user/login";
     }
 
     private void setRSAParams(Model model) {
@@ -221,6 +239,11 @@ public class UserController {
     private void loginAction(HttpServletRequest request, Model model) {
 	String exceptionClassName = (String) request
 		.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+	String error = getErrorFromLoginExceptionName(exceptionClassName);
+	model.addAttribute("error", error);
+    }
+
+    private String getErrorFromLoginExceptionName(String exceptionClassName) {
 	String error = null;
 	if (IncorrectCaptchaException.class.getName()
 		.equals(exceptionClassName)) {
@@ -234,11 +257,14 @@ public class UserController {
 	} else if (ExcessiveAttemptsException.class.getName().equals(
 		exceptionClassName)) {
 	    error = "账号已锁定";
+	} else if (LockedAccountException.class.getName().equals(
+		exceptionClassName)) {
+	    error = "账号已冻结";
 	} else if (exceptionClassName != null) {
 	    // error = "其他错误：" + exceptionClassName;
 	    error = "登录失败，请稍后尝试";
 	}
-	model.addAttribute("error", error);
+	return error;
     }
 
     @RequestMapping(value = "/user/register", method = { RequestMethod.GET })
@@ -257,14 +283,14 @@ public class UserController {
 	    @ModelAttribute(Constants.COMMAND) User command, Model model) {
 
 	request.setAttribute("phoneNum", request.getParameter("phoneNum"));
-//	boolean gtResult = geetest.validateRequest(request);
-//	if (!gtResult) {
-//	    request.setAttribute("error", Constants.SMOOTH_CAPTCHA_ERROR);
-//		setGeetestId(model);
-//		setRSAParams(model);
-//	    return "ui/user/register";
-//	}
-	
+	// boolean gtResult = geetest.validateRequest(request);
+	// if (!gtResult) {
+	// request.setAttribute("error", Constants.SMOOTH_CAPTCHA_ERROR);
+	// setGeetestId(model);
+	// setRSAParams(model);
+	// return "ui/user/register";
+	// }
+
 	String checkResult = checkPhoneNumAndPhoneCaptcha(request);
 	if ("".equals(checkResult)) {
 	    String password = "";
@@ -278,17 +304,22 @@ public class UserController {
 	    }
 	    command.setPassword(password);
 	    command = userService.saveOriginUser(command);
-	    userService.login(command.getPhoneNum(), password);
-	    return "ui/user/index";
-	} else {
-	    request.setAttribute("error", checkResult);
-		setGeetestId(model);
-		setRSAParams(model);
-	    return "ui/user/register";
+
+	    try {
+		userService.login(command.getPhoneNum(), password);
+		return "ui/user/index";
+	    } catch (Exception e) {
+		checkResult = getErrorFromLoginExceptionName(e.getClass()
+			.getName());
+	    }
 	}
+	request.setAttribute("error", checkResult);
+	setGeetestId(model);
+	setRSAParams(model);
+	return "ui/user/register";
     }
-    
-    private String checkPhoneNumAndPhoneCaptcha(HttpServletRequest request){
+
+    private String checkPhoneNumAndPhoneCaptcha(HttpServletRequest request) {
 	String result = "";
 	String accessPhoneNum = (String) request.getSession().getAttribute(
 		Constants.ACCESS_PHONE_NUM);
@@ -296,15 +327,16 @@ public class UserController {
 		Constants.ACCESS_PHONE_CAPTCHA);
 	String phoneNum = (String) request.getParameter("phoneNum");
 	String captcha = (String) request.getParameter("captcha");
-	if(StringUtils.isBlank(accessPhoneNum) || StringUtils.isBlank(accessPhoneCaptcha)){
+	if (StringUtils.isBlank(accessPhoneNum)
+		|| StringUtils.isBlank(accessPhoneCaptcha)) {
 	    result = "未发送验证码";
-	}else if(StringUtils.isBlank(phoneNum)){
+	} else if (StringUtils.isBlank(phoneNum)) {
 	    result = "电话号码为空";
-	}else if(StringUtils.isBlank(captcha)){
+	} else if (StringUtils.isBlank(captcha)) {
 	    result = "验证码为空";
-	}else if(!accessPhoneNum.equals(phoneNum)){
+	} else if (!accessPhoneNum.equals(phoneNum)) {
 	    result = "手机不一致";
-	}else if(!accessPhoneCaptcha.equals(captcha)){
+	} else if (!accessPhoneCaptcha.equals(captcha)) {
 	    result = "验证码错误";
 	}
 	return result;
@@ -391,27 +423,27 @@ public class UserController {
 	JSONObject jo = new JSONObject();
 	boolean result = geetest.validateRequest(request);
 	if (result) {
-//	    int rNum = (int) (Math.random() * 999999);
-//	    String rNumStr = String.valueOf(rNum);
-//	    while (rNumStr.length() < 6) {
-//		rNumStr = "0" + rNumStr;
-//	    }
-//	    HashMap<String, Object> receiveMap = ytxAPI.sendTemplateSMS(
-//		    phoneNum, "1", new String[] { rNumStr, "44" });
-//	    if ("000000".equals(receiveMap.get("statusCode"))) {
-//		request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
-//			phoneNum);
-//		request.getSession().setAttribute(
-//			Constants.ACCESS_PHONE_CAPTCHA, rNumStr);
-//	    } else {
-//		result = false;
-//		jo.put("msg", "发送验证码出错，请稍后重试");
-//	    }
+	    // int rNum = (int) (Math.random() * 999999);
+	    // String rNumStr = String.valueOf(rNum);
+	    // while (rNumStr.length() < 6) {
+	    // rNumStr = "0" + rNumStr;
+	    // }
+	    // HashMap<String, Object> receiveMap = ytxAPI.sendTemplateSMS(
+	    // phoneNum, "1", new String[] { rNumStr, "44" });
+	    // if ("000000".equals(receiveMap.get("statusCode"))) {
+	    // request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
+	    // phoneNum);
+	    // request.getSession().setAttribute(
+	    // Constants.ACCESS_PHONE_CAPTCHA, rNumStr);
+	    // } else {
+	    // result = false;
+	    // jo.put("msg", "发送验证码出错，请稍后重试");
+	    // }
 
-		request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
-			phoneNum);
-		request.getSession().setAttribute(
-			Constants.ACCESS_PHONE_CAPTCHA, "414141");
+	    request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
+		    phoneNum);
+	    request.getSession().setAttribute(Constants.ACCESS_PHONE_CAPTCHA,
+		    "414141");
 	} else {
 	    jo.put("msg", Constants.SMOOTH_CAPTCHA_ERROR);
 	}
@@ -445,7 +477,8 @@ public class UserController {
     }
 
     @RequiresPermissions("user:self")
-    @RequestMapping(value = "/user/uploadHeadImg", method = { RequestMethod.POST,RequestMethod.GET })
+    @RequestMapping(value = "/user/uploadHeadImg", method = {
+	    RequestMethod.POST, RequestMethod.GET })
     public @ResponseBody
     Object upload(HttpServletRequest request,
 	    @RequestParam("theFile") MultipartFile theFile) {
@@ -453,14 +486,19 @@ public class UserController {
 	JSONObject jo = new JSONObject();
 	try {
 	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(new Date());  
+	    cal.setTime(new Date());
 	    cal.getTimeInMillis();
 	    int year = cal.get(Calendar.YEAR);
-	    int month = cal.get(Calendar.MONTH)+1;
+	    int month = cal.get(Calendar.MONTH) + 1;
 	    int day = cal.get(Calendar.DAY_OF_MONTH);
 	    int hour = cal.get(Calendar.HOUR_OF_DAY);
-	    String path = "/assets/upload/"+year+"/"+month+"/"+day+"/"+hour+"/";
-	    path = request.getContextPath()+path+saveFileToServer(theFile,request.getSession().getServletContext().getRealPath("/")+path);
+	    String path = "/assets/upload/" + year + "/" + month + "/" + day
+		    + "/" + hour + "/";
+	    path = request.getContextPath()
+		    + path
+		    + saveFileToServer(theFile, request.getSession()
+			    .getServletContext().getRealPath("/")
+			    + path);
 	    jo.put("imgPath", path);
 	    jo.put("success", true);
 	} catch (IOException e) {
@@ -470,7 +508,6 @@ public class UserController {
 	return jo.toString();
     }
 
-
     public String saveFileToServer(MultipartFile multifile, String path)
 	    throws IOException {
 	// 创建目录
@@ -479,12 +516,12 @@ public class UserController {
 	    dir.mkdirs();
 	}
 	String fileName = multifile.getOriginalFilename();
-	fileName = UUID.randomUUID().toString()+fileName.substring(fileName.lastIndexOf("."));
-//	String fileName = UUID.randomUUID().toString();
+	fileName = UUID.randomUUID().toString()
+		+ fileName.substring(fileName.lastIndexOf("."));
+	// String fileName = UUID.randomUUID().toString();
 	// 读取文件流并保持在指定路径
 	InputStream inputStream = multifile.getInputStream();
-	OutputStream outputStream = new FileOutputStream(path
-		+ fileName);
+	OutputStream outputStream = new FileOutputStream(path + fileName);
 	byte[] buffer = multifile.getBytes();
 	int bytesum = 0;
 	int byteread = 0;

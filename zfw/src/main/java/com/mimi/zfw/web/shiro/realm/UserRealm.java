@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -95,6 +96,9 @@ public class UserRealm extends AuthorizingRealm {
 		
 		if (user == null) {
 			throw new UnknownAccountException();// 没找到帐号
+		}
+		if(user.getLocked()){
+		    throw new LockedAccountException();
 		}
 		List<String> l = new ArrayList<String>();
 		l.add(username);

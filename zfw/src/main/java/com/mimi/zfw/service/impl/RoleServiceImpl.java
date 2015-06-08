@@ -61,7 +61,8 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    role.setName(Constants.ROLE_NAME_ADMIN_DEFAULT);
 	    role.setDescription("拥有最高权限");
 	    role.setCreateDate(nowDate);
-	    rm.insert(role);
+	    rm.insertSelective(role);
+//	    rm.insert(role);
 	    List<Permission> permissions = pm.selectByExample(null);
 	    for (int i = 0; i < permissions.size(); i++) {
 		RelationRoleAndPermission rrm = new RelationRoleAndPermission();
@@ -69,14 +70,15 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 		rrm.setRoleId(role.getId());
 		rrm.setPermissionId(permissions.get(i).getId());
 		rrm.setCreateDate(nowDate);
-		rrpm.insert(rrm);
+		rrpm.insertSelective(rrm);
 	    }
 	    Role normal = new Role();
 	    normal.setId(UUID.randomUUID().toString());
 	    normal.setName(Constants.ROLE_NAME_NORMAL_DEFAULT);
 	    normal.setDescription("注册用户默认权限");
 	    normal.setCreateDate(nowDate);
-	    rm.insert(normal);
+	    rm.insertSelective(normal);
+//	    rm.insert(normal);
 	    List<String> npns = new ArrayList<String>();
 	    npns.add("自管理");
 	    for (int i = 0; i < permissions.size(); i++) {
@@ -86,7 +88,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 		    rrm.setRoleId(normal.getId());
 		    rrm.setPermissionId(permissions.get(i).getId());
 		    rrm.setCreateDate(nowDate);
-		    rrpm.insert(rrm);
+		    rrpm.insertSelective(rrm);
 		}
 	    }
 	}
@@ -95,7 +97,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
     @Override
     public List<Role> getRolesByUserId(String id) {
 	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
-	rure.or().andUserIdEqualTo(id);
+	rure.or().andUserIdEqualTo(id).andDelFlagEqualTo(false);
 	List<RelationUserAndRole> relations = rurm.selectByExample(rure);
 	List<String> roleIds = new ArrayList<String>();
 	for (int i = 0; i < relations.size(); i++) {
@@ -106,7 +108,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	}
 	RoleExample re = new RoleExample();
 	if(!roleIds.isEmpty()){
-		re.or().andIdIn(roleIds);
+		re.or().andIdIn(roleIds).andDelFlagEqualTo(false);
 	}
 	return rm.selectByExample(re);
     }

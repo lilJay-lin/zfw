@@ -32,5 +32,7 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
     public String updateCurUserHeadImgUrl(String headImgUrl);
 
     public User getCurUser();
+    
+    public boolean isLogined();
 
 }

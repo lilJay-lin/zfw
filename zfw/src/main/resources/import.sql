@@ -6,7 +6,8 @@ description varchar(200),
 creater varchar(50),
 last_editor varchar(50),
 create_date date,
-update_date date
+update_date date,
+del_flag tinyint(1) default false NOT NULL
 );
 
 drop table if exists tbl_user;
@@ -18,12 +19,13 @@ phone_num varchar(50) unique,
 head_img_url varchar(200),
 password varchar(50),
 salt varchar(50),
-locked tinyint(1),
+locked tinyint(1) default false,
 description varchar(200),
 creater varchar(50),
 last_editor varchar(50),
 create_date date,
-update_date date
+update_date date,
+del_flag tinyint(1) default false
 );
 
 drop table if exists tbl_permission;
@@ -46,7 +48,8 @@ role_id varchar(50),
 creater varchar(50),
 last_editor varchar(50),
 create_date date,
-update_date date
+update_date date,
+del_flag tinyint(1) default false
 );
 
 
@@ -69,7 +72,8 @@ real_estate_project_id varchar(50),
 creater varchar(50),
 last_editor varchar(50),
 create_date date,
-update_date date
+update_date date,
+del_flag tinyint(1) default false
 );
 
 
@@ -242,5 +246,6 @@ description varchar(200),
 creater varchar(50),
 lastEditor varchar(50),
 createDate date,
-updateDate date
+updateDate date,
+del_flag tinyint(1) default false
 );

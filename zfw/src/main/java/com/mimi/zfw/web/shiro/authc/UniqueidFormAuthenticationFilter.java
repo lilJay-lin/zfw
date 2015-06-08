@@ -13,6 +13,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mimi.zfw.Constants;
 import com.mimi.zfw.util.RSAUtil;
 import com.mimi.zfw.web.captcha.GeetestLib;
 import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
@@ -91,7 +92,8 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 	    e.printStackTrace();
 	}
 	String captcha = getCaptcha(request);
-	String loginType = getLoginType(request);
+//	String loginType = getLoginType(request);
+	String loginType = Constants.LOGIN_TYPE_PWD;
 	boolean rememberMe = isRememberMe(request);
 	String host = getHost(request);
 	return new UniqueidUsernamePasswordToken(username,

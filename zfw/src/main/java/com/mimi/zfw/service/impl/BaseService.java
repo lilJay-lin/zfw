@@ -16,20 +16,20 @@ public abstract class BaseService<M extends IBaseModel<PK>, E extends BaseExampl
     public abstract void setBaseDao(IBaseDao<M, E, PK> baseDao);
 
     public M save(M model) {
-	baseDao.insert(model);
+	baseDao.insertSelective(model);
 	return model;
     }
 
     public void saveOrUpdate(M model) {
 	if(exists(model.getId())){
-	    baseDao.insert(model);
+	    baseDao.insertSelective(model);
 	}else{
-	    baseDao.updateByPrimaryKey(model);
+	    baseDao.updateByPrimaryKeySelective(model);
 	}
     }
 
     public void update(M model) {
-	baseDao.updateByPrimaryKey(model);
+	baseDao.updateByPrimaryKeySelective(model);
     }
 
     public void delete(PK id) {
@@ -62,7 +62,7 @@ public abstract class BaseService<M extends IBaseModel<PK>, E extends BaseExampl
 
     public List<M> saveBatch(List<M> modelList) {
 	for(int i=0;i<modelList.size();i++){
-	    baseDao.insert(modelList.get(i));
+	    baseDao.insertSelective(modelList.get(i));
 	}
 	return modelList;
     }
@@ -75,7 +75,7 @@ public abstract class BaseService<M extends IBaseModel<PK>, E extends BaseExampl
 
     public void updateBatch(List<M> modelList) {
 	for(int i=0;i<modelList.size();i++){
-	    baseDao.updateByPrimaryKey(modelList.get(i));
+	    baseDao.updateByPrimaryKeySelective(modelList.get(i));
 	}
     }
 
