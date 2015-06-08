@@ -46,7 +46,25 @@
 <%@include file="../inc/bottom.jsp" %>
 <script>
 $(function(){
+	function checkImgType(element){
+		   var filePath=$(element).val();
+		   var extStart=filePath.lastIndexOf(".");
+		   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
+		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"){
+			   return "图片限于png,gif,jpg格式";
+		   }else{
+				if(element.files[0].size>20*1024*1024){
+					return "图片最大支持20M";
+				}
+		   }
+		   return null;
+		}
 	$(':file').change(function(){
+		var errorStr = checkImgType(this);
+		if(errorStr){
+			alert(errorStr);
+			return;
+		}
 		$(".serImg").attr("style","margin-left:92px;width:45px; height:45px; background:url(${ctx}/assets/img/loading.gif) no-repeat left center;background-size:30px 30px;");
 		$(".multi_preview").attr("readonly","readonly");
 		
