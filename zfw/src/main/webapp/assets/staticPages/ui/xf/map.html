@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/RSA.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/BigInt.js"></script>
+<script type="text/javascript"
+	src="../../../tools/encryption/Barrett.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/md5.js"></script>
+<!-- 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script> -->
+	<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=44843934aa23b524f4456723fea8dbdf&v=1.0"></script>  
+</head>
+<body>
+	<div class="main">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">新房地图</div>
+			<div class="show_redrict head-icon">
+			<a href="javascript:spreadList();" class="ico-lp" id="open_conditionwrap" style="display: block;"><p class="ico-lp-text">过滤</p></a>
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="/xf/bj.html">新房</a></td>
+								<td width="24%"><a href="/esf/bj/">二手房</a></td>
+								<td width="24%"><a href="/zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+		<section class="whitebg newNav">
+			<div class="searchCriteria">
+				<ul id="criteriaList" class="criteriaList none">
+					<li class="spread ">
+						<p>
+							<span id="search_condition_region_default"
+								class="js-sift-condition" data-condition=""> 不限 </span><span
+								id="search_condition_region_vinicity" class="js-sift-condition"
+								data-condition="181:0"> 附近 </span> <span
+								class="js-sift-condition" data-condition="181:2402"
+								id="search_condition_region_2402"> 高新区 </span> <span
+								class="js-sift-condition" data-condition="181:2365"
+								id="search_condition_region_2365"> 云安县 </span> <span
+								class="js-sift-condition" data-condition="181:2364"
+								id="search_condition_region_2364"> 郁南县 </span> <span
+								class="js-sift-condition" data-condition="181:2363"
+								id="search_condition_region_2363"> 罗定市 </span> <span
+								class="js-sift-condition" data-condition="181:2362"
+								id="search_condition_region_2362"> 新兴县 </span> <span
+								class="js-sift-condition" data-condition="181:2361"
+								id="search_condition_region_2361"> 云城区 </span>
+						</p> <strong>区域</strong> <em class="arrowUp"></em>
+					</li>
+					<li class="">
+						<p>
+							<span id="search_condition_priceseg_default" class=""
+								data-condition=""> 不限 </span><span
+								id="search_condition_priceseg_default" class="hide"
+								data-condition=""> 不限 </span> <span class=""
+								data-condition="1:1999" id="search_condition_priceseg_1196">
+								2000以下 </span> <span class="" data-condition="2000:2999"
+								id="search_condition_priceseg_1197"> 2000-3000 </span> <span
+								class="" data-condition="3000:3999"
+								id="search_condition_priceseg_1198"> 3000-4000 </span> <span
+								class="" data-condition="4000:4999"
+								id="search_condition_priceseg_1199"> 4000-5000 </span> <span
+								class="" data-condition="5000:20000"
+								id="search_condition_priceseg_1200"> 5000以上 </span>
+						</p> <strong>价格</strong> <em class="arrowDown"></em>
+					</li>
+					<li class="">
+						<p>
+							<span class="js-sift-condition" data-condition="59"
+								id="search_condition_feature_59"> 小户型 </span><span
+								id="search_condition_feature_default" class="" data-condition="">
+								不限 </span> <span class="" data-condition="90"
+								id="search_condition_feature_90"> 打折优惠 </span> <span
+								class="hide" data-condition="59"
+								id="search_condition_feature_59"> 小户型 </span> <span class=""
+								data-condition="97" id="search_condition_feature_97"> 低总价
+							</span> <span class="" data-condition="96"
+								id="search_condition_feature_96"> 现房 </span> <span class=""
+								data-condition="88" id="search_condition_feature_88">
+								教育地产 </span> <span class="" data-condition="98"
+								id="search_condition_feature_98"> 品牌开发商 </span> <span class=""
+								data-condition="77" id="search_condition_feature_77">
+								地铁沿线 </span> <span class="" data-condition="111"
+								id="search_condition_feature_111"> 刚需房 </span> <span class=""
+								data-condition="94" id="search_condition_feature_94"> 婚房
+							</span> <span class="" data-condition="80"
+								id="search_condition_feature_80"> 花园洋房 </span> <span class=""
+								data-condition="112" id="search_condition_feature_112">
+								不限购 </span> <span class="" data-condition="60"
+								id="search_condition_feature_60"> loft </span> <span class=""
+								data-condition="95" id="search_condition_feature_95">
+								改善住宅 </span> <span class="" data-condition="82"
+								id="search_condition_feature_82"> 投资地产 </span> <span class=""
+								data-condition="71" id="search_condition_feature_71">
+								豪华社区 </span> <span class="" data-condition="75"
+								id="search_condition_feature_75"> 公园地产 </span> <span class=""
+								data-condition="72" id="search_condition_feature_72">
+								生态宜居 </span> <span class="" data-condition="74"
+								id="search_condition_feature_74"> 旅游地产 </span> <span class=""
+								data-condition="63" id="search_condition_feature_63">
+								水景地产 </span> <span class="" data-condition="113"
+								id="search_condition_feature_113"> 养老地产 </span>
+						</p> <strong>特色</strong> <em class="arrowDown"></em>
+					</li>
+					<li class="">
+						<p>
+							<span id="search_condition_housetype_default"
+								class="js-sift-condition" data-condition=""> 不限 </span> <span
+								class="js-sift-condition" data-condition="65"
+								id="search_condition_housetype_65"> 自住型商品房 </span> <span
+								class="js-sift-condition" data-condition="64"
+								id="search_condition_housetype_64"> 建筑综合体 </span> <span
+								class="js-sift-condition" data-condition="62"
+								id="search_condition_housetype_62"> 住宅 </span> <span
+								class="js-sift-condition" data-condition="61"
+								id="search_condition_housetype_61"> 限价房 </span> <span
+								class="js-sift-condition" data-condition="60"
+								id="search_condition_housetype_60"> 别墅 </span> <span
+								class="js-sift-condition" data-condition="45"
+								id="search_condition_housetype_45"> 商铺 </span> <span
+								class="js-sift-condition" data-condition="44"
+								id="search_condition_housetype_44"> 写字楼 </span> <span
+								class="js-sift-condition" data-condition="31"
+								id="search_condition_housetype_31"> 经济适用房 </span>
+						</p> <strong>类别</strong> <em class="arrowDown"></em>
+					</li>
+					<li class="">
+						<p>
+							<span id="search_condition_unit_default"
+								class="js-sift-condition" data-condition=""> 不限 </span> <span
+								class="js-sift-condition" data-condition="1"
+								id="search_condition_unit_1"> 一居 </span> <span
+								class="js-sift-condition" data-condition="2"
+								id="search_condition_unit_2"> 二居 </span> <span
+								class="js-sift-condition" data-condition="3"
+								id="search_condition_unit_3"> 三居 </span> <span
+								class="js-sift-condition" data-condition="4"
+								id="search_condition_unit_4"> 四居 </span> <span
+								class="js-sift-condition" data-condition="5"
+								id="search_condition_unit_5"> 五居 </span> <span
+								class="js-sift-condition" data-condition="6"
+								id="search_condition_unit_6"> 别墅 </span> <span
+								class="js-sift-condition" data-condition="7"
+								id="search_condition_unit_7"> 楼层平面图 </span> <span
+								class="js-sift-condition" data-condition="9"
+								id="search_condition_unit_9"> 六居 </span> <span
+								class="js-sift-condition" data-condition="11"
+								id="search_condition_unit_11"> 复式 </span> <span
+								class="js-sift-condition" data-condition="12"
+								id="search_condition_unit_12"> 排屋 </span> <span
+								class="js-sift-condition" data-condition="13"
+								id="search_condition_unit_13"> 跃层 </span> <span
+								class="js-sift-condition" data-condition="15"
+								id="search_condition_unit_15"> 开间 </span>
+						</p> <strong>户型</strong> <em class="arrowDown"></em>
+					</li>
+					<li class="">
+						<p>
+							<span id="search_condition_opendate_default"
+								onclick="return search_by_condition(this.id, '');"> 不限 </span> <span
+								class="js-sift-condition" data-condition="1"
+								id="search_condition_opendate_1"> 本月开盘 </span> <span
+								class="js-sift-condition" data-condition="2"
+								id="search_condition_opendate_2"> 下月开盘 </span> <span
+								class="js-sift-condition" data-condition="3"
+								id="search_condition_opendate_3"> 3月内开盘 </span> <span
+								class="js-sift-condition" data-condition="4"
+								id="search_condition_opendate_4"> 6月内开盘 </span> <span
+								class="js-sift-condition" data-condition="5"
+								id="search_condition_opendate_5"> 一年内开盘 </span>
+						</p> <strong>开盘</strong> <em class="arrowDown"></em>
+					</li>
+
+					<li class="">
+						<p>
+							<span class="js-selected">楼盘 </span> <span
+								class="js-sift-condition none" data-condition="1">楼盘 </span> <span
+								class="js-sift-condition" data-condition="2">户型</span>
+						</p> <strong>类型</strong>
+					</li>
+				</ul>
+
+			</div>
+		</section>
+			<div id="allmap" class="bmap"></div>
+	</div>
+</body>
+<script>
+$(function() {
+	initEvent();
+
+	$(window).resize(function() {
+		fitSize();
+	});
+	fitSize();
+	initMap();
+})
+
+	function fitSize() {
+		var bw = $("body").width();
+		if (bw > 640) {
+			bw = 640;
+		}
+		var bh = $("body").height();
+		$("#allmap").width(bw);
+		$("#allmap").height(bh-44);
+	}
+function initEvent() {
+	$("#criteriaList").children("li").children("em").click(function() {
+		spreadItem(this);
+	});
+	$("#criteriaList").children("li").children("p").children(
+			".js-sift-condition").click(function() {
+		selectItem(this);
+	})
+}
+	function hideOrOpenNav() {
+		var navObj = $(".newNav");
+		var shadow = $(".popShadow");
+		if (navObj.hasClass("none")) {
+			navObj.removeClass("none");
+			shadow.removeClass("none");
+		} else {
+			navObj.addClass("none");
+			shadow.addClass("none");
+		}
+	}
+	function spreadList() {
+		var obj = $("#criteriaList");
+		if(obj.hasClass("none")){
+			obj.removeClass("none");
+		}else{
+			obj.addClass("none");
+		}
+	}
+	function spreadItem(ele) {
+		var element = $(ele);
+		var li = element.parents("li:first");
+		if (element.hasClass("arrowDown")) {
+			element.removeClass("arrowDown");
+			element.addClass("arrowUp");
+			li.addClass("spread");
+		} else {
+			element.addClass("arrowDown");
+			element.removeClass("arrowUp");
+			li.removeClass("spread");
+		}
+	}
+	function selectItem(ele) {
+		var element = $(ele);
+		element.siblings(".js-sift-condition").removeClass("none");
+		element.addClass("none");
+		element.siblings(".js-selected").html(element.html());
+	}
+	
+	var reSearching = false;
+	function initMap(){
+		// 百度地图API功能
+		var mp = new BMap.Map("allmap");
+		mp.ondragend = function(){
+			reSearch();
+		};
+		mp.onzoomend = function(){
+			reSearch();
+		};
+// 		mp.centerAndZoom(new BMap.Point(116.3964,39.9093), 15);
+		mp.centerAndZoom(new BMap.Point(112.511736,23.082917), 15);
+// 		var ll = new BMap.LocalSearch(mp, {
+// 			renderOptions:{map: mp}
+// 		});
+		function reSearch(){
+			if(reSearching){
+				return;
+			}
+			reSearching = true;
+			var swPoint = mp.getBounds().getSouthWest();
+			var nePoint = mp.getBounds().getNorthEast();
+// 			var pStart = swPoint;
+// 			var pEnd = nePoint;
+// 			var bs = new BMap.Bounds(pStart,pEnd);   //自己规定范围
+// 			ll.searchInBounds("银行", bs);
+// 			44843934aa23b524f4456723fea8dbdf
+// 			url = "http://api.map.baidu.com/place/v2/search?q=饭店&region=北京&output=json&ak=E4805d16520de693a3fe707cdc962045";
+// 				$.ajax({
+// 					url : url,
+// 					dataType:'json',
+// // 					data:{params:params},
+// 					success: function(json){
+// 			 			alert(json);
+// 					},
+// 					error:function(e){
+// 					},
+// 					complete:function(e){
+// 						reSearching = false;
+// 					}
+// 				}); 
+// 			ll.search("公交车站");
+// 			alert(swPoint.lng+"_"+swPoint.lat +"_"+nePoint.lng+"_"+nePoint.lat);
+		}
+		// 复杂的自定义覆盖物
+	    function ComplexCustomOverlay(point, text, mouseoverText){
+	      this._point = point;
+	      this._text = text;
+	      this._overText = mouseoverText;
+	    }
+	    ComplexCustomOverlay.prototype = new BMap.Overlay();
+	    ComplexCustomOverlay.prototype.initialize = function(map){
+	      this._map = map;
+	      var div = this._div = document.createElement("div");
+	      div.style.position = "absolute";
+	      div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+// 	      div.style.backgroundColor = "#EE5D5B";
+// 	      div.style.border = "1px solid #BC3B3A";
+	      div.style.backgroundColor = "#63B8FF";
+	      div.style.border = "1px solid #60a0c3";
+	      div.style.color = "white";
+	      div.style.height = "18px";
+	      div.style.padding = "2px";
+	      div.style.lineHeight = "18px";
+	      div.style.whiteSpace = "nowrap";
+	      div.style.MozUserSelect = "none";
+	      div.style.fontSize = "12px"
+	      var span = this._span = document.createElement("span");
+	      div.appendChild(span);
+	      span.appendChild(document.createTextNode(this._text));      
+	      var that = this;
+
+	      var arrow = this._arrow = document.createElement("div");
+// 	      arrow.style.background = "url(http://map.baidu.com/fwmap/upload/r/map/fwmap/static/house/images/label.png) no-repeat";
+	      arrow.style.background = "url(../../../img/ui/icons/map_label.png) 0px -20px no-repeat";
+	      arrow.style.position = "absolute";
+	      arrow.style.width = "11px";
+	      arrow.style.height = "10px";
+	      arrow.style.top = "22px";
+	      arrow.style.left = "10px";
+	      arrow.style.overflow = "hidden";
+	      div.appendChild(arrow);
+	      
+// 	      div.onclick = function(){
+// 	    	  alert(that._overText);
+// 	      }
+// 	      div.touchEnd = function(){
+// 	    	  alert("sdf");
+// 	      }
+// 		  div.onmouseup = function(){
+// 			  alert("mouseup");
+// 		  }
+// 	      $(div).click(function(){
+// 	    	  alert(that._overText);
+// 	      })
+	     
+	      div.onclick = function(){
+// 	        this.style.backgroundColor = "#6BADCA";
+// 	        this.style.borderColor = "#0000ff";
+// 	        this.getElementsByTagName("span")[0].innerHTML = that._overText;
+// 	        arrow.style.backgroundPosition = "0px -20px";
+	    	  alert(that._overText);
+	      }
+
+// 	      div.onmouseout = function(){
+// 	        this.style.backgroundColor = "#EE5D5B";
+// 	        this.style.borderColor = "#BC3B3A";
+// 	        this.getElementsByTagName("span")[0].innerHTML = that._text;
+// 	        arrow.style.backgroundPosition = "0px 0px";
+// 	      }
+
+	      mp.getPanes().labelPane.appendChild(div);
+	      
+	      return div;
+	    }
+	    ComplexCustomOverlay.prototype.draw = function(){
+	      var map = this._map;
+	      var pixel = map.pointToOverlayPixel(this._point);
+	      this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
+	      this._div.style.top  = pixel.y - 30 + "px";
+	    }
+	    var txt = "敏捷城", mouseoverTxt = txt + " " + parseInt(Math.random() * 1000,10) + "套" ;
+// 	    112.475902,23.060233
+// 	    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(116.407845,39.914101), "银湖海岸城",mouseoverTxt);
+	    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(112.511736,23.082917), "敏捷城",mouseoverTxt);
+
+	    mp.addOverlay(myCompOverlay);
+	}
+	
+</script>
+</html>

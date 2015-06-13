@@ -4,12 +4,26 @@ ugify = require("gulp-uglify"),
 minify = require("gulp-minify-css"),
 concat = require("gulp-concat"),
 less = require("gulp-less"),
+autoprefixer = require('gulp-autoprefixer'),
 rename = require("gulp-rename");
 uglify = require("gulp-uglify");
 
+//gulp.task("build:test:css",function(){
+//	return gulp.src("./staticPages/less/mi/*.less")
+//	.pipe(less())
+//	.pipe(autoprefixer())
+//	.pipe(concat("mi.css"))
+//	.pipe(gulp.dest("./staticPages/css"))
+//	.pipe(minify())
+//	.pipe(gulp.dest("./css"));
+//});
+
+
 gulp.task("build:ui:css",function(){
+	
 	return gulp.src("./staticPages/less/ui/*.less")
 	.pipe(less())
+	.pipe(autoprefixer())
 	.pipe(concat("ui.css"))
 	.pipe(gulp.dest("./staticPages/css"))
 	.pipe(minify())
@@ -19,6 +33,7 @@ gulp.task("build:ui:css",function(){
 gulp.task("build:mi:css",function(){
 	return gulp.src("./staticPages/less/mi/*.less")
 	.pipe(less())
+	.pipe(autoprefixer())
 	.pipe(concat("mi.css"))
 	.pipe(gulp.dest("./staticPages/css"))
 	.pipe(minify())
@@ -28,6 +43,7 @@ gulp.task("build:mi:css",function(){
 gulp.task("build:common:css",function(){
 	return gulp.src("./staticPages/less/*.less")
 	.pipe(less())
+	.pipe(autoprefixer())
 	.pipe(concat("common.css"))
 	.pipe(gulp.dest("./staticPages/css"))
 	.pipe(minify())
@@ -56,6 +72,7 @@ gulp.task("build:common:js",function(){
 });
 
 gulp.task("default",function(){
+//	gulp.run("build:test:css");
 	gulp.run("build:ui:css");
 	gulp.watch("./staticPages/less/ui/*.less",function(){
 		gulp.run("build:ui:css");

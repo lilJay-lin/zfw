@@ -164,6 +164,8 @@ public class APIHttpClient {
     
     public static void main(String[] args){
     	String url = "http://api.map.baidu.com/geosearch/v3/nearby?ak=44843934aa23b524f4456723fea8dbdf&geotable_id=92089&location=112.479,23.066&radius=2000";
-    	APIHttpClient.httpClientPost(url);
+    	url = "http://api.map.baidu.com/place/v2/search?q=饭店&region=肇庆&output=json&ak=44843934aa23b524f4456723fea8dbdf";
+//    	url = "http://api.map.baidu.com/place/v2/search?q=%E9%A5%AD%E5%BA%97&region=%E5%8C%97%E4%BA%AC&output=json&ak=44843934aa23b524f4456723fea8dbdf";
+    	System.out.println(APIHttpClient.httpClientPost(url));
     }
 }

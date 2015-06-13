@@ -299,7 +299,7 @@
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					
 					<scanTargets>
-						<scanTarget>src/main/webapp/WEB-INF</scanTarget>
+<!-- 						<scanTarget>src/main/webapp/WEB-INF</scanTarget> -->
 						<scanTarget>src/main/webapp/WEB-INF/web.xml</scanTarget>
 						<scanTarget>src/main/resource</scanTarget>
 					</scanTargets>
