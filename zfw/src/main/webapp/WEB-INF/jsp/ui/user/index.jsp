@@ -7,7 +7,6 @@
 </head>
 <body>
 	<div class="main whitebg">
-		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
 		<header>
 			<div class="left">
 				<a href="${ctx }/index" class="hLogo"></a>
@@ -20,32 +19,7 @@
 				</a>
 			</div>
 		</header>
-		<div class="newNav none">
-			<div class="nav-box mt10">
-				<div class="nav-tit">
-					<a href="${ctx }/user"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
-				</div>
-				<div class="nav-menu">
-					<table width="100%" border="0" cellpadding="0" cellspacing="0">
-						<tbody>
-							<tr>
-								<td width="24%"><a href="${ctx }/index">首页</a></td>
-								<td width="24%"><a href="/xf/bj.html">新房</a></td>
-								<td width="24%"><a href="/esf/bj/">二手房</a></td>
-								<td width="24%"><a href="/zf/bj/">租房</a></td>
-							</tr>
-							<tr>
-								<td><a href="/jiaju/bj.html">商铺</a></td>
-								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
-								<td><a href="/jiaju/bj.html">仓库</a></td>
-								<td><a href="/zixun/bj.html#tt">厂房</a></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-		</div>
+		<%@include file="../inc/nav.jsp" %>
 		<div class="personCenter">
 			<div class="pc-banner">
 				<shiro:guest>
@@ -109,17 +83,4 @@
 	</div>
 </body>
 <%@include file="../inc/bottom.jsp" %>
-<script>
-	function hideOrOpenNav() {
-		var navObj = $(".newNav");
-		var shadow = $(".popShadow");
-		if (navObj.hasClass("none")) {
-			navObj.removeClass("none");
-			shadow.removeClass("none");
-		} else {
-			navObj.addClass("none");
-			shadow.addClass("none");
-		}
-	}
-</script>
 </html>

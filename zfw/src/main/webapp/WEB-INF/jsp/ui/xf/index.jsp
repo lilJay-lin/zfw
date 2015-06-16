@@ -1,23 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="../inc/top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="author" content="">
-<meta name="keywords" content="">
-<meta name="viewport"
-	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Insert title here</title>
-
-<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
-
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<%@include file="../inc/header.jsp" %>
 </head>
 <body>
 	<div class="main">
-		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
 		<header>
 			<div class="left">
-				<a href="../index.html" class="hLogo"></a>
+				<a href="${ctx }/index" class="hLogo"></a>
 			</div>
 			<div class="cent">新房</div>
 			<div class="show_redrict head-icon">
@@ -27,39 +19,13 @@
 				</a>
 			</div>
 		</header>
-		<div class="newNav none">
-			<div class="nav-box mt10">
-				<div class="nav-tit">
-					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
-				</div>
-				<div class="nav-menu">
-					<table width="100%" border="0" cellpadding="0" cellspacing="0">
-						<tbody>
-							<tr>
-								<td width="24%"><a href="../index.html">首页</a></td>
-								<td width="24%"><a href="/xf/bj.html">新房</a></td>
-								<td width="24%"><a href="/esf/bj/">二手房</a></td>
-								<td width="24%"><a href="/zf/bj/">租房</a></td>
-							</tr>
-							<tr>
-								<td><a href="/jiaju/bj.html">商铺</a></td>
-								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
-								<td><a href="/jiaju/bj.html">仓库</a></td>
-								<td><a href="/zixun/bj.html#tt">厂房</a></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-		</div>
-
+		<%@include file="../inc/nav.jsp" %>
 		<form class="search0620_new flexbox" name="wapSearchForm" action=""
 			onsubmit="return false;" method="get" autocomplete="off">
 			<div class="searbox_new">
 				<div class="ipt" id="wapdsy_D01_09">
 					<input id="S_searchtext" type="search" name="q" value=""
-						placeholder="楼盘名/地名/开发商等" autocomplete="off"><a
+						placeholder="楼盘名/地名" autocomplete="off"><a
 						href="javascript:;" class="off" style="display: none;"></a>
 				</div>
 				<a href="javascript:;" id="wapdsy_D01_18" class="btn" rel="nofollow"><i></i></a>
@@ -228,16 +194,12 @@
 		<div id="drag" class="cenBtn">
 			<a class="draginner" href="javascript:void(0);">查看更多楼盘</a>
 		</div>
-		<footer class="bdt mt10">
-			<p class="pdY10 f12">© www.h0758.net</p>
-		</footer>
-		<a id="showgohead" class="backTopBtn none" href="javascript:void(0)" onclick="gotohead()">&nbsp;</a>
+		<%@include file="../inc/footer.jsp" %>
+		<%@include file="../inc/goHead.jsp" %>
 	</div>
 </body>
+<%@include file="../inc/bottom.jsp" %>
 <script>
-
-
-
 var total=10;
 var allowLoad = true;
 var curp = 2;
@@ -265,11 +227,6 @@ var curp = 2;
 		//滚动到页面底部时，自动加载更多
 		var scrollFlag=false;
 		window.addEventListener("scroll",function scrollHandler(){
-
-			var backTopBtn = $("#showgohead");
-			if(backTopBtn[0]){
-				window.pageYOffset>window.innerHeight*2-60?backTopBtn.removeClass("none"):backTopBtn.addClass("none");
-			}
 			
 			var scrollh = $(document).height();
 			var bua = navigator.userAgent.toLowerCase();
@@ -359,10 +316,6 @@ var curp = 2;
 				allowLoad = false;
 			}
 		},1000);
-	}
-
-	function gotohead(){
-		window.scrollTo(0, 1);
 	}
 </script>
 </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script>
+<!-- 	<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=44843934aa23b524f4456723fea8dbdf&v=1.0"></script>   -->
+</head>
+<body>
+<div id="allmap" style="width:1000px;height:600px" ></div>
+</body>
+</html>
+<script>
+var reSearching = false;
+	var mapLabelList = new Array();
+	initMap();
+function initMap(){
+	// 百度地图API功能
+	var mp = new BMap.Map("allmap");
+	mp.ondragend = function(){
+		if(mapLabelList.length>0){
+			alert("____"+mapLabelList[0].point.lng);
+		}
+// 		reSearch();
+	};
+	mp.enableScrollWheelZoom(true);
+	var top_left_navigation = new BMap.NavigationControl(); 
+	var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP]});
+	var overView = new BMap.OverviewMapControl();
+	var overViewOpen = new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
+
+	mp.addControl(mapType1);          //2D图，卫星图
+	mp.addControl(overView);          //添加默认缩略地图控件
+	mp.addControl(overViewOpen);  
+	mp.addControl(top_left_navigation);     
+	mp.addEventListener("click",function(e){
+// 		var mapLabelList = mp.getOverlays();
+// 		if(mapLabelList.length>0){
+// 			alert(e.point.lng + "," + e.point.lat+"_"+mapLabelList.length);
+// 			return;
+// 		}
+// 	    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(e.point.lng,e.point.lat), "敏捷城",mouseoverTxt);
+// 	    mp.addOverlay(myCompOverlay);
+// 	    mapLabelList.push(myCompOverlay);
+		addPoint(e.point.lng,e.point.lat);
+	});
+	
+	function addPoint(lng,lat){
+		if(mapLabelList.length>0){
+			for(var i=0;i<mapLabelList.length;i++){
+				mp.removeOverlay(mapLabelList[i]);
+			}
+			mapLabelList = new Array();
+		}
+		var point = new BMap.Point(lng,lat);
+		var marker = new BMap.Marker(point);// 创建标注
+		marker.enableDragging();
+		mp.addOverlay(marker);        
+		mapLabelList.push(marker);
+// 		var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(lng,lat), "敏捷城",mouseoverTxt);
+// 	    mp.addOverlay(myCompOverlay);
+// 		    mapLabelList.push(myCompOverlay);
+	}
+//		mp.centerAndZoom(new BMap.Point(116.3964,39.9093), 15);
+	mp.centerAndZoom(new BMap.Point(112.511736,23.082917), 15);
+}
+</script>

@@ -1,24 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="../inc/top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport"
-	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Insert title here</title>
-<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
-
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-<script src="../../../js/ui/common.min.js"></script>
+<%@include file="../inc/header.jsp" %>
 <script type="text/javascript"
-	src="../../../js/jquery.event.drag-1.5.min.js"></script>
-<script src="../../../js/jquery.touchSlider.js"></script>
+	src="${ctx }/assets/js/jquery.event.drag-1.5.min.js"></script>
+<script src="${ctx }/assets/js/jquery.touchSlider.js"></script>
 </head>
 <body>
 	<div class="main">
-		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
 		<header>
 			<div class="left">
-				<a href="../index.html" class="hLogo"></a>
+				<a href="${ctx }/index" class="hLogo"></a>
 			</div>
 			<div class="cent">楼盘详情</div>
 			<div class="show_redrict head-icon">
@@ -28,31 +22,7 @@
 				</a>
 			</div>
 		</header>
-		<div class="newNav none">
-			<div class="nav-box mt10">
-				<div class="nav-tit">
-					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
-				</div>
-				<div class="nav-menu">
-					<table width="100%" border="0" cellpadding="0" cellspacing="0">
-						<tbody>
-							<tr>
-								<td width="24%"><a href="../index.html">首页</a></td>
-								<td width="24%"><a href="../xf/index.html">新房</a></td>
-								<td width="24%"><a href="../esf/bj/">二手房</a></td>
-								<td width="24%"><a href="../zf/bj/">租房</a></td>
-							</tr>
-							<tr>
-								<td><a href="/jiaju/bj.html">商铺</a></td>
-								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
-								<td><a href="/jiaju/bj.html">仓库</a></td>
-								<td><a href="/zixun/bj.html#tt">厂房</a></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		<%@include file="../inc/nav.jsp" %>
 
 		<div class="imgTouchSlider">
 			<div class="main_image">
@@ -443,12 +413,11 @@
 		<div id="drag" class="cenBtn">
 			<a class="draginner" href="javascript:void(0);">查看更多资讯</a>
 		</div>
-		<footer class="mt10 bdt">
-		<p class="pdY10 f12">© www.h0758.net</p>
-	</footer>
-		<a id="showgohead" class="backTopBtn none" href="javascript:void(0)" onclick="gotohead()">&nbsp;</a>
+		<%@include file="../inc/footer.jsp" %>
+		<%@include file="../inc/goHead.jsp" %>
 	</div>
 </body>
+<%@include file="../inc/bottom.jsp" %>
 <script>
 var total=2;
 var allowLoad = true;
@@ -475,11 +444,6 @@ var curp = 1;
 		//滚动到页面底部时，自动加载更多
 		var scrollFlag=false;
 		window.addEventListener("scroll",function scrollHandler(){
-
-			var backTopBtn = $("#showgohead");
-			if(backTopBtn[0]){
-				window.pageYOffset>window.innerHeight*2-60?backTopBtn.removeClass("none"):backTopBtn.addClass("none");
-			}
 			
 			var scrollh = $(document).height();
 			var bua = navigator.userAgent.toLowerCase();
@@ -585,8 +549,5 @@ var curp = 1;
 		},1000);
 	}
 
-	function gotohead(){
-		window.scrollTo(0, 1);
-	}
 </script>
 </html>

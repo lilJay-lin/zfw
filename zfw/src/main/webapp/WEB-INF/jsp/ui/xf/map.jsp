@@ -1,31 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="../inc/top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="author" content="">
-<meta name="keywords" content="">
-<meta name="viewport"
-	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Insert title here</title>
-
-<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
-
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<%@include file="../inc/header.jsp" %>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script>
-<!-- 	<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=44843934aa23b524f4456723fea8dbdf&v=1.0"></script>   -->
-<!-- <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script> -->
-<!-- 	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script> -->
 </head>
 <body>
 	<div class="main">
-		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
 		<header>
 			<div class="left">
-				<a href="../index.html" class="hLogo"></a>
+				<a href="${ctx }/index" class="hLogo"></a>
 			</div>
 			<div class="cent">新房地图</div>
 			<div class="show_redrict head-icon">
-<!-- 			<a href="javascript:spreadList();" class="ico-lp" id="open_conditionwrap" style="display: block;"><p class="ico-lp-text">过滤</p></a> -->
 			<a href="javascript:spreadList();" id="open_conditionwrap" style="display: block;"><div class="ico-lp" ><i></i><p class="ico-lp-text">过滤</p></div></a>
 				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
 					onclick="hideOrOpenNav()"> <span><i></i>
@@ -33,6 +21,7 @@
 				</a>
 			</div>
 		</header>
+		<%@include file="../inc/nav.jsp" %>
 		<div id="newNav" class="newNav none">
 			<div class="nav-box mt10">
 				<div class="nav-tit">
@@ -135,6 +124,7 @@
 			<div id="pos" class="map-pos"></div>
 	</div>
 </body>
+<%@include file="../inc/bottom.jsp" %>
 <script>
 $(function() {
 	initEvent();

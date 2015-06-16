@@ -4,3 +4,4 @@
 <meta name="keywords" content="">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <link href="${ctx }/assets/css/ui.css" rel="stylesheet" type="text/css" />
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>

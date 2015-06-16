@@ -153,12 +153,13 @@
 				/assets/** = anon
                 /public/** = anon
 				/user/register = anon
-				/mi/user/login = authc
                 /user/login = authc
                 /user/logout = logout
+                /user/** = authc
+				/mi/user/login = authc
                 /mi/** = perms["user:mi"]
                 /mi = perms["user:mi"]
-                /** = authc
+                /** = anon
             </value>
         </property>
     </bean>
