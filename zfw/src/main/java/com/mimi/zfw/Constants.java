@@ -62,4 +62,50 @@ public class Constants {
 	public static final String SMOOTH_CAPTCHA_ERROR = "滑动验证码错误";
 	
 	public static final String HEAD_IMG_DEFAULT_URL = "/assets/img/ui/logo.jpg";
+	
+	
+	public static final String BUILDING_TYPE_LDDBS = "类独栋别墅";
+	public static final String BUILDING_TYPE_JZZHT = "建筑综合体";
+	public static final String BUILDING_TYPE_CGC = "超高层";
+	public static final String BUILDING_TYPE_GC = "高层";
+	public static final String BUILDING_TYPE_XGC = "小高层";
+	public static final String BUILDING_TYPE_DUOC = "多层";
+	public static final String BUILDING_TYPE_DIC = "底层";
+	public static final String BUILDING_TYPE_DPBS = "叠排别墅";
+	public static final String BUILDING_TYPE_LPBS = "联排别墅";
+	public static final String BUILDING_TYPE_SPBS = "双拼别墅";
+	public static final String BUILDING_TYPE_DDBS = "独栋别墅";
+	public static final String BUILDING_TYPE_BTJH = "板塔结合";
+	public static final String BUILDING_TYPE_BL = "板楼";
+	public static final String BUILDING_TYPE_TL = "塔楼";
+	
+	public static final String DECORATION_STATUS_MP = "毛坯";
+	public static final String DECORATION_STATUS_JD = "简单装修";
+	public static final String DECORATION_STATUS_J = "精装修";
+	public static final String DECORATION_STATUS_HH = "豪华装修";
+
+	public static final String PROPERTY_TYPE_ZZXSPF = "自住型商品房";
+	public static final String PROPERTY_TYPE_JZZHT = "建筑综合体";
+	public static final String PROPERTY_TYPE_ZZ = "住宅";
+	public static final String PROPERTY_TYPE_XJF = "限价房";
+	public static final String PROPERTY_TYPE_BS = "别墅";
+	public static final String PROPERTY_TYPE_SP = "商铺";
+	public static final String PROPERTY_TYPE_XZL = "写字楼";
+	public static final String PROPERTY_TYPE_JJSYF = "经济适用房";
+	
+	public static final String REGION_CD = "城东";
+	public static final String REGION_CZ = "城中";
+	public static final String REGION_CC = "城西";
+	public static final String REGION_BL = "北岭";
+	public static final String REGION_DH = "鼎湖";
+	public static final String REGION_GY = "高要";
+	public static final String REGION_DW = "大旺";
+	public static final String REGION_SH = "四会";
+	public static final String REGION_DQ = "德庆";
+	public static final String REGION_GN = "广宁";
+	public static final String REGION_FK = "封开";
+	
+	public static final String SALE_STATUS_ZS = "在售";
+	public static final String SALE_STATUS_DS = "待售";
+	public static final String SALE_STATUS_SW = "售完";
 }

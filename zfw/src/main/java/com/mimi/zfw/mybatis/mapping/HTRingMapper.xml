@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mimi.zfw.mybatis.dao.RoleMapper" >
-  <resultMap id="BaseResultMap" type="com.mimi.zfw.mybatis.pojo.Role" >
+<mapper namespace="com.mimi.zfw.mybatis.dao.HTRingMapper" >
+  <resultMap id="BaseResultMap" type="com.mimi.zfw.mybatis.pojo.HTRing" >
     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="house_type_id" property="houseTypeId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="content_url" property="contentUrl" jdbcType="VARCHAR" />
+    <result column="pre_image_url" property="preImageUrl" jdbcType="VARCHAR" />
     <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
@@ -70,15 +73,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, description, creater, last_editor, create_date, update_date, del_flag
+    id, house_type_id, name, description, content_url, pre_image_url, creater, last_editor, 
+    create_date, update_date, del_flag
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.RoleExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.HTRingExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tbl_role
+    from tbl_ht_ring_display
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,38 +96,49 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tbl_role
+    from tbl_ht_ring_display
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tbl_role
+    delete from tbl_ht_ring_display
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mimi.zfw.mybatis.pojo.RoleExample" >
-    delete from tbl_role
+  <delete id="deleteByExample" parameterType="com.mimi.zfw.mybatis.pojo.HTRingExample" >
+    delete from tbl_ht_ring_display
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.Role" >
-    insert into tbl_role (id, name, description, 
+  <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.HTRing" >
+    insert into tbl_ht_ring_display (id, house_type_id, name, 
+      description, content_url, pre_image_url, 
       creater, last_editor, create_date, 
       update_date, del_flag)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{houseTypeId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{contentUrl,jdbcType=VARCHAR}, #{preImageUrl,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.Role" >
-    insert into tbl_role
+  <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.HTRing" >
+    insert into tbl_ht_ring_display
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="houseTypeId != null" >
+        house_type_id,
       </if>
       <if test="name != null" >
         name,
       </if>
       <if test="description != null" >
         description,
+      </if>
+      <if test="contentUrl != null" >
+        content_url,
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url,
       </if>
       <if test="creater != null" >
         creater,
@@ -145,11 +160,20 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
+      <if test="houseTypeId != null" >
+        #{houseTypeId,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contentUrl != null" >
+        #{contentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="preImageUrl != null" >
+        #{preImageUrl,jdbcType=VARCHAR},
       </if>
       <if test="creater != null" >
         #{creater,jdbcType=VARCHAR},
@@ -168,23 +192,32 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.mimi.zfw.mybatis.pojo.RoleExample" resultType="java.lang.Integer" >
-    select count(*) from tbl_role
+  <select id="countByExample" parameterType="com.mimi.zfw.mybatis.pojo.HTRingExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_ht_ring_display
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tbl_role
+    update tbl_ht_ring_display
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseTypeId != null" >
+        house_type_id = #{record.houseTypeId,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.description != null" >
         description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contentUrl != null" >
+        content_url = #{record.contentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preImageUrl != null" >
+        pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.creater != null" >
         creater = #{record.creater,jdbcType=VARCHAR},
@@ -207,10 +240,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tbl_role
+    update tbl_ht_ring_display
     set id = #{record.id,jdbcType=VARCHAR},
+      house_type_id = #{record.houseTypeId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
+      content_url = #{record.contentUrl,jdbcType=VARCHAR},
+      pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       last_editor = #{record.lastEditor,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=DATE},
@@ -220,14 +256,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mimi.zfw.mybatis.pojo.Role" >
-    update tbl_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.mimi.zfw.mybatis.pojo.HTRing" >
+    update tbl_ht_ring_display
     <set >
+      <if test="houseTypeId != null" >
+        house_type_id = #{houseTypeId,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contentUrl != null" >
+        content_url = #{contentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
       </if>
       <if test="creater != null" >
         creater = #{creater,jdbcType=VARCHAR},
@@ -247,10 +292,13 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mimi.zfw.mybatis.pojo.Role" >
-    update tbl_role
-    set name = #{name,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.mimi.zfw.mybatis.pojo.HTRing" >
+    update tbl_ht_ring_display
+    set house_type_id = #{houseTypeId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
+      content_url = #{contentUrl,jdbcType=VARCHAR},
+      pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=VARCHAR},
       last_editor = #{lastEditor,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},

@@ -1,29 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="../inc/top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport"
-	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Insert title here</title>
-<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
-
-<!-- Core CSS file -->
-<link rel="stylesheet" href="../../../tools/photoswipe/photoswipe.css">
-
-<!-- Skin CSS file (styling of UI - buttons, caption, etc.)
-     In the folder of skin CSS file there are also:
-     - .png and .svg icons sprite, 
-     - preloader.gif (for browsers that do not support CSS animations) -->
-<link rel="stylesheet"
-	href="../../../tools/photoswipe/default-skin/default-skin.css">
-
-<!-- Core JS file -->
-<script src="../../../tools/photoswipe/photoswipe.min.js"></script>
-
-<!-- UI JS file -->
-<script src="../../../tools/photoswipe/photoswipe-ui-default.min.js"></script>
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-<script src="../../../tools/lazyload/jquery.lazyload.min.js"></script>
+<%@include file="../inc/header.jsp" %>
+<link rel="stylesheet" href="${ctx }/assets/tools/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="${ctx }/assets/tools/photoswipe/default-skin/default-skin.css">
+<script src="${ctx }/assets/tools/photoswipe/photoswipe.min.js"></script>
+<script src="${ctx }/assets/tools/photoswipe/photoswipe-ui-default.min.js"></script>
+<script src="${ctx }/assets/tools/lazyload/jquery.lazyload.min.js"></script>
 </head>
 <body>
 	<div class="main">
@@ -36,107 +21,62 @@
 		</header>
 		<div id="container" class="allPics">
 			<div class="picbox">
-				<h3>视&nbsp;频</h3>
-				<div class="gallery" itemscope
-					itemtype="http://schema.org/ImageGallery">
-
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm3.staticflickr.com/2567/5697107145_a4c2eaa0cd_o.jpg"
-							itemprop="contentUrl" data-size="1024x1024" data-type="video"> <img
-							class="lazy" data-original="https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 1</figcaption>
-					</figure>
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"
-							itemprop="contentUrl" data-size="964x1024" data-type="video"> <img
-							class="lazy" data-original="https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 2</figcaption>
-					</figure>
-
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg"
-							itemprop="contentUrl" data-size="1024x683" data-type="video"> <img
-							class="lazy" data-original="https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 3</figcaption>
-					</figure>
-
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg"
-							itemprop="contentUrl" data-size="1024x768" data-type="video"> <img
-							class="lazy" data-original="https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 4</figcaption>
-					</figure>
-
-
-				</div>
-
-
-				<h3>实景图</h3>
-
-				<div class="gallery" itemscope
-					itemtype="http://schema.org/ImageGallery">
-
-
-
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"
-							itemprop="contentUrl" data-size="964x1024"> <img
-							class="lazy" data-original="https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 2.1</figcaption>
-					</figure>
-
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg"
-							itemprop="contentUrl" data-size="1024x683"> <img
-							class="lazy" data-original="https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 2.2</figcaption>
-					</figure>
-
-					<figure itemprop="associatedMedia" itemscope
-						itemtype="http://schema.org/ImageObject">
-						<a
-							href="https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg"
-							itemprop="contentUrl" data-size="1024x768"> <img
-							class="lazy" data-original="https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg" src="../../../img/loading.gif"
-							itemprop="thumbnail" alt="Image description" />
-						</a>
-						<figcaption itemprop="caption description">Image
-							caption 2.3</figcaption>
-					</figure>
-
-
-				</div>
-
+				<c:if test="${images != null and fn:length(images) != 0 }">
+					<h3>图&nbsp;册</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${images}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.contentUrl }" data-type="image"> <img
+								class="lazy" data-original="${fn:replace(t.contentUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${panos != null and fn:length(panos) != 0 }">
+					<h3>全&nbsp;景</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${panos}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.preImageUrl }" data-type="pano" content-url="${t.contentUrl }"> <img
+								class="lazy" data-original="${fn:replace(t.preImageUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${rings != null and fn:length(rings) != 0 }">
+					<h3>三&nbsp;维</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${rings}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.preImageUrl }" data-type="ring" content-url="${t.contentUrl }"> <img
+								class="lazy" data-original="${fn:replace(t.preImageUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${videos != null and fn:length(videos) != 0 }">
+					<h3>三&nbsp;维</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${videos}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.preImageUrl }" data-type="video" content-url="${t.contentUrl }"> <img
+								class="lazy" data-original="${fn:replace(t.preImageUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
 			</div>
 		</div>
 
@@ -159,6 +99,7 @@
 					<div class="pswp__item"></div>
 				</div>
         		<a href="http://www.baidu.com" class="playBtn none"></a>
+        		<a href="http://www.baidu.com" class="play360Btn none"></a>
 
 				<!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
 				<div class="pswp__ui pswp__ui--hidden">
@@ -214,7 +155,7 @@
 		// parse slide data (url, title, size ...) from DOM elements 
 		// (children of gallerySelector)
 		var parseThumbnailElements = function(el) {
-			var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], figureEl, linkEl, size, item,type;
+			var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], figureEl, linkEl, size, item,type,contentUrl;
 
 			for (var i = 0; i < numNodes; i++) {
 
@@ -227,18 +168,16 @@
 
 				linkEl = figureEl.children[0]; // <a> element
 
-// 				size = linkEl.getAttribute('data-size').split('x');
 				type = linkEl.getAttribute('data-type');
+				contentUrl = linkEl.getAttribute('content-url');
 
 				// create slide object
 				item = {
 						src : linkEl.getAttribute('href'),
-						videoUrl:type,
+						type:type,
+						contentUrl:contentUrl,
 						w:0,
 						h:0
-// 					src : linkEl.getAttribute('href'),
-// 					w : parseInt(size[0], 10),
-// 					h : parseInt(size[1], 10)
 				};
 
 				if (figureEl.children.length > 1) {
@@ -408,16 +347,20 @@
 			});
 			gallery.listen('afterChange', function() {
 				var item = gallery.currItem;
-				if (item.videoUrl) {
+				$(".playBtn").addClass("none");
+				$(".play360Btn").addClass("none");
+				if (item.type=="pano" || item.type=="ring") {
+					$(".play360Btn").removeClass("none");
+					$(".play360Btn").attr("href", item.contentUrl);
+				} else if(item.type=="video"){
 					$(".playBtn").removeClass("none");
-					$(".playBtn").attr("href", item.videoUrl);
-				} else {
-					$(".playBtn").addClass("none");
+					$(".playBtn").attr("href", item.contentUrl);
 				}
 			});
 
 			gallery.listen('close', function() {
 				$(".playBtn").addClass("none");
+				$(".play360Btn").addClass("none");
 			});
 			gallery.init();
 		};

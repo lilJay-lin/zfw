@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.service.IPermissionService;
+import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
@@ -22,6 +23,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private IRoleService roleService;
     @Resource
     private IPermissionService permissionService;
+    @Resource
+    private IRealEstateProjectService repService;
 
     @Resource
     private CCPRestSmsSDK ytxAPI;
@@ -53,6 +56,7 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 	permissionService.initPermission();
 	roleService.initRole();
 	userService.initUser();
+	repService.initRealEstateProject();
     }
 
 }

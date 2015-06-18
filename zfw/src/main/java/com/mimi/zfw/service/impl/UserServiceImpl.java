@@ -60,7 +60,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     public void initUser() {
 	UserExample ue = new UserExample();
 	ue.or().andDelFlagEqualTo(false);
-	int count = um.countByExample(null);
+	int count = um.countByExample(ue);
 	if (count < 1) {
 	    Date nowDate = new Date(System.currentTimeMillis());
 	    User user = new User();

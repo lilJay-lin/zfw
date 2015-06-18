@@ -15,7 +15,7 @@ public abstract class BaseExample {
 
     public abstract Integer getLimitStart();
 
-    public abstract void setLimitEnd(Integer limitEnd) ;
+    public abstract void setLimitSize(Integer limitSize) ;
 
-    public abstract Integer getLimitEnd();
+    public abstract Integer getLimitSize();
 }

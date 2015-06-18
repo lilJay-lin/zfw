@@ -24,27 +24,36 @@
 		</header>
 		<%@include file="../inc/nav.jsp" %>
 		
-		<div class="imgTouchSlider">
-			<div class="main_image">
-				<ul>
-					<li><a href="http://www.baidu.com">
-							<div class="playBtn"></div><img
-							src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
-							</a></li>
-					<li><a href="http://www.baidu.com"><img
-							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
-					<li><a href="http://www.baidu.com"><img
-							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
-				</ul>
-				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
-					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
-			</div>
-			<div class="flicking_con">
-				<div class="flicking_inner">
-					<a href="">1</a> <a href="">2</a><a href="">3</a>
+		<c:if test="${topImgs != null and fn:length(topImgs) != 0 }">
+			<div class="imgTouchSlider">
+				<div class="main_image">
+					<ul>
+			       		<c:forEach items="${topImgs}" var="t" varStatus="status">
+							<li><a href="${ctx }/hx/${id}/photos">
+								<c:if test="${t.type == 'video' }">
+									<div class="playBtn"></div>
+								</c:if>
+								<c:if test="${t.type == 'pano' or t.type == 'ring' }">
+									<div class="play360Btn"></div>
+								</c:if>
+								<img src='${t.imgUrl }'>
+								</a></li>
+						</c:forEach>
+					</ul>
+					<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+						href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+				</div>
+				<div class="flicking_con">
+					<div class="flicking_inner">
+						<c:if test="${topImgs != null and fn:length(topImgs) > 1 }">
+				       		<c:forEach items="${topImgs}" var="t" varStatus="status">
+				       			<a href=""></a>
+				       		</c:forEach>
+						</c:if>
+					</div>
 				</div>
 			</div>
-		</div>
+		</c:if>
 		<section class=" pd10 bdb">
 			<div>
 				<span class="f18 pd10">户型名称</span>

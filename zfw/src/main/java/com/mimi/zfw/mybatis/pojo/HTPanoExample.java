@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class RoleExample extends BaseExample {
+public class HTPanoExample extends BaseExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -17,7 +17,7 @@ public class RoleExample extends BaseExample {
 
     protected Integer limitSize;
 
-    public RoleExample() {
+    public HTPanoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -223,6 +223,76 @@ public class RoleExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andHouseTypeIdIsNull() {
+            addCriterion("house_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdIsNotNull() {
+            addCriterion("house_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdEqualTo(String value) {
+            addCriterion("house_type_id =", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdNotEqualTo(String value) {
+            addCriterion("house_type_id <>", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdGreaterThan(String value) {
+            addCriterion("house_type_id >", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdGreaterThanOrEqualTo(String value) {
+            addCriterion("house_type_id >=", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdLessThan(String value) {
+            addCriterion("house_type_id <", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdLessThanOrEqualTo(String value) {
+            addCriterion("house_type_id <=", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdLike(String value) {
+            addCriterion("house_type_id like", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdNotLike(String value) {
+            addCriterion("house_type_id not like", value, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdIn(List<String> values) {
+            addCriterion("house_type_id in", values, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdNotIn(List<String> values) {
+            addCriterion("house_type_id not in", values, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdBetween(String value1, String value2) {
+            addCriterion("house_type_id between", value1, value2, "houseTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHouseTypeIdNotBetween(String value1, String value2) {
+            addCriterion("house_type_id not between", value1, value2, "houseTypeId");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -360,6 +430,146 @@ public class RoleExample extends BaseExample {
 
         public Criteria andDescriptionNotBetween(String value1, String value2) {
             addCriterion("description not between", value1, value2, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlIsNull() {
+            addCriterion("content_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlIsNotNull() {
+            addCriterion("content_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlEqualTo(String value) {
+            addCriterion("content_url =", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlNotEqualTo(String value) {
+            addCriterion("content_url <>", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlGreaterThan(String value) {
+            addCriterion("content_url >", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("content_url >=", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlLessThan(String value) {
+            addCriterion("content_url <", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlLessThanOrEqualTo(String value) {
+            addCriterion("content_url <=", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlLike(String value) {
+            addCriterion("content_url like", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlNotLike(String value) {
+            addCriterion("content_url not like", value, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlIn(List<String> values) {
+            addCriterion("content_url in", values, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlNotIn(List<String> values) {
+            addCriterion("content_url not in", values, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlBetween(String value1, String value2) {
+            addCriterion("content_url between", value1, value2, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlNotBetween(String value1, String value2) {
+            addCriterion("content_url not between", value1, value2, "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlIsNull() {
+            addCriterion("pre_image_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlIsNotNull() {
+            addCriterion("pre_image_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlEqualTo(String value) {
+            addCriterion("pre_image_url =", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlNotEqualTo(String value) {
+            addCriterion("pre_image_url <>", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlGreaterThan(String value) {
+            addCriterion("pre_image_url >", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("pre_image_url >=", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlLessThan(String value) {
+            addCriterion("pre_image_url <", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlLessThanOrEqualTo(String value) {
+            addCriterion("pre_image_url <=", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlLike(String value) {
+            addCriterion("pre_image_url like", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlNotLike(String value) {
+            addCriterion("pre_image_url not like", value, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlIn(List<String> values) {
+            addCriterion("pre_image_url in", values, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlNotIn(List<String> values) {
+            addCriterion("pre_image_url not in", values, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlBetween(String value1, String value2) {
+            addCriterion("pre_image_url between", value1, value2, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlNotBetween(String value1, String value2) {
+            addCriterion("pre_image_url not between", value1, value2, "preImageUrl");
             return (Criteria) this;
         }
 
@@ -688,6 +898,11 @@ public class RoleExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andHouseTypeIdLikeInsensitive(String value) {
+            addCriterion("upper(house_type_id) like", value.toUpperCase(), "houseTypeId");
+            return (Criteria) this;
+        }
+
         public Criteria andNameLikeInsensitive(String value) {
             addCriterion("upper(name) like", value.toUpperCase(), "name");
             return (Criteria) this;
@@ -695,6 +910,16 @@ public class RoleExample extends BaseExample {
 
         public Criteria andDescriptionLikeInsensitive(String value) {
             addCriterion("upper(description) like", value.toUpperCase(), "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentUrlLikeInsensitive(String value) {
+            addCriterion("upper(content_url) like", value.toUpperCase(), "contentUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreImageUrlLikeInsensitive(String value) {
+            addCriterion("upper(pre_image_url) like", value.toUpperCase(), "preImageUrl");
             return (Criteria) this;
         }
 

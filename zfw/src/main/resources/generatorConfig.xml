@@ -79,6 +79,10 @@
         <table tableName="tbl_role" domainObjectName="Role" ></table>
         <table tableName="tbl_user" domainObjectName="User"></table>
         <table tableName="tbl_real_estate_project" domainObjectName="RealEstateProject"></table>
+        <table tableName="tbl_house_type" domainObjectName="HouseType"></table>
+        <table tableName="tbl_ht_image" domainObjectName="HTImage"></table>
+        <table tableName="tbl_ht_panorama" domainObjectName="HTPano"></table>
+        <table tableName="tbl_ht_ring_display" domainObjectName="HTRing"></table>
 <!--         <table tableName="tbl_data_catalog" domainObjectName="DataCatalog"></table> -->
 <!--         <table tableName="tbl_data_object" domainObjectName="DataObject"></table> -->
 <!--         <table tableName="tbl_data_attr" domainObjectName="DataAttr"></table> -->

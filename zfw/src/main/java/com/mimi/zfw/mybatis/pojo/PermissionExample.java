@@ -15,7 +15,7 @@ public class PermissionExample extends BaseExample {
 
     protected Integer limitStart;
 
-    protected Integer limitEnd;
+    protected Integer limitSize;
 
     public PermissionExample() {
         oredCriteria = new ArrayList<Criteria>();
@@ -78,12 +78,12 @@ public class PermissionExample extends BaseExample {
         return limitStart;
     }
 
-    public void setLimitEnd(Integer limitEnd) {
-        this.limitEnd=limitEnd;
+    public void setLimitSize(Integer limitSize) {
+        this.limitSize=limitSize;
     }
 
-    public Integer getLimitEnd() {
-        return limitEnd;
+    public Integer getLimitSize() {
+        return limitSize;
     }
 
     protected abstract static class GeneratedCriteria {

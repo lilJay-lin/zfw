@@ -89,7 +89,7 @@ property_type varchar(20),
 building_type varchar(20),
 decoration_status varchar(20),
 household_num int(8),
-floor_area_ratio varchar(20),
+floor_area_ratio float(6,4),
 green_rate float(6,4),
 parking_space_num int(8),
 property_years int(4),
@@ -103,10 +103,19 @@ traffic varchar(2000),
 region varchar(20),
 longitude float(10,6),
 latitude float(10,6),
-average_price float(8,2),
+average_price int(4),
 tags varchar(200),
 priority int(8),
 pre_image_url varchar(200),
+one_room_num int(4),
+two_room_num int(4),
+three_room_num int(4),
+four_room_num int(4),
+five_room_num int(4),
+over_five_room_num int(4),
+min_room_gross_floor_area int(4),
+max_room_gross_floor_area int(4),
+sale_status varchar(20),
 creater varchar(50),
 last_editor varchar(50),
 create_date date,
@@ -114,6 +123,32 @@ update_date date,
 del_flag tinyint(1) default false
 );
 
+drop table if exists tbl_house_type;
+CREATE TABLE tbl_house_type(
+id varchar(50) PRIMARY KEY,
+real_estate_project_id varchar(50),
+real_estate_project_name varchar(50),
+name varchar(50),
+average_price int(4),
+on_sale_date date,
+inside_area float(8,2),
+sale_status varchar(20),
+gross_floor_area float(8,2),
+room_num int(4),
+hall_num int(4),
+kitchen_num int(4),
+toilet_num int(4),
+description varchar(200),
+tags varchar(200),
+priority int(8),
+pre_image_url varchar(200),
+region varchar(20),
+creater varchar(50),
+last_editor varchar(50),
+create_date date,
+update_date date,
+del_flag tinyint(1) default false
+);
 
 drop table if exists tbl_rep_video;
 CREATE TABLE tbl_rep_video(
@@ -129,6 +164,7 @@ create_date date,
 update_date date,
 del_flag tinyint(1) default false
 );
+
 drop table if exists tbl_rep_panorama;
 CREATE TABLE tbl_rep_panorama(
 id varchar(50) PRIMARY KEY,
@@ -164,29 +200,6 @@ CREATE TABLE tbl_rep_avg_price_history(
 id varchar(50) PRIMARY KEY,
 real_estate_project_id varchar(50),
 value float(8,2),
-creater varchar(50),
-last_editor varchar(50),
-create_date date,
-update_date date,
-del_flag tinyint(1) default false
-);
-
-drop table if exists tbl_house_type;
-CREATE TABLE tbl_house_type(
-id varchar(50) PRIMARY KEY,
-real_estate_project_id varchar(50),
-name varchar(50),
-inside_area float(8,2),
-sale_status int(4),
-gross_floor_area float(8,2),
-room_num int(4),
-hall_num int(4),
-kitchen_num int(4),
-toilet_num int(4),
-description varchar(200),
-tags varchar(200),
-priority int(8),
-pre_image_url varchar(200),
 creater varchar(50),
 last_editor varchar(50),
 create_date date,

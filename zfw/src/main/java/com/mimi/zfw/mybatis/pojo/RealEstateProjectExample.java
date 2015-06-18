@@ -15,7 +15,7 @@ public class RealEstateProjectExample extends BaseExample {
 
     protected Integer limitStart;
 
-    protected Integer limitEnd;
+    protected Integer limitSize;
 
     public RealEstateProjectExample() {
         oredCriteria = new ArrayList<Criteria>();
@@ -78,12 +78,12 @@ public class RealEstateProjectExample extends BaseExample {
         return limitStart;
     }
 
-    public void setLimitEnd(Integer limitEnd) {
-        this.limitEnd=limitEnd;
+    public void setLimitSize(Integer limitSize) {
+        this.limitSize=limitSize;
     }
 
-    public Integer getLimitEnd() {
-        return limitEnd;
+    public Integer getLimitSize() {
+        return limitSize;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -833,62 +833,52 @@ public class RealEstateProjectExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioEqualTo(String value) {
+        public Criteria andFloorAreaRatioEqualTo(Float value) {
             addCriterion("floor_area_ratio =", value, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioNotEqualTo(String value) {
+        public Criteria andFloorAreaRatioNotEqualTo(Float value) {
             addCriterion("floor_area_ratio <>", value, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioGreaterThan(String value) {
+        public Criteria andFloorAreaRatioGreaterThan(Float value) {
             addCriterion("floor_area_ratio >", value, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioGreaterThanOrEqualTo(String value) {
+        public Criteria andFloorAreaRatioGreaterThanOrEqualTo(Float value) {
             addCriterion("floor_area_ratio >=", value, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioLessThan(String value) {
+        public Criteria andFloorAreaRatioLessThan(Float value) {
             addCriterion("floor_area_ratio <", value, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioLessThanOrEqualTo(String value) {
+        public Criteria andFloorAreaRatioLessThanOrEqualTo(Float value) {
             addCriterion("floor_area_ratio <=", value, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioLike(String value) {
-            addCriterion("floor_area_ratio like", value, "floorAreaRatio");
-            return (Criteria) this;
-        }
-
-        public Criteria andFloorAreaRatioNotLike(String value) {
-            addCriterion("floor_area_ratio not like", value, "floorAreaRatio");
-            return (Criteria) this;
-        }
-
-        public Criteria andFloorAreaRatioIn(List<String> values) {
+        public Criteria andFloorAreaRatioIn(List<Float> values) {
             addCriterion("floor_area_ratio in", values, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioNotIn(List<String> values) {
+        public Criteria andFloorAreaRatioNotIn(List<Float> values) {
             addCriterion("floor_area_ratio not in", values, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioBetween(String value1, String value2) {
+        public Criteria andFloorAreaRatioBetween(Float value1, Float value2) {
             addCriterion("floor_area_ratio between", value1, value2, "floorAreaRatio");
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioNotBetween(String value1, String value2) {
+        public Criteria andFloorAreaRatioNotBetween(Float value1, Float value2) {
             addCriterion("floor_area_ratio not between", value1, value2, "floorAreaRatio");
             return (Criteria) this;
         }
@@ -1553,6 +1543,76 @@ public class RealEstateProjectExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andRegionIsNull() {
+            addCriterion("region is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNotNull() {
+            addCriterion("region is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionEqualTo(String value) {
+            addCriterion("region =", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotEqualTo(String value) {
+            addCriterion("region <>", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThan(String value) {
+            addCriterion("region >", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThanOrEqualTo(String value) {
+            addCriterion("region >=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThan(String value) {
+            addCriterion("region <", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThanOrEqualTo(String value) {
+            addCriterion("region <=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLike(String value) {
+            addCriterion("region like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotLike(String value) {
+            addCriterion("region not like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIn(List<String> values) {
+            addCriterion("region in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotIn(List<String> values) {
+            addCriterion("region not in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionBetween(String value1, String value2) {
+            addCriterion("region between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotBetween(String value1, String value2) {
+            addCriterion("region not between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
         public Criteria andLongitudeIsNull() {
             addCriterion("longitude is null");
             return (Criteria) this;
@@ -1683,52 +1743,52 @@ public class RealEstateProjectExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceEqualTo(Float value) {
+        public Criteria andAveragePriceEqualTo(Integer value) {
             addCriterion("average_price =", value, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceNotEqualTo(Float value) {
+        public Criteria andAveragePriceNotEqualTo(Integer value) {
             addCriterion("average_price <>", value, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceGreaterThan(Float value) {
+        public Criteria andAveragePriceGreaterThan(Integer value) {
             addCriterion("average_price >", value, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceGreaterThanOrEqualTo(Float value) {
+        public Criteria andAveragePriceGreaterThanOrEqualTo(Integer value) {
             addCriterion("average_price >=", value, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceLessThan(Float value) {
+        public Criteria andAveragePriceLessThan(Integer value) {
             addCriterion("average_price <", value, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceLessThanOrEqualTo(Float value) {
+        public Criteria andAveragePriceLessThanOrEqualTo(Integer value) {
             addCriterion("average_price <=", value, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceIn(List<Float> values) {
+        public Criteria andAveragePriceIn(List<Integer> values) {
             addCriterion("average_price in", values, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceNotIn(List<Float> values) {
+        public Criteria andAveragePriceNotIn(List<Integer> values) {
             addCriterion("average_price not in", values, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceBetween(Float value1, Float value2) {
+        public Criteria andAveragePriceBetween(Integer value1, Integer value2) {
             addCriterion("average_price between", value1, value2, "averagePrice");
             return (Criteria) this;
         }
 
-        public Criteria andAveragePriceNotBetween(Float value1, Float value2) {
+        public Criteria andAveragePriceNotBetween(Integer value1, Integer value2) {
             addCriterion("average_price not between", value1, value2, "averagePrice");
             return (Criteria) this;
         }
@@ -1930,6 +1990,556 @@ public class RealEstateProjectExample extends BaseExample {
 
         public Criteria andPreImageUrlNotBetween(String value1, String value2) {
             addCriterion("pre_image_url not between", value1, value2, "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumIsNull() {
+            addCriterion("one_room_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumIsNotNull() {
+            addCriterion("one_room_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumEqualTo(Integer value) {
+            addCriterion("one_room_num =", value, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumNotEqualTo(Integer value) {
+            addCriterion("one_room_num <>", value, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumGreaterThan(Integer value) {
+            addCriterion("one_room_num >", value, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("one_room_num >=", value, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumLessThan(Integer value) {
+            addCriterion("one_room_num <", value, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("one_room_num <=", value, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumIn(List<Integer> values) {
+            addCriterion("one_room_num in", values, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumNotIn(List<Integer> values) {
+            addCriterion("one_room_num not in", values, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumBetween(Integer value1, Integer value2) {
+            addCriterion("one_room_num between", value1, value2, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneRoomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("one_room_num not between", value1, value2, "oneRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumIsNull() {
+            addCriterion("two_room_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumIsNotNull() {
+            addCriterion("two_room_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumEqualTo(Integer value) {
+            addCriterion("two_room_num =", value, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumNotEqualTo(Integer value) {
+            addCriterion("two_room_num <>", value, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumGreaterThan(Integer value) {
+            addCriterion("two_room_num >", value, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("two_room_num >=", value, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumLessThan(Integer value) {
+            addCriterion("two_room_num <", value, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("two_room_num <=", value, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumIn(List<Integer> values) {
+            addCriterion("two_room_num in", values, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumNotIn(List<Integer> values) {
+            addCriterion("two_room_num not in", values, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumBetween(Integer value1, Integer value2) {
+            addCriterion("two_room_num between", value1, value2, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoRoomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("two_room_num not between", value1, value2, "twoRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumIsNull() {
+            addCriterion("three_room_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumIsNotNull() {
+            addCriterion("three_room_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumEqualTo(Integer value) {
+            addCriterion("three_room_num =", value, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumNotEqualTo(Integer value) {
+            addCriterion("three_room_num <>", value, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumGreaterThan(Integer value) {
+            addCriterion("three_room_num >", value, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("three_room_num >=", value, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumLessThan(Integer value) {
+            addCriterion("three_room_num <", value, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("three_room_num <=", value, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumIn(List<Integer> values) {
+            addCriterion("three_room_num in", values, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumNotIn(List<Integer> values) {
+            addCriterion("three_room_num not in", values, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumBetween(Integer value1, Integer value2) {
+            addCriterion("three_room_num between", value1, value2, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andThreeRoomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("three_room_num not between", value1, value2, "threeRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumIsNull() {
+            addCriterion("four_room_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumIsNotNull() {
+            addCriterion("four_room_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumEqualTo(Integer value) {
+            addCriterion("four_room_num =", value, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumNotEqualTo(Integer value) {
+            addCriterion("four_room_num <>", value, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumGreaterThan(Integer value) {
+            addCriterion("four_room_num >", value, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("four_room_num >=", value, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumLessThan(Integer value) {
+            addCriterion("four_room_num <", value, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("four_room_num <=", value, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumIn(List<Integer> values) {
+            addCriterion("four_room_num in", values, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumNotIn(List<Integer> values) {
+            addCriterion("four_room_num not in", values, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumBetween(Integer value1, Integer value2) {
+            addCriterion("four_room_num between", value1, value2, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFourRoomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("four_room_num not between", value1, value2, "fourRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumIsNull() {
+            addCriterion("five_room_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumIsNotNull() {
+            addCriterion("five_room_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumEqualTo(Integer value) {
+            addCriterion("five_room_num =", value, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumNotEqualTo(Integer value) {
+            addCriterion("five_room_num <>", value, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumGreaterThan(Integer value) {
+            addCriterion("five_room_num >", value, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("five_room_num >=", value, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumLessThan(Integer value) {
+            addCriterion("five_room_num <", value, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("five_room_num <=", value, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumIn(List<Integer> values) {
+            addCriterion("five_room_num in", values, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumNotIn(List<Integer> values) {
+            addCriterion("five_room_num not in", values, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumBetween(Integer value1, Integer value2) {
+            addCriterion("five_room_num between", value1, value2, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFiveRoomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("five_room_num not between", value1, value2, "fiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumIsNull() {
+            addCriterion("over_five_room_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumIsNotNull() {
+            addCriterion("over_five_room_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumEqualTo(Integer value) {
+            addCriterion("over_five_room_num =", value, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumNotEqualTo(Integer value) {
+            addCriterion("over_five_room_num <>", value, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumGreaterThan(Integer value) {
+            addCriterion("over_five_room_num >", value, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("over_five_room_num >=", value, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumLessThan(Integer value) {
+            addCriterion("over_five_room_num <", value, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("over_five_room_num <=", value, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumIn(List<Integer> values) {
+            addCriterion("over_five_room_num in", values, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumNotIn(List<Integer> values) {
+            addCriterion("over_five_room_num not in", values, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumBetween(Integer value1, Integer value2) {
+            addCriterion("over_five_room_num between", value1, value2, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOverFiveRoomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("over_five_room_num not between", value1, value2, "overFiveRoomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaIsNull() {
+            addCriterion("min_room_gross_floor_area is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaIsNotNull() {
+            addCriterion("min_room_gross_floor_area is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaEqualTo(Integer value) {
+            addCriterion("min_room_gross_floor_area =", value, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaNotEqualTo(Integer value) {
+            addCriterion("min_room_gross_floor_area <>", value, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaGreaterThan(Integer value) {
+            addCriterion("min_room_gross_floor_area >", value, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaGreaterThanOrEqualTo(Integer value) {
+            addCriterion("min_room_gross_floor_area >=", value, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaLessThan(Integer value) {
+            addCriterion("min_room_gross_floor_area <", value, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaLessThanOrEqualTo(Integer value) {
+            addCriterion("min_room_gross_floor_area <=", value, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaIn(List<Integer> values) {
+            addCriterion("min_room_gross_floor_area in", values, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaNotIn(List<Integer> values) {
+            addCriterion("min_room_gross_floor_area not in", values, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaBetween(Integer value1, Integer value2) {
+            addCriterion("min_room_gross_floor_area between", value1, value2, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMinRoomGrossFloorAreaNotBetween(Integer value1, Integer value2) {
+            addCriterion("min_room_gross_floor_area not between", value1, value2, "minRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaIsNull() {
+            addCriterion("max_room_gross_floor_area is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaIsNotNull() {
+            addCriterion("max_room_gross_floor_area is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaEqualTo(Integer value) {
+            addCriterion("max_room_gross_floor_area =", value, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaNotEqualTo(Integer value) {
+            addCriterion("max_room_gross_floor_area <>", value, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaGreaterThan(Integer value) {
+            addCriterion("max_room_gross_floor_area >", value, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaGreaterThanOrEqualTo(Integer value) {
+            addCriterion("max_room_gross_floor_area >=", value, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaLessThan(Integer value) {
+            addCriterion("max_room_gross_floor_area <", value, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaLessThanOrEqualTo(Integer value) {
+            addCriterion("max_room_gross_floor_area <=", value, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaIn(List<Integer> values) {
+            addCriterion("max_room_gross_floor_area in", values, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaNotIn(List<Integer> values) {
+            addCriterion("max_room_gross_floor_area not in", values, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaBetween(Integer value1, Integer value2) {
+            addCriterion("max_room_gross_floor_area between", value1, value2, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaxRoomGrossFloorAreaNotBetween(Integer value1, Integer value2) {
+            addCriterion("max_room_gross_floor_area not between", value1, value2, "maxRoomGrossFloorArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusIsNull() {
+            addCriterion("sale_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusIsNotNull() {
+            addCriterion("sale_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusEqualTo(String value) {
+            addCriterion("sale_status =", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusNotEqualTo(String value) {
+            addCriterion("sale_status <>", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusGreaterThan(String value) {
+            addCriterion("sale_status >", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("sale_status >=", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusLessThan(String value) {
+            addCriterion("sale_status <", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusLessThanOrEqualTo(String value) {
+            addCriterion("sale_status <=", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusLike(String value) {
+            addCriterion("sale_status like", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusNotLike(String value) {
+            addCriterion("sale_status not like", value, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusIn(List<String> values) {
+            addCriterion("sale_status in", values, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusNotIn(List<String> values) {
+            addCriterion("sale_status not in", values, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusBetween(String value1, String value2) {
+            addCriterion("sale_status between", value1, value2, "saleStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusNotBetween(String value1, String value2) {
+            addCriterion("sale_status not between", value1, value2, "saleStatus");
             return (Criteria) this;
         }
 
@@ -2288,11 +2898,6 @@ public class RealEstateProjectExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andFloorAreaRatioLikeInsensitive(String value) {
-            addCriterion("upper(floor_area_ratio) like", value.toUpperCase(), "floorAreaRatio");
-            return (Criteria) this;
-        }
-
         public Criteria andDeveloperLikeInsensitive(String value) {
             addCriterion("upper(developer) like", value.toUpperCase(), "developer");
             return (Criteria) this;
@@ -2323,6 +2928,11 @@ public class RealEstateProjectExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andRegionLikeInsensitive(String value) {
+            addCriterion("upper(region) like", value.toUpperCase(), "region");
+            return (Criteria) this;
+        }
+
         public Criteria andTagsLikeInsensitive(String value) {
             addCriterion("upper(tags) like", value.toUpperCase(), "tags");
             return (Criteria) this;
@@ -2330,6 +2940,11 @@ public class RealEstateProjectExample extends BaseExample {
 
         public Criteria andPreImageUrlLikeInsensitive(String value) {
             addCriterion("upper(pre_image_url) like", value.toUpperCase(), "preImageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleStatusLikeInsensitive(String value) {
+            addCriterion("upper(sale_status) like", value.toUpperCase(), "saleStatus");
             return (Criteria) this;
         }
 

@@ -24,7 +24,7 @@ public class RealEstateProject implements IBaseModel<String> {
 
     private Integer householdNum;
 
-    private String floorAreaRatio;
+    private Float floorAreaRatio;
 
     private Float greenRate;
 
@@ -46,17 +46,37 @@ public class RealEstateProject implements IBaseModel<String> {
 
     private String traffic;
 
+    private String region;
+
     private Float longitude;
 
     private Float latitude;
 
-    private Float averagePrice;
+    private Integer averagePrice;
 
     private String tags;
 
     private Integer priority;
 
     private String preImageUrl;
+
+    private Integer oneRoomNum;
+
+    private Integer twoRoomNum;
+
+    private Integer threeRoomNum;
+
+    private Integer fourRoomNum;
+
+    private Integer fiveRoomNum;
+
+    private Integer overFiveRoomNum;
+
+    private Integer minRoomGrossFloorArea;
+
+    private Integer maxRoomGrossFloorArea;
+
+    private String saleStatus;
 
     private String creater;
 
@@ -150,12 +170,12 @@ public class RealEstateProject implements IBaseModel<String> {
         this.householdNum = householdNum;
     }
 
-    public String getFloorAreaRatio() {
+    public Float getFloorAreaRatio() {
         return floorAreaRatio;
     }
 
-    public void setFloorAreaRatio(String floorAreaRatio) {
-        this.floorAreaRatio = floorAreaRatio == null ? null : floorAreaRatio.trim();
+    public void setFloorAreaRatio(Float floorAreaRatio) {
+        this.floorAreaRatio = floorAreaRatio;
     }
 
     public Float getGreenRate() {
@@ -238,6 +258,14 @@ public class RealEstateProject implements IBaseModel<String> {
         this.traffic = traffic == null ? null : traffic.trim();
     }
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region == null ? null : region.trim();
+    }
+
     public Float getLongitude() {
         return longitude;
     }
@@ -254,11 +282,11 @@ public class RealEstateProject implements IBaseModel<String> {
         this.latitude = latitude;
     }
 
-    public Float getAveragePrice() {
+    public Integer getAveragePrice() {
         return averagePrice;
     }
 
-    public void setAveragePrice(Float averagePrice) {
+    public void setAveragePrice(Integer averagePrice) {
         this.averagePrice = averagePrice;
     }
 
@@ -284,6 +312,78 @@ public class RealEstateProject implements IBaseModel<String> {
 
     public void setPreImageUrl(String preImageUrl) {
         this.preImageUrl = preImageUrl == null ? null : preImageUrl.trim();
+    }
+
+    public Integer getOneRoomNum() {
+        return oneRoomNum;
+    }
+
+    public void setOneRoomNum(Integer oneRoomNum) {
+        this.oneRoomNum = oneRoomNum;
+    }
+
+    public Integer getTwoRoomNum() {
+        return twoRoomNum;
+    }
+
+    public void setTwoRoomNum(Integer twoRoomNum) {
+        this.twoRoomNum = twoRoomNum;
+    }
+
+    public Integer getThreeRoomNum() {
+        return threeRoomNum;
+    }
+
+    public void setThreeRoomNum(Integer threeRoomNum) {
+        this.threeRoomNum = threeRoomNum;
+    }
+
+    public Integer getFourRoomNum() {
+        return fourRoomNum;
+    }
+
+    public void setFourRoomNum(Integer fourRoomNum) {
+        this.fourRoomNum = fourRoomNum;
+    }
+
+    public Integer getFiveRoomNum() {
+        return fiveRoomNum;
+    }
+
+    public void setFiveRoomNum(Integer fiveRoomNum) {
+        this.fiveRoomNum = fiveRoomNum;
+    }
+
+    public Integer getOverFiveRoomNum() {
+        return overFiveRoomNum;
+    }
+
+    public void setOverFiveRoomNum(Integer overFiveRoomNum) {
+        this.overFiveRoomNum = overFiveRoomNum;
+    }
+
+    public Integer getMinRoomGrossFloorArea() {
+        return minRoomGrossFloorArea;
+    }
+
+    public void setMinRoomGrossFloorArea(Integer minRoomGrossFloorArea) {
+        this.minRoomGrossFloorArea = minRoomGrossFloorArea;
+    }
+
+    public Integer getMaxRoomGrossFloorArea() {
+        return maxRoomGrossFloorArea;
+    }
+
+    public void setMaxRoomGrossFloorArea(Integer maxRoomGrossFloorArea) {
+        this.maxRoomGrossFloorArea = maxRoomGrossFloorArea;
+    }
+
+    public String getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(String saleStatus) {
+        this.saleStatus = saleStatus == null ? null : saleStatus.trim();
     }
 
     public String getCreater() {

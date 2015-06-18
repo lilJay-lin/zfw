@@ -1,26 +1,450 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
+
+import com.mimi.zfw.Constants;
+import com.mimi.zfw.mybatis.dao.HTImageMapper;
+import com.mimi.zfw.mybatis.dao.HTPanoMapper;
+import com.mimi.zfw.mybatis.dao.HTRingMapper;
+import com.mimi.zfw.mybatis.dao.HouseTypeMapper;
 import com.mimi.zfw.mybatis.dao.RealEstateProjectMapper;
+import com.mimi.zfw.mybatis.pojo.HTImage;
+import com.mimi.zfw.mybatis.pojo.HTPano;
+import com.mimi.zfw.mybatis.pojo.HTRing;
+import com.mimi.zfw.mybatis.pojo.HouseType;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
+import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample.Criteria;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRealEstateProjectService;
 
-public class RealEstateProjectServiceImpl  extends
-BaseService<RealEstateProject, RealEstateProjectExample, String> implements
-IRealEstateProjectService {
+@Service
+public class RealEstateProjectServiceImpl extends
+		BaseService<RealEstateProject, RealEstateProjectExample, String>
+		implements IRealEstateProjectService {
 
 	@Resource
 	private RealEstateProjectMapper repm;
-	
-    @Resource
-    @Override
-    public void setBaseDao(
-	    IBaseDao<RealEstateProject, RealEstateProjectExample, String> baseDao) {
-	this.baseDao = baseDao;
-	this.repm = (RealEstateProjectMapper) baseDao;
-    }
 
+	@Resource
+	private HouseTypeMapper htm;
+	
+	@Resource
+	private HTImageMapper htim;
+	
+	@Resource
+	private HTPanoMapper htpm;
+	
+	@Resource
+	private HTRingMapper htrm;
+
+	@Resource
+	@Override
+	public void setBaseDao(
+			IBaseDao<RealEstateProject, RealEstateProjectExample, String> baseDao) {
+		this.baseDao = baseDao;
+		this.repm = (RealEstateProjectMapper) baseDao;
+	}
+
+	@Override
+	public void initRealEstateProject() {
+		RealEstateProjectExample repe = new RealEstateProjectExample();
+		repe.or().andDelFlagEqualTo(false);
+		int count = repm.countByExample(repe);
+		if (count < 1) {
+			initTestData();
+		}
+	}
+
+	private void initTestData() {
+		String[] addressList = {
+				"地址1阿斯兰的房间爱斯兰的房间爱死斯兰的房间爱死斯兰的房间爱死斯兰的房间爱死斯兰的房间爱死斯兰的房间爱死死了看房",
+				"地址1阿斯兰的房间爱死了看房", "地址1阿斯兰的房间爱死了看房", "地址1阿斯兰的房间爱死了看房",
+				"地址1阿斯兰的房间爱死了看房", "地址1阿斯兰s水电费啊啊啊的房间爱死了看房",
+				"地址1阿斯兰的房间斯兰的房间斯兰的房间爱死了看房", "地址1阿斯兰的房间爱死了看房", "地址1阿斯兰的房间爱死了看房",
+				"地址1阿斯兰的房间爱死了看房" };
+		String[] nameList = { "敏捷城", "海逸他他1其1其他他1其他半岛", "星湖名郡",
+				"其他其他1他1其他1其11", "其他1", "其他1", "其他1", "其他1", "其他1", "其他1" };
+		int[] averagePriceList = { 4600, 1234, 5123, 2414, 5123, 2414, 5123,
+				2414, 5123, 2414 };
+		String[] buildingTypeList = {
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS,
+				Constants.BUILDING_TYPE_BL + "," + Constants.BUILDING_TYPE_DPBS };
+		String[] decorationStatusList = { Constants.DECORATION_STATUS_HH,
+				Constants.DECORATION_STATUS_JD, Constants.DECORATION_STATUS_MP,
+				Constants.DECORATION_STATUS_JD, Constants.DECORATION_STATUS_MP,
+				Constants.DECORATION_STATUS_HH, Constants.DECORATION_STATUS_JD,
+				Constants.DECORATION_STATUS_MP, Constants.DECORATION_STATUS_JD,
+				Constants.DECORATION_STATUS_MP };
+		String[] developerList = { "开发商甲阿里山空房里山空房间爱蓝山啡", "开发商甲阿里山空房间爱蓝山咖啡",
+				"开发商甲阿里山空房间爱蓝山咖啡", "开发商甲阿里山空房间爱蓝山咖啡", "开发商甲阿里山空房间爱蓝山咖啡",
+				"开发商甲阿里山空房间爱蓝山咖啡", "开发商甲阿里山空房间爱蓝山咖啡", "开发商甲阿里山空房间爱蓝山咖啡",
+				"开发商甲阿里山空房间爱蓝山咖啡", "开发商甲阿里山空房间爱蓝山咖啡" };
+		float[] floorAreaRatioList = { 1.2f, 2.0f, 1.5f, 1.2f, 2.0f, 1.5f,
+				1.2f, 2.0f, 1.5f, 2.5f };
+		float[] greenRateList = { 0.2f, 0.3f, 0.5f, 0.2f, 0.3f, 0.5f, 0.2f,
+				0.3f, 0.5f, 0.5f };
+		int[] householdNumList = { 152, 125, 513, 2156, 1234, 23, 152, 125,
+				513, 2156, 1234, 23 };
+		String[] introductionList = { "水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机",
+				"水电费了卡接收到阿什利打飞机阿斯顿浪费空间阿什利打飞机阿什利打飞机" };
+		// String[] onSaleDateList = { "预计2015年6月14日1-3、5#开盘",
+		// "预计2015年6月14日1-3、5#开盘", "预计2015年6月14日1-3、5#开盘",
+		// "预计2015年6月14日1-3、5#开盘", "预计2015年6月14日1-3、5#开盘",
+		// "预计2015年6月14日1-3、5#开盘", "预计2015年6月14日1-3、5#开盘",
+		// "预计2015年6月14日1-3、5#开盘", "预计2015年6月14日1-3、5#开盘",
+		// "预计2015年6月14日1-3、5#开盘" };
+		// String[] onReadyDateList = { "预计2015年下半年一期9栋楼交房",
+		// "预计2015年下半年一期9栋楼交房",
+		// "预计2015年下半年一期9栋楼交房", "预计2015年下半年一期9栋楼交房", "预计2015年下半年一期9栋楼交房",
+		// "预计2015年下半年一期9栋楼交房", "预计2015年下半年一期9栋楼交房", "预计2015年下半年一期9栋楼交房",
+		// "预计2015年下半年一期9栋楼交房", "预计2015年下半年一期9栋楼交房" };
+		int[] parkingSpaceNumList = { 123, 125, 521, 21, 5124, 123, 125, 521,
+				21, 5124 };
+		String[] preImageUrlList = {
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg" };
+		String[] preSalePermitList = { "京房售证字(2014)188号", "京房售证字(2014)188号",
+				"京房售证字(2014)188号", "京房售证字(2014)188号", "京房售证字(2014)188号",
+				"京房售证字(2014)188号", "京房售证字(2014证字(2014)188号", "京房售证字(2014)188号",
+				"京房售证字(2014)188号", "京房售证字(2014)188号" };
+		int[] priorityList = { 1, 21, 52, 123, 512, 125, 51, 12, 45, 61 };
+		String[] propertyCompanyList = { "北京首开鸿城实业有限公司", "北京首开鸿城实业有限公司",
+				"北京首开鸿城实业有限公司", "北京首开鸿城实鸿城实业有公司", "北京首开鸿城实业有限公司",
+				"北京首开鸿城实业有限公司", "北京首开鸿城实业有限公司", "北京首开鸿城实业有限公司", "北京首开鸿城实业有限公司",
+				"北京首开鸿城实业有限公司" };
+		float[] propertyFeeList = { 1.2f, 2.0f, 1.5f, 1.2f, 2.0f, 1.5f, 1.2f,
+				2.0f, 1.5f, 2.5f };
+
+		Date nowDate = new Date(System.currentTimeMillis());
+
+		for (int j = 0; j < 5; j++) {
+			for (int i = 0; i < nameList.length; i++) {
+				RealEstateProject rep = new RealEstateProject();
+				rep.setId(UUID.randomUUID().toString());
+				rep.setCreateDate(nowDate);
+
+				if (i == 3) {
+					repm.insertSelective(rep);
+					continue;
+
+				}
+				rep.setName(nameList[i]);
+				rep.setAddress(addressList[i]);
+				rep.setAveragePrice(averagePriceList[i]);
+				rep.setBuildingType(buildingTypeList[i]);
+				rep.setDecorationStatus(decorationStatusList[i]);
+				rep.setDeveloper(developerList[i]);
+				rep.setFloorAreaRatio(floorAreaRatioList[i]);
+				rep.setGreenRate(greenRateList[i]);
+				rep.setHouseholdNum(householdNumList[i]);
+				rep.setIntroduction(introductionList[i]);
+
+				float lat = (float) (Math.random() * 0.05);
+				float lon = (float) (Math.random() * 0.1);
+				lat += 23.05;
+				lon += 112.42;
+				rep.setLatitude(lat);
+				rep.setLongitude(lon);
+
+				rep.setMaxRoomGrossFloorArea((int) (Math.random() * 200));
+				rep.setMinRoomGrossFloorArea((int) (rep
+						.getMaxRoomGrossFloorArea() - Math.random() * 100));
+
+				Calendar cal = Calendar.getInstance();
+				cal.set(2015, (int) (Math.random() * 11),
+						(int) (Math.random() * 25));
+				rep.setOnSaleDate(cal.getTime());
+
+				cal.set(2016, (int) (Math.random() * 11),
+						(int) (Math.random() * 25));
+				rep.setOnReadyDate(cal.getTime());
+				rep.setParkingSpaceNum(parkingSpaceNumList[i]);
+				rep.setPreImageUrl(preImageUrlList[i]);
+				rep.setPreSalePermit(preSalePermitList[i]);
+				rep.setPriority(priorityList[i]);
+				rep.setPropertyCompany(propertyCompanyList[i]);
+				rep.setPropertyFee(propertyFeeList[i]);
+				rep.setPropertyType(Constants.PROPERTY_TYPE_ZZXSPF);
+				rep.setPropertyYears(70);
+
+				double regionTemp = Math.random();
+				String region;
+				if (regionTemp > 0.8) {
+					region = Constants.REGION_BL;
+				} else if (regionTemp > 0.6) {
+					region = Constants.REGION_CC;
+				} else if (regionTemp > 0.4) {
+					region = Constants.REGION_CD;
+				} else if (regionTemp > 0.2) {
+					region = Constants.REGION_CZ;
+				} else {
+					region = Constants.REGION_GY;
+				}
+				rep.setRegion(region);
+
+				double ssTemp = Math.random();
+				String saleStatus = "";
+				if (ssTemp > 0.6) {
+					saleStatus = Constants.SALE_STATUS_DS;
+				} else if (ssTemp > 0.3) {
+					saleStatus = Constants.SALE_STATUS_SW;
+				} else {
+					saleStatus = Constants.SALE_STATUS_ZS;
+				}
+				rep.setSaleStatus(saleStatus);
+				rep.setSurrounding("对伐啦斯蒂芬路径拉伸到房间拉伸到房间拉克丝阿里斯伸到房间拉克丝阿里斯伸到房间拉克丝阿里斯伸到房间拉克丝阿里斯伸到房间拉克丝阿里斯伸到房间拉克丝阿里斯伸到房间拉克丝阿里斯克丝阿里斯顿福建省");
+				rep.setTags("标签1,标签2,标签3");
+				rep.setTel("12312312312");
+				rep.setTraffic("公交：425路、927路、38路、268路、831路、834路、56路、126路、66路、76A路、864路、223路 地铁：2号线黄边站");
+				rep.setOneRoomNum((int) (Math.random() * 10));
+				rep.setTwoRoomNum((int) (Math.random() * 10));
+				rep.setThreeRoomNum((int) (Math.random() * 10));
+				rep.setFourRoomNum((int) (Math.random() * 10));
+				rep.setFiveRoomNum((int) (Math.random() * 10));
+				rep.setOverFiveRoomNum((int) (Math.random() * 10));
+				repm.insertSelective(rep);
+
+				int tempRGFA = rep.getMaxRoomGrossFloorArea()
+						- rep.getMinRoomGrossFloorArea();
+				for (int k = 0; k < 10; k++) {
+					HouseType ht = new HouseType();
+					ht.setId(UUID.randomUUID().toString());
+					ht.setCreateDate(nowDate);
+					ht.setRealEstateProjectId(rep.getId());
+					ht.setRealEstateProjectName(rep.getName());
+
+					ht.setDescription("描述阿里山的房间了看阿什利打飞机阿什利打飞机拉氏底鳉蓝山咖啡的加了少看点卡拉斯");
+
+					ht.setAveragePrice(rep.getAveragePrice());
+					ht.setGrossFloorArea((float) (tempRGFA * Math.random() + rep
+							.getMinRoomGrossFloorArea()));
+					ht.setHallNum((int) (Math.random() * 2 + 1));
+					ht.setInsideArea((float) (ht.getGrossFloorArea() * (0.7 + Math
+							.random() * 0.2)));
+					ht.setKitchenNum((int) (Math.random() * 2));
+					ht.setName("户型阿斯顿");
+					ht.setPreImageUrl("http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg");
+					ht.setPriority((int) (Math.random() * 50));
+					ht.setRegion(region);
+					ht.setRoomNum((int) (Math.random() * 5 + 1));
+					ht.setSaleStatus(saleStatus);
+					ht.setTags("标签1,标签2,标签3");
+					ht.setToiletNum((int) (Math.random() + 1));
+
+					
+					String[] imgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"};
+					String[] preImgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg"};
+					for(int ki=0;ki<imgUrl.length;ki++){
+						HTImage hi = new HTImage();
+						hi.setId(UUID.randomUUID().toString());
+						hi.setCreateDate(nowDate);
+						hi.setHouseTypeId(ht.getId());
+						hi.setContentUrl(imgUrl[ki]);
+						hi.setName("蝴蝶");
+						hi.setDescription("描述爱丽丝疯狂就阿斯兰的房间啦拉伸到卡机上了k");
+						
+						HTPano hp = new HTPano();
+						hp.setId(UUID.randomUUID().toString());
+						hp.setCreateDate(nowDate);
+						hp.setHouseTypeId(ht.getId());
+						hp.setContentUrl("http://www.baidu.com");
+						hp.setPreImageUrl(preImgUrl[ki]);
+						hp.setName("哇哇");
+						hp.setDescription("水电费水电费阿斯蒂芬 ");
+						
+						HTRing hr = new HTRing();
+						hr.setId(UUID.randomUUID().toString());
+						hr.setCreateDate(nowDate);
+						hr.setHouseTypeId(ht.getId());
+						hr.setContentUrl("http://www.baidu.com");
+						hr.setPreImageUrl(preImgUrl[ki]);
+						hr.setName("嘻嘻");
+						hr.setDescription("是打发第三方");
+						
+						htim.insertSelective(hi);
+						htpm.insertSelective(hp);
+						htrm.insertSelective(hr);
+					}
+					
+					htm.insertSelective(ht);
+				}
+			}
+		}
+	}
+
+	@Override
+	public List<RealEstateProject> findRealEstateProjectByParams(
+			String keyWord, String region, String averagePrice,
+			Integer roomNum, String grossFloorArea, String saleStatus,
+			String bound, String orderBy, int targetPage, int pageSize) {
+		RealEstateProjectExample repe = bindRealEstateProjectParams(keyWord,
+				region, averagePrice, roomNum, grossFloorArea, saleStatus,
+				bound);
+		String orderByClause = "";
+		if (StringUtils.isNotBlank(orderBy)) {
+			if ("priceFromLow".equals(orderBy)) {
+				orderByClause = "average_price asc,";
+			} else if ("priceFromHigh".equals(orderBy)) {
+				orderByClause = "average_price desc,";
+			} else if ("onSaleFromNear".equals(orderBy)) {
+				orderByClause = "on_sale_date desc,";
+			} else if ("onSaleFromFar".equals(orderBy)) {
+				orderByClause = "on_sale_date asc,";
+			}
+		}
+		orderByClause += "priority desc";
+		repe.setOrderByClause(orderByClause);
+		repe.setLimitStart(targetPage * pageSize);
+		repe.setLimitSize(pageSize);
+		return repm.selectByExample(repe);
+	}
+
+	@Override
+	public int countRealEstateProjectByParams(String keyWord, String region,
+			String averagePrice, Integer roomNum, String grossFloorArea,
+			String saleStatus, String bound) {
+		RealEstateProjectExample repe = bindRealEstateProjectParams(keyWord,
+				region, averagePrice, roomNum, grossFloorArea, saleStatus,
+				bound);
+		return repm.countByExample(repe);
+	}
+
+	private RealEstateProjectExample bindRealEstateProjectParams(
+			String keyWord, String region, String averagePrice,
+			Integer roomNum, String grossFloorArea, String saleStatus,
+			String bound) {
+		RealEstateProjectExample repe = new RealEstateProjectExample();
+		Criteria cri = repe.createCriteria();
+		Criteria cri2 = null;
+		if (StringUtils.isNotBlank(keyWord)) {
+			cri.andNameLike("%" + keyWord + "%").andDelFlagEqualTo(false);
+			cri2 = repe.createCriteria();
+			cri2.andAddressLike("%" + keyWord + "%").andDelFlagEqualTo(false);
+		}
+		if (StringUtils.isNotBlank(region)) {
+			cri.andRegionEqualTo(region);
+			if (cri2 != null) {
+				cri2.andRegionEqualTo(region);
+			}
+		}
+		if (StringUtils.isNotBlank(averagePrice)) {
+			String[] values = averagePrice.split(":");
+			if (values.length > 1 && StringUtils.isNumeric(values[0])
+					&& StringUtils.isNumeric(values[1])) {
+				cri.andAveragePriceBetween(Integer.valueOf(values[0]),
+						Integer.valueOf(values[1]));
+				if (cri2 != null) {
+					cri2.andAveragePriceBetween(Integer.valueOf(values[0]),
+							Integer.valueOf(values[1]));
+				}
+			}
+		}
+		if (roomNum != null) {
+			if (roomNum == 1) {
+				cri.andOneRoomNumGreaterThan(0);
+				if (cri2 != null) {
+					cri2.andOneRoomNumGreaterThan(0);
+				}
+			} else if (roomNum == 2) {
+				cri.andTwoRoomNumGreaterThan(0);
+				if (cri2 != null) {
+					cri2.andTwoRoomNumGreaterThan(0);
+				}
+			} else if (roomNum == 3) {
+				cri.andThreeRoomNumGreaterThan(0);
+				if (cri2 != null) {
+					cri2.andThreeRoomNumGreaterThan(0);
+				}
+			} else if (roomNum == 4) {
+				cri.andFourRoomNumGreaterThan(0);
+				if (cri2 != null) {
+					cri2.andFourRoomNumGreaterThan(0);
+				}
+			} else if (roomNum == 5) {
+				cri.andFiveRoomNumGreaterThan(0);
+				if (cri2 != null) {
+					cri2.andFiveRoomNumGreaterThan(0);
+				}
+			} else if (roomNum == 6) {
+				cri.andOverFiveRoomNumGreaterThan(0);
+				if (cri2 != null) {
+					cri2.andOverFiveRoomNumGreaterThan(0);
+				}
+			}
+		}
+		if (StringUtils.isNotBlank(grossFloorArea)) {
+			String[] values = grossFloorArea.split(":");
+			if (values.length > 1 && StringUtils.isNumeric(values[0])
+					&& StringUtils.isNumeric(values[1])) {
+				cri.andMinRoomGrossFloorAreaLessThanOrEqualTo(
+						Integer.valueOf(values[1]))
+						.andMaxRoomGrossFloorAreaGreaterThanOrEqualTo(
+								Integer.valueOf(values[0]));
+				if (cri2 != null) {
+					cri2.andMinRoomGrossFloorAreaLessThanOrEqualTo(
+							Integer.valueOf(values[1]))
+							.andMaxRoomGrossFloorAreaGreaterThanOrEqualTo(
+									Integer.valueOf(values[0]));
+				}
+			}
+		}
+		if (StringUtils.isNotBlank(saleStatus)) {
+			cri.andSaleStatusEqualTo(saleStatus);
+			if (cri2 != null) {
+				cri2.andSaleStatusEqualTo(saleStatus);
+			}
+		}
+		if (StringUtils.isNotBlank(bound)) {
+			String[] values = bound.split(":");
+			if (values.length > 3) {
+				cri.andLongitudeGreaterThan(Float.valueOf(values[0]));
+				cri.andLatitudeGreaterThan(Float.valueOf(values[1]));
+				cri.andLongitudeLessThanOrEqualTo(Float.valueOf(values[2]));
+				cri.andLatitudeLessThanOrEqualTo(Float.valueOf(values[3]));
+				if (cri2 != null) {
+					cri2.andLongitudeGreaterThan(Float.valueOf(values[0]));
+					cri2.andLatitudeGreaterThan(Float.valueOf(values[1]));
+					cri2.andLongitudeLessThanOrEqualTo(Float.valueOf(values[2]));
+					cri2.andLatitudeLessThanOrEqualTo(Float.valueOf(values[3]));
+				}
+			}
+		}
+		if (cri2 != null) {
+			repe.or(cri2);
+		}
+		return repe;
+	}
 }
