@@ -64,12 +64,68 @@
 					</div>
 				</c:if>
 				<c:if test="${videos != null and fn:length(videos) != 0 }">
-					<h3>三&nbsp;维</h3>
+					<h3>视&nbsp;频</h3>
 					<div class="gallery" >
 		       			<c:forEach items="${videos}" var="t" varStatus="status">
 						<figure >
 							<a href="${t.preImageUrl }" data-type="video" content-url="${t.contentUrl }"> <img
 								class="lazy" data-original="${fn:replace(t.preImageUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${xgt != null and fn:length(xgt) != 0 }">
+					<h3>效果图</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${xgt}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.contentUrl }" data-type="image"> <img
+								class="lazy" data-original="${fn:replace(t.contentUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${sjt != null and fn:length(sjt) != 0 }">
+					<h3>实景图</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${sjt}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.contentUrl }" data-type="image"> <img
+								class="lazy" data-original="${fn:replace(t.contentUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${ptt != null and fn:length(ptt) != 0 }">
+					<h3>配套图</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${ptt}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.contentUrl }" data-type="image"> <img
+								class="lazy" data-original="${fn:replace(t.contentUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
+								itemprop="thumbnail" alt="Image description" />
+							</a>
+							<figcaption itemprop="caption description">${t.name }</figcaption>
+						</figure>
+		       			</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${jtt != null and fn:length(jtt) != 0 }">
+					<h3>交通图</h3>
+					<div class="gallery" >
+		       			<c:forEach items="${jtt}" var="t" varStatus="status">
+						<figure >
+							<a href="${t.contentUrl }" data-type="image"> <img
+								class="lazy" data-original="${fn:replace(t.contentUrl, '_b.', '_m.')}" src="${ctx }/assets/img/loading.gif"
 								itemprop="thumbnail" alt="Image description" />
 							</a>
 							<figcaption itemprop="caption description">${t.name }</figcaption>

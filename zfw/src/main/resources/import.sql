@@ -5,8 +5,8 @@ name varchar(50) unique,
 description varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false NOT NULL
 );
 
@@ -23,8 +23,8 @@ locked tinyint(1) default false,
 description varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -36,8 +36,8 @@ code varchar(50) unique,
 description varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 drop table if exists tr_user_role;
@@ -47,8 +47,8 @@ user_id varchar(50),
 role_id varchar(50),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -60,8 +60,8 @@ role_id varchar(50),
 permission_id varchar(50),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 drop table if exists tr_user_rep;
@@ -71,8 +71,8 @@ user_id varchar(50),
 real_estate_project_id varchar(50),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -118,8 +118,8 @@ max_room_gross_floor_area int(4),
 sale_status varchar(20),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -145,8 +145,8 @@ pre_image_url varchar(200),
 region varchar(20),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -160,8 +160,8 @@ content_url varchar(200),
 pre_image_url varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -175,8 +175,8 @@ content_url varchar(200),
 pre_image_url varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -187,11 +187,11 @@ real_estate_project_id varchar(50),
 name varchar(50),
 description varchar(200),
 content_url varchar(200),
-type int(4),
+type varchar(20),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -202,8 +202,8 @@ real_estate_project_id varchar(50),
 value float(8,2),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -216,8 +216,8 @@ description varchar(200),
 content_url varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -231,8 +231,8 @@ content_url varchar(200),
 pre_image_url varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
@@ -246,20 +246,56 @@ content_url varchar(200),
 pre_image_url varchar(200),
 creater varchar(50),
 last_editor varchar(50),
-create_date date,
-update_date date,
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
-drop table if exists tbl_ad;
-CREATE TABLE tbl_ad(
+drop table if exists tbl_information;
+CREATE TABLE tbl_information(
 id varchar(50) PRIMARY KEY,
 name varchar(50),
-code varchar(50),
+author varchar(50),
+content varchar(6000),
+summary varchar(200),
 description varchar(200),
+tags varchar(200),
+type varchar(20),
+priority int(8),
+pre_image_url varchar(200),
 creater varchar(50),
-lastEditor varchar(50),
-createDate date,
-updateDate date,
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tr_rep_info;
+CREATE TABLE tr_rep_info(
+id varchar(50) PRIMARY KEY,
+real_estate_project_id varchar(50),
+information_id varchar(50),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_advertisement;
+CREATE TABLE tbl_advertisement(
+id varchar(50) PRIMARY KEY,
+name varchar(50),
+summary varchar(200),
+pre_image_url varchar(200),
+content_url varchar(200),
+description varchar(200),
+location varchar(20),
+priority int(8),
+active tinyint(1) default true,
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );

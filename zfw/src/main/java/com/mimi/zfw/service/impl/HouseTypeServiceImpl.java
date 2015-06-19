@@ -122,4 +122,11 @@ public class HouseTypeServiceImpl extends
 		return hte;
 	}
 
+	@Override
+	public List<HouseType> getHouseTypeByREPId(String id) {
+		HouseTypeExample hte = new HouseTypeExample();
+		hte.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		return htm.selectByExample(hte);
+	}
+
 }

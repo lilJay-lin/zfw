@@ -39,7 +39,7 @@ public class HTImageServiceImpl extends
 
 
 	@Override
-	public List<HTImage> getImageByParams(String id, int targetPage,
+	public List<HTImage> getImagesByParams(String id, int targetPage,
 			int pageSize) {
 		HTImageExample hie = new HTImageExample();
 		hie.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);

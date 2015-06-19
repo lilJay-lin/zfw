@@ -15,11 +15,17 @@ import com.mimi.zfw.mybatis.dao.HTImageMapper;
 import com.mimi.zfw.mybatis.dao.HTPanoMapper;
 import com.mimi.zfw.mybatis.dao.HTRingMapper;
 import com.mimi.zfw.mybatis.dao.HouseTypeMapper;
+import com.mimi.zfw.mybatis.dao.REPImageMapper;
+import com.mimi.zfw.mybatis.dao.REPPanoMapper;
+import com.mimi.zfw.mybatis.dao.REPVideoMapper;
 import com.mimi.zfw.mybatis.dao.RealEstateProjectMapper;
 import com.mimi.zfw.mybatis.pojo.HTImage;
 import com.mimi.zfw.mybatis.pojo.HTPano;
 import com.mimi.zfw.mybatis.pojo.HTRing;
 import com.mimi.zfw.mybatis.pojo.HouseType;
+import com.mimi.zfw.mybatis.pojo.REPImage;
+import com.mimi.zfw.mybatis.pojo.REPPano;
+import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample.Criteria;
@@ -33,6 +39,15 @@ public class RealEstateProjectServiceImpl extends
 
 	@Resource
 	private RealEstateProjectMapper repm;
+	
+	@Resource
+	private REPImageMapper repim;
+	
+	@Resource
+	private REPPanoMapper reppm;
+	
+	@Resource
+	private REPVideoMapper repvm;
 
 	@Resource
 	private HouseTypeMapper htm;
@@ -147,7 +162,9 @@ public class RealEstateProjectServiceImpl extends
 				"北京首开鸿城实业有限公司" };
 		float[] propertyFeeList = { 1.2f, 2.0f, 1.5f, 1.2f, 2.0f, 1.5f, 1.2f,
 				2.0f, 1.5f, 2.5f };
-
+		String[] imgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"};
+		String[] preImgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg"};
+		
 		Date nowDate = new Date(System.currentTimeMillis());
 
 		for (int j = 0; j < 5; j++) {
@@ -179,7 +196,7 @@ public class RealEstateProjectServiceImpl extends
 				rep.setLatitude(lat);
 				rep.setLongitude(lon);
 
-				rep.setMaxRoomGrossFloorArea((int) (Math.random() * 200));
+				rep.setMaxRoomGrossFloorArea((int) (Math.random() * 100)+100);
 				rep.setMinRoomGrossFloorArea((int) (rep
 						.getMaxRoomGrossFloorArea() - Math.random() * 100));
 
@@ -265,8 +282,6 @@ public class RealEstateProjectServiceImpl extends
 					ht.setToiletNum((int) (Math.random() + 1));
 
 					
-					String[] imgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"};
-					String[] preImgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg"};
 					for(int ki=0;ki<imgUrl.length;ki++){
 						HTImage hi = new HTImage();
 						hi.setId(UUID.randomUUID().toString());
@@ -300,6 +315,66 @@ public class RealEstateProjectServiceImpl extends
 					}
 					
 					htm.insertSelective(ht);
+				}
+				
+				for(int v=0;v<imgUrl.length;v++){
+					REPVideo rv = new REPVideo();
+					rv.setId(UUID.randomUUID().toString());
+					rv.setRealEstateProjectId(rep.getId());
+					rv.setCreateDate(nowDate);
+					rv.setContentUrl("http://www.baidu.com");
+					rv.setPreImageUrl(preImgUrl[v]);
+					
+					repvm.insertSelective(rv);
+					
+					REPPano rp = new REPPano();
+					rp.setId(UUID.randomUUID().toString());
+					rp.setRealEstateProjectId(rep.getId());
+					rp.setCreateDate(nowDate);
+					rp.setContentUrl("http://www.baidu.com");
+					rp.setPreImageUrl(preImgUrl[v]);
+					
+					reppm.insertSelective(rp);
+
+					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+						REPImage ri = new REPImage();
+						ri.setId(UUID.randomUUID().toString());
+						ri.setRealEstateProjectId(rep.getId());
+						ri.setCreateDate(nowDate);
+						ri.setContentUrl(imgUrl[v]);
+						ri.setType(Constants.REP_IMAGE_TYPE_JTT);
+						repim.insertSelective(ri);
+					}
+
+					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+						REPImage ri = new REPImage();
+						ri.setId(UUID.randomUUID().toString());
+						ri.setRealEstateProjectId(rep.getId());
+						ri.setCreateDate(nowDate);
+						ri.setContentUrl(imgUrl[v]);
+						ri.setType(Constants.REP_IMAGE_TYPE_PTT);
+						repim.insertSelective(ri);
+					}
+
+					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+						REPImage ri = new REPImage();
+						ri.setId(UUID.randomUUID().toString());
+						ri.setRealEstateProjectId(rep.getId());
+						ri.setCreateDate(nowDate);
+						ri.setContentUrl(imgUrl[v]);
+						ri.setType(Constants.REP_IMAGE_TYPE_SJT);
+						repim.insertSelective(ri);
+					}
+
+					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+						REPImage ri = new REPImage();
+						ri.setId(UUID.randomUUID().toString());
+						ri.setRealEstateProjectId(rep.getId());
+						ri.setCreateDate(nowDate);
+						ri.setContentUrl(imgUrl[v]);
+						ri.setType(Constants.REP_IMAGE_TYPE_XGT);
+						repim.insertSelective(ri);
+					}
 				}
 			}
 		}

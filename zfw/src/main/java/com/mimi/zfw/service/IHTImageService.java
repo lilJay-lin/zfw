@@ -10,7 +10,7 @@ public interface IHTImageService extends
 
 	public List<HTImage> getImagesByHTId(String id);
 
-	public List<HTImage> getImageByParams(String id, int targetPage,
+	public List<HTImage> getImagesByParams(String id, int targetPage,
 			int pageSize);
 
 }

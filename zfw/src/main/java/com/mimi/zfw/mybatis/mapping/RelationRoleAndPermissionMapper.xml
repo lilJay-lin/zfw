@@ -7,8 +7,8 @@
     <result column="permission_id" property="permissionId" jdbcType="VARCHAR" />
     <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -109,8 +109,8 @@
       creater, last_editor, create_date, 
       update_date)
     values (#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR}, 
-      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
-      #{updateDate,jdbcType=DATE})
+      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.RelationRoleAndPermission" >
     insert into tr_role_permission
@@ -154,10 +154,10 @@
         #{lastEditor,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
-        #{createDate,jdbcType=DATE},
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateDate != null" >
-        #{updateDate,jdbcType=DATE},
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -186,10 +186,10 @@
         last_editor = #{record.lastEditor,jdbcType=VARCHAR},
       </if>
       <if test="record.createDate != null" >
-        create_date = #{record.createDate,jdbcType=DATE},
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=DATE},
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -203,8 +203,8 @@
       permission_id = #{record.permissionId,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       last_editor = #{record.lastEditor,jdbcType=VARCHAR},
-      create_date = #{record.createDate,jdbcType=DATE},
-      update_date = #{record.updateDate,jdbcType=DATE}
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -225,10 +225,10 @@
         last_editor = #{lastEditor,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=DATE},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=DATE},
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -239,8 +239,8 @@
       permission_id = #{permissionId,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=VARCHAR},
       last_editor = #{lastEditor,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
-      update_date = #{updateDate,jdbcType=DATE}
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.EhcacheCache" />

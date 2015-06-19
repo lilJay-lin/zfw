@@ -108,4 +108,17 @@ public class Constants {
 	public static final String SALE_STATUS_ZS = "在售";
 	public static final String SALE_STATUS_DS = "待售";
 	public static final String SALE_STATUS_SW = "售完";
+	
+	public static final String REP_IMAGE_TYPE_XGT = "效果图";
+	public static final String REP_IMAGE_TYPE_SJT = "实景图";
+	public static final String REP_IMAGE_TYPE_JTT = "交通图";
+	public static final String REP_IMAGE_TYPE_PTT = "配套图";
+	
+	public static final String AD_LOCATION_HOME_TOP = "homeTop";
+	public static final String AD_LOCATION_HOME_MIDDLE_FOUR = "homeMiddleFour";
+	public static final String AD_LOCATION_HOME_MIDDLE_ONE = "homeMiddleOne";
+	public static final String AD_LOCATION_INFO_TOP = "infoTop";
+	
+	public static final String INFORMATION_TYPE_ZH = "综合";
+	public static final String INFORMATION_TYPE_FC = "房产";
 }

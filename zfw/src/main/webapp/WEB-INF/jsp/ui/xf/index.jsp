@@ -74,18 +74,6 @@
 							<span class="js-sift-condition" data-condition="10000:1000000"> 10000或以上</span>
 						</p> <strong>价格</strong> <em class="arrowDown"></em>
 					</li>
-					<li>
-						<p>
-							<span class="js-selected"  data-name="roomNum" data-condition=""> 不限 </span>
-							<span class="js-sift-condition none" data-condition=""> 不限</span>
-							<span class="js-sift-condition" data-condition="1"> 一居 </span>
-							<span class="js-sift-condition" data-condition="2"> 二居 </span>
-							<span class="js-sift-condition" data-condition="3"> 三居 </span>
-							<span class="js-sift-condition" data-condition="4"> 四居 </span>
-							<span class="js-sift-condition" data-condition="5"> 五居 </span>
-							<span class="js-sift-condition" data-condition="6"> 五居以上 </span>
-						</p> <strong>户型</strong> <em class="arrowDown"></em>
-					</li>
 					<li >
 						<p>
 							<span class="js-selected"  data-name="grossFloorArea" data-condition=""> 不限 </span>
@@ -100,7 +88,19 @@
 							<span class="js-sift-condition" data-condition="200:10000"> 200或以上</span>
 						</p> <strong>面积</strong> <em class="arrowDown"></em>
 					</li>
-					<li >
+					<li class="notImportant none">
+						<p>
+							<span class="js-selected"  data-name="roomNum" data-condition=""> 不限 </span>
+							<span class="js-sift-condition none" data-condition=""> 不限</span>
+							<span class="js-sift-condition" data-condition="1"> 一居 </span>
+							<span class="js-sift-condition" data-condition="2"> 二居 </span>
+							<span class="js-sift-condition" data-condition="3"> 三居 </span>
+							<span class="js-sift-condition" data-condition="4"> 四居 </span>
+							<span class="js-sift-condition" data-condition="5"> 五居 </span>
+							<span class="js-sift-condition" data-condition="6"> 五居以上 </span>
+						</p> <strong>户型</strong> <em class="arrowDown"></em>
+					</li>
+					<li class="notImportant none">
 						<p>
 							<span class="js-selected" data-name="saleStatus" data-condition=""> 不限 </span>
 							<span class="js-sift-condition none" data-condition=""> 不限</span>
@@ -231,10 +231,12 @@
 		<%@include file="../inc/footer.jsp" %>
 		<%@include file="../inc/goHead.jsp" %>
 	</div>
+	<input type="hidden" id="resultType" value="${resultType }">
+	<input type="hidden" id="total" value="${total }">
 </body>
 <%@include file="../inc/bottom.jsp" %>
 <script>
-var total=Math.ceil(${total}/5);
+var total=Math.ceil($("#total").val()/5);
 var allowLoad = true;
 var curp = 1;
 
@@ -306,17 +308,17 @@ var curp = 1;
 			load();
 		});
 	}
-	function hideOrOpenNav() {
-		var navObj = $(".newNav");
-		var shadow = $(".popShadow");
-		if (navObj.hasClass("none")) {
-			navObj.removeClass("none");
-			shadow.removeClass("none");
-		} else {
-			navObj.addClass("none");
-			shadow.addClass("none");
-		}
-	}
+// 	function hideOrOpenNav() {
+// 		var navObj = $(".newNav");
+// 		var shadow = $(".popShadow");
+// 		if (navObj.hasClass("none")) {
+// 			navObj.removeClass("none");
+// 			shadow.removeClass("none");
+// 		} else {
+// 			navObj.addClass("none");
+// 			shadow.addClass("none");
+// 		}
+// 	}
 	function spreadList() {
 		var btn = $("#listMore");
 		if (btn.hasClass("down")) {
@@ -371,7 +373,7 @@ var curp = 1;
 		if(draginner.hasClass("loading")){
 			return;
 		}
-		if(curp>=total){
+		if(curp+1>=total){
 			allowLoad = false;
 			$('#drag').hide();
 			return;
@@ -390,67 +392,62 @@ var curp = 1;
 			dataType:'json',
 			success: function(json){
 				if(json.success){
-					$(".searchResultNum").html(json.num);
 					for(var i=0;i<json.results.length;i++){
 						var result = json.results[i];
-
-						<c:choose>
-							<c:when test="${resultType=='楼盘'}">
-								var str = '<li><a id="{id}" href="${ctx}/xf/{id}/detail"> <div class="img"> <img src="{preImageUrl}"> </div> <div class="txt"> <p class="x-intro"> <h2>{name}</h2> <span class="new">{averagePrice}元/平</span> </p> <p>{address}</p> <div class="stag"> <span class="t1">户型：{roomNumStr} </div> </div> </a></li>';
-								var roomNumStr = "";
-								if(result.oneRoomNum && result.oneRoomNum>0){
-									roomNumStr+='一居(<span class="t2">'+result.oneRoomNum+'</span>) ';
-								}
-								if(result.twoRoomNum && result.twoRoomNum>0){
-									roomNumStr+='二居(<span class="t2">'+result.twoRoomNum+'</span>) ';
-								}
-								if(result.threeRoomNum && result.threeRoomNum>0){
-									roomNumStr+='三居(<span class="t2">'+result.threeRoomNum+'</span>) ';
-								}
-								if(result.fourRoomNum && result.fourRoomNum>0){
-									roomNumStr+='四居(<span class="t2">'+result.fourRoomNum+'</span>) ';
-								}
-								if(result.fiveRoomNum && result.fiveRoomNum>0){
-									roomNumStr+='五居(<span class="t2">'+result.fiveRoomNum+'</span>) ';
-								}
-								if(result.overFiveRoomNum && result.overFiveRoomNum>0){
-									roomNumStr+='五居以上(<span class="t2">'+result.overFiveRoomNum+'</span>) ';
-								}
-								str = str.replace(/{id}/g,result.id);
-								str = str.replace(/{preImageUrl}/g,result.preImageUrl);
-								str = str.replace(/{name}/g,result.name);
-								str = str.replace(/{averagePrice}/g,result.averagePrice);
-								str = str.replace(/{address}/g,result.address);
-								str = str.replace(/{roomNumStr}/g,roomNumStr);
-								$('#itemList').append(str);
-							</c:when>
-							<c:otherwise>
-								var str = '<li><a id="{id}" href="${ctx}/hx/{id}/detail"> <div class="img"> <img src="{preImageUrl}"> </div> <div class="txt"> <p class="x-intro"> <h2>{name}</h2> <span class="new">{averagePrice}元/平</span> </p> <p>{numMsgStr}</p> <div class="stag"> <span class="t1">{realEstateProjectName} </div> </div> </a></li>';
-								var numMsgStr = "";
-								if(result.roomNum && result.roomNum>0){
-									numMsgStr+=result.roomNum+'室';
-								}
-								if(result.hallNum && result.hallNum>0){
-									numMsgStr+=' '+result.hallNum+'厅';
-								}
-								if(result.toiletNum && result.toiletNum>0){
-									numMsgStr+=' '+result.toiletNum+'卫';
-								}
-								if(result.kitchenNum && result.kitchenNum>0){
-									numMsgStr+=' '+result.kitchenNum+'厨';
-								}
-								if(result.grossFloorArea && result.grossFloorArea>0){
-									numMsgStr+=' 约'+result.grossFloorArea+'㎡';
-								}
-								str = str.replace(/{id}/g,result.id);
-								str = str.replace(/{preImageUrl}/g,result.preImageUrl);
-								str = str.replace(/{name}/g,result.name);
-								str = str.replace(/{averagePrice}/g,result.averagePrice);
-								str = str.replace(/{numMsgStr}/g,numMsgStr);
-								str = str.replace(/{realEstateProjectName}/g,result.realEstateProjectName);
-								$('#itemList').append(str);
-							</c:otherwise>
-						</c:choose>
+						if($("#resultType").val()=="楼盘"){
+							var str = '<li><a id="{id}" href="${ctx}/xf/{id}/detail"> <div class="img"> <img src="{preImageUrl}"> </div> <div class="txt"> <p class="x-intro"> <h2>{name}</h2> <span class="new">{averagePrice}元/平</span> </p> <p>{address}</p> <div class="stag"> <span class="t1">户型：{roomNumStr} </div> </div> </a></li>';
+							var roomNumStr = "";
+							if(result.oneRoomNum && result.oneRoomNum>0){
+								roomNumStr+='一居(<span class="t2">'+result.oneRoomNum+'</span>) ';
+							}
+							if(result.twoRoomNum && result.twoRoomNum>0){
+								roomNumStr+='二居(<span class="t2">'+result.twoRoomNum+'</span>) ';
+							}
+							if(result.threeRoomNum && result.threeRoomNum>0){
+								roomNumStr+='三居(<span class="t2">'+result.threeRoomNum+'</span>) ';
+							}
+							if(result.fourRoomNum && result.fourRoomNum>0){
+								roomNumStr+='四居(<span class="t2">'+result.fourRoomNum+'</span>) ';
+							}
+							if(result.fiveRoomNum && result.fiveRoomNum>0){
+								roomNumStr+='五居(<span class="t2">'+result.fiveRoomNum+'</span>) ';
+							}
+							if(result.overFiveRoomNum && result.overFiveRoomNum>0){
+								roomNumStr+='五居以上(<span class="t2">'+result.overFiveRoomNum+'</span>) ';
+							}
+							str = str.replace(/{id}/g,result.id);
+							str = str.replace(/{preImageUrl}/g,result.preImageUrl);
+							str = str.replace(/{name}/g,result.name);
+							str = str.replace(/{averagePrice}/g,result.averagePrice);
+							str = str.replace(/{address}/g,result.address);
+							str = str.replace(/{roomNumStr}/g,roomNumStr);
+							$('#itemList').append(str);
+						}else{
+							var str = '<li><a id="{id}" href="${ctx}/hx/{id}/detail"> <div class="img"> <img src="{preImageUrl}"> </div> <div class="txt"> <p class="x-intro"> <h2>{name}</h2> <span class="new">{averagePrice}元/平</span> </p> <p>{numMsgStr}</p> <div class="stag"> <span class="t1">{realEstateProjectName} </div> </div> </a></li>';
+							var numMsgStr = "";
+							if(result.roomNum && result.roomNum>0){
+								numMsgStr+=result.roomNum+'室';
+							}
+							if(result.hallNum && result.hallNum>0){
+								numMsgStr+=' '+result.hallNum+'厅';
+							}
+							if(result.toiletNum && result.toiletNum>0){
+								numMsgStr+=' '+result.toiletNum+'卫';
+							}
+							if(result.kitchenNum && result.kitchenNum>0){
+								numMsgStr+=' '+result.kitchenNum+'厨';
+							}
+							if(result.grossFloorArea && result.grossFloorArea>0){
+								numMsgStr+=' 约'+parseFloat(result.grossFloorArea).toFixed(2); +'㎡';
+							}
+							str = str.replace(/{id}/g,result.id);
+							str = str.replace(/{preImageUrl}/g,result.preImageUrl);
+							str = str.replace(/{name}/g,result.name);
+							str = str.replace(/{averagePrice}/g,result.averagePrice);
+							str = str.replace(/{numMsgStr}/g,numMsgStr);
+							str = str.replace(/{realEstateProjectName}/g,result.realEstateProjectName);
+							$('#itemList').append(str);
+						}
 					}
 				}else if(json.msg){
 					alert(json.msg);
@@ -463,7 +460,7 @@ var curp = 1;
 			complete:function(e){
 				draginner.css('padding-left','0px');
 				draginner.removeClass("loading");
-				draginner.html("查看更多${resultType }");
+				draginner.html("查看更多"+$("#resultType").val());
 				
 				allowLoad = true;
 				if(curp+1>=total){

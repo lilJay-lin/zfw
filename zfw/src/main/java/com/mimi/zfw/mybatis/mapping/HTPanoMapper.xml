@@ -10,8 +10,8 @@
     <result column="pre_image_url" property="preImageUrl" jdbcType="VARCHAR" />
     <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -116,8 +116,8 @@
       update_date, del_flag)
     values (#{id,jdbcType=VARCHAR}, #{houseTypeId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{contentUrl,jdbcType=VARCHAR}, #{preImageUrl,jdbcType=VARCHAR}, 
-      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
-      #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=BIT})
+      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.HTPano" >
     insert into tbl_ht_panorama
@@ -182,10 +182,10 @@
         #{lastEditor,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
-        #{createDate,jdbcType=DATE},
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateDate != null" >
-        #{updateDate,jdbcType=DATE},
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="delFlag != null" >
         #{delFlag,jdbcType=BIT},
@@ -226,10 +226,10 @@
         last_editor = #{record.lastEditor,jdbcType=VARCHAR},
       </if>
       <if test="record.createDate != null" >
-        create_date = #{record.createDate,jdbcType=DATE},
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=DATE},
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.delFlag != null" >
         del_flag = #{record.delFlag,jdbcType=BIT},
@@ -249,8 +249,8 @@
       pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       last_editor = #{record.lastEditor,jdbcType=VARCHAR},
-      create_date = #{record.createDate,jdbcType=DATE},
-      update_date = #{record.updateDate,jdbcType=DATE},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       del_flag = #{record.delFlag,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -281,10 +281,10 @@
         last_editor = #{lastEditor,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=DATE},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=DATE},
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="delFlag != null" >
         del_flag = #{delFlag,jdbcType=BIT},
@@ -301,8 +301,8 @@
       pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=VARCHAR},
       last_editor = #{lastEditor,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
-      update_date = #{updateDate,jdbcType=DATE},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
       del_flag = #{delFlag,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>

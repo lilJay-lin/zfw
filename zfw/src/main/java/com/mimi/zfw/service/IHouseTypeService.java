@@ -15,4 +15,6 @@ public interface IHouseTypeService extends
 	public int countHouseTypeByParams(String keyWord, String region,
 			String averagePrice, Integer roomNum, String grossFloorArea,
 			String saleStatus);
+	
+	public List<HouseType> getHouseTypeByREPId(String id);
 }

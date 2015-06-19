@@ -96,6 +96,8 @@
 			<div id="allmap" ></div>
 			<div id="pos" class="map-pos"></div>
 	</div>
+	<input type="hidden" id="defaultLon" value="${rep.longitude}">
+	<input type="hidden" id="defaultLat" value="${rep.latitude}">
 </body>
 <%@include file="../inc/bottom.jsp" %>
 <script>
@@ -196,7 +198,12 @@
 	var targetId;
 	function initMap(){
 		// 百度地图API功能
+		var defaultLon = $("#defaultLon").val();
+		var defaultLat = $("#defaultLat").val();
 		var defaultPoint = new BMap.Point(112.475947,23.060117);
+		if(defaultLon && defaultLat){
+			var defaultPoint = new BMap.Point(defaultLon,defaultLat);
+		}
 		mp = new BMap.Map("allmap");
 		mp.setMinZoom(12);
 		mp.ondragend = function(){
@@ -211,7 +218,9 @@
 		$("#pos").click(function(){
 			getLocation();
 		});
-		getLocation();
+		if(!defaultLon){
+			getLocation();
+		}
 	}
 
 	function reSearch(){
@@ -314,7 +323,7 @@
       
       div.addEventListener("touchend",function(){
     	  if(!moved && targetId){
-    		  top.location='detail.html?dataId='+targetId;
+    		  top.location='${ctx}/xf/'+targetId+'/detail';
     	  }
       });
       div.addEventListener("touchmove",function(){

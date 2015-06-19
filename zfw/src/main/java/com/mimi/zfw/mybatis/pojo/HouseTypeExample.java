@@ -1474,52 +1474,52 @@ public class HouseTypeExample extends BaseExample {
         }
 
         public Criteria andCreateDateEqualTo(Date value) {
-            addCriterionForJDBCDate("create_date =", value, "createDate");
+            addCriterion("create_date =", value, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("create_date <>", value, "createDate");
+            addCriterion("create_date <>", value, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("create_date >", value, "createDate");
+            addCriterion("create_date >", value, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("create_date >=", value, "createDate");
+            addCriterion("create_date >=", value, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateLessThan(Date value) {
-            addCriterionForJDBCDate("create_date <", value, "createDate");
+            addCriterion("create_date <", value, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("create_date <=", value, "createDate");
+            addCriterion("create_date <=", value, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateIn(List<Date> values) {
-            addCriterionForJDBCDate("create_date in", values, "createDate");
+            addCriterion("create_date in", values, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("create_date not in", values, "createDate");
+            addCriterion("create_date not in", values, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("create_date between", value1, value2, "createDate");
+            addCriterion("create_date between", value1, value2, "createDate");
             return (Criteria) this;
         }
 
         public Criteria andCreateDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("create_date not between", value1, value2, "createDate");
+            addCriterion("create_date not between", value1, value2, "createDate");
             return (Criteria) this;
         }
 
@@ -1534,52 +1534,52 @@ public class HouseTypeExample extends BaseExample {
         }
 
         public Criteria andUpdateDateEqualTo(Date value) {
-            addCriterionForJDBCDate("update_date =", value, "updateDate");
+            addCriterion("update_date =", value, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("update_date <>", value, "updateDate");
+            addCriterion("update_date <>", value, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("update_date >", value, "updateDate");
+            addCriterion("update_date >", value, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("update_date >=", value, "updateDate");
+            addCriterion("update_date >=", value, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateLessThan(Date value) {
-            addCriterionForJDBCDate("update_date <", value, "updateDate");
+            addCriterion("update_date <", value, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("update_date <=", value, "updateDate");
+            addCriterion("update_date <=", value, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateIn(List<Date> values) {
-            addCriterionForJDBCDate("update_date in", values, "updateDate");
+            addCriterion("update_date in", values, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("update_date not in", values, "updateDate");
+            addCriterion("update_date not in", values, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("update_date between", value1, value2, "updateDate");
+            addCriterion("update_date between", value1, value2, "updateDate");
             return (Criteria) this;
         }
 
         public Criteria andUpdateDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("update_date not between", value1, value2, "updateDate");
+            addCriterion("update_date not between", value1, value2, "updateDate");
             return (Criteria) this;
         }
 

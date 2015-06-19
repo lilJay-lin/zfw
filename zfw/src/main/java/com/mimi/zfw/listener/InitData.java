@@ -7,12 +7,13 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Repository;
 
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
+import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
-import com.mimi.zfw.web.captcha.GeetestLib;
 
 @Repository
 public class InitData implements ApplicationListener<ContextRefreshedEvent> {
@@ -25,6 +26,10 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private IPermissionService permissionService;
     @Resource
     private IRealEstateProjectService repService;
+    @Resource
+    private IInformationService infoService;
+    @Resource
+    private IAdvertisementService adService;
 
     @Resource
     private CCPRestSmsSDK ytxAPI;
@@ -57,6 +62,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 	roleService.initRole();
 	userService.initUser();
 	repService.initRealEstateProject();
+	infoService.initInformation();
+	adService.initAdvertisement();
     }
 
 }

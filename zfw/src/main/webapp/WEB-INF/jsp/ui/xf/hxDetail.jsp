@@ -56,10 +56,10 @@
 		</c:if>
 		<section class=" pd10 bdb">
 			<div>
-				<span class="f18 pd10">户型名称</span>
+				<span class="f18 pd10">${hx.name }</span>
 				<div class="pdY5">
-					<span class="fc00 f14">参考价：50.48万元</span><span class="flor f14">热线电话：<span
-						class="f999">1233211233</span></span>
+					<span class="fc00 f14">参考价：<fmt:formatNumber value="${hx.averagePrice*hx.grossFloorArea*0.0001 }"  type="number"  maxFractionDigits="2"/>万元</span><span class="flor f14">热线电话：<span
+						class="f999">${rep.tel }</span></span>
 				</div>
 			</div>
 		</section>
@@ -68,82 +68,95 @@
 				<h2 class="f16 pdt5">户型详情</h2>
 
 				<p>
-					户型：<span class="f999">2室2厅1卫1厨</span>
+					户型：<span class="f999">
+					<c:if test="${hx.roomNum != null and hx.roomNum != '0' }">
+											${hx.roomNum}室
+										</c:if><c:if test="${hx.hallNum != null and hx.hallNum != '0' }">
+											${hx.hallNum}厅
+										</c:if><c:if test="${hx.toiletNum != null and hx.toiletNum != '0' }">
+											${hx.toiletNum}卫
+										</c:if><c:if test="${hx.kitchenNum != null and hx.kitchenNum != '0' }">
+											${hx.kitchenNum}厨
+										</c:if>
+										</span>
 				</p>
 				<p>
-					面积：<span class="f999">91.21㎡</span>
+					面积：<span class="f999">${hx.grossFloorArea }㎡</span>
 				</p>
 				<p>
-					装修：<span class="f999">毛坯</span>
+					装修：<span class="f999">${rep.decorationStatus }</span>
 				</p>
 				<div class="l"></div>
 				<p>
-					楼盘：<a href="detail.html"><span >楼盘名称</span></a>
+					楼盘：<a href="${ctx }/xf/${rep.id}/detail"><span >${rep.name }</span></a>
 				</p>
 				<p>
-					销售：<span class="f999">在售</span>
+					销售：<span class="f999">${hx.saleStatus }</span>
 				</p>
 				<div class="l"></div>
 				<h3>描述</h3>
-				<p class="f999">昂受到法律框架阿斯顿蓝山咖啡卡机上来看房送健康贾克斯法律思考狂来说剑看拉斯咖啡店就卡死京东方卡拉斯经典款楼上的房间啊塑料袋放空间</p>
+				<p class="f999">${hx.description }</p>
 
 			</div>
 		</section>
 		
+		<c:if test="${rings != null and fn:length(rings) != 0 }">
 		<section class="mt10 bdt bdb">
 			<h3 class="pd10 f16">三维看房</h3>
 			<div class="imgTouchSlider">
 				<div class="main_image">
 					<ul>
-						<li><a href="http://www.baidu.com">
+		       			<c:forEach items="${rings}" var="t" varStatus="status">
+								<li><a href="${t.contentUrl }">
 								<div class="play360Btn"></div><img
-								src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
+								src='${t.preImageUrl }'>
 								</a></li>
-						<li><a href="http://www.baidu.com">
-								<div class="play360Btn"></div><img
-								src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
-						<li><a href="http://www.baidu.com">
-								<div class="play360Btn"></div><img
-								src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+		       			</c:forEach>
 					</ul>
 					<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
 						href="javascript:void(0);" id="btn_next" class="btn_next"></a>
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<a href="">1</a> <a href="">2</a><a href="">3</a>
+						<c:if test="${rings != null and fn:length(rings) > 1 }">
+				       		<c:forEach items="${rings}" var="t" varStatus="status">
+				       			<a href=""></a>
+				       		</c:forEach>
+						</c:if>
 					</div>
 				</div>
 			</div>
 		</section>
+		</c:if>
 		
+		<c:if test="${panos != null and fn:length(panos) != 0 }">
 		<section class="mt10 bdt bdb">
 			<h3 class="pd10 f16">全景看房</h3>
-		<div class="imgTouchSlider">
-			<div class="main_image">
-				<ul>
-					<li><a href="http://www.baidu.com">
-							<div class="play360Btn"></div><img
-							src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
-							</a></li>
-					<li><a href="http://www.baidu.com">
-							<div class="play360Btn"></div><img
-							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
-					<li><a href="http://www.baidu.com">
-							<div class="play360Btn"></div><img
-							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
-				</ul>
-				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
-					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
-			</div>
-			<div class="flicking_con">
-				<div class="flicking_inner">
-					<a href="">1</a> <a href="">2</a><a href="">3</a>
+			<div class="imgTouchSlider">
+				<div class="main_image">
+					<ul>
+		       			<c:forEach items="${panos}" var="t" varStatus="status">
+								<li><a href="${t.contentUrl }">
+								<div class="play360Btn"></div><img
+								src='${t.preImageUrl }'>
+								</a></li>
+		       			</c:forEach>
+					</ul>
+					<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+						href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+				</div>
+				<div class="flicking_con">
+					<div class="flicking_inner">
+						<c:if test="${panos != null and fn:length(panos) > 1 }">
+				       		<c:forEach items="${panos}" var="t" varStatus="status">
+				       			<a href=""></a>
+				       		</c:forEach>
+						</c:if>
+					</div>
 				</div>
 			</div>
-		</div>
 		</section>
-		
+		</c:if>
 		<%@include file="../inc/footer.jsp" %>
 	</div>
 </body>

@@ -79,10 +79,15 @@
         <table tableName="tbl_role" domainObjectName="Role" ></table>
         <table tableName="tbl_user" domainObjectName="User"></table>
         <table tableName="tbl_real_estate_project" domainObjectName="RealEstateProject"></table>
+        <table tableName="tbl_rep_video" domainObjectName="REPVideo"></table>
+        <table tableName="tbl_rep_panorama" domainObjectName="REPPano"></table>
+        <table tableName="tbl_rep_image" domainObjectName="REPImage"></table>
         <table tableName="tbl_house_type" domainObjectName="HouseType"></table>
         <table tableName="tbl_ht_image" domainObjectName="HTImage"></table>
         <table tableName="tbl_ht_panorama" domainObjectName="HTPano"></table>
         <table tableName="tbl_ht_ring_display" domainObjectName="HTRing"></table>
+        <table tableName="tbl_information" domainObjectName="Information"></table>
+        <table tableName="tbl_advertisement" domainObjectName="Advertisement"></table>
 <!--         <table tableName="tbl_data_catalog" domainObjectName="DataCatalog"></table> -->
 <!--         <table tableName="tbl_data_object" domainObjectName="DataObject"></table> -->
 <!--         <table tableName="tbl_data_attr" domainObjectName="DataAttr"></table> -->
@@ -90,6 +95,7 @@
 <!--         <table tableName="tbl_data_attr_type" domainObjectName="DataAttrType"></table> -->
         <table tableName="tr_user_role" domainObjectName="RelationUserAndRole"></table>
         <table tableName="tr_role_permission" domainObjectName="RelationRoleAndPermission"></table>
+        <table tableName="tr_rep_info" domainObjectName="RelationREPAndInformation"></table>
 <!--                 <table tableName="role" domainObjectName="Role"></table> -->
 <!--         <table tableName="user" domainObjectName="User"></table> -->
     </context>  
