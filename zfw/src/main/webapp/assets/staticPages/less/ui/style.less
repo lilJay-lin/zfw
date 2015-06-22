@@ -136,6 +136,9 @@ h1 , h2 , h3 , h4 , h5 , h6 {
 	float: right;
 }
 
+.disib{
+	display:inline-block;
+}
 .center {
 	text-align: center;
 }
@@ -1517,6 +1520,54 @@ header.homeHeader {
 }
 
 .searchNo {
-  padding: 70px 10px;
-  text-align: center;
+	padding: 70px 10px;
+	text-align: center;
 }
+
+.searList {
+	margin: 0 10px;
+	.searTips {
+		margin: 0 8px;
+		font-size: 12px;
+		line-height: 1.5;
+		color: #999;
+	}
+
+	li a {
+		display: block;
+		padding: 10px 8px;
+		border-bottom: 1px solid #e4e4e4;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: #333;
+		font-size: 14px;
+	}
+}
+
+.detailMsg p{
+	min-width:48%;
+	display: inline-block;
+}
+.xqbox{ margin-bottom: 10px; border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; font-size: 14px; line-height: 1.5; background-color: #fff;}
+.xqbox:last-child{ margin-bottom: 0;}
+.xqbox h1{ padding-bottom: 2px; font-size: 16px; line-height: 1.3;}
+.xqbox h2{ margin: -10px 0 -3px 0; font-size: 16px; height: 36px; line-height: 36px;}
+.xqbox h2 > a{ display: block; color: #000;}
+.xqbox h2 .tab-year{ margin-top: 8px;}
+
+.xqtit{ padding: 0 10px; border-bottom: 1px solid #e4e4e4; height: 44px; line-height: 44px; font-size: 16px;}
+.xqtit:last-child{ border-bottom: none;}
+.xqtit > a{ position: relative; margin: 0 -10px; padding: 0 10px; display: block; color: #333 !important;}
+.xqtit .arr-rt{ color: #999;}
+
+/* 跳转箭头 */
+.arr-rt{ position: relative; padding-right: 8px;}
+.arr-rt:after{ position: absolute; content: ''; right: -4px; top: 50%; margin-top: -7px; width: 15px; height: 15px; background: url(../img/ui/icons/infolistmore.png) right center no-repeat; background-size: 8px auto;}
+
+.ptss-zf{  overflow: hidden;
+	span{ float: left; margin: 0 0 3px 0; padding-left: 22px; min-width: 50px; color: #999;}
+	.off{background: url(../img/ui/icons/graybg-r.png) left 2px no-repeat;background-size: 16px auto;}
+.on{background: url(../img/ui/icons/bluebg-r.png) left 2px no-repeat;background-size: 16px auto;}
+}
+

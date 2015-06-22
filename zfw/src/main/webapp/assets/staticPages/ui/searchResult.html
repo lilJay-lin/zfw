@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+	<div class="main whitebg">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">搜索结果</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="/xf/bj.html">新房</a></td>
+								<td width="24%"><a href="/esf/bj/">二手房</a></td>
+								<td width="24%"><a href="/zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+		<form class="search0620_new flexbox" name="wapSearchForm" action=""
+			onsubmit="return false;" method="get" autocomplete="off">
+			<div class="searbox_new">
+				<div class="ipt" >
+					<input id="keyWord" type="search" name="keyWord" value=""
+						placeholder="楼盘名/户型名/地名等" autocomplete="off"><a
+						href="javascript:void(0);" class="off" style="display: none;"></a>
+				</div>
+				<a href="javascript:search();" class="btn" rel="nofollow"><i></i></a>
+			</div>
+		</form>
+		<div class="searList" id="wapdsy_D01_08">
+			<ul>
+				<div class="searTips">共663个搜索结果，请选择类别查看</div>
+				<li><a href="javascript:;"><span class="flor f999">1条</span><span
+						class="searchListName" data-ywtype="爱上,新房,住宅,,,,">新房</span></a></li>
+				<li><a href="javascript:;"><span class="flor f999">约91条</span><span
+						class="searchListName" data-ywtype="爱上,出售,住宅,,,,">二手房</span></a></li>
+				<li><a href="javascript:;"><span class="flor f999">约11条</span><span
+						class="searchListName" data-ywtype="爱上,出租,住宅,,,,">租房</span></a></li>
+				<li><a href="javascript:;"><span class="flor f999">7条</span><span
+						class="searchListName" data-ywtype="爱上,出售,别墅,,,,">别墅出售</span></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script>
+	function hideOrOpenNav() {
+		var navObj = $(".newNav");
+		var shadow = $(".popShadow");
+		if (navObj.hasClass("none")) {
+			navObj.removeClass("none");
+			shadow.removeClass("none");
+		} else {
+			navObj.addClass("none");
+			shadow.addClass("none");
+		}
+	}
+	function search(){
+		alert($("#keyWord").val());
+		top.location = "http://www.baidu.com";
+	}
+</script>
+</html>
