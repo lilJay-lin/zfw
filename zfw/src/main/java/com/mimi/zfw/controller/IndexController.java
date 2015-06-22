@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.stereotype.Controller;
@@ -30,14 +32,27 @@ import org.springframework.web.multipart.MultipartFile;
 import com.baidu.ueditor.ActionEnter;
 import com.baidu.ueditor.um.Uploader;
 import com.mimi.zfw.Constants;
+import com.mimi.zfw.mybatis.pojo.Advertisement;
+import com.mimi.zfw.mybatis.pojo.Information;
+import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IInformationService;
+import com.mimi.zfw.service.INameListService;
 import com.mimi.zfw.service.IUserService;
-import com.mimi.zfw.util.APIHttpClient;
 
 //import com.mimi.zfw.web.bind.annotation.CurrentUser;
 
 @Controller("indexController")
 public class IndexController {
 
+	@Resource
+	private IAdvertisementService adService;
+
+	@Resource
+	private IInformationService infoService;
+	
+	@Resource
+	private INameListService nameListService;
+	
     // @Autowired
     // @Qualifier("BirdEyeViewService")
     // private BirdEyeViewService bevService;
@@ -60,15 +75,65 @@ public class IndexController {
 
     // @RequiresPermissions("bb")
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String list(HttpServletRequest request, Model model) {
-	// model.addAttribute("userList", userService.listAll());
-	// return "user/list";
-	// CommonPageObject<User> page = userService.listAll();
-	// request.setAttribute("page", page);
-	request.setAttribute("page", userService.listAll());
-	request.setAttribute("sn", request.getServerName());
-	return "index";
+    public String list(HttpServletRequest request ) {
+    	homePageSet(request);
+	return "ui/index";
     }
+
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
+    public String index(HttpServletRequest request)
+	    throws ServletRequestBindingException {
+    	homePageSet(request);
+	return "ui/index";
+    }
+    private void homePageSet(HttpServletRequest request){
+    	List<Advertisement> adts = adService.getActiveByLocation(Constants.AD_LOCATION_HOME_TOP);
+    	List<Advertisement> adm4s = adService.getActiveByLocation(Constants.AD_LOCATION_HOME_MIDDLE_FOUR);
+    	List<Advertisement> admos = adService.getActiveByLocation(Constants.AD_LOCATION_HOME_MIDDLE_ONE);
+    	Advertisement admo = null;
+    	if(admos!=null && !admos.isEmpty()){
+    		admo = admos.get(0);
+    	}
+    	List<Information> fczx = infoService.findByParams(Constants.INFORMATION_TYPE_FC, 0, 15);
+    	List<Information> zhzx = infoService.findByParams(Constants.INFORMATION_TYPE_ZH, 0, 15);
+    	request.setAttribute("adts", adts);
+    	request.setAttribute("adm4s", adm4s);
+    	request.setAttribute("admo", admo);
+    	request.setAttribute("fczx", fczx);
+    	request.setAttribute("zhzx", zhzx);
+    	request.setAttribute("showSignUp", nameListService.isShowSignUpForm());
+    	request.setAttribute("signUpFormTitle", nameListService.getSingUpFormTitle());
+    }
+
+    @RequestMapping(value = "/nameList/json/signUp", method = RequestMethod.POST)
+    public @ResponseBody
+    Object ajaxSignUp(String name,String phoneNum) {
+		JSONObject jo = new JSONObject();
+		try{
+			String errorStr = nameListService.signUp(name,phoneNum);
+			if(StringUtils.isNotBlank(errorStr)){
+				jo.put("success", false);
+				jo.put("msg", errorStr);
+			}else{
+				jo.put("name", name);
+				jo.put("phoneNum", phoneNum);
+				jo.put("success", true);
+			}
+		}catch(Exception e){
+			jo.put("success", false);
+			jo.put("msg", "报名出错！");
+		}
+		return jo.toString();
+    }
+
+    @RequestMapping(value = "/{keyWord}/search",method = RequestMethod.GET)
+    public String search(HttpServletRequest request ,@PathVariable String keyWord) {
+    	System.out.println(keyWord);
+	return "ui/searchResult";
+    }
+    
+    
+    
 
     @RequestMapping(value = "/mi",method = RequestMethod.GET)
     public String indexMI(HttpServletRequest request, Model model) {
@@ -102,28 +167,6 @@ public class IndexController {
 	}
 	model.addAttribute("error", error);
 	return "login";
-    }
-
-    @RequestMapping(value = "/index", method = { RequestMethod.GET })
-    public String index(HttpServletRequest request)
-	    throws ServletRequestBindingException {
-	// String sBevName = (String) request.getAttribute("sBevName");
-	// String sBevName = ServletRequestUtils.getStringParameter(request,
-	// "sBevName");
-	// Page<BirdEyeViewModel> bevsPage;
-	// if(StringUtils.isBlank(sBevName)){
-	// bevsPage = bevService.listAll(1, 10);
-	// }else{
-	// BirdEyeViewQueryModel bevqm = new BirdEyeViewQueryModel();
-	// bevqm.setBevName(sBevName);
-	// bevsPage = bevService.query(1, 10, bevqm);
-	// }
-	// request.setAttribute("bevPage", bevsPage);
-	// CommonPageObject<User> page = userService.listAll();
-	// request.setAttribute("page", page);
-	request.setAttribute("page", userService.listAll());
-	request.setAttribute("sn", request.getServerName());
-	return "index";
     }
 
     @RequestMapping(value = "/error_all", method = { RequestMethod.GET })

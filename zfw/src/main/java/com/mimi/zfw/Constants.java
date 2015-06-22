@@ -121,4 +121,6 @@ public class Constants {
 	
 	public static final String INFORMATION_TYPE_ZH = "综合";
 	public static final String INFORMATION_TYPE_FC = "房产";
+	
+	public static final String SIGN_UP_FORM_TITLE_DEFAULT = "电商团购报名";
 }
