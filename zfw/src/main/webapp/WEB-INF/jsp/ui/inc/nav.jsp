@@ -10,9 +10,9 @@
 						<tbody>
 							<tr>
 								<td width="24%"><a href="${ctx }/index">首页</a></td>
-								<td width="24%"><a href="/xf/bj.html">新房</a></td>
-								<td width="24%"><a href="/esf/bj/">二手房</a></td>
-								<td width="24%"><a href="/zf/bj/">租房</a></td>
+								<td width="24%"><a href="${ctx }/xf">新房</a></td>
+								<td width="24%"><a href="${ctx }/esf">二手房</a></td>
+								<td width="24%"><a href="${ctx }/zf">租房</a></td>
 							</tr>
 							<tr>
 								<td><a href="/jiaju/bj.html">商铺</a></td>

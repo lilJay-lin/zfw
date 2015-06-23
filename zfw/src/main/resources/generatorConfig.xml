@@ -88,6 +88,15 @@
         <table tableName="tbl_ht_ring_display" domainObjectName="HTRing"></table>
         <table tableName="tbl_information" domainObjectName="Information"></table>
         <table tableName="tbl_advertisement" domainObjectName="Advertisement"></table>
+        <table tableName="tbl_name_list" domainObjectName="NameList"></table>
+        <table tableName="tbl_residence_community" domainObjectName="ResidenceCommunity"></table>
+        <table tableName="tbl_rc_image" domainObjectName="RCImage"></table>
+        <table tableName="tbl_second_hand_house" domainObjectName="SecondHandHouse"></table>
+        <table tableName="tbl_shh_image" domainObjectName="SHHImage"></table>
+        <table tableName="tbl_shh_panorama" domainObjectName="SHHPano"></table>
+        <table tableName="tbl_rental_housing" domainObjectName="RentalHousing"></table>
+        <table tableName="tbl_rh_image" domainObjectName="RHImage"></table>
+        <table tableName="tbl_rh_panorama" domainObjectName="RHPano"></table>
 <!--         <table tableName="tbl_data_catalog" domainObjectName="DataCatalog"></table> -->
 <!--         <table tableName="tbl_data_object" domainObjectName="DataObject"></table> -->
 <!--         <table tableName="tbl_data_attr" domainObjectName="DataAttr"></table> -->

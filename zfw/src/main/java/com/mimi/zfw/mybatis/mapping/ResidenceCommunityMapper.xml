@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mimi.zfw.mybatis.dao.ResidenceCommunityMapper" >
+  <resultMap id="BaseResultMap" type="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="on_sale_date" property="onSaleDate" jdbcType="DATE" />
+    <result column="property_type" property="propertyType" jdbcType="VARCHAR" />
+    <result column="building_type" property="buildingType" jdbcType="VARCHAR" />
+    <result column="household_num" property="householdNum" jdbcType="INTEGER" />
+    <result column="floor_area_ratio" property="floorAreaRatio" jdbcType="REAL" />
+    <result column="green_rate" property="greenRate" jdbcType="REAL" />
+    <result column="parking_space_num" property="parkingSpaceNum" jdbcType="INTEGER" />
+    <result column="property_years" property="propertyYears" jdbcType="INTEGER" />
+    <result column="property_company" property="propertyCompany" jdbcType="VARCHAR" />
+    <result column="property_fee" property="propertyFee" jdbcType="REAL" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="surrounding" property="surrounding" jdbcType="VARCHAR" />
+    <result column="traffic" property="traffic" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="REAL" />
+    <result column="latitude" property="latitude" jdbcType="REAL" />
+    <result column="shh_average_price" property="shhAveragePrice" jdbcType="INTEGER" />
+    <result column="shh_num" property="shhNum" jdbcType="INTEGER" />
+    <result column="shh_one_room_num" property="shhOneRoomNum" jdbcType="INTEGER" />
+    <result column="shh_two_room_num" property="shhTwoRoomNum" jdbcType="INTEGER" />
+    <result column="shh_three_room_num" property="shhThreeRoomNum" jdbcType="INTEGER" />
+    <result column="shh_four_room_num" property="shhFourRoomNum" jdbcType="INTEGER" />
+    <result column="shh_five_room_num" property="shhFiveRoomNum" jdbcType="INTEGER" />
+    <result column="shh_over_five_room_num" property="shhOverFiveRoomNum" jdbcType="INTEGER" />
+    <result column="shh_min_room_gross_floor_area" property="shhMinRoomGrossFloorArea" jdbcType="INTEGER" />
+    <result column="shh_max_room_gross_floor_area" property="shhMaxRoomGrossFloorArea" jdbcType="INTEGER" />
+    <result column="shh_min_total_price" property="shhMinTotalPrice" jdbcType="INTEGER" />
+    <result column="shh_max_total_price" property="shhMaxTotalPrice" jdbcType="INTEGER" />
+    <result column="rh_average_price" property="rhAveragePrice" jdbcType="INTEGER" />
+    <result column="rh_num" property="rhNum" jdbcType="INTEGER" />
+    <result column="rh_one_room_num" property="rhOneRoomNum" jdbcType="INTEGER" />
+    <result column="rh_two_room_num" property="rhTwoRoomNum" jdbcType="INTEGER" />
+    <result column="rh_three_room_num" property="rhThreeRoomNum" jdbcType="INTEGER" />
+    <result column="rh_four_room_num" property="rhFourRoomNum" jdbcType="INTEGER" />
+    <result column="rh_five_room_num" property="rhFiveRoomNum" jdbcType="INTEGER" />
+    <result column="rh_over_five_room_num" property="rhOverFiveRoomNum" jdbcType="INTEGER" />
+    <result column="rh_min_room_gross_floor_area" property="rhMinRoomGrossFloorArea" jdbcType="INTEGER" />
+    <result column="rh_max_room_gross_floor_area" property="rhMaxRoomGrossFloorArea" jdbcType="INTEGER" />
+    <result column="rh_min_rental" property="rhMinRental" jdbcType="INTEGER" />
+    <result column="rh_max_rental" property="rhMaxRental" jdbcType="INTEGER" />
+    <result column="rh_entire_rent_num" property="rhEntireRentNum" jdbcType="INTEGER" />
+    <result column="rh_flat_share_num" property="rhFlatShareNum" jdbcType="INTEGER" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="pre_image_url" property="preImageUrl" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, address, on_sale_date, property_type, building_type, household_num, floor_area_ratio, 
+    green_rate, parking_space_num, property_years, property_company, property_fee, introduction, 
+    surrounding, traffic, region, longitude, latitude, shh_average_price, shh_num, shh_one_room_num, 
+    shh_two_room_num, shh_three_room_num, shh_four_room_num, shh_five_room_num, shh_over_five_room_num, 
+    shh_min_room_gross_floor_area, shh_max_room_gross_floor_area, shh_min_total_price, 
+    shh_max_total_price, rh_average_price, rh_num, rh_one_room_num, rh_two_room_num, 
+    rh_three_room_num, rh_four_room_num, rh_five_room_num, rh_over_five_room_num, rh_min_room_gross_floor_area, 
+    rh_max_room_gross_floor_area, rh_min_rental, rh_max_rental, rh_entire_rent_num, rh_flat_share_num, 
+    tags, priority, pre_image_url, creater, last_editor, create_date, update_date, del_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_residence_community
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_residence_community
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tbl_residence_community
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample" >
+    delete from tbl_residence_community
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
+    insert into tbl_residence_community (id, name, address, 
+      on_sale_date, property_type, building_type, 
+      household_num, floor_area_ratio, green_rate, 
+      parking_space_num, property_years, property_company, 
+      property_fee, introduction, surrounding, 
+      traffic, region, longitude, 
+      latitude, shh_average_price, shh_num, 
+      shh_one_room_num, shh_two_room_num, shh_three_room_num, 
+      shh_four_room_num, shh_five_room_num, shh_over_five_room_num, 
+      shh_min_room_gross_floor_area, shh_max_room_gross_floor_area, 
+      shh_min_total_price, shh_max_total_price, rh_average_price, 
+      rh_num, rh_one_room_num, rh_two_room_num, 
+      rh_three_room_num, rh_four_room_num, rh_five_room_num, 
+      rh_over_five_room_num, rh_min_room_gross_floor_area, 
+      rh_max_room_gross_floor_area, rh_min_rental, rh_max_rental, 
+      rh_entire_rent_num, rh_flat_share_num, tags, 
+      priority, pre_image_url, creater, 
+      last_editor, create_date, update_date, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{onSaleDate,jdbcType=DATE}, #{propertyType,jdbcType=VARCHAR}, #{buildingType,jdbcType=VARCHAR}, 
+      #{householdNum,jdbcType=INTEGER}, #{floorAreaRatio,jdbcType=REAL}, #{greenRate,jdbcType=REAL}, 
+      #{parkingSpaceNum,jdbcType=INTEGER}, #{propertyYears,jdbcType=INTEGER}, #{propertyCompany,jdbcType=VARCHAR}, 
+      #{propertyFee,jdbcType=REAL}, #{introduction,jdbcType=VARCHAR}, #{surrounding,jdbcType=VARCHAR}, 
+      #{traffic,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, 
+      #{latitude,jdbcType=REAL}, #{shhAveragePrice,jdbcType=INTEGER}, #{shhNum,jdbcType=INTEGER}, 
+      #{shhOneRoomNum,jdbcType=INTEGER}, #{shhTwoRoomNum,jdbcType=INTEGER}, #{shhThreeRoomNum,jdbcType=INTEGER}, 
+      #{shhFourRoomNum,jdbcType=INTEGER}, #{shhFiveRoomNum,jdbcType=INTEGER}, #{shhOverFiveRoomNum,jdbcType=INTEGER}, 
+      #{shhMinRoomGrossFloorArea,jdbcType=INTEGER}, #{shhMaxRoomGrossFloorArea,jdbcType=INTEGER}, 
+      #{shhMinTotalPrice,jdbcType=INTEGER}, #{shhMaxTotalPrice,jdbcType=INTEGER}, #{rhAveragePrice,jdbcType=INTEGER}, 
+      #{rhNum,jdbcType=INTEGER}, #{rhOneRoomNum,jdbcType=INTEGER}, #{rhTwoRoomNum,jdbcType=INTEGER}, 
+      #{rhThreeRoomNum,jdbcType=INTEGER}, #{rhFourRoomNum,jdbcType=INTEGER}, #{rhFiveRoomNum,jdbcType=INTEGER}, 
+      #{rhOverFiveRoomNum,jdbcType=INTEGER}, #{rhMinRoomGrossFloorArea,jdbcType=INTEGER}, 
+      #{rhMaxRoomGrossFloorArea,jdbcType=INTEGER}, #{rhMinRental,jdbcType=INTEGER}, #{rhMaxRental,jdbcType=INTEGER}, 
+      #{rhEntireRentNum,jdbcType=INTEGER}, #{rhFlatShareNum,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=INTEGER}, #{preImageUrl,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
+      #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
+    insert into tbl_residence_community
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="onSaleDate != null" >
+        on_sale_date,
+      </if>
+      <if test="propertyType != null" >
+        property_type,
+      </if>
+      <if test="buildingType != null" >
+        building_type,
+      </if>
+      <if test="householdNum != null" >
+        household_num,
+      </if>
+      <if test="floorAreaRatio != null" >
+        floor_area_ratio,
+      </if>
+      <if test="greenRate != null" >
+        green_rate,
+      </if>
+      <if test="parkingSpaceNum != null" >
+        parking_space_num,
+      </if>
+      <if test="propertyYears != null" >
+        property_years,
+      </if>
+      <if test="propertyCompany != null" >
+        property_company,
+      </if>
+      <if test="propertyFee != null" >
+        property_fee,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="surrounding != null" >
+        surrounding,
+      </if>
+      <if test="traffic != null" >
+        traffic,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="shhAveragePrice != null" >
+        shh_average_price,
+      </if>
+      <if test="shhNum != null" >
+        shh_num,
+      </if>
+      <if test="shhOneRoomNum != null" >
+        shh_one_room_num,
+      </if>
+      <if test="shhTwoRoomNum != null" >
+        shh_two_room_num,
+      </if>
+      <if test="shhThreeRoomNum != null" >
+        shh_three_room_num,
+      </if>
+      <if test="shhFourRoomNum != null" >
+        shh_four_room_num,
+      </if>
+      <if test="shhFiveRoomNum != null" >
+        shh_five_room_num,
+      </if>
+      <if test="shhOverFiveRoomNum != null" >
+        shh_over_five_room_num,
+      </if>
+      <if test="shhMinRoomGrossFloorArea != null" >
+        shh_min_room_gross_floor_area,
+      </if>
+      <if test="shhMaxRoomGrossFloorArea != null" >
+        shh_max_room_gross_floor_area,
+      </if>
+      <if test="shhMinTotalPrice != null" >
+        shh_min_total_price,
+      </if>
+      <if test="shhMaxTotalPrice != null" >
+        shh_max_total_price,
+      </if>
+      <if test="rhAveragePrice != null" >
+        rh_average_price,
+      </if>
+      <if test="rhNum != null" >
+        rh_num,
+      </if>
+      <if test="rhOneRoomNum != null" >
+        rh_one_room_num,
+      </if>
+      <if test="rhTwoRoomNum != null" >
+        rh_two_room_num,
+      </if>
+      <if test="rhThreeRoomNum != null" >
+        rh_three_room_num,
+      </if>
+      <if test="rhFourRoomNum != null" >
+        rh_four_room_num,
+      </if>
+      <if test="rhFiveRoomNum != null" >
+        rh_five_room_num,
+      </if>
+      <if test="rhOverFiveRoomNum != null" >
+        rh_over_five_room_num,
+      </if>
+      <if test="rhMinRoomGrossFloorArea != null" >
+        rh_min_room_gross_floor_area,
+      </if>
+      <if test="rhMaxRoomGrossFloorArea != null" >
+        rh_max_room_gross_floor_area,
+      </if>
+      <if test="rhMinRental != null" >
+        rh_min_rental,
+      </if>
+      <if test="rhMaxRental != null" >
+        rh_max_rental,
+      </if>
+      <if test="rhEntireRentNum != null" >
+        rh_entire_rent_num,
+      </if>
+      <if test="rhFlatShareNum != null" >
+        rh_flat_share_num,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="lastEditor != null" >
+        last_editor,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="onSaleDate != null" >
+        #{onSaleDate,jdbcType=DATE},
+      </if>
+      <if test="propertyType != null" >
+        #{propertyType,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingType != null" >
+        #{buildingType,jdbcType=VARCHAR},
+      </if>
+      <if test="householdNum != null" >
+        #{householdNum,jdbcType=INTEGER},
+      </if>
+      <if test="floorAreaRatio != null" >
+        #{floorAreaRatio,jdbcType=REAL},
+      </if>
+      <if test="greenRate != null" >
+        #{greenRate,jdbcType=REAL},
+      </if>
+      <if test="parkingSpaceNum != null" >
+        #{parkingSpaceNum,jdbcType=INTEGER},
+      </if>
+      <if test="propertyYears != null" >
+        #{propertyYears,jdbcType=INTEGER},
+      </if>
+      <if test="propertyCompany != null" >
+        #{propertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyFee != null" >
+        #{propertyFee,jdbcType=REAL},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="surrounding != null" >
+        #{surrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="traffic != null" >
+        #{traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="shhAveragePrice != null" >
+        #{shhAveragePrice,jdbcType=INTEGER},
+      </if>
+      <if test="shhNum != null" >
+        #{shhNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhOneRoomNum != null" >
+        #{shhOneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhTwoRoomNum != null" >
+        #{shhTwoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhThreeRoomNum != null" >
+        #{shhThreeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhFourRoomNum != null" >
+        #{shhFourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhFiveRoomNum != null" >
+        #{shhFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhOverFiveRoomNum != null" >
+        #{shhOverFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhMinRoomGrossFloorArea != null" >
+        #{shhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="shhMaxRoomGrossFloorArea != null" >
+        #{shhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="shhMinTotalPrice != null" >
+        #{shhMinTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="shhMaxTotalPrice != null" >
+        #{shhMaxTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="rhAveragePrice != null" >
+        #{rhAveragePrice,jdbcType=INTEGER},
+      </if>
+      <if test="rhNum != null" >
+        #{rhNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhOneRoomNum != null" >
+        #{rhOneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhTwoRoomNum != null" >
+        #{rhTwoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhThreeRoomNum != null" >
+        #{rhThreeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhFourRoomNum != null" >
+        #{rhFourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhFiveRoomNum != null" >
+        #{rhFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhOverFiveRoomNum != null" >
+        #{rhOverFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhMinRoomGrossFloorArea != null" >
+        #{rhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="rhMaxRoomGrossFloorArea != null" >
+        #{rhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="rhMinRental != null" >
+        #{rhMinRental,jdbcType=INTEGER},
+      </if>
+      <if test="rhMaxRental != null" >
+        #{rhMaxRental,jdbcType=INTEGER},
+      </if>
+      <if test="rhEntireRentNum != null" >
+        #{rhEntireRentNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhFlatShareNum != null" >
+        #{rhFlatShareNum,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="preImageUrl != null" >
+        #{preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEditor != null" >
+        #{lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_residence_community
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_residence_community
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onSaleDate != null" >
+        on_sale_date = #{record.onSaleDate,jdbcType=DATE},
+      </if>
+      <if test="record.propertyType != null" >
+        property_type = #{record.propertyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildingType != null" >
+        building_type = #{record.buildingType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.householdNum != null" >
+        household_num = #{record.householdNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorAreaRatio != null" >
+        floor_area_ratio = #{record.floorAreaRatio,jdbcType=REAL},
+      </if>
+      <if test="record.greenRate != null" >
+        green_rate = #{record.greenRate,jdbcType=REAL},
+      </if>
+      <if test="record.parkingSpaceNum != null" >
+        parking_space_num = #{record.parkingSpaceNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.propertyYears != null" >
+        property_years = #{record.propertyYears,jdbcType=INTEGER},
+      </if>
+      <if test="record.propertyCompany != null" >
+        property_company = #{record.propertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyFee != null" >
+        property_fee = #{record.propertyFee,jdbcType=REAL},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.surrounding != null" >
+        surrounding = #{record.surrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.traffic != null" >
+        traffic = #{record.traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=REAL},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=REAL},
+      </if>
+      <if test="record.shhAveragePrice != null" >
+        shh_average_price = #{record.shhAveragePrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhNum != null" >
+        shh_num = #{record.shhNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhOneRoomNum != null" >
+        shh_one_room_num = #{record.shhOneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhTwoRoomNum != null" >
+        shh_two_room_num = #{record.shhTwoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhThreeRoomNum != null" >
+        shh_three_room_num = #{record.shhThreeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhFourRoomNum != null" >
+        shh_four_room_num = #{record.shhFourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhFiveRoomNum != null" >
+        shh_five_room_num = #{record.shhFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhOverFiveRoomNum != null" >
+        shh_over_five_room_num = #{record.shhOverFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhMinRoomGrossFloorArea != null" >
+        shh_min_room_gross_floor_area = #{record.shhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhMaxRoomGrossFloorArea != null" >
+        shh_max_room_gross_floor_area = #{record.shhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhMinTotalPrice != null" >
+        shh_min_total_price = #{record.shhMinTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.shhMaxTotalPrice != null" >
+        shh_max_total_price = #{record.shhMaxTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhAveragePrice != null" >
+        rh_average_price = #{record.rhAveragePrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhNum != null" >
+        rh_num = #{record.rhNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhOneRoomNum != null" >
+        rh_one_room_num = #{record.rhOneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhTwoRoomNum != null" >
+        rh_two_room_num = #{record.rhTwoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhThreeRoomNum != null" >
+        rh_three_room_num = #{record.rhThreeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhFourRoomNum != null" >
+        rh_four_room_num = #{record.rhFourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhFiveRoomNum != null" >
+        rh_five_room_num = #{record.rhFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhOverFiveRoomNum != null" >
+        rh_over_five_room_num = #{record.rhOverFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhMinRoomGrossFloorArea != null" >
+        rh_min_room_gross_floor_area = #{record.rhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhMaxRoomGrossFloorArea != null" >
+        rh_max_room_gross_floor_area = #{record.rhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhMinRental != null" >
+        rh_min_rental = #{record.rhMinRental,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhMaxRental != null" >
+        rh_max_rental = #{record.rhMaxRental,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhEntireRentNum != null" >
+        rh_entire_rent_num = #{record.rhEntireRentNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhFlatShareNum != null" >
+        rh_flat_share_num = #{record.rhFlatShareNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.preImageUrl != null" >
+        pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null" >
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastEditor != null" >
+        last_editor = #{record.lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_residence_community
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      on_sale_date = #{record.onSaleDate,jdbcType=DATE},
+      property_type = #{record.propertyType,jdbcType=VARCHAR},
+      building_type = #{record.buildingType,jdbcType=VARCHAR},
+      household_num = #{record.householdNum,jdbcType=INTEGER},
+      floor_area_ratio = #{record.floorAreaRatio,jdbcType=REAL},
+      green_rate = #{record.greenRate,jdbcType=REAL},
+      parking_space_num = #{record.parkingSpaceNum,jdbcType=INTEGER},
+      property_years = #{record.propertyYears,jdbcType=INTEGER},
+      property_company = #{record.propertyCompany,jdbcType=VARCHAR},
+      property_fee = #{record.propertyFee,jdbcType=REAL},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      surrounding = #{record.surrounding,jdbcType=VARCHAR},
+      traffic = #{record.traffic,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=REAL},
+      latitude = #{record.latitude,jdbcType=REAL},
+      shh_average_price = #{record.shhAveragePrice,jdbcType=INTEGER},
+      shh_num = #{record.shhNum,jdbcType=INTEGER},
+      shh_one_room_num = #{record.shhOneRoomNum,jdbcType=INTEGER},
+      shh_two_room_num = #{record.shhTwoRoomNum,jdbcType=INTEGER},
+      shh_three_room_num = #{record.shhThreeRoomNum,jdbcType=INTEGER},
+      shh_four_room_num = #{record.shhFourRoomNum,jdbcType=INTEGER},
+      shh_five_room_num = #{record.shhFiveRoomNum,jdbcType=INTEGER},
+      shh_over_five_room_num = #{record.shhOverFiveRoomNum,jdbcType=INTEGER},
+      shh_min_room_gross_floor_area = #{record.shhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      shh_max_room_gross_floor_area = #{record.shhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      shh_min_total_price = #{record.shhMinTotalPrice,jdbcType=INTEGER},
+      shh_max_total_price = #{record.shhMaxTotalPrice,jdbcType=INTEGER},
+      rh_average_price = #{record.rhAveragePrice,jdbcType=INTEGER},
+      rh_num = #{record.rhNum,jdbcType=INTEGER},
+      rh_one_room_num = #{record.rhOneRoomNum,jdbcType=INTEGER},
+      rh_two_room_num = #{record.rhTwoRoomNum,jdbcType=INTEGER},
+      rh_three_room_num = #{record.rhThreeRoomNum,jdbcType=INTEGER},
+      rh_four_room_num = #{record.rhFourRoomNum,jdbcType=INTEGER},
+      rh_five_room_num = #{record.rhFiveRoomNum,jdbcType=INTEGER},
+      rh_over_five_room_num = #{record.rhOverFiveRoomNum,jdbcType=INTEGER},
+      rh_min_room_gross_floor_area = #{record.rhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      rh_max_room_gross_floor_area = #{record.rhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      rh_min_rental = #{record.rhMinRental,jdbcType=INTEGER},
+      rh_max_rental = #{record.rhMaxRental,jdbcType=INTEGER},
+      rh_entire_rent_num = #{record.rhEntireRentNum,jdbcType=INTEGER},
+      rh_flat_share_num = #{record.rhFlatShareNum,jdbcType=INTEGER},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      last_editor = #{record.lastEditor,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{record.delFlag,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
+    update tbl_residence_community
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="onSaleDate != null" >
+        on_sale_date = #{onSaleDate,jdbcType=DATE},
+      </if>
+      <if test="propertyType != null" >
+        property_type = #{propertyType,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingType != null" >
+        building_type = #{buildingType,jdbcType=VARCHAR},
+      </if>
+      <if test="householdNum != null" >
+        household_num = #{householdNum,jdbcType=INTEGER},
+      </if>
+      <if test="floorAreaRatio != null" >
+        floor_area_ratio = #{floorAreaRatio,jdbcType=REAL},
+      </if>
+      <if test="greenRate != null" >
+        green_rate = #{greenRate,jdbcType=REAL},
+      </if>
+      <if test="parkingSpaceNum != null" >
+        parking_space_num = #{parkingSpaceNum,jdbcType=INTEGER},
+      </if>
+      <if test="propertyYears != null" >
+        property_years = #{propertyYears,jdbcType=INTEGER},
+      </if>
+      <if test="propertyCompany != null" >
+        property_company = #{propertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyFee != null" >
+        property_fee = #{propertyFee,jdbcType=REAL},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="surrounding != null" >
+        surrounding = #{surrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="traffic != null" >
+        traffic = #{traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="shhAveragePrice != null" >
+        shh_average_price = #{shhAveragePrice,jdbcType=INTEGER},
+      </if>
+      <if test="shhNum != null" >
+        shh_num = #{shhNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhOneRoomNum != null" >
+        shh_one_room_num = #{shhOneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhTwoRoomNum != null" >
+        shh_two_room_num = #{shhTwoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhThreeRoomNum != null" >
+        shh_three_room_num = #{shhThreeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhFourRoomNum != null" >
+        shh_four_room_num = #{shhFourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhFiveRoomNum != null" >
+        shh_five_room_num = #{shhFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhOverFiveRoomNum != null" >
+        shh_over_five_room_num = #{shhOverFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="shhMinRoomGrossFloorArea != null" >
+        shh_min_room_gross_floor_area = #{shhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="shhMaxRoomGrossFloorArea != null" >
+        shh_max_room_gross_floor_area = #{shhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="shhMinTotalPrice != null" >
+        shh_min_total_price = #{shhMinTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="shhMaxTotalPrice != null" >
+        shh_max_total_price = #{shhMaxTotalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="rhAveragePrice != null" >
+        rh_average_price = #{rhAveragePrice,jdbcType=INTEGER},
+      </if>
+      <if test="rhNum != null" >
+        rh_num = #{rhNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhOneRoomNum != null" >
+        rh_one_room_num = #{rhOneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhTwoRoomNum != null" >
+        rh_two_room_num = #{rhTwoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhThreeRoomNum != null" >
+        rh_three_room_num = #{rhThreeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhFourRoomNum != null" >
+        rh_four_room_num = #{rhFourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhFiveRoomNum != null" >
+        rh_five_room_num = #{rhFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhOverFiveRoomNum != null" >
+        rh_over_five_room_num = #{rhOverFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhMinRoomGrossFloorArea != null" >
+        rh_min_room_gross_floor_area = #{rhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="rhMaxRoomGrossFloorArea != null" >
+        rh_max_room_gross_floor_area = #{rhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="rhMinRental != null" >
+        rh_min_rental = #{rhMinRental,jdbcType=INTEGER},
+      </if>
+      <if test="rhMaxRental != null" >
+        rh_max_rental = #{rhMaxRental,jdbcType=INTEGER},
+      </if>
+      <if test="rhEntireRentNum != null" >
+        rh_entire_rent_num = #{rhEntireRentNum,jdbcType=INTEGER},
+      </if>
+      <if test="rhFlatShareNum != null" >
+        rh_flat_share_num = #{rhFlatShareNum,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEditor != null" >
+        last_editor = #{lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
+    update tbl_residence_community
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      on_sale_date = #{onSaleDate,jdbcType=DATE},
+      property_type = #{propertyType,jdbcType=VARCHAR},
+      building_type = #{buildingType,jdbcType=VARCHAR},
+      household_num = #{householdNum,jdbcType=INTEGER},
+      floor_area_ratio = #{floorAreaRatio,jdbcType=REAL},
+      green_rate = #{greenRate,jdbcType=REAL},
+      parking_space_num = #{parkingSpaceNum,jdbcType=INTEGER},
+      property_years = #{propertyYears,jdbcType=INTEGER},
+      property_company = #{propertyCompany,jdbcType=VARCHAR},
+      property_fee = #{propertyFee,jdbcType=REAL},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      surrounding = #{surrounding,jdbcType=VARCHAR},
+      traffic = #{traffic,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=REAL},
+      latitude = #{latitude,jdbcType=REAL},
+      shh_average_price = #{shhAveragePrice,jdbcType=INTEGER},
+      shh_num = #{shhNum,jdbcType=INTEGER},
+      shh_one_room_num = #{shhOneRoomNum,jdbcType=INTEGER},
+      shh_two_room_num = #{shhTwoRoomNum,jdbcType=INTEGER},
+      shh_three_room_num = #{shhThreeRoomNum,jdbcType=INTEGER},
+      shh_four_room_num = #{shhFourRoomNum,jdbcType=INTEGER},
+      shh_five_room_num = #{shhFiveRoomNum,jdbcType=INTEGER},
+      shh_over_five_room_num = #{shhOverFiveRoomNum,jdbcType=INTEGER},
+      shh_min_room_gross_floor_area = #{shhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      shh_max_room_gross_floor_area = #{shhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      shh_min_total_price = #{shhMinTotalPrice,jdbcType=INTEGER},
+      shh_max_total_price = #{shhMaxTotalPrice,jdbcType=INTEGER},
+      rh_average_price = #{rhAveragePrice,jdbcType=INTEGER},
+      rh_num = #{rhNum,jdbcType=INTEGER},
+      rh_one_room_num = #{rhOneRoomNum,jdbcType=INTEGER},
+      rh_two_room_num = #{rhTwoRoomNum,jdbcType=INTEGER},
+      rh_three_room_num = #{rhThreeRoomNum,jdbcType=INTEGER},
+      rh_four_room_num = #{rhFourRoomNum,jdbcType=INTEGER},
+      rh_five_room_num = #{rhFiveRoomNum,jdbcType=INTEGER},
+      rh_over_five_room_num = #{rhOverFiveRoomNum,jdbcType=INTEGER},
+      rh_min_room_gross_floor_area = #{rhMinRoomGrossFloorArea,jdbcType=INTEGER},
+      rh_max_room_gross_floor_area = #{rhMaxRoomGrossFloorArea,jdbcType=INTEGER},
+      rh_min_rental = #{rhMinRental,jdbcType=INTEGER},
+      rh_max_rental = #{rhMaxRental,jdbcType=INTEGER},
+      rh_entire_rent_num = #{rhEntireRentNum,jdbcType=INTEGER},
+      rh_flat_share_num = #{rhFlatShareNum,jdbcType=INTEGER},
+      tags = #{tags,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
+      creater = #{creater,jdbcType=VARCHAR},
+      last_editor = #{lastEditor,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+</mapper>

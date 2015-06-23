@@ -37,7 +37,7 @@ public class HTPanoServiceImpl extends
 	public List<HTPano> getPanosByParams(String id, int targetPage, int pageSize) {
 		HTPanoExample hpe = new HTPanoExample();
 		hpe.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
-		hpe.setLimitStart(targetPage);
+		hpe.setLimitStart(targetPage*pageSize);
 		hpe.setLimitSize(pageSize);
 		return hpm.selectByExample(hpe);
 	}

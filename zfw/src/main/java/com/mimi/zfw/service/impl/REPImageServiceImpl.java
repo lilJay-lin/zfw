@@ -45,7 +45,7 @@ public class REPImageServiceImpl extends
 		if (StringUtils.isNotBlank(type)) {
 			cri.andTypeEqualTo(type);
 		}
-		ie.setLimitStart(targetPage);
+		ie.setLimitStart(targetPage*pageSize);
 		ie.setLimitSize(pageSize);
 		return repim.selectByExample(ie);
 	}

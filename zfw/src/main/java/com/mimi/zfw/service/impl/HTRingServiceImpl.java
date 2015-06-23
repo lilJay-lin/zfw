@@ -37,7 +37,7 @@ public class HTRingServiceImpl extends
 	public List<HTRing> getRingsByParams(String id, int targetPage, int pageSize) {
 		HTRingExample hre = new HTRingExample();
 		hre.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
-		hre.setLimitStart(targetPage);
+		hre.setLimitStart(targetPage*pageSize);
 		hre.setLimitSize(pageSize);
 		return hrm.selectByExample(hre);
 	}

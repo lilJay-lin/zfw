@@ -58,7 +58,7 @@
 			<div>
 				<span class="f18 pd10">${rep.name }</span>
 				<div class="pdY5">
-					<span class="fc00 f14">均价：21314元/平方米</span><span class="flor f14">热线电话：<span
+					<span class="fc00 f14">均价：${rep.averagePrice }元/平方米</span><span class="flor f14">热线电话：<span
 						class="f999">${rep.tel }</span></span>
 				</div>
 				<p class="f14">
@@ -68,8 +68,6 @@
 		</section>
 		<section class=" pd10 f14 mt10 bdt bdb lh105">
 			<div>
-				<h2 class="f16 pdt5">楼盘详情</h2>
-
 				<p>
 					开盘时间：<span class="f999"><fmt:formatDate pattern="yyyy年MM月dd日" value="${rep.onSaleDate }" /></span>
 				</p>
@@ -305,13 +303,12 @@
 		<section class=" pd10 mt10 bdt bdb f14">
 			<h2 class="f16">位置</h2>
 			<p class="pdY5">
-				<a id="wapxfxqy_B02_27"
-					href="/map/?c=map&amp;a=xfMapbyId&amp;city=gz&amp;xqid=2811346746"
+				<a href="${ctx }/xf/${rep.id}/map"
 					class="f000">地址：<span class="f999"> ${rep.address }
 				</span></a>
 			</p>
 			<div id="wapxfxqy_B02_27" style="position: relative;">
-				<a href="${ctx }/xf/map/${rep.id}">
+				<a href="${ctx }/xf/${rep.id}/map">
 					<img
 					src="http://api.map.baidu.com/staticimage?width=300&height=130&zoom=14&markers=${rep.longitude },${rep.latitude }&markerStyles=s,"
 					width="100%" alt=""> <span class="maptxt">${rep.name }</span>

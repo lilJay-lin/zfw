@@ -140,7 +140,7 @@ public class XFController {
 		return "ui/xf/map";
 	}
 
-	@RequestMapping(value = "/xf/map/{id}", method = { RequestMethod.GET })
+	@RequestMapping(value = "/xf/{id}/map", method = { RequestMethod.GET })
 	public String toREPMap(HttpServletRequest request, @PathVariable String id) {
 		RealEstateProject rep = repService.get(id);
 		request.setAttribute("rep", rep);

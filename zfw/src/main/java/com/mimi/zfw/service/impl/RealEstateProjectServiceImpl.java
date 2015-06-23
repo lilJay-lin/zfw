@@ -169,6 +169,7 @@ public class RealEstateProjectServiceImpl extends
 
 		for (int j = 0; j < 5; j++) {
 			for (int i = 0; i < nameList.length; i++) {
+				//楼盘
 				RealEstateProject rep = new RealEstateProject();
 				rep.setId(UUID.randomUUID().toString());
 				rep.setCreateDate(nowDate);
@@ -254,6 +255,7 @@ public class RealEstateProjectServiceImpl extends
 				rep.setOverFiveRoomNum((int) (Math.random() * 10));
 				repm.insertSelective(rep);
 
+				//户型
 				int tempRGFA = rep.getMaxRoomGrossFloorArea()
 						- rep.getMinRoomGrossFloorArea();
 				for (int k = 0; k < 10; k++) {
@@ -423,9 +425,10 @@ public class RealEstateProjectServiceImpl extends
 			String bound) {
 		RealEstateProjectExample repe = new RealEstateProjectExample();
 		Criteria cri = repe.createCriteria();
+		cri.andDelFlagEqualTo(false);
 		Criteria cri2 = null;
 		if (StringUtils.isNotBlank(keyWord)) {
-			cri.andNameLike("%" + keyWord + "%").andDelFlagEqualTo(false);
+			cri.andNameLike("%" + keyWord + "%");
 			cri2 = repe.createCriteria();
 			cri2.andAddressLike("%" + keyWord + "%").andDelFlagEqualTo(false);
 		}

@@ -43,7 +43,7 @@ public class HTImageServiceImpl extends
 			int pageSize) {
 		HTImageExample hie = new HTImageExample();
 		hie.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
-		hie.setLimitStart(targetPage);
+		hie.setLimitStart(targetPage*pageSize);
 		hie.setLimitSize(pageSize);
 		return him.selectByExample(hie);
 	}

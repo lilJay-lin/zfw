@@ -39,7 +39,7 @@ public class REPVideoServiceImpl extends
 			int pageSize) {
 		REPVideoExample ve = new REPVideoExample();
 		ve.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
-		ve.setLimitStart(targetPage);
+		ve.setLimitStart(targetPage*pageSize);
 		ve.setLimitSize(pageSize);
 		return repvm.selectByExample(ve);
 	}

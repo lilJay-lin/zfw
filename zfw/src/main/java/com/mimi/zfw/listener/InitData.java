@@ -11,6 +11,7 @@ import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRealEstateProjectService;
+import com.mimi.zfw.service.IResidenceCommunityService;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
@@ -30,6 +31,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private IInformationService infoService;
     @Resource
     private IAdvertisementService adService;
+    @Resource
+    private IResidenceCommunityService rcService;
 
     @Resource
     private CCPRestSmsSDK ytxAPI;
@@ -64,6 +67,7 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 	repService.initRealEstateProject();
 	infoService.initInformation();
 	adService.initAdvertisement();
+	rcService.initResidenceCommunicity();
     }
 
 }

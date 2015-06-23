@@ -37,7 +37,7 @@ public class REPPanoServiceImpl extends
 	public List<REPPano> getPanosByParams(String id, int targetPage, int pageSize) {
 		REPPanoExample pe = new REPPanoExample();
 		pe.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
-		pe.setLimitStart(targetPage);
+		pe.setLimitStart(targetPage*pageSize);
 		pe.setLimitSize(pageSize);
 		return reppm.selectByExample(pe);
 	}

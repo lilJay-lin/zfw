@@ -59,9 +59,9 @@
 			<div class="bigNav" style="display: block;">
 				<div class="icons chooseNav">
 					<div class="flexbox chooseNav1">
-						<a href="xf/index.html" class="xf"><i></i>
-							<p>新房</p></a> <a href="xf/index.html" class="esf"><i></i>
-							<p>二手房</p></a> <a href="http://m.fang.com/xf/bj/" class="zf"><i></i>
+						<a href="${ctx }/xf" class="xf"><i></i>
+							<p>新房</p></a> <a href="${ctx }/esf" class="esf"><i></i>
+							<p>二手房</p></a> <a href="${ctx }/zf" class="zf"><i></i>
 							<p>租房</p></a>  <a href="javascript:spreadNav();"
 							class="more gather"><i></i>
 							<p>更多</p></a>
