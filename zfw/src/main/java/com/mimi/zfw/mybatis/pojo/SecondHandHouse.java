@@ -26,7 +26,7 @@ public class SecondHandHouse implements IBaseModel<String> {
 
     private Integer toiletNum;
 
-    private String houseSitting;
+    private String forward;
 
     private Integer curFloor;
 
@@ -37,6 +37,8 @@ public class SecondHandHouse implements IBaseModel<String> {
     private String address;
 
     private String introduction;
+
+    private Boolean outOfDate;
 
     private String description;
 
@@ -146,12 +148,12 @@ public class SecondHandHouse implements IBaseModel<String> {
         this.toiletNum = toiletNum;
     }
 
-    public String getHouseSitting() {
-        return houseSitting;
+    public String getForward() {
+        return forward;
     }
 
-    public void setHouseSitting(String houseSitting) {
-        this.houseSitting = houseSitting == null ? null : houseSitting.trim();
+    public void setForward(String forward) {
+        this.forward = forward == null ? null : forward.trim();
     }
 
     public Integer getCurFloor() {
@@ -192,6 +194,14 @@ public class SecondHandHouse implements IBaseModel<String> {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction == null ? null : introduction.trim();
+    }
+
+    public Boolean getOutOfDate() {
+        return outOfDate;
+    }
+
+    public void setOutOfDate(Boolean outOfDate) {
+        this.outOfDate = outOfDate;
     }
 
     public String getDescription() {

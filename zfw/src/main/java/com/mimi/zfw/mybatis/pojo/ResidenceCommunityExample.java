@@ -3083,6 +3083,66 @@ public class ResidenceCommunityExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andActiveIsNull() {
+            addCriterion("active is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveIsNotNull() {
+            addCriterion("active is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveEqualTo(Boolean value) {
+            addCriterion("active =", value, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveNotEqualTo(Boolean value) {
+            addCriterion("active <>", value, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveGreaterThan(Boolean value) {
+            addCriterion("active >", value, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("active >=", value, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveLessThan(Boolean value) {
+            addCriterion("active <", value, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveLessThanOrEqualTo(Boolean value) {
+            addCriterion("active <=", value, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveIn(List<Boolean> values) {
+            addCriterion("active in", values, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveNotIn(List<Boolean> values) {
+            addCriterion("active not in", values, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveBetween(Boolean value1, Boolean value2) {
+            addCriterion("active between", value1, value2, "active");
+            return (Criteria) this;
+        }
+
+        public Criteria andActiveNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("active not between", value1, value2, "active");
+            return (Criteria) this;
+        }
+
         public Criteria andPreImageUrlIsNull() {
             addCriterion("pre_image_url is null");
             return (Criteria) this;

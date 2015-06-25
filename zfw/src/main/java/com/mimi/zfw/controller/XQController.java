@@ -100,5 +100,19 @@ public class XQController {
 		}
 		return jo.toString();
 	}
+	
+	@RequestMapping(value="/xq/json/{name}/search",method={RequestMethod.GET})
+	public @ResponseBody Object ajaxSearchByName(HttpServletRequest request,@PathVariable String name){
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("results", rcService.findByName(name));
+			jo.put("success", true);
+		} catch (Exception e) {
+			jo.put("success", false);
+			jo.put("msg", "查询出错!");
+		}
+		return jo.toString();
+	}
+	
 
 }

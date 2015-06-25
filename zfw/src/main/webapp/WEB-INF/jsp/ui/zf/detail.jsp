@@ -90,7 +90,7 @@
 					装修：<span class="f999">${zf.decorationStatus }</span>
 				</p>
 				<p>
-					朝向：<span class="f999">${zf.houseSitting }</span>
+					朝向：<span class="f999">${zf.forward }</span>
 				</p>
 				<p>
 					楼层：<span class="f999">${zf.curFloor }/${zf.totalFloor }层</span>

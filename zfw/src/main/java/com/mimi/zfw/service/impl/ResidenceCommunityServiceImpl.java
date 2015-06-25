@@ -1,5 +1,7 @@
 package com.mimi.zfw.service.impl;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,11 +25,13 @@ import com.mimi.zfw.mybatis.pojo.RCImage;
 import com.mimi.zfw.mybatis.pojo.RHImage;
 import com.mimi.zfw.mybatis.pojo.RHPano;
 import com.mimi.zfw.mybatis.pojo.RentalHousing;
+import com.mimi.zfw.mybatis.pojo.RentalHousingExample;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample;
 import com.mimi.zfw.mybatis.pojo.SHHImage;
 import com.mimi.zfw.mybatis.pojo.SHHPano;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouse;
+import com.mimi.zfw.mybatis.pojo.SecondHandHouseExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IResidenceCommunityService;
 
@@ -198,7 +202,7 @@ public class ResidenceCommunityServiceImpl extends
 				rc.setRhEntireRentNum((int) (Math.random() * 20));
 				rc.setRhFlatShareNum((int) (Math.random() * 20));
 				rc.setRhMinRental((int) (Math.random() * 1000 + 300));
-				rc.setRhMinRental(rc.getRhMinRental()
+				rc.setRhMaxRental(rc.getRhMinRental()
 						+ (int) (Math.random() * 1000));
 
 				rc.setTags("标签1,标签2,标签3");
@@ -222,6 +226,13 @@ public class ResidenceCommunityServiceImpl extends
 					shh.setId(UUID.randomUUID().toString());
 					shh.setResidenceCommunityId(rc.getId());
 					shh.setResidenceCommunityName(rc.getName());
+					
+					Calendar cal = Calendar.getInstance();
+					int tempDay = RandomUtils.nextInt(300);
+					cal.add(Calendar.DAY_OF_YEAR, -tempDay);
+					shh.setCreateDate(cal.getTime());
+					shh.setUpdateDate(cal.getTime());
+					shh.setOutOfDate(tempDay>=90);
 
 					shh.setName("户型名_" + z + "_" + i + "_" + k);
 					shh.setRegion(region);
@@ -234,18 +245,18 @@ public class ResidenceCommunityServiceImpl extends
 					shh.setHallNum((int) (Math.random() * 2 + 1));
 					shh.setToiletNum((int) (Math.random() + 1));
 
-					double houseSittingTemp = Math.random();
-					String houseSitting;
-					if (houseSittingTemp > 0.8) {
-						houseSitting = Constants.HOUSE_SITTING_E;
-					} else if (houseSittingTemp > 0.6) {
-						houseSitting = Constants.HOUSE_SITTING_SN;
-					} else if (houseSittingTemp > 0.4) {
-						houseSitting = Constants.HOUSE_SITTING_EW;
+					double forwardTemp = Math.random();
+					String forward;
+					if (forwardTemp > 0.8) {
+						forward = Constants.HOUSE_FORWARD_E;
+					} else if (forwardTemp > 0.6) {
+						forward = Constants.HOUSE_FORWARD_SN;
+					} else if (forwardTemp > 0.4) {
+						forward = Constants.HOUSE_FORWARD_EW;
 					} else {
-						houseSitting = Constants.HOUSE_SITTING_ES;
+						forward = Constants.HOUSE_FORWARD_ES;
 					}
-					shh.setHouseSitting(houseSitting);
+					shh.setForward(forward);
 					shh.setCurFloor((int) (Math.random() * 20));
 					shh.setTotalFloor((int) (shh.getCurFloor() + Math.random() * 30));
 
@@ -298,6 +309,13 @@ public class ResidenceCommunityServiceImpl extends
 					rh.setResidenceCommunityId(rc.getId());
 					rh.setResidenceCommunityName(rc.getName());
 
+					Calendar cal = Calendar.getInstance();
+					int tempDay = RandomUtils.nextInt(300);
+					cal.add(Calendar.DAY_OF_YEAR, -tempDay);
+					rh.setCreateDate(cal.getTime());
+					rh.setUpdateDate(cal.getTime());
+					rh.setOutOfDate(tempDay>=90);
+					
 					rh.setName("户型名_" + z + "_" + i + "_" + k);
 					rh.setRegion(region);
 					rh.setPhoneNum("1" + (int) (Math.random() * 99999)
@@ -309,18 +327,18 @@ public class ResidenceCommunityServiceImpl extends
 					rh.setHallNum((int) (Math.random() * 2 + 1));
 					rh.setToiletNum((int) (Math.random() + 1));
 
-					double houseSittingTemp = Math.random();
-					String houseSitting;
-					if (houseSittingTemp > 0.8) {
-						houseSitting = Constants.HOUSE_SITTING_E;
-					} else if (houseSittingTemp > 0.6) {
-						houseSitting = Constants.HOUSE_SITTING_SN;
-					} else if (houseSittingTemp > 0.4) {
-						houseSitting = Constants.HOUSE_SITTING_EW;
+					double forwardTemp = Math.random();
+					String forward;
+					if (forwardTemp > 0.8) {
+						forward = Constants.HOUSE_FORWARD_E;
+					} else if (forwardTemp > 0.6) {
+						forward = Constants.HOUSE_FORWARD_SN;
+					} else if (forwardTemp > 0.4) {
+						forward = Constants.HOUSE_FORWARD_EW;
 					} else {
-						houseSitting = Constants.HOUSE_SITTING_ES;
+						forward = Constants.HOUSE_FORWARD_ES;
 					}
-					rh.setHouseSitting(houseSitting);
+					rh.setForward(forward);
 					rh.setCurFloor((int) (Math.random() * 20));
 					rh.setTotalFloor((int) (rh.getCurFloor() + Math.random() * 30));
 
@@ -473,6 +491,167 @@ public class ResidenceCommunityServiceImpl extends
 		}
 		rce.setOrderByClause("priority desc");
 		return rcm.selectByExample(rce);
+	}
+
+	@Override
+	public List<ResidenceCommunity> findByName(String name) {
+		ResidenceCommunityExample rce = new ResidenceCommunityExample();
+		rce.or().andNameLike("%"+name+"%").andDelFlagEqualTo(false);
+		return rcm.selectByExample(rce);
+	}
+
+	@Override
+	public ResidenceCommunity refreshResidenceCommunity(String id,boolean onShh,boolean onRh){
+		ResidenceCommunity rc = rcm.selectByPrimaryKey(id);
+		if(rc==null){
+			return null;
+		}
+		if(onShh){
+			SecondHandHouseExample shhe = new SecondHandHouseExample();
+			shhe.or().andResidenceCommunityIdEqualTo(id).andDelFlagEqualTo(false);
+			List<SecondHandHouse> shhList = shhm.selectByExample(shhe);
+			int shhAveragePrice = 0;
+			int shhNum = 0;
+			int shhOneRoomNum = 0;
+			int shhTwoRoomNum = 0;
+			int shhThreeRoomNum = 0;
+			int shhFourRoomNum = 0;
+			int shhFiveRoomNum = 0;
+			int shhOverFiveRoomNum = 0;
+			int shhMaxRoomGrossFloorArea = 0;
+			int shhMinRoomGrossFloorArea = 0;
+			int shhMaxTotalPrice = 0;
+			int shhMinTotalPrice = 0;
+			if(shhList!=null && !shhList.isEmpty()){
+				shhNum = shhList.size();
+				int tempShhTotalPrice = 0;
+				int tempShhTotalArea = 0;
+				for(int i=0;i<shhList.size();i++){
+					SecondHandHouse shh = shhList.get(i);
+					if(shh.getRoomNum()!=null){
+						switch(shh.getRoomNum()){
+							case 0:break;
+							case 1:shhOneRoomNum++;break;
+							case 2:shhTwoRoomNum++;break;
+							case 3:shhThreeRoomNum++;break;
+							case 4:shhFourRoomNum++;break;
+							case 5:shhFiveRoomNum++;break;
+							default:shhOverFiveRoomNum++;
+						}
+					}
+					if(shh.getGrossFloorArea()!=null){
+						if(shh.getGrossFloorArea()>shhMaxRoomGrossFloorArea){
+							shhMaxRoomGrossFloorArea = (int) shh.getGrossFloorArea().floatValue();
+						}
+						if(shh.getGrossFloorArea()<shhMinRoomGrossFloorArea){
+							shhMinRoomGrossFloorArea = (int) shh.getGrossFloorArea().floatValue();
+						}
+					}
+					if(shh.getTotalPrice()!=null){
+						if(shh.getTotalPrice()>shhMaxTotalPrice){
+							shhMaxTotalPrice = shh.getTotalPrice();
+						}
+						if(shh.getTotalPrice()<shhMinTotalPrice){
+							shhMinTotalPrice = shh.getTotalPrice();
+						}
+					}
+					if(shh.getGrossFloorArea()!=null && shh.getTotalPrice()!=null){
+						tempShhTotalArea+=shh.getGrossFloorArea();
+						tempShhTotalPrice+=shh.getTotalPrice();
+					}
+				}
+				if(tempShhTotalArea!=0){
+					shhAveragePrice = tempShhTotalPrice*10000/tempShhTotalArea;
+				}
+			}
+			rc.setShhAveragePrice(shhAveragePrice);
+			rc.setShhNum(shhNum);
+			rc.setShhOneRoomNum(shhOneRoomNum);
+			rc.setShhTwoRoomNum(shhTwoRoomNum);
+			rc.setShhThreeRoomNum(shhThreeRoomNum);
+			rc.setShhFourRoomNum(shhFourRoomNum);
+			rc.setShhFiveRoomNum(shhFiveRoomNum);
+			rc.setShhOverFiveRoomNum(shhOverFiveRoomNum);
+			rc.setShhMaxRoomGrossFloorArea(shhMaxRoomGrossFloorArea);
+			rc.setShhMinRoomGrossFloorArea(shhMinRoomGrossFloorArea);
+			rc.setShhMinTotalPrice(shhMinTotalPrice);
+			rc.setShhMaxTotalPrice(shhMaxTotalPrice);
+		}
+		if(onRh){
+			RentalHousingExample rhe = new RentalHousingExample();
+			rhe.or().andResidenceCommunityIdEqualTo(id).andDelFlagEqualTo(false);
+			List<RentalHousing> rhList = rhm.selectByExample(rhe);
+			int rhAveragePrice = 0;
+			int rhNum = 0;
+			int rhOneRoomNum = 0;
+			int rhTwoRoomNum = 0;
+			int rhThreeRoomNum = 0;
+			int rhFourRoomNum = 0;
+			int rhFiveRoomNum = 0;
+			int rhOverFiveRoomNum = 0;
+			int rhMaxRoomGrossFloorArea = 0;
+			int rhMinRoomGrossFloorArea = 0;
+			int rhMaxRental = 0;
+			int rhMinRental = 0;
+			int rhEntireRentNum = 0;
+			int rhFlatShareNum = 0;
+			if(rhList!=null && !rhList.isEmpty()){
+				rhNum = rhList.size();
+				int tempRhTotalPrice = 0;
+				int tempRhNum = 0;
+				for(int i=0;i<rhList.size();i++){
+					RentalHousing rh = rhList.get(i);
+					if(rh.getRoomNum()!=null){
+						switch(rh.getRoomNum()){
+							case 0:break;
+							case 1:rhOneRoomNum++;break;
+							case 2:rhTwoRoomNum++;break;
+							case 3:rhThreeRoomNum++;break;
+							case 4:rhFourRoomNum++;break;
+							case 5:rhFiveRoomNum++;break;
+							default:rhOverFiveRoomNum++;
+						}
+					}
+					if(rh.getGrossFloorArea()!=null){
+						if(rh.getGrossFloorArea()>rhMaxRoomGrossFloorArea){
+							rhMaxRoomGrossFloorArea = (int) rh.getGrossFloorArea().floatValue();
+						}
+						if(rh.getGrossFloorArea()<rhMinRoomGrossFloorArea){
+							rhMinRoomGrossFloorArea = (int) rh.getGrossFloorArea().floatValue();
+						}
+					}
+					if(rh.getRental()!=null){
+						if(rh.getRental()>rhMaxRental){
+							rhMaxRental = rh.getRental();
+						}
+						if(rh.getRental()<rhMinRental){
+							rhMinRental = rh.getRental();
+						}
+						tempRhTotalPrice+=rh.getRental();
+						tempRhNum++;
+					}
+				}
+				if(tempRhNum!=0){
+					rhAveragePrice = tempRhTotalPrice/tempRhNum;
+				}
+			}
+			rc.setRhAveragePrice(rhAveragePrice);
+			rc.setRhNum(rhNum);
+			rc.setRhOneRoomNum(rhOneRoomNum);
+			rc.setRhTwoRoomNum(rhTwoRoomNum);
+			rc.setRhThreeRoomNum(rhThreeRoomNum);
+			rc.setRhFourRoomNum(rhFourRoomNum);
+			rc.setRhFiveRoomNum(rhFiveRoomNum);
+			rc.setRhOverFiveRoomNum(rhOverFiveRoomNum);
+			rc.setRhMaxRoomGrossFloorArea(rhMaxRoomGrossFloorArea);
+			rc.setRhMinRoomGrossFloorArea(rhMinRoomGrossFloorArea);
+			rc.setRhEntireRentNum(rhEntireRentNum);
+			rc.setRhFlatShareNum(rhFlatShareNum);
+			rc.setRhMinRental(rhMinRental);
+			rc.setRhMaxRental(rhMaxRental);
+		}
+		rcm.updateByPrimaryKeySelective(rc);
+		return rc;
 	}
 
 }

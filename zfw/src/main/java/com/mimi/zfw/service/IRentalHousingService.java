@@ -16,4 +16,17 @@ public interface IRentalHousingService extends
 	int countRentalHousingByParams(String residenceCommunityId, String keyWord,
 			String region, String rental, Integer roomNum,
 			String grossFloorArea, String orderBy);
+
+	List<RentalHousing> getByUserId(String userId, Integer targetPage,
+			Integer pageSize);
+
+	int countByUserId(String userId);
+
+	String saveCascading(RentalHousing rh, String imgUrls);
+
+	String deleteUserRHByFlag(String id);
+
+	String refreshUserRH(String id);
+
+	String updateCascading(RentalHousing rh, String imgUrls);
 }

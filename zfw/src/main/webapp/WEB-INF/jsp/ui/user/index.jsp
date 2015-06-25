@@ -53,27 +53,27 @@
 				</shiro:user>
 			</div>
 			<div class="pc-content-list">
-				<a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				<a class="pc-content-item" href="${ctx }/user/esf">
 					<div class="bor">
 						<span class="flol icon esf"></span> <span class="flol">我的二手房</span>
 					</div>
-				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				</a> <a class="pc-content-item" href="${ctx }/user/zf">
 					<div class="bor">
 						<span class="flol icon zf"></span> <span class="flol">我的租房</span>
 					</div>
-				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				</a> <a class="pc-content-item" href="${ctx }/user/sp">
 					<div class="bor">
 						<span class="flol icon sp"></span> <span class="flol">我的商铺</span>
 					</div>
-				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				</a> <a class="pc-content-item" href="${ctx }/user/xzl">
 					<div class="bor">
 						<span class="flol icon xzl"></span> <span class="flol">我的写字楼</span>
 					</div>
-				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				</a> <a class="pc-content-item" href="${ctx }/user/ck">
 					<div class="bor">
 						<span class="flol icon ck"></span> <span class="flol">我的仓库</span>
 					</div>
-				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				</a> <a class="pc-content-item" href="${ctx }/user/cf">
 					<div class="bor">
 						<span class="flol icon cf"></span> <span class="flol">我的厂房</span>
 					</div>

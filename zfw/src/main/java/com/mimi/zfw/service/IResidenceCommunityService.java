@@ -13,4 +13,9 @@ public interface IResidenceCommunityService extends
 			String bound, String region, String shhTotalPrice,
 			Integer shhRoomNum, String shhRoomGrossFloorArea, String rhRental,
 			Integer rhRoomNum, String rhRoomGrossFloorArea);
+
+	public List<ResidenceCommunity> findByName(String name);
+
+	public ResidenceCommunity refreshResidenceCommunity(String id, boolean onShh,
+			boolean onRh);
 }

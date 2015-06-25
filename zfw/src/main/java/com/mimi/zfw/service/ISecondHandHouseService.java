@@ -16,4 +16,17 @@ public interface ISecondHandHouseService extends
 	int countSecondHandHouseByParams(String residenceCommunityId,
 			String keyWord, String region, String totalPrice, Integer roomNum,
 			String grossFloorArea, String orderBy);
+
+	List<SecondHandHouse> getByUserId(String userId, Integer targetPage,
+			Integer pageSize);
+
+	int countByUserId(String userId);
+
+	String saveCascading(SecondHandHouse shh, String imgUrls);
+
+	String deleteUserSHHByFlag(String id);
+
+	String refreshUserSHH(String id);
+
+	String updateCascading(SecondHandHouse shh, String imgUrls);
 }

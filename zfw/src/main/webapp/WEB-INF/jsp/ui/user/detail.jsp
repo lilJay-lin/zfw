@@ -19,7 +19,7 @@
 				<div class="flol">头像</div>
 				<div id="userphoto" class="flor serImg"
 					style="margin-left: 92px; width: 45px; height: 45px; background: url(${headImgUrl}) no-repeat left center; background-size: 45px 45px;">
-					<form id="testForm" method= "post" enctype ="multipart/form-data">
+					<form id="uploadForm" method= "post" enctype ="multipart/form-data">
 					
 					<input id="commit_contract" class="multi_preview" type="file" name = "theFile"
 						accept="image/*"
@@ -68,7 +68,7 @@ $(function(){
 		$(".serImg").attr("style","margin-left:92px;width:45px; height:45px; background:url(${ctx}/assets/img/loading.gif) no-repeat left center;background-size:30px 30px;");
 		$(".multi_preview").attr("readonly","readonly");
 		
-		var formData = new FormData($("#testForm")[0]);	
+		var formData = new FormData($("#uploadForm")[0]);	
 	    $.ajax({
 	        type:'POST',
 	        url:'${ctx}/user/uploadHeadImg',

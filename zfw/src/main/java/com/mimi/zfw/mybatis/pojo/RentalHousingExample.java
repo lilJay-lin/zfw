@@ -846,73 +846,73 @@ public class RentalHousingExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingIsNull() {
-            addCriterion("house_sitting is null");
+        public Criteria andForwardIsNull() {
+            addCriterion("forward is null");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingIsNotNull() {
-            addCriterion("house_sitting is not null");
+        public Criteria andForwardIsNotNull() {
+            addCriterion("forward is not null");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingEqualTo(String value) {
-            addCriterion("house_sitting =", value, "houseSitting");
+        public Criteria andForwardEqualTo(String value) {
+            addCriterion("forward =", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingNotEqualTo(String value) {
-            addCriterion("house_sitting <>", value, "houseSitting");
+        public Criteria andForwardNotEqualTo(String value) {
+            addCriterion("forward <>", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingGreaterThan(String value) {
-            addCriterion("house_sitting >", value, "houseSitting");
+        public Criteria andForwardGreaterThan(String value) {
+            addCriterion("forward >", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingGreaterThanOrEqualTo(String value) {
-            addCriterion("house_sitting >=", value, "houseSitting");
+        public Criteria andForwardGreaterThanOrEqualTo(String value) {
+            addCriterion("forward >=", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingLessThan(String value) {
-            addCriterion("house_sitting <", value, "houseSitting");
+        public Criteria andForwardLessThan(String value) {
+            addCriterion("forward <", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingLessThanOrEqualTo(String value) {
-            addCriterion("house_sitting <=", value, "houseSitting");
+        public Criteria andForwardLessThanOrEqualTo(String value) {
+            addCriterion("forward <=", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingLike(String value) {
-            addCriterion("house_sitting like", value, "houseSitting");
+        public Criteria andForwardLike(String value) {
+            addCriterion("forward like", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingNotLike(String value) {
-            addCriterion("house_sitting not like", value, "houseSitting");
+        public Criteria andForwardNotLike(String value) {
+            addCriterion("forward not like", value, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingIn(List<String> values) {
-            addCriterion("house_sitting in", values, "houseSitting");
+        public Criteria andForwardIn(List<String> values) {
+            addCriterion("forward in", values, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingNotIn(List<String> values) {
-            addCriterion("house_sitting not in", values, "houseSitting");
+        public Criteria andForwardNotIn(List<String> values) {
+            addCriterion("forward not in", values, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingBetween(String value1, String value2) {
-            addCriterion("house_sitting between", value1, value2, "houseSitting");
+        public Criteria andForwardBetween(String value1, String value2) {
+            addCriterion("forward between", value1, value2, "forward");
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingNotBetween(String value1, String value2) {
-            addCriterion("house_sitting not between", value1, value2, "houseSitting");
+        public Criteria andForwardNotBetween(String value1, String value2) {
+            addCriterion("forward not between", value1, value2, "forward");
             return (Criteria) this;
         }
 
@@ -1796,6 +1796,66 @@ public class RentalHousingExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andOutOfDateIsNull() {
+            addCriterion("out_of_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateIsNotNull() {
+            addCriterion("out_of_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateEqualTo(Boolean value) {
+            addCriterion("out_of_date =", value, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateNotEqualTo(Boolean value) {
+            addCriterion("out_of_date <>", value, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateGreaterThan(Boolean value) {
+            addCriterion("out_of_date >", value, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("out_of_date >=", value, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateLessThan(Boolean value) {
+            addCriterion("out_of_date <", value, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateLessThanOrEqualTo(Boolean value) {
+            addCriterion("out_of_date <=", value, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateIn(List<Boolean> values) {
+            addCriterion("out_of_date in", values, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateNotIn(List<Boolean> values) {
+            addCriterion("out_of_date not in", values, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateBetween(Boolean value1, Boolean value2) {
+            addCriterion("out_of_date between", value1, value2, "outOfDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutOfDateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("out_of_date not between", value1, value2, "outOfDate");
+            return (Criteria) this;
+        }
+
         public Criteria andDescriptionIsNull() {
             addCriterion("description is null");
             return (Criteria) this;
@@ -2416,8 +2476,8 @@ public class RentalHousingExample extends BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andHouseSittingLikeInsensitive(String value) {
-            addCriterion("upper(house_sitting) like", value.toUpperCase(), "houseSitting");
+        public Criteria andForwardLikeInsensitive(String value) {
+            addCriterion("upper(forward) like", value.toUpperCase(), "forward");
             return (Criteria) this;
         }
 

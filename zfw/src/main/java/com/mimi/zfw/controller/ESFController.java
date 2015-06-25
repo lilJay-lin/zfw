@@ -1,25 +1,34 @@
 package com.mimi.zfw.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.mybatis.pojo.REPImage;
-import com.mimi.zfw.mybatis.pojo.REPPano;
-import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.mybatis.pojo.SHHImage;
 import com.mimi.zfw.mybatis.pojo.SHHPano;
@@ -28,6 +37,7 @@ import com.mimi.zfw.service.IResidenceCommunityService;
 import com.mimi.zfw.service.ISHHImageService;
 import com.mimi.zfw.service.ISHHPanoService;
 import com.mimi.zfw.service.ISecondHandHouseService;
+import com.mimi.zfw.service.IUserService;
 
 @Controller
 public class ESFController {
@@ -39,6 +49,8 @@ public class ESFController {
 	private ISHHImageService shhiService;
 	@Resource
 	private ISHHPanoService shhpService;
+    @Resource
+    private IUserService userService;
 
 	@RequestMapping(value = "/esf", method = { RequestMethod.GET })
 	public String esf(HttpServletRequest request) {
@@ -166,4 +178,199 @@ public class ESFController {
 		}
 		return jo.toString();
 	}
+
+	
+	@RequestMapping(value = "user/esf", method = { RequestMethod.GET })
+	public String toCurUserEsf(HttpServletRequest request) {
+		String userId = userService.getCurUserId();
+		List<SecondHandHouse> list = shhService.getByUserId(userId,0,Constants.DEFAULT_PAGE_SIZE);
+		int total = shhService.countByUserId(userId);
+		request.setAttribute("results", list);
+		request.setAttribute("total", total);
+		return "ui/user/esf/index";
+	}
+
+	
+	@RequestMapping(value = "user/esf/add", method = { RequestMethod.GET })
+	public String toAdd(HttpServletRequest request) {
+		return "ui/user/esf/add";
+	}
+
+	
+	@RequestMapping(value = "user/esf/json/add", method = { RequestMethod.POST })
+	public @ResponseBody Object add(HttpServletRequest request,SecondHandHouse shh,String imgUrls) {
+		JSONObject jo = new JSONObject();
+		try{
+			String errorStr = shhService.saveCascading(shh,imgUrls);
+			if(StringUtils.isBlank(errorStr)){
+				jo.put("success", true);
+			}else{
+				jo.put("success", false);
+				jo.put("msg", errorStr);
+			}
+		}catch(Exception e){
+			jo.put("success", false);
+			jo.put("msg", "发布出错!");
+		}
+		return jo.toString();
+	}
+
+	
+	@RequestMapping(value = "user/esf/json/del", method = { RequestMethod.POST })
+	public @ResponseBody Object del(HttpServletRequest request,String id) {
+		JSONObject jo = new JSONObject();
+		try{
+			String errorStr = shhService.deleteUserSHHByFlag(id);
+			if(StringUtils.isBlank(errorStr)){
+				jo.put("success", true);
+			}else{
+				jo.put("success", false);
+				jo.put("msg", errorStr);
+			}
+		}catch(Exception e){
+			jo.put("success", false);
+			jo.put("msg", "删除出错!");
+		}
+		return jo.toString();
+	}
+
+	
+	@RequestMapping(value = "user/esf/json/refresh", method = { RequestMethod.POST })
+	public @ResponseBody Object refresh(HttpServletRequest request,String id) {
+		JSONObject jo = new JSONObject();
+		try{
+			String errorStr = shhService.refreshUserSHH(id);
+			if(StringUtils.isBlank(errorStr)){
+				jo.put("success", true);
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+				jo.put("time", cal.get(Calendar.YEAR)+"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH));
+			}else{
+				jo.put("success", false);
+				jo.put("msg", errorStr);
+			}
+		}catch(Exception e){
+			jo.put("success", false);
+			jo.put("msg", "刷新出错!");
+		}
+		return jo.toString();
+	}
+
+	
+	@RequestMapping(value = "user/esf/json/update", method = { RequestMethod.POST })
+	public @ResponseBody Object update(HttpServletRequest request,SecondHandHouse shh,String imgUrls) {
+		JSONObject jo = new JSONObject();
+		try{
+			String errorStr = shhService.updateCascading(shh,imgUrls);
+			if(StringUtils.isBlank(errorStr)){
+				jo.put("success", true);
+			}else{
+				jo.put("success", false);
+				jo.put("msg", errorStr);
+			}
+		}catch(Exception e){
+			jo.put("success", false);
+			jo.put("msg", "修改出错!");
+		}
+		return jo.toString();
+	}
+
+	
+	@RequestMapping(value = "user/esf/{id}/manage", method = { RequestMethod.GET })
+	public String toManager(HttpServletRequest request,@PathVariable String id) {
+		SecondHandHouse shh = shhService.get(id);
+		List<SHHImage> images = shhiService.getImagesByParams(id, 0, Integer.MAX_VALUE);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(shh.getUpdateDate());
+		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+		request.setAttribute("deadline", cal.get(Calendar.YEAR)+"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH));
+		request.setAttribute("esf", shh);
+		request.setAttribute("images", images);
+		return "ui/user/esf/manage";
+	}
+
+	
+	@RequestMapping(value = "user/esf/json/{targetPage}-{pageSize}/search", method = { RequestMethod.GET })
+	public @ResponseBody
+	Object ajaxCurUserEsfSearch(HttpServletRequest request,@PathVariable Integer targetPage,@PathVariable Integer pageSize) {
+		if (targetPage == null) {
+			targetPage = 0;
+		}
+		if (pageSize == null) {
+			pageSize = Constants.DEFAULT_PAGE_SIZE;
+		}
+		JSONObject jo = new JSONObject();
+		try{
+			String userId = userService.getCurUserId();
+			jo.put("results", shhService.getByUserId(userId,targetPage,pageSize));
+			jo.put("success", true);
+		}catch(Exception e){
+			e.printStackTrace();
+			jo.put("success", false);
+			jo.put("msg", "查询出错!");
+		}
+		return jo.toString();
+	}
+	
+	
+	@RequestMapping(value = "/user/esf/uploadImg", method = {
+			RequestMethod.POST, RequestMethod.GET })
+	public @ResponseBody
+	Object upload(HttpServletRequest request,
+			@RequestParam("theFile") MultipartFile theFile) {
+
+		JSONObject jo = new JSONObject();
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.getTimeInMillis();
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			int hour = cal.get(Calendar.HOUR_OF_DAY);
+			String path = "/assets/upload/" + year + "/" + month + "/" + day
+					+ "/" + hour + "/";
+			path = request.getContextPath()
+					+ path
+					+ saveFileToServer(theFile, request.getSession()
+							.getServletContext().getRealPath("/")
+							+ path);
+			jo.put("imgPath", path);
+			jo.put("success", true);
+		} catch (IOException e) {
+			jo.put("success", false);
+			jo.put("msg", "保存图片失败");
+		}
+		return jo.toString();
+	}
+
+	public String saveFileToServer(MultipartFile multifile, String path)
+			throws IOException {
+		// 创建目录
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		String fileName = multifile.getOriginalFilename();
+		fileName = UUID.randomUUID().toString()
+				+ fileName.substring(fileName.lastIndexOf("."));
+		// String fileName = UUID.randomUUID().toString();
+		// 读取文件流并保持在指定路径
+		InputStream inputStream = multifile.getInputStream();
+		OutputStream outputStream = new FileOutputStream(path + fileName);
+		byte[] buffer = multifile.getBytes();
+		int bytesum = 0;
+		int byteread = 0;
+		while ((byteread = inputStream.read(buffer)) != -1) {
+			bytesum += byteread;
+			outputStream.write(buffer, 0, byteread);
+			outputStream.flush();
+		}
+		outputStream.close();
+		inputStream.close();
+
+		return fileName;
+	}
+
+	
 }

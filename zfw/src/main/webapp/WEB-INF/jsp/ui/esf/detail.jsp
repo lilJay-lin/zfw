@@ -90,7 +90,7 @@
 					装修：<span class="f999">${esf.decorationStatus }</span>
 				</p>
 				<p>
-					朝向：<span class="f999">${esf.houseSitting }</span>
+					朝向：<span class="f999">${esf.forward }</span>
 				</p>
 				<p>
 					楼层：<span class="f999">${esf.curFloor }/${esf.totalFloor }层</span>

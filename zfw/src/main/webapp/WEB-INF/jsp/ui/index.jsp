@@ -303,7 +303,7 @@
 				}
 			},
 			error: function (data) {
-				alert("验证码发送失败，请稍后尝试！");
+				alert("报名失败，请稍后尝试！");
 			},
 			complete:function(data){
 				btn.removeClass("disabled");

@@ -13,12 +13,13 @@
     <result column="room_num" property="roomNum" jdbcType="INTEGER" />
     <result column="hall_num" property="hallNum" jdbcType="INTEGER" />
     <result column="toilet_num" property="toiletNum" jdbcType="INTEGER" />
-    <result column="house_sitting" property="houseSitting" jdbcType="VARCHAR" />
+    <result column="forward" property="forward" jdbcType="VARCHAR" />
     <result column="cur_floor" property="curFloor" jdbcType="INTEGER" />
     <result column="total_floor" property="totalFloor" jdbcType="INTEGER" />
     <result column="decoration_status" property="decorationStatus" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="out_of_date" property="outOfDate" jdbcType="BIT" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="tags" property="tags" jdbcType="VARCHAR" />
     <result column="priority" property="priority" jdbcType="INTEGER" />
@@ -89,9 +90,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, residence_community_id, residence_community_name, name, region, phone_num, total_price, 
-    gross_floor_area, room_num, hall_num, toilet_num, house_sitting, cur_floor, total_floor, 
-    decoration_status, address, introduction, description, tags, priority, pre_image_url, 
-    creater, last_editor, create_date, update_date, del_flag
+    gross_floor_area, room_num, hall_num, toilet_num, forward, cur_floor, total_floor, 
+    decoration_status, address, introduction, out_of_date, description, tags, priority, 
+    pre_image_url, creater, last_editor, create_date, update_date, del_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.SecondHandHouseExample" >
     select
@@ -130,21 +131,23 @@
     insert into tbl_second_hand_house (id, residence_community_id, residence_community_name, 
       name, region, phone_num, 
       total_price, gross_floor_area, room_num, 
-      hall_num, toilet_num, house_sitting, 
+      hall_num, toilet_num, forward, 
       cur_floor, total_floor, decoration_status, 
-      address, introduction, description, 
-      tags, priority, pre_image_url, 
-      creater, last_editor, create_date, 
-      update_date, del_flag)
+      address, introduction, out_of_date, 
+      description, tags, priority, 
+      pre_image_url, creater, last_editor, 
+      create_date, update_date, del_flag
+      )
     values (#{id,jdbcType=VARCHAR}, #{residenceCommunityId,jdbcType=VARCHAR}, #{residenceCommunityName,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
       #{totalPrice,jdbcType=INTEGER}, #{grossFloorArea,jdbcType=REAL}, #{roomNum,jdbcType=INTEGER}, 
-      #{hallNum,jdbcType=INTEGER}, #{toiletNum,jdbcType=INTEGER}, #{houseSitting,jdbcType=VARCHAR}, 
+      #{hallNum,jdbcType=INTEGER}, #{toiletNum,jdbcType=INTEGER}, #{forward,jdbcType=VARCHAR}, 
       #{curFloor,jdbcType=INTEGER}, #{totalFloor,jdbcType=INTEGER}, #{decorationStatus,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{tags,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{preImageUrl,jdbcType=VARCHAR}, 
-      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT})
+      #{address,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{outOfDate,jdbcType=BIT}, 
+      #{description,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, 
+      #{preImageUrl,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.SecondHandHouse" >
     insert into tbl_second_hand_house
@@ -182,8 +185,8 @@
       <if test="toiletNum != null" >
         toilet_num,
       </if>
-      <if test="houseSitting != null" >
-        house_sitting,
+      <if test="forward != null" >
+        forward,
       </if>
       <if test="curFloor != null" >
         cur_floor,
@@ -199,6 +202,9 @@
       </if>
       <if test="introduction != null" >
         introduction,
+      </if>
+      <if test="outOfDate != null" >
+        out_of_date,
       </if>
       <if test="description != null" >
         description,
@@ -262,8 +268,8 @@
       <if test="toiletNum != null" >
         #{toiletNum,jdbcType=INTEGER},
       </if>
-      <if test="houseSitting != null" >
-        #{houseSitting,jdbcType=VARCHAR},
+      <if test="forward != null" >
+        #{forward,jdbcType=VARCHAR},
       </if>
       <if test="curFloor != null" >
         #{curFloor,jdbcType=INTEGER},
@@ -279,6 +285,9 @@
       </if>
       <if test="introduction != null" >
         #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="outOfDate != null" >
+        #{outOfDate,jdbcType=BIT},
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
@@ -351,8 +360,8 @@
       <if test="record.toiletNum != null" >
         toilet_num = #{record.toiletNum,jdbcType=INTEGER},
       </if>
-      <if test="record.houseSitting != null" >
-        house_sitting = #{record.houseSitting,jdbcType=VARCHAR},
+      <if test="record.forward != null" >
+        forward = #{record.forward,jdbcType=VARCHAR},
       </if>
       <if test="record.curFloor != null" >
         cur_floor = #{record.curFloor,jdbcType=INTEGER},
@@ -368,6 +377,9 @@
       </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outOfDate != null" >
+        out_of_date = #{record.outOfDate,jdbcType=BIT},
       </if>
       <if test="record.description != null" >
         description = #{record.description,jdbcType=VARCHAR},
@@ -414,12 +426,13 @@
       room_num = #{record.roomNum,jdbcType=INTEGER},
       hall_num = #{record.hallNum,jdbcType=INTEGER},
       toilet_num = #{record.toiletNum,jdbcType=INTEGER},
-      house_sitting = #{record.houseSitting,jdbcType=VARCHAR},
+      forward = #{record.forward,jdbcType=VARCHAR},
       cur_floor = #{record.curFloor,jdbcType=INTEGER},
       total_floor = #{record.totalFloor,jdbcType=INTEGER},
       decoration_status = #{record.decorationStatus,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=VARCHAR},
+      out_of_date = #{record.outOfDate,jdbcType=BIT},
       description = #{record.description,jdbcType=VARCHAR},
       tags = #{record.tags,jdbcType=VARCHAR},
       priority = #{record.priority,jdbcType=INTEGER},
@@ -466,8 +479,8 @@
       <if test="toiletNum != null" >
         toilet_num = #{toiletNum,jdbcType=INTEGER},
       </if>
-      <if test="houseSitting != null" >
-        house_sitting = #{houseSitting,jdbcType=VARCHAR},
+      <if test="forward != null" >
+        forward = #{forward,jdbcType=VARCHAR},
       </if>
       <if test="curFloor != null" >
         cur_floor = #{curFloor,jdbcType=INTEGER},
@@ -483,6 +496,9 @@
       </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="outOfDate != null" >
+        out_of_date = #{outOfDate,jdbcType=BIT},
       </if>
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
@@ -526,12 +542,13 @@
       room_num = #{roomNum,jdbcType=INTEGER},
       hall_num = #{hallNum,jdbcType=INTEGER},
       toilet_num = #{toiletNum,jdbcType=INTEGER},
-      house_sitting = #{houseSitting,jdbcType=VARCHAR},
+      forward = #{forward,jdbcType=VARCHAR},
       cur_floor = #{curFloor,jdbcType=INTEGER},
       total_floor = #{totalFloor,jdbcType=INTEGER},
       decoration_status = #{decorationStatus,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=VARCHAR},
+      out_of_date = #{outOfDate,jdbcType=BIT},
       description = #{description,jdbcType=VARCHAR},
       tags = #{tags,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=INTEGER},

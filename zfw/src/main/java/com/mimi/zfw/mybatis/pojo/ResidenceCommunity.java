@@ -98,6 +98,8 @@ public class ResidenceCommunity implements IBaseModel<String> {
 
     private Integer priority;
 
+    private Boolean active;
+
     private String preImageUrl;
 
     private String creater;
@@ -486,6 +488,14 @@ public class ResidenceCommunity implements IBaseModel<String> {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getPreImageUrl() {

@@ -124,17 +124,21 @@ public class Constants {
 	
 	public static final String SIGN_UP_FORM_TITLE_DEFAULT = "电商团购报名";
 	
-	public static final String HOUSE_SITTING_E = "东";
-	public static final String HOUSE_SITTING_ES = "东南";
-	public static final String HOUSE_SITTING_EW = "东西";
-	public static final String HOUSE_SITTING_EN = "东北";
-	public static final String HOUSE_SITTING_S = "南";
-	public static final String HOUSE_SITTING_SN = "南北";
-	public static final String HOUSE_SITTING_W = "西";
-	public static final String HOUSE_SITTING_WS = "西南";
-	public static final String HOUSE_SITTING_WN = "西北";
-	public static final String HOUSE_SITTING_N = "北";
+	public static final String HOUSE_FORWARD_E = "东";
+	public static final String HOUSE_FORWARD_ES = "东南";
+	public static final String HOUSE_FORWARD_EW = "东西";
+	public static final String HOUSE_FORWARD_EN = "东北";
+	public static final String HOUSE_FORWARD_S = "南";
+	public static final String HOUSE_FORWARD_SN = "南北";
+	public static final String HOUSE_FORWARD_W = "西";
+	public static final String HOUSE_FORWARD_WS = "西南";
+	public static final String HOUSE_FORWARD_WN = "西北";
+	public static final String HOUSE_FORWARD_N = "北";
 	
 	public static final String LEASE_WAY_WHOLE = "整租";
 	public static final String LEASE_WAY_SHARE = "合租";
+	
+	public static final String IMAGE_URLS_SPLIT_STRING = ",";
+	
+	public static final int ACTIVE_TIME = 90;
 }

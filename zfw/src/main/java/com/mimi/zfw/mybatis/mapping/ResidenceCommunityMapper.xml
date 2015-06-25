@@ -49,6 +49,7 @@
     <result column="rh_flat_share_num" property="rhFlatShareNum" jdbcType="INTEGER" />
     <result column="tags" property="tags" jdbcType="VARCHAR" />
     <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="active" property="active" jdbcType="BIT" />
     <result column="pre_image_url" property="preImageUrl" jdbcType="VARCHAR" />
     <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
@@ -123,7 +124,8 @@
     shh_max_total_price, rh_average_price, rh_num, rh_one_room_num, rh_two_room_num, 
     rh_three_room_num, rh_four_room_num, rh_five_room_num, rh_over_five_room_num, rh_min_room_gross_floor_area, 
     rh_max_room_gross_floor_area, rh_min_rental, rh_max_rental, rh_entire_rent_num, rh_flat_share_num, 
-    tags, priority, pre_image_url, creater, last_editor, create_date, update_date, del_flag
+    tags, priority, active, pre_image_url, creater, last_editor, create_date, update_date, 
+    del_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample" >
     select
@@ -175,9 +177,9 @@
       rh_over_five_room_num, rh_min_room_gross_floor_area, 
       rh_max_room_gross_floor_area, rh_min_rental, rh_max_rental, 
       rh_entire_rent_num, rh_flat_share_num, tags, 
-      priority, pre_image_url, creater, 
-      last_editor, create_date, update_date, 
-      del_flag)
+      priority, active, pre_image_url, 
+      creater, last_editor, create_date, 
+      update_date, del_flag)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{onSaleDate,jdbcType=DATE}, #{propertyType,jdbcType=VARCHAR}, #{buildingType,jdbcType=VARCHAR}, 
       #{householdNum,jdbcType=INTEGER}, #{floorAreaRatio,jdbcType=REAL}, #{greenRate,jdbcType=REAL}, 
@@ -194,9 +196,9 @@
       #{rhOverFiveRoomNum,jdbcType=INTEGER}, #{rhMinRoomGrossFloorArea,jdbcType=INTEGER}, 
       #{rhMaxRoomGrossFloorArea,jdbcType=INTEGER}, #{rhMinRental,jdbcType=INTEGER}, #{rhMaxRental,jdbcType=INTEGER}, 
       #{rhEntireRentNum,jdbcType=INTEGER}, #{rhFlatShareNum,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, 
-      #{priority,jdbcType=INTEGER}, #{preImageUrl,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
-      #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=BIT})
+      #{priority,jdbcType=INTEGER}, #{active,jdbcType=BIT}, #{preImageUrl,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
     insert into tbl_residence_community
@@ -341,6 +343,9 @@
       </if>
       <if test="priority != null" >
         priority,
+      </if>
+      <if test="active != null" >
+        active,
       </if>
       <if test="preImageUrl != null" >
         pre_image_url,
@@ -502,6 +507,9 @@
       </if>
       <if test="priority != null" >
         #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="active != null" >
+        #{active,jdbcType=BIT},
       </if>
       <if test="preImageUrl != null" >
         #{preImageUrl,jdbcType=VARCHAR},
@@ -673,6 +681,9 @@
       <if test="record.priority != null" >
         priority = #{record.priority,jdbcType=INTEGER},
       </if>
+      <if test="record.active != null" >
+        active = #{record.active,jdbcType=BIT},
+      </if>
       <if test="record.preImageUrl != null" >
         pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
       </if>
@@ -745,6 +756,7 @@
       rh_flat_share_num = #{record.rhFlatShareNum,jdbcType=INTEGER},
       tags = #{record.tags,jdbcType=VARCHAR},
       priority = #{record.priority,jdbcType=INTEGER},
+      active = #{record.active,jdbcType=BIT},
       pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       last_editor = #{record.lastEditor,jdbcType=VARCHAR},
@@ -896,6 +908,9 @@
       <if test="priority != null" >
         priority = #{priority,jdbcType=INTEGER},
       </if>
+      <if test="active != null" >
+        active = #{active,jdbcType=BIT},
+      </if>
       <if test="preImageUrl != null" >
         pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
       </if>
@@ -965,6 +980,7 @@
       rh_flat_share_num = #{rhFlatShareNum,jdbcType=INTEGER},
       tags = #{tags,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=INTEGER},
+      active = #{active,jdbcType=BIT},
       pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=VARCHAR},
       last_editor = #{lastEditor,jdbcType=VARCHAR},
