@@ -1,14 +1,14 @@
 package com.mimi.zfw.service;
 
-import com.mimi.zfw.model.UserModel;
-import com.mimi.zfw.model.UserQueryModel;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
+import java.util.List;
 
-public interface IRoleService  extends IBaseService<UserModel, String> {
+import com.mimi.zfw.mybatis.pojo.Role;
+import com.mimi.zfw.mybatis.pojo.RoleExample;
 
-	CommonPageObject<UserModel> query(int pn, int pageSize,
-			UserQueryModel command);
-
-	CommonPageObject<UserModel> strictQuery(int pn, int pageSize,
-			UserQueryModel command);
+public interface IRoleService extends IBaseService<Role, RoleExample, String>{
+	public int getK();
+	
+	public void initRole();
+	
+	public List<Role> getRolesByUserId(String id);
 }

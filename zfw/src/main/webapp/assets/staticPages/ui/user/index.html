@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/RSA.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/BigInt.js"></script>
+<script type="text/javascript"
+	src="../../../tools/encryption/Barrett.js"></script>
+<script type="text/javascript" src="../../../tools/encryption/md5.js"></script>
+</head>
+<body>
+	<div class="main whitebg">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">个人中心</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="../xf/index.html">新房</a></td>
+								<td width="24%"><a href="../esf/bj/">二手房</a></td>
+								<td width="24%"><a href="../zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<div class="personCenter">
+			<div class="pc-banner">
+				<div id="login">
+					<a id="userhref" href="detail.html"
+						class="logined">
+						<dl>
+							<dt>
+								<div id="userphoto">
+									<img
+										src="../../../img/ui/accountbg.jpg"
+										width="50" height="50px">
+								</div>
+							</dt>
+							<dd>
+								<p id="phone" class="f18">150****8974</p>
+							</dd>
+						</dl>
+					</a>
+				</div>
+				<div id="nologin" class="none">
+					<div class="nologin pd10">
+						<p class="f16">欢迎登录肇房网</p>
+						<div class="btns">
+							<a href="register.html">注册</a> <a href="login.html">登录</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pc-content-list">
+				<a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+					<div class="bor">
+						<span class="flol icon esf"></span> <span class="flol">我的二手房</span>
+					</div>
+				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+					<div class="bor">
+						<span class="flol icon zf"></span> <span class="flol">我的租房</span>
+					</div>
+				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+					<div class="bor">
+						<span class="flol icon sp"></span> <span class="flol">我的商铺</span>
+					</div>
+				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+					<div class="bor">
+						<span class="flol icon xzl"></span> <span class="flol">我的写字楼</span>
+					</div>
+				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+					<div class="bor">
+						<span class="flol icon ck"></span> <span class="flol">我的仓库</span>
+					</div>
+				</a> <a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+					<div class="bor">
+						<span class="flol icon cf"></span> <span class="flol">我的厂房</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	function hideOrOpenNav() {
+		var navObj = $(".newNav");
+		var shadow = $(".popShadow");
+		if (navObj.hasClass("none")) {
+			navObj.removeClass("none");
+			shadow.removeClass("none");
+		} else {
+			navObj.addClass("none");
+			shadow.addClass("none");
+		}
+	}
+</script>
+</html>

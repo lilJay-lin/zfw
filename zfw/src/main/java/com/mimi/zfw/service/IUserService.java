@@ -1,20 +1,43 @@
 package com.mimi.zfw.service;
 
-import java.util.Set;
+import com.mimi.zfw.mybatis.pojo.User;
+import com.mimi.zfw.mybatis.pojo.UserExample;
 
-import com.mimi.zfw.model.UserModel;
-import com.mimi.zfw.model.UserQueryModel;
-import com.mimi.zfw.util.pageUtil.CommonPageObject;
+public interface IUserService extends IBaseService<User, UserExample, String> {
 
-public interface IUserService extends IBaseService<UserModel, String> {
+    public User saveOriginUser(User user);
+    
+    public String updatePassword(User user);
 
-	CommonPageObject<UserModel> query(int pn, int pageSize,
-			UserQueryModel command);
+    public User findByName(String name);
 
-	CommonPageObject<UserModel> strictQuery(int pn, int pageSize,
-			UserQueryModel command);
-	public void changePassword(Long userId, String newPassword); //修改密码
-	public UserModel findByUsername(String username); //根据用户名查找用户
-	public Set<String> findRoles(String username);// 根据用户名查找其角色
-	public Set<String> findPermissions(String username);// 根据用户名查找其权限
+    public User findByEmail(String email);
+    
+    public User findByPhoneNum(String phoneNum);
+    
+    public User findByLoginName(String loginName);
+
+    public void initUser();
+
+    public void login(String name, String password);
+    
+    public void login(String loginName);
+    
+    public boolean checkNameFormat(String name);
+    
+    public boolean checkPhoneNumFormat(String phoneNum);
+    
+    public boolean checkEamilFormat(String eamil);
+
+    public String updateCurUserHeadImgUrl(String headImgUrl);
+
+    public User getCurUser();
+    
+    public String getCurUserPrincipal();
+    
+    public String getCurUserId();
+    
+    public boolean isLogined();
+
+    public boolean isRememberMe();
 }

@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mimi.zfw.mybatis.dao.RealEstateProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.mimi.zfw.mybatis.pojo.RealEstateProject" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="on_sale_date" property="onSaleDate" jdbcType="DATE" />
+    <result column="on_ready_date" property="onReadyDate" jdbcType="DATE" />
+    <result column="property_type" property="propertyType" jdbcType="VARCHAR" />
+    <result column="building_type" property="buildingType" jdbcType="VARCHAR" />
+    <result column="decoration_status" property="decorationStatus" jdbcType="VARCHAR" />
+    <result column="household_num" property="householdNum" jdbcType="INTEGER" />
+    <result column="floor_area_ratio" property="floorAreaRatio" jdbcType="REAL" />
+    <result column="green_rate" property="greenRate" jdbcType="REAL" />
+    <result column="parking_space_num" property="parkingSpaceNum" jdbcType="INTEGER" />
+    <result column="property_years" property="propertyYears" jdbcType="INTEGER" />
+    <result column="developer" property="developer" jdbcType="VARCHAR" />
+    <result column="pre_sale_permit" property="preSalePermit" jdbcType="VARCHAR" />
+    <result column="property_company" property="propertyCompany" jdbcType="VARCHAR" />
+    <result column="property_fee" property="propertyFee" jdbcType="REAL" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="surrounding" property="surrounding" jdbcType="VARCHAR" />
+    <result column="traffic" property="traffic" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="REAL" />
+    <result column="latitude" property="latitude" jdbcType="REAL" />
+    <result column="average_price" property="averagePrice" jdbcType="INTEGER" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="pre_image_url" property="preImageUrl" jdbcType="VARCHAR" />
+    <result column="one_room_num" property="oneRoomNum" jdbcType="INTEGER" />
+    <result column="two_room_num" property="twoRoomNum" jdbcType="INTEGER" />
+    <result column="three_room_num" property="threeRoomNum" jdbcType="INTEGER" />
+    <result column="four_room_num" property="fourRoomNum" jdbcType="INTEGER" />
+    <result column="five_room_num" property="fiveRoomNum" jdbcType="INTEGER" />
+    <result column="over_five_room_num" property="overFiveRoomNum" jdbcType="INTEGER" />
+    <result column="min_room_gross_floor_area" property="minRoomGrossFloorArea" jdbcType="INTEGER" />
+    <result column="max_room_gross_floor_area" property="maxRoomGrossFloorArea" jdbcType="INTEGER" />
+    <result column="sale_status" property="saleStatus" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, address, tel, on_sale_date, on_ready_date, property_type, building_type, 
+    decoration_status, household_num, floor_area_ratio, green_rate, parking_space_num, 
+    property_years, developer, pre_sale_permit, property_company, property_fee, introduction, 
+    surrounding, traffic, region, longitude, latitude, average_price, tags, priority, 
+    pre_image_url, one_room_num, two_room_num, three_room_num, four_room_num, five_room_num, 
+    over_five_room_num, min_room_gross_floor_area, max_room_gross_floor_area, sale_status, 
+    creater, last_editor, create_date, update_date, del_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_real_estate_project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_real_estate_project
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tbl_real_estate_project
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProjectExample" >
+    delete from tbl_real_estate_project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProject" >
+    insert into tbl_real_estate_project (id, name, address, 
+      tel, on_sale_date, on_ready_date, 
+      property_type, building_type, decoration_status, 
+      household_num, floor_area_ratio, green_rate, 
+      parking_space_num, property_years, developer, 
+      pre_sale_permit, property_company, property_fee, 
+      introduction, surrounding, traffic, 
+      region, longitude, latitude, 
+      average_price, tags, priority, 
+      pre_image_url, one_room_num, two_room_num, 
+      three_room_num, four_room_num, five_room_num, 
+      over_five_room_num, min_room_gross_floor_area, 
+      max_room_gross_floor_area, sale_status, creater, 
+      last_editor, create_date, update_date, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{onSaleDate,jdbcType=DATE}, #{onReadyDate,jdbcType=DATE}, 
+      #{propertyType,jdbcType=VARCHAR}, #{buildingType,jdbcType=VARCHAR}, #{decorationStatus,jdbcType=VARCHAR}, 
+      #{householdNum,jdbcType=INTEGER}, #{floorAreaRatio,jdbcType=REAL}, #{greenRate,jdbcType=REAL}, 
+      #{parkingSpaceNum,jdbcType=INTEGER}, #{propertyYears,jdbcType=INTEGER}, #{developer,jdbcType=VARCHAR}, 
+      #{preSalePermit,jdbcType=VARCHAR}, #{propertyCompany,jdbcType=VARCHAR}, #{propertyFee,jdbcType=REAL}, 
+      #{introduction,jdbcType=VARCHAR}, #{surrounding,jdbcType=VARCHAR}, #{traffic,jdbcType=VARCHAR}, 
+      #{region,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
+      #{averagePrice,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, 
+      #{preImageUrl,jdbcType=VARCHAR}, #{oneRoomNum,jdbcType=INTEGER}, #{twoRoomNum,jdbcType=INTEGER}, 
+      #{threeRoomNum,jdbcType=INTEGER}, #{fourRoomNum,jdbcType=INTEGER}, #{fiveRoomNum,jdbcType=INTEGER}, 
+      #{overFiveRoomNum,jdbcType=INTEGER}, #{minRoomGrossFloorArea,jdbcType=INTEGER}, 
+      #{maxRoomGrossFloorArea,jdbcType=INTEGER}, #{saleStatus,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
+      #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProject" >
+    insert into tbl_real_estate_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="onSaleDate != null" >
+        on_sale_date,
+      </if>
+      <if test="onReadyDate != null" >
+        on_ready_date,
+      </if>
+      <if test="propertyType != null" >
+        property_type,
+      </if>
+      <if test="buildingType != null" >
+        building_type,
+      </if>
+      <if test="decorationStatus != null" >
+        decoration_status,
+      </if>
+      <if test="householdNum != null" >
+        household_num,
+      </if>
+      <if test="floorAreaRatio != null" >
+        floor_area_ratio,
+      </if>
+      <if test="greenRate != null" >
+        green_rate,
+      </if>
+      <if test="parkingSpaceNum != null" >
+        parking_space_num,
+      </if>
+      <if test="propertyYears != null" >
+        property_years,
+      </if>
+      <if test="developer != null" >
+        developer,
+      </if>
+      <if test="preSalePermit != null" >
+        pre_sale_permit,
+      </if>
+      <if test="propertyCompany != null" >
+        property_company,
+      </if>
+      <if test="propertyFee != null" >
+        property_fee,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="surrounding != null" >
+        surrounding,
+      </if>
+      <if test="traffic != null" >
+        traffic,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="averagePrice != null" >
+        average_price,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url,
+      </if>
+      <if test="oneRoomNum != null" >
+        one_room_num,
+      </if>
+      <if test="twoRoomNum != null" >
+        two_room_num,
+      </if>
+      <if test="threeRoomNum != null" >
+        three_room_num,
+      </if>
+      <if test="fourRoomNum != null" >
+        four_room_num,
+      </if>
+      <if test="fiveRoomNum != null" >
+        five_room_num,
+      </if>
+      <if test="overFiveRoomNum != null" >
+        over_five_room_num,
+      </if>
+      <if test="minRoomGrossFloorArea != null" >
+        min_room_gross_floor_area,
+      </if>
+      <if test="maxRoomGrossFloorArea != null" >
+        max_room_gross_floor_area,
+      </if>
+      <if test="saleStatus != null" >
+        sale_status,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="lastEditor != null" >
+        last_editor,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="onSaleDate != null" >
+        #{onSaleDate,jdbcType=DATE},
+      </if>
+      <if test="onReadyDate != null" >
+        #{onReadyDate,jdbcType=DATE},
+      </if>
+      <if test="propertyType != null" >
+        #{propertyType,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingType != null" >
+        #{buildingType,jdbcType=VARCHAR},
+      </if>
+      <if test="decorationStatus != null" >
+        #{decorationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="householdNum != null" >
+        #{householdNum,jdbcType=INTEGER},
+      </if>
+      <if test="floorAreaRatio != null" >
+        #{floorAreaRatio,jdbcType=REAL},
+      </if>
+      <if test="greenRate != null" >
+        #{greenRate,jdbcType=REAL},
+      </if>
+      <if test="parkingSpaceNum != null" >
+        #{parkingSpaceNum,jdbcType=INTEGER},
+      </if>
+      <if test="propertyYears != null" >
+        #{propertyYears,jdbcType=INTEGER},
+      </if>
+      <if test="developer != null" >
+        #{developer,jdbcType=VARCHAR},
+      </if>
+      <if test="preSalePermit != null" >
+        #{preSalePermit,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyCompany != null" >
+        #{propertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyFee != null" >
+        #{propertyFee,jdbcType=REAL},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="surrounding != null" >
+        #{surrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="traffic != null" >
+        #{traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="averagePrice != null" >
+        #{averagePrice,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="preImageUrl != null" >
+        #{preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oneRoomNum != null" >
+        #{oneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="twoRoomNum != null" >
+        #{twoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeRoomNum != null" >
+        #{threeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="fourRoomNum != null" >
+        #{fourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="fiveRoomNum != null" >
+        #{fiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="overFiveRoomNum != null" >
+        #{overFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="minRoomGrossFloorArea != null" >
+        #{minRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="maxRoomGrossFloorArea != null" >
+        #{maxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="saleStatus != null" >
+        #{saleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEditor != null" >
+        #{lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProjectExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_real_estate_project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_real_estate_project
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onSaleDate != null" >
+        on_sale_date = #{record.onSaleDate,jdbcType=DATE},
+      </if>
+      <if test="record.onReadyDate != null" >
+        on_ready_date = #{record.onReadyDate,jdbcType=DATE},
+      </if>
+      <if test="record.propertyType != null" >
+        property_type = #{record.propertyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildingType != null" >
+        building_type = #{record.buildingType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.decorationStatus != null" >
+        decoration_status = #{record.decorationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.householdNum != null" >
+        household_num = #{record.householdNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorAreaRatio != null" >
+        floor_area_ratio = #{record.floorAreaRatio,jdbcType=REAL},
+      </if>
+      <if test="record.greenRate != null" >
+        green_rate = #{record.greenRate,jdbcType=REAL},
+      </if>
+      <if test="record.parkingSpaceNum != null" >
+        parking_space_num = #{record.parkingSpaceNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.propertyYears != null" >
+        property_years = #{record.propertyYears,jdbcType=INTEGER},
+      </if>
+      <if test="record.developer != null" >
+        developer = #{record.developer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preSalePermit != null" >
+        pre_sale_permit = #{record.preSalePermit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyCompany != null" >
+        property_company = #{record.propertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyFee != null" >
+        property_fee = #{record.propertyFee,jdbcType=REAL},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.surrounding != null" >
+        surrounding = #{record.surrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.traffic != null" >
+        traffic = #{record.traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=REAL},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=REAL},
+      </if>
+      <if test="record.averagePrice != null" >
+        average_price = #{record.averagePrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.preImageUrl != null" >
+        pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oneRoomNum != null" >
+        one_room_num = #{record.oneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.twoRoomNum != null" >
+        two_room_num = #{record.twoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.threeRoomNum != null" >
+        three_room_num = #{record.threeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.fourRoomNum != null" >
+        four_room_num = #{record.fourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.fiveRoomNum != null" >
+        five_room_num = #{record.fiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.overFiveRoomNum != null" >
+        over_five_room_num = #{record.overFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.minRoomGrossFloorArea != null" >
+        min_room_gross_floor_area = #{record.minRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxRoomGrossFloorArea != null" >
+        max_room_gross_floor_area = #{record.maxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleStatus != null" >
+        sale_status = #{record.saleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null" >
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastEditor != null" >
+        last_editor = #{record.lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_real_estate_project
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      on_sale_date = #{record.onSaleDate,jdbcType=DATE},
+      on_ready_date = #{record.onReadyDate,jdbcType=DATE},
+      property_type = #{record.propertyType,jdbcType=VARCHAR},
+      building_type = #{record.buildingType,jdbcType=VARCHAR},
+      decoration_status = #{record.decorationStatus,jdbcType=VARCHAR},
+      household_num = #{record.householdNum,jdbcType=INTEGER},
+      floor_area_ratio = #{record.floorAreaRatio,jdbcType=REAL},
+      green_rate = #{record.greenRate,jdbcType=REAL},
+      parking_space_num = #{record.parkingSpaceNum,jdbcType=INTEGER},
+      property_years = #{record.propertyYears,jdbcType=INTEGER},
+      developer = #{record.developer,jdbcType=VARCHAR},
+      pre_sale_permit = #{record.preSalePermit,jdbcType=VARCHAR},
+      property_company = #{record.propertyCompany,jdbcType=VARCHAR},
+      property_fee = #{record.propertyFee,jdbcType=REAL},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      surrounding = #{record.surrounding,jdbcType=VARCHAR},
+      traffic = #{record.traffic,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=REAL},
+      latitude = #{record.latitude,jdbcType=REAL},
+      average_price = #{record.averagePrice,jdbcType=INTEGER},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
+      one_room_num = #{record.oneRoomNum,jdbcType=INTEGER},
+      two_room_num = #{record.twoRoomNum,jdbcType=INTEGER},
+      three_room_num = #{record.threeRoomNum,jdbcType=INTEGER},
+      four_room_num = #{record.fourRoomNum,jdbcType=INTEGER},
+      five_room_num = #{record.fiveRoomNum,jdbcType=INTEGER},
+      over_five_room_num = #{record.overFiveRoomNum,jdbcType=INTEGER},
+      min_room_gross_floor_area = #{record.minRoomGrossFloorArea,jdbcType=INTEGER},
+      max_room_gross_floor_area = #{record.maxRoomGrossFloorArea,jdbcType=INTEGER},
+      sale_status = #{record.saleStatus,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      last_editor = #{record.lastEditor,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{record.delFlag,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProject" >
+    update tbl_real_estate_project
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="onSaleDate != null" >
+        on_sale_date = #{onSaleDate,jdbcType=DATE},
+      </if>
+      <if test="onReadyDate != null" >
+        on_ready_date = #{onReadyDate,jdbcType=DATE},
+      </if>
+      <if test="propertyType != null" >
+        property_type = #{propertyType,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingType != null" >
+        building_type = #{buildingType,jdbcType=VARCHAR},
+      </if>
+      <if test="decorationStatus != null" >
+        decoration_status = #{decorationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="householdNum != null" >
+        household_num = #{householdNum,jdbcType=INTEGER},
+      </if>
+      <if test="floorAreaRatio != null" >
+        floor_area_ratio = #{floorAreaRatio,jdbcType=REAL},
+      </if>
+      <if test="greenRate != null" >
+        green_rate = #{greenRate,jdbcType=REAL},
+      </if>
+      <if test="parkingSpaceNum != null" >
+        parking_space_num = #{parkingSpaceNum,jdbcType=INTEGER},
+      </if>
+      <if test="propertyYears != null" >
+        property_years = #{propertyYears,jdbcType=INTEGER},
+      </if>
+      <if test="developer != null" >
+        developer = #{developer,jdbcType=VARCHAR},
+      </if>
+      <if test="preSalePermit != null" >
+        pre_sale_permit = #{preSalePermit,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyCompany != null" >
+        property_company = #{propertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyFee != null" >
+        property_fee = #{propertyFee,jdbcType=REAL},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="surrounding != null" >
+        surrounding = #{surrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="traffic != null" >
+        traffic = #{traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="averagePrice != null" >
+        average_price = #{averagePrice,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oneRoomNum != null" >
+        one_room_num = #{oneRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="twoRoomNum != null" >
+        two_room_num = #{twoRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeRoomNum != null" >
+        three_room_num = #{threeRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="fourRoomNum != null" >
+        four_room_num = #{fourRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="fiveRoomNum != null" >
+        five_room_num = #{fiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="overFiveRoomNum != null" >
+        over_five_room_num = #{overFiveRoomNum,jdbcType=INTEGER},
+      </if>
+      <if test="minRoomGrossFloorArea != null" >
+        min_room_gross_floor_area = #{minRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="maxRoomGrossFloorArea != null" >
+        max_room_gross_floor_area = #{maxRoomGrossFloorArea,jdbcType=INTEGER},
+      </if>
+      <if test="saleStatus != null" >
+        sale_status = #{saleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEditor != null" >
+        last_editor = #{lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mimi.zfw.mybatis.pojo.RealEstateProject" >
+    update tbl_real_estate_project
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      on_sale_date = #{onSaleDate,jdbcType=DATE},
+      on_ready_date = #{onReadyDate,jdbcType=DATE},
+      property_type = #{propertyType,jdbcType=VARCHAR},
+      building_type = #{buildingType,jdbcType=VARCHAR},
+      decoration_status = #{decorationStatus,jdbcType=VARCHAR},
+      household_num = #{householdNum,jdbcType=INTEGER},
+      floor_area_ratio = #{floorAreaRatio,jdbcType=REAL},
+      green_rate = #{greenRate,jdbcType=REAL},
+      parking_space_num = #{parkingSpaceNum,jdbcType=INTEGER},
+      property_years = #{propertyYears,jdbcType=INTEGER},
+      developer = #{developer,jdbcType=VARCHAR},
+      pre_sale_permit = #{preSalePermit,jdbcType=VARCHAR},
+      property_company = #{propertyCompany,jdbcType=VARCHAR},
+      property_fee = #{propertyFee,jdbcType=REAL},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      surrounding = #{surrounding,jdbcType=VARCHAR},
+      traffic = #{traffic,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=REAL},
+      latitude = #{latitude,jdbcType=REAL},
+      average_price = #{averagePrice,jdbcType=INTEGER},
+      tags = #{tags,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
+      one_room_num = #{oneRoomNum,jdbcType=INTEGER},
+      two_room_num = #{twoRoomNum,jdbcType=INTEGER},
+      three_room_num = #{threeRoomNum,jdbcType=INTEGER},
+      four_room_num = #{fourRoomNum,jdbcType=INTEGER},
+      five_room_num = #{fiveRoomNum,jdbcType=INTEGER},
+      over_five_room_num = #{overFiveRoomNum,jdbcType=INTEGER},
+      min_room_gross_floor_area = #{minRoomGrossFloorArea,jdbcType=INTEGER},
+      max_room_gross_floor_area = #{maxRoomGrossFloorArea,jdbcType=INTEGER},
+      sale_status = #{saleStatus,jdbcType=VARCHAR},
+      creater = #{creater,jdbcType=VARCHAR},
+      last_editor = #{lastEditor,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+</mapper>

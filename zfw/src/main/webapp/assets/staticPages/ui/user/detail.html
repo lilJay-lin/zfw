@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+	<div class="main whitebg">
+		<header>
+			<div class="left">
+				<a href="javascript:void(0);" onclick="history.back(-1);"
+					class="back"><i></i></a>
+			</div>
+			<div class="cent">个人信息</div>
+		</header>
+		<div class="mf-id">
+			<div class="userhead clearfix">
+				<div class="flol">头像</div>
+				<div id="userphoto" class="flor serImg"
+					style="margin-left: 92px; width: 45px; height: 45px; background: url(../../../img/ui/accountbg.jpg) no-repeat left center; background-size: 45px 45px;">
+					<input id="commit_contract" class="multi_preview" type="file"
+						accept="image/*"
+						style="background: transparent; -webkit-appearance: none; border: 0; opacity: 0; filter: alpha(opacity = 0);">
+				</div>
+			</div>
+
+			<div class="content clearfix">
+				<div class="flol">手机认证</div>
+				<div class="flor f14 f999 name">150****8974</div>
+			</div>
+
+			<div class="content clearfix">
+				<div class="flol">登录密码</div>
+				<a href="resetPwd.html" class="flor">修改</a>
+			</div>
+
+			<a href="index.html"
+				class="formbtn02">退 出 登 录</a>
+		</div>
+	</div>
+</body>
+<script language="javascript" src="../../../js/dropfile.js"></script>
+<script type="text/javascript">
+
+
+
+var photourl,mobilephone,username,isvalid;
+$(document).ready(function (){
+    $.get("/user.d?m=getUserinfoBySfut",function(data){
+        return_result = data.root.return_result;
+        if(return_result == '100'){
+            photourl = data.root.photourl;
+            mobilephone = data.root.mobilephone;
+            username = data.root.username;
+	        if(username==''){
+	            $('.name').html("&nbsp;");
+	        }else{
+	            $('.name').html(username);
+	        }
+	        $('#userphoto').attr("style","margin-left:92px;width:45px; height:45px; background:url("+photourl+") no-repeat left center;background-size:45px 45px;");
+	        isvalid = data.root.isvalid;
+	        if(isvalid == '1'){
+	            var mphone = mobilephone.substr(3,4);
+	            mobilephone = mobilephone.replace(mphone,"****");
+	            $('#phone').html(mobilephone);
+	        	$('.bind').html("已绑定");
+	        }else{
+	        	$('.bind').html('<a href="/user.d?m=phonepage&city=bj&mstype=bindphone&vflag=1">绑定</a>');
+	        }
+        }
+    });
+	});
+
+
+var final_url = "";
+$(function(){
+	var maxsize = 1;
+	var fileid=0;
+	var dropbox = $('.multi_preview');
+	var dropfile =	$('.multi_preview').dropfile({//dropbox
+						paramname:'pic',
+						maxfiles: maxsize,
+						maxfilesize: 20*1024*1024,
+						url: '/upload.d?m=contractPicUpload',
+						city: 'bj',
+						uploadFinished:function(resobj, fileobj){
+							console.log("upload Finished");
+							$(".multi_preview").removeAttr("disabled");
+							if(resobj.root.result != null && resobj.root.result != ""){
+								final_url = resobj.root.result;	
+								//margin-left:92px;width:45px; height:45px; background:url() no-repeat left center;background-size:45px 45px;
+								$(".serImg").attr("style","margin-left:92px;width:45px; height:45px; background:url("+final_url+") no-repeat left center;background-size:45px 45px;");
+								submit(final_url);
+							}
+							
+						},	
+						ondrop:function(files){
+							console.log("ondrop begin");
+							var len = files.length;
+							for(var i =0; i<len; i++){
+								(function(i){
+								var reader=new FileReader();
+									reader.readAsDataURL(files[i]);
+									reader.onloadend=function(event){
+											var index =  files[i].index;
+											console.log("ondrop end");
+											dropfile.upload();
+										}
+								}(i));						
+							}
+						},
+						onerror: function(err, num) {
+							if(num) alert(num+'个文件出错：'+err);
+							else{
+								alert("图片上传错误！");
+							} 
+						},
+						beforeEach:function(){
+							console.log("before Each");
+						},
+						uploadStarted:function(fileobj){
+							$(".multi_preview").attr("disabled","true");
+							$(".serImg").attr("style","margin-left:92px;width:45px; height:45px; background:url(http://js.soufunimg.com/common_m/m_bbs/images/loading.gif) no-repeat left center;background-size:30px 30px;");
+							console.log("upload Started");
+						},	
+						progressUpdated: function(fileobj) {
+							console.log("progress Updated");
+						},
+						afterAll: function(){
+							console.log("after All");
+						}
+					});
+	}); 
+	
+function submit(str){
+	console.log("str="+str);
+	var url = "/user.d?m=changePhoto&city=bj&photourl="+encodeURIComponent(encodeURIComponent(str));
+	console.log("changeUrl="+url);
+	$.get(url,function(data){
+		alert(data.root.message);
+	});
+}	
+	
+</script>
+</html>

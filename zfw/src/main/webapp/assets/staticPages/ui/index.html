@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript"
+	src="../../js/jquery.event.drag-1.5.min.js"></script>
+<script src="../../js/jquery.touchSlider.js"></script>
+</head>
+<body>
+	<div class="main">
+		<div class="imgTouchSlider">
+			<div class="main_image">
+				<ul>
+					<li><a href="http://www.baidu.com"><img
+							src='http://imgd0.soufunimg.com/2015/06/08/220k/14186f5ba988452fb24e2943dcdd6164.jpg'></a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+				</ul>
+				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+			</div>
+			<div class="flicking_con">
+				<div class="flicking_inner">
+					<a href="">1</a> <a href="">2</a><a href="">3</a>
+				</div>
+			</div>
+		</div>
+		<section class="whitebg">
+			<header class="homeHeader">
+				<div class="cent mt10">
+					<img width="120px" alt="" src="../../img/ui/logo.jpg"
+						style="display: inline;">
+				</div>
+				<div id="wapdsy_D01_03" class="head-icon mt10">
+					<a href="user/index.html" class="ico-my"> <span><i></i></span>
+					</a>
+				</div>
+			</header>
+			<form class="search0620_new flexbox" name="wapSearchForm" action=""
+				onsubmit="return false;" method="get" autocomplete="off">
+				<div class="searbox_new">
+					<div class="ipt" id="wapdsy_D01_09">
+						<input id="S_searchtext" type="search" name="q" value=""
+							placeholder="楼盘名/地名/开发商等" autocomplete="off"><a
+							href="javascript:;" class="off" style="display: none;"></a>
+					</div>
+					<a href="javascript:;" id="wapdsy_D01_18" class="btn"
+						rel="nofollow"><i></i></a>
+				</div>
+			</form>
+			<div class="bigNav" style="display: block;">
+				<div class="icons chooseNav">
+					<div class="flexbox chooseNav1">
+						<a href="xf/index.html" class="xf"><i></i>
+							<p>新房</p></a> <a href="xf/index.html" class="esf"><i></i>
+							<p>二手房</p></a> <a href="http://m.fang.com/xf/bj/" class="zf"><i></i>
+							<p>租房</p></a>  <a href="javascript:spreadNav();"
+							class="more gather"><i></i>
+							<p>更多</p></a>
+							<a href="javascript:gatherNav();" class="more spread none"><i></i>
+							<p>收起</p></a>
+					</div>
+					<div class="flexbox chooseNav2 spread none">
+						<a href="javascript:;" class="sp"><i></i>
+							<p>商铺</p></a> <a href="javascript:;" class="xzl"><i></i>
+							<p>写字楼</p></a> <a href="javascript:;" class="ckcf"><i></i>
+							<p>厂房仓库</p></a> <a href="javascript:;" class="esfpg"><i></i>
+							<p>二手房评估</p></a>
+					</div>
+				</div>
+				<br style="display: inline;">
+			</div>
+		</section>
+		<section class="homeBan mt10">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr>
+						<td><a id="wapdsy_D03_01" href="javascript:void(0)"
+							onclick="indexTongJi('http://m.fang.com/xf/bj/1010770161.htm?','click','index_activity','1','','http://m.fang.com/xf/bj/1010770161.htm?&amp;source=waphjy1');"><dl>
+									<dt>
+										<h3>开盘售罄</h3>
+										<p>升级加推14席</p>
+									</dt>
+									<dd>
+										<img
+											data-original="http://imgn5.soufunimg.com/viewimage/news/2015_06/09/1433814678805/120x120.jpg"
+											alt="" src="http://photos.tuchong.com/269269/f/2991936.jpg"
+											style="display: inline;">
+									</dd>
+								</dl> </a></td>
+
+						<td><a id="wapdsy_D03_02" href="javascript:void(0)"
+							onclick="indexTongJi('http://m.fang.com/zt/wap/201502/xjbzgtop.html?city=bj&amp;m=esf','click','index_activity','2','','http://m.fang.com/zt/wap/201502/xjbzgtop.html?city=bj&amp;m=esf&amp;source=waphjy2');"><dl>
+									<dt>
+										<h3>机不可失！</h3>
+										<p>楼王两居急售</p>
+									</dt>
+									<dd>
+										<img
+											data-original="http://imgs.soufun.com/viewimage/news/2015_05/28/esf/1432799692350_000/120x120.jpg"
+											alt=""
+											src="http://img4.duitang.com/uploads/item/201312/05/20131205172332_nKdJw.jpeg"
+											style="display: inline;">
+									</dd>
+								</dl> </a></td>
+					</tr>
+					<tr>
+						<td><a id="wapdsy_D03_03" href="javascript:void(0)"
+							onclick="indexTongJi('http://m.fang.com/zt/wap/201506/wuxianzhuanti6yue9ri.html?city=bj&amp;m=zf','click','index_activity','3','','http://m.fang.com/zt/wap/201506/wuxianzhuanti6yue9ri.html?city=bj&amp;m=zf&amp;source=waphjy3');"><dl>
+									<dt>
+										<h3>毕业季租房</h3>
+										<p>临铁直降400</p>
+									</dt>
+									<dd>
+										<img
+											data-original="http://img.soufun.com/viewimage/news/2015_03/26/esf/1427332329424_000/120x120.jpg"
+											alt=""
+											src="http://img4.duitang.com/uploads/item/201312/05/20131205172421_QKF4K.thumb.600_0.jpeg"
+											style="display: inline;">
+									</dd>
+								</dl> </a></td>
+
+						<td><a id="wapdsy_D03_04" href="http://www.baidu.com"><dl>
+									<dt>
+										<h3>装修666/㎡</h3>
+										<p>先装修后付款</p>
+									</dt>
+									<dd>
+										<img
+											src="http://img4.duitang.com/uploads/item/201312/05/20131205172250_QxQhe.thumb.600_0.jpeg">
+									</dd>
+								</dl> </a></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		<div class="mt10">
+
+			<a id=""
+				href="http://m.fang.com/zt/wap/201504/xfwtdyjwx.html?city=bj&amp;m=xfdg/?sf_source=hezuowap">
+				<img
+				data-original="http://img.soufun.com/news/2015_05/21/news/1432188343979_000.jpg"
+				width="100%"
+				src="http://imgd0.soufunimg.com/2015/06/08/220k/14186f5ba988452fb24e2943dcdd6164.jpg"
+				style="display: inline;">
+			</a>
+
+		</div>
+
+		<section class="NewsList mt10" id="fczx" >
+
+			<!--150325-->
+			<div class="zd-tip" style="display: none;">
+				<span></span>
+			</div>
+			<!--150325 end-->
+
+			<div class="homeTitle clearfix">
+				<h1>房产资讯</h1>
+			</div>
+			<ul>
+
+				<li><a
+					href="http://www.fang.com/news/2015-06-09/16202455.htm"
+					id="wapdsy_D04_16">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>6月首周高端市场率先发力</h3>
+								<p>上周北京新房成交量环比略升，二手房网签量环比降2成。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a
+					href="http://www.fang.com/news/2015-06-09/16193939.htm"
+					id="wapdsy_D04_17">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									alt=""
+									src="http://img2.imgtn.bdimg.com/it/u=898203320,2249663550&fm=15&gp=0.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>首套房贷利率88折成主流</h3>
+								<p>就首套房而言，八八折利率目前占据主流地位。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a
+					href="http://www.fang.com/news/2015-06-09/16194178.htm"
+					id="wapdsy_D04_18">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>住建部:公积金提取不再难</h3>
+								<p>公积金账户里的钱明明是自己的，想提出来实在难。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a
+					href="http://www.fang.com/news/2015-06-09/16194217.htm"
+					id="wapdsy_D04_19">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433808394734_000/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>去库存化仍是市场当务之急</h3>
+								<p>房地产市场出现调整，去库存化是市场的当务之急。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a
+					href="http://www.fang.com/news/2015-06-09/16194552.htm"
+					id="wapdsy_D04_20">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433809720719_000/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>5月CPI或增1.4%通胀压力大</h3>
+								<p>5月CPI或增1.4%低通胀压力偏大，最快6月降准降息。</p>
+							</div>
+						</div>
+				</a></li>
+
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-06-09/16194688.htm"
+					id="wapdsy_D04_23">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>京拟用闲置地建养老设施</h3>
+								<p>北京拟利用国有企业闲置土地，建32个养老设施。</p>
+							</div>
+						</div>
+				</a></li>
+
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-06-09/16194951.htm"
+					id="wapdsy_D04_27">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810779273_000/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>万科将轻资产做到底</h3>
+								<p>近日，万科将分拆物流地产，将轻资产做到底。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://m.fang.com/zt/wap/201504/xfwtdyjwx.html?city=bj&amp;m=xfdg"
+					id="wapdsy_D04_28">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn3.soufunimg.com/viewimage/news/2015_06/08/1433746764656/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>新房委托第一季：无补贴不买房</h3>
+								<p>互联网购房新模式，新房委托第一季：无补贴不买房。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://m.fang.com/zt/wap/201505/sbb_swiper_ani_css.html?city=bj&amp;m=xfdg"
+					id="wapdsy_D04_29">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn5.soufunimg.com/viewimage/news/2015_06/03/1433310943441/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>房大十八变—不变大妈变女神</h3>
+								<p>是Diao丝？是女神？海量盘等你评，最帅评房师就是你！</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-05-14/15918529.htm"
+					id="wapdsy_D04_30">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.soufun.com/viewimage/news/2015_05/14/news/1431592806016_000/120x120.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>搜房网招聘资讯编辑运营</h3>
+								<p>搜房网招聘资讯编辑、运营，待遇从优，加入我们吧！</p>
+							</div>
+						</div>
+				</a></li>
+
+			</ul>
+
+			<div class="homeOption flexbox">
+				<a  href="javascript:nextPage('fczx');" class="huanhuan">换一换</a>
+				<input type="hidden" value="1"> <a id="wapdsy_D04_95"
+					href="/news/bj.html">进入资讯频道</a>
+			</div>
+		</section>
+
+		<section class="NewsList mt10" id="zhzx">
+
+			<!--150325-->
+			<div class="zd-tip" style="display: none;">
+				<span></span>
+			</div>
+			<!--150325 end-->
+
+			<div class="homeTitle clearfix">
+				<h1>综合资讯</h1>
+			</div>
+			<ul>
+
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16202455.htm"
+					id="wapdsy_D04_16">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>6月首周高端市场率先发力</h3>
+								<p>上周北京新房成交量环比略升，二手房网签量环比降2成。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16193939.htm"
+					id="wapdsy_D04_17">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>首套房贷利率88折成主流</h3>
+								<p>就首套房而言，八八折利率目前占据主流地位。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16194178.htm"
+					id="wapdsy_D04_18">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									alt=""
+									src="http://img.xmhouse.com/Upload/NewHouse/pid1/ptype1/7919_1.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>住建部:公积金提取不再难</h3>
+								<p>公积金账户里的钱明明是自己的，想提出来实在难。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16194217.htm"
+					id="wapdsy_D04_19">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433808394734_000/120x120.jpg"
+									alt=""
+									src="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433808394734_000/120x120.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>去库存化仍是市场当务之急</h3>
+								<p>房地产市场出现调整，去库存化是市场的当务之急。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16194552.htm"
+					id="wapdsy_D04_20">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433809720719_000/120x120.jpg"
+									alt=""
+									src="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433809720719_000/120x120.jpg"
+									style="display: inline;">
+							</div>
+
+							<div class="rt">
+								<h3>5月CPI或增1.4%通胀压力大</h3>
+								<p>5月CPI或增1.4%低通胀压力偏大，最快6月降准降息。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a href="/news/bj/0_16201864.html"
+					id="wapdsy_D04_21">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433824654458_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>购买学区房6大注意事项</h3>
+								<p>不是靠近学校就是学区房，你要了解这6大事项！</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-06-09/16194474.htm"
+					id="wapdsy_D04_22">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433809853273_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>17省份出台地方版户改方案</h3>
+								<p>17省份出台地方版户改方案，居住证制度或为标配。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-06-09/16194688.htm"
+					id="wapdsy_D04_23">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>京拟用闲置地建养老设施</h3>
+								<p>北京拟利用国有企业闲置土地，建32个养老设施。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://m.fang.com/zt/wap/201505/gjjxzetf3.html?city=bj&amp;m=xfzx"
+					id="wapdsy_D04_24">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn0.soufunimg.com/viewimage/news/2015_05/29/1432912203447/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>京公积金新政：二套房首付3成</h3>
+								<p>公积金贷款新政取消了对于首套房及二套房的面积限制。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://m.fang.com/zt/wap/201505/flxczc.html?city=bj&amp;m=xfzx"
+					id="wapdsy_D04_25">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_05/26/news/1432625017896_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>总价28万 5折抢富力新城</h3>
+								<p>众筹28万元，5折抢购富力新城82平方米阳光两居室！</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-06-09/16195191.htm"
+					id="wapdsy_D04_26">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433811244146_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>房企5月销售业绩飘红</h3>
+								<p>房企5月销售业绩虽飘红，但全年业绩仍有压力。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-06-09/16194951.htm"
+					id="wapdsy_D04_27">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810779273_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>万科将轻资产做到底</h3>
+								<p>近日，万科将分拆物流地产，将轻资产做到底。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://m.fang.com/zt/wap/201504/xfwtdyjwx.html?city=bj&amp;m=xfdg"
+					id="wapdsy_D04_28">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn3.soufunimg.com/viewimage/news/2015_06/08/1433746764656/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>新房委托第一季：无补贴不买房</h3>
+								<p>互联网购房新模式，新房委托第一季：无补贴不买房。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://m.fang.com/zt/wap/201505/sbb_swiper_ani_css.html?city=bj&amp;m=xfdg"
+					id="wapdsy_D04_29">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn5.soufunimg.com/viewimage/news/2015_06/03/1433310943441/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>房大十八变—不变大妈变女神</h3>
+								<p>是Diao丝？是女神？海量盘等你评，最帅评房师就是你！</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li class="none"><a
+					href="http://www.fang.com/news/2015-05-14/15918529.htm"
+					id="wapdsy_D04_30">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.soufun.com/viewimage/news/2015_05/14/news/1431592806016_000/120x120.jpg"
+									alt=""
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+							</div>
+
+							<div class="rt">
+								<h3>搜房网招聘资讯编辑运营</h3>
+								<p>搜房网招聘资讯编辑、运营，待遇从优，加入我们吧！</p>
+							</div>
+						</div>
+				</a></li>
+
+			</ul>
+
+			<div class="homeOption flexbox">
+				<a id="wapdsy_D04_94" href="javascript:nextPage('zhzx');" class="huanhuan">换一换</a>
+				<input type="hidden" value="1"> <a id="wapdsy_D04_95"
+					href="/news/bj.html">进入资讯频道</a>
+			</div>
+		</section>
+
+		<section class="mt10">
+			<div class="dsbmForm center pd10 bdt bdb">
+		<form onsubmit="return submitDSBM()">
+				<span class="f18">电商团购报名</span>
+				<div class="searbox_new mt10">
+					<div class="ipt mr0" >
+						<input id="dsbmName" type="text" name="dsbmName" value="" placeholder="请输入姓名" required >
+					</div>
+				</div>
+				<div class="searbox_new mt10">
+					<div class="ipt mr0" >
+						<input id="dsbmPhoneNum" type="text" name="dsbmPhoneNum" value="" placeholder="请留下电话号码" maxlength="11" pattern="^1[0-9]{10}$" required>
+					</div>
+				</div>
+				<input type="submit" id="dsbmSubmitBtn" class="formbtn02 mt10"  value="马上报名">
+			</form>
+			</div>
+		</section>
+	<footer class="mt10 bdt">
+		<p class="pdY10 f12">© www.h0758.net</p>
+	</footer>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		// 	$(".main_visual").hover(function(){
+		// 		$("#btn_prev,#btn_next").fadeIn()
+		// 		},function(){
+		// 		$("#btn_prev,#btn_next").fadeOut()
+		// 		})
+		$dragBln = false;
+		$(".main_image").touchSlider(
+				{
+					flexible : true,
+					speed : 200,
+					btn_prev : $("#btn_prev"),
+					btn_next : $("#btn_next"),
+					paging : $(".flicking_con a"),
+					counter : function(e) {
+						$(".flicking_con a").removeClass("on")
+								.eq(e.current - 1).addClass("on");
+					}
+				});
+		$(".main_image").bind("mousedown", function() {
+			$dragBln = false;
+		})
+		$(".main_image").bind("dragstart", function() {
+			$dragBln = true;
+		})
+		$(".main_image a").click(function() {
+			if ($dragBln) {
+				return false;
+			}
+		})
+		timer = setInterval(function() {
+			$("#btn_next").click();
+		}, 5000);
+		$(".main_visual").hover(function() {
+			clearInterval(timer);
+		}, function() {
+			timer = setInterval(function() {
+				$("#btn_next").click();
+			}, 5000);
+		})
+		$(".main_image").bind("touchstart", function() {
+			clearInterval(timer);
+		}).bind("touchend", function() {
+			timer = setInterval(function() {
+				$("#btn_next").click();
+			}, 5000);
+		})
+
+		$(window).resize(function() {
+			fitSize();
+		});
+		fitSize();
+	});
+	function fitSize() {
+		var bw = $("body").width();
+		if (bw > 640) {
+			bw = 640;
+		}
+		$(".main_image").height(bw / 3);
+
+		var fw = $(".flicking_inner").children("a").length * 21;
+		$(".flicking_inner").css("left", (bw - fw) * 0.5 + "px");
+	}
+	function spreadNav() {
+		$(".spread").removeClass("none");
+		$(".gather").addClass("none");
+	}
+	function gatherNav() {
+		$(".spread").addClass("none");
+		$(".gather").removeClass("none");
+	}
+	
+	function submitDSBM(){
+		var btn = $("#dsbmSubmitBtn");
+		if(btn.hasClass("disabled")){
+			return false;
+		}
+		btn.addClass("disabled");
+		btn.val("提交中...");
+		setTimeout(function(){
+			
+				btn.removeClass("disabled");
+				btn.val("马上报名");
+		}, 2000);
+// 		$.ajax({
+// 			type: "POST",
+// 			async: true,
+// 			url: GET_PHONE_CAPTCHA_URL,
+// 			data: {name:"",phoneNum:""},
+// 			dataType: "json",
+// 			success: function (data) {
+// 				if(!data.success){
+// 					errorElement.innerHTML = data.msg;
+// 				}
+// 			},
+// 			error: function (data) {
+// 				errorElement.innerHTML = "验证码发送失败，请稍后尝试！";
+// 			},
+// 			complete:function(data){
+// 				btn.removeClass("disabled");
+// 				btn.val("马上报名");
+// 			}
+// 		});
+		return false;
+	}
+	
+	function nextPage(elementId){
+		var element = $("#"+elementId);
+		var list = element.children("ul").children("li");
+		var pageSize = 5;
+		var curPage = parseInt(element.attr("curPage"));
+		var maxPage = Math.ceil(list.length/pageSize);
+		var minPage = 1;
+		if(!curPage){
+			curPage = minPage;
+		}
+		var targetPage = curPage+1;
+		if(targetPage>maxPage){
+			targetPage = minPage;
+		}
+		list.each(function(index,ele){
+			if(index<targetPage*5 && index>=(targetPage-1)*5){
+				$(ele).removeClass("none");
+			}else{
+				$(ele).addClass("none");
+			}
+		})
+		element.attr("curPage",targetPage);
+	}
+</script>
+</html>
