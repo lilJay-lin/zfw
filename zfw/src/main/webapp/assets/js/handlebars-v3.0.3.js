@@ -4128,4 +4128,79 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ }
 /******/ ])
 });
-;
+(function(undefined) {
+  'use strict';
+	//扩展Date的format方法 
+	Date.prototype.format = function (format) { 
+		var o = { 
+			"M+": this.getMonth() + 1, 
+			"d+": this.getDate(), 
+			"h+": this.getHours(), 
+			"m+": this.getMinutes(), 
+			"s+": this.getSeconds(), 
+			"q+": Math.floor((this.getMonth() + 3) / 3), 
+			"S": this.getMilliseconds() 
+		} 
+		if (/(y+)/.test(format)) { 
+		 format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length)); 
+		} 
+		for (var k in o) { 
+			if (new RegExp("(" + k + ")").test(format)) { 
+			 format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)); 
+			} 
+		} 
+		return format; 
+	} 
+  var registerIfCondHelper = function(hbs) {
+    hbs.registerHelper('ifCond', function(v1, operator, v2, options) {
+      switch (operator) {
+        case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+          break;
+        case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+          break;
+        case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+          break;
+        case '<=':
+          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+          break;
+        case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+          break;
+        case '>=':
+          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+          break;
+        default:
+          return options.inverse(this);
+          break;
+      }
+      return options.inverse(this);
+    });
+    hbs.registerHelper('dateformat', function(v1,type) {
+     	var data = new Date(v1);
+     	
+     	var pattern = "yyyy-MM-dd";
+     	
+		var str = data.format(pattern); 
+		
+		//-
+		if(type==1){
+			
+		}else if(type==2){//.
+			str = str.replace(/-/g,".");
+		}else if(type==3){
+			var array = str.split("-");
+			str = array[0]+"年"+array[1]+"月"+array[2]+"日"
+		}
+		return str
+    });
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = registerIfCondHelper;
+  }
+
+  this.Handlebars && registerIfCondHelper(Handlebars);
+}).call(this);

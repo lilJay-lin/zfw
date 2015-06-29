@@ -1,5 +1,7 @@
 package com.mimi.zfw.service;
 
+import java.util.List;
+
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.mybatis.pojo.UserExample;
 
@@ -40,4 +42,8 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
     public boolean isLogined();
 
     public boolean isRememberMe();
+    
+    public List<User> findUserByParams(String name ,Integer curPage,Integer pageSize);
+    
+    public int countUserByParams(String name);
 }

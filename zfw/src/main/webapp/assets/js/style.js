@@ -76,18 +76,70 @@
 				document.cookie = [encodeURIComponent(e),"=",encodeURIComponent(t),"; expires=",n.toGMTString(),"; path='/'"].join("");
 			}
 			return (s = (new RegExp("(?:^|; )" + encodeURIComponent(e) + "=([^;]*)")).exec(document.cookie)) ? decodeURIComponent(s[1]) : null
-		},
-		ajax : function(t,u,s,e){
-			$.ajax({
-				type:t,
-				url:u,
-				dataType :"json",
-				success:s||{},
-				error:e||{}
-			})
 		}
 	}
 	
-	util = a;
 	
-})(window.util || (window.util ={}))
+})(window.util || (window.util ={}));
+/*
+*jquery fn
+*/
+(function($){
+	$.fn.extend({
+		validate:function(){
+			var form = $(this);
+			var inputs = form.find("input");
+			var showerror = function(el,err){
+				var h =null;
+				(h=el.next(".help-inline")).length==0&& (h=$("<div class='help-inline'></div>"),el.after(h));
+				if(arguments.length==1){
+					h.hide()
+				}else {
+					h.html(err);
+					h.show();
+				}
+			};
+			for(var i=0,l=inputs.length;i<l;i++){
+				var el = inputs.eq(i);
+				var type = el.attr("type");
+				if("text/email/url/password/phonenumber/".indexOf(type) ==-1){
+					continue;
+				}
+				var value,max,min,error,require,require_msg,patterns;
+				max = el.attr("max");
+				min = el.attr("min");
+				error = el.attr("error")||"输入内容格式错误";
+				require = el.attr("require");
+				require_msg = el.attr("require_msg")||"不能为空";
+				patterns = el.attr("patterns");
+				value = el.val();
+				if(value.trim().length==0)value="";
+				len = value.length;
+				if(require == "require" && !value){
+					showerror(el,require_msg);
+					return false;
+				}
+				
+				if(min && len<min){
+					showerror(el,error);
+					return false;
+				}
+				
+				if(max && len>max){
+					showerror(el,error);
+					return false;
+				}
+				
+				if(patterns){
+					var reg = new RegExp(patterns);
+					if(!reg.exec(value)){
+						showerror(el,error);
+						return false;
+					}
+				}
+				showerror(el);
+			}
+			return true;
+		}
+	})
+})(jQuery);
