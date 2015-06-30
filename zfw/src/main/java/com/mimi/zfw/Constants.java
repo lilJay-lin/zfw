@@ -146,4 +146,20 @@ public class Constants {
 	public static final String ASSESSMENT_ITEM_TYPE_MULTI = "多选";
 	
 	public static final String ASSESSMENT_ERROR_NO_RESULT = "暂无数据";
+
+	public static final String ROS_RENT_ONLY = "出租";
+	public static final String ROS_SALE_ONLY = "出售";
+	public static final String ROS_RENT_AND_SALE = "不限";
+	
+	public static final String SHOP_TYPE_ZZDS = "住宅底商";
+	public static final String SHOP_TYPE_SYJ = "商业街商铺";
+	public static final String SHOP_TYPE_LJ = "临街门面";
+	public static final String SHOP_TYPE_XZL = "写字楼配套底铺";
+	public static final String SHOP_TYPE_BH = "购物中心/百货";
+
+	public static final String OFFICE_BUILDING_TYPE_CHUN = "纯写字楼";
+	public static final String OFFICE_BUILDING_TYPE_SYL = "商住楼";
+	public static final String OFFICE_BUILDING_TYPE_ZHT = "商业综合体楼";
+	public static final String OFFICE_BUILDING_TYPE_JD = "酒店写字楼";
+
 }

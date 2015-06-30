@@ -555,3 +555,170 @@ update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
+drop table if exists tbl_shop;
+CREATE TABLE tbl_shop(
+id varchar(50) PRIMARY KEY,
+name varchar(50),
+region varchar(20),
+phone_num varchar(20),
+rental int(4),
+total_price int(4),
+gross_floor_area float(8,2),
+decoration_status varchar(20),
+address varchar(200),
+introduction varchar(2000),
+rent_or_sale varchar(20),
+property_fee float(6,2),
+type varchar(20),
+out_of_date tinyint(1) default false,
+description varchar(200),
+tags varchar(200),
+priority int(8),
+pre_image_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_shop_image;
+CREATE TABLE tbl_shop_image(
+id varchar(50) PRIMARY KEY,
+shop_id varchar(50),
+name varchar(50),
+description varchar(200),
+content_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_shop_panorama;
+CREATE TABLE tbl_shop_panorama(
+id varchar(50) PRIMARY KEY,
+shop_id varchar(50),
+name varchar(50),
+description varchar(200),
+content_url varchar(200),
+pre_image_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_office_building;
+CREATE TABLE tbl_office_building(
+id varchar(50) PRIMARY KEY,
+name varchar(50),
+region varchar(20),
+phone_num varchar(20),
+rental int(4),
+total_price int(4),
+gross_floor_area float(8,2),
+decoration_status varchar(20),
+address varchar(200),
+introduction varchar(2000),
+rent_or_sale varchar(20),
+property_fee float(6,2),
+type varchar(20),
+out_of_date tinyint(1) default false,
+description varchar(200),
+tags varchar(200),
+priority int(8),
+pre_image_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_ob_image;
+CREATE TABLE tbl_ob_image(
+id varchar(50) PRIMARY KEY,
+office_building_id varchar(50),
+name varchar(50),
+description varchar(200),
+content_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_ob_panorama;
+CREATE TABLE tbl_ob_panorama(
+id varchar(50) PRIMARY KEY,
+office_building_id varchar(50),
+name varchar(50),
+description varchar(200),
+content_url varchar(200),
+pre_image_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_warehouse;
+CREATE TABLE tbl_warehouse(
+id varchar(50) PRIMARY KEY,
+name varchar(50),
+region varchar(20),
+phone_num varchar(20),
+rental int(4),
+total_price int(4),
+gross_floor_area float(8,2),
+address varchar(200),
+introduction varchar(2000),
+rent_or_sale varchar(20),
+type varchar(20),
+out_of_date tinyint(1) default false,
+description varchar(200),
+tags varchar(200),
+priority int(8),
+pre_image_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_warehouse_image;
+CREATE TABLE tbl_warehouse_image(
+id varchar(50) PRIMARY KEY,
+warehouse_id varchar(50),
+name varchar(50),
+description varchar(200),
+content_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+drop table if exists tbl_warehouse_panorama;
+CREATE TABLE tbl_warehouse_panorama(
+id varchar(50) PRIMARY KEY,
+warehouse_id varchar(50),
+name varchar(50),
+description varchar(200),
+content_url varchar(200),
+pre_image_url varchar(200),
+creater varchar(50),
+last_editor varchar(50),
+create_date timestamp DEFAULT CURRENT_TIMESTAMP,
+update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+del_flag tinyint(1) default false
+);
+
+

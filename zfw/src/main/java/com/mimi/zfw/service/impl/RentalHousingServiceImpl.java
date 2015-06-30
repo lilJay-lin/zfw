@@ -321,7 +321,7 @@ public class RentalHousingServiceImpl extends
 			return "要删除的数据不存在";
 		}
 
-		// 删除二手房
+		// 删除租房
 		RentalHousing rh = new RentalHousing();
 		rh.setId(id);
 		rh.setDelFlag(true);
@@ -472,10 +472,10 @@ public class RentalHousingServiceImpl extends
 			rh.setResidenceCommunityId(rc.getId());
 		}
 
-		// 更新二手房
+		// 更新租房
 		rhm.updateByPrimaryKeySelective(rh);
 
-		// 更新二手房图片
+		// 更新租房图片
 		RHImageExample ie = new RHImageExample();
 		ie.or().andRentalHousingIdEqualTo(rh.getId()).andDelFlagEqualTo(false);
 		List<RHImage> oldImgs = rhim.selectByExample(ie);

@@ -1,10 +1,5 @@
 package com.mimi.zfw.util;
 
-import java.util.Calendar;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-
-import org.apache.commons.lang.StringUtils;
 
 public class NumberUtil {
 	public static int getIntOrZero(Object obj){

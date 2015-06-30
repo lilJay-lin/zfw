@@ -1,17 +1,12 @@
 package com.mimi.zfw.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +32,8 @@ import com.mimi.zfw.service.ISHHImageService;
 import com.mimi.zfw.service.ISHHPanoService;
 import com.mimi.zfw.service.ISecondHandHouseService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.DateUtil;
+import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class ESFController {
@@ -89,31 +86,7 @@ public class ESFController {
 
 		String dateDesc = "";
 		if (shh != null) {
-			long tempTime = (System.currentTimeMillis() - shh.getUpdateDate()
-					.getTime()) / (1000);
-			if (tempTime >= 60) {
-				tempTime = tempTime / 60;
-				dateDesc = "分钟前更新";
-			}
-			if (tempTime >= 60) {
-				tempTime = tempTime / 60;
-				dateDesc = "小时前更新";
-			}
-			if (tempTime >= 24) {
-				tempTime = tempTime / 24;
-				dateDesc = "天前更新";
-			}
-			if (tempTime >= 30) {
-				tempTime = tempTime / 30;
-				dateDesc = "个月前更新";
-			}
-			if (tempTime >= 12) {
-				tempTime = tempTime / 12;
-				dateDesc = "年前更新";
-			}
-			if (tempTime > 0) {
-				dateDesc = "(" + tempTime + dateDesc + ")";
-			}
+			dateDesc = DateUtil.getUpdateTimeStr(shh.getUpdateDate());
 		}
 		request.setAttribute("panos", panos);
 
@@ -336,7 +309,7 @@ public class ESFController {
 					+ "/" + hour + "/";
 			path = request.getContextPath()
 					+ path
-					+ saveFileToServer(theFile, request.getSession()
+					+ FileUtil.saveFileToServer(theFile, request.getSession()
 							.getServletContext().getRealPath("/")
 							+ path);
 			jo.put("imgPath", path);
@@ -346,34 +319,6 @@ public class ESFController {
 			jo.put("msg", "保存图片失败");
 		}
 		return jo.toString();
-	}
-
-	public String saveFileToServer(MultipartFile multifile, String path)
-			throws IOException {
-		// 创建目录
-		File dir = new File(path);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		String fileName = multifile.getOriginalFilename();
-		fileName = UUID.randomUUID().toString()
-				+ fileName.substring(fileName.lastIndexOf("."));
-		// String fileName = UUID.randomUUID().toString();
-		// 读取文件流并保持在指定路径
-		InputStream inputStream = multifile.getInputStream();
-		OutputStream outputStream = new FileOutputStream(path + fileName);
-		byte[] buffer = multifile.getBytes();
-		int bytesum = 0;
-		int byteread = 0;
-		while ((byteread = inputStream.read(buffer)) != -1) {
-			bytesum += byteread;
-			outputStream.write(buffer, 0, byteread);
-			outputStream.flush();
-		}
-		outputStream.close();
-		inputStream.close();
-
-		return fileName;
 	}
 
 }

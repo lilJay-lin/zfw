@@ -1,17 +1,12 @@
 package com.mimi.zfw.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.HashMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +36,7 @@ import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FileUtil;
 import com.mimi.zfw.util.RSAUtil;
 import com.mimi.zfw.web.captcha.GeetestLib;
 import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
@@ -458,7 +454,7 @@ public class UserController {
 					+ "/" + hour + "/";
 			path = request.getContextPath()
 					+ path
-					+ saveFileToServer(theFile, request.getSession()
+					+ FileUtil.saveFileToServer(theFile, request.getSession()
 							.getServletContext().getRealPath("/")
 							+ path);
 			jo.put("imgPath", path);
@@ -470,33 +466,6 @@ public class UserController {
 		return jo.toString();
 	}
 
-	public String saveFileToServer(MultipartFile multifile, String path)
-			throws IOException {
-		// 创建目录
-		File dir = new File(path);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		String fileName = multifile.getOriginalFilename();
-		fileName = UUID.randomUUID().toString()
-				+ fileName.substring(fileName.lastIndexOf("."));
-		// String fileName = UUID.randomUUID().toString();
-		// 读取文件流并保持在指定路径
-		InputStream inputStream = multifile.getInputStream();
-		OutputStream outputStream = new FileOutputStream(path + fileName);
-		byte[] buffer = multifile.getBytes();
-		int bytesum = 0;
-		int byteread = 0;
-		while ((byteread = inputStream.read(buffer)) != -1) {
-			bytesum += byteread;
-			outputStream.write(buffer, 0, byteread);
-			outputStream.flush();
-		}
-		outputStream.close();
-		inputStream.close();
-
-		return fileName;
-	}
 
 	@RequestMapping(value = "/mi/users", method = { RequestMethod.GET })
 	    public String miUser(HttpServletRequest request) {
