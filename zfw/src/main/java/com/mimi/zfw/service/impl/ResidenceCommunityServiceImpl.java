@@ -654,4 +654,15 @@ public class ResidenceCommunityServiceImpl extends
 		return rc;
 	}
 
+	@Override
+	public ResidenceCommunity getByName(String name) {
+		ResidenceCommunityExample rce = new ResidenceCommunityExample();
+		rce.or().andNameEqualTo(name).andDelFlagEqualTo(false);
+		List<ResidenceCommunity> list = rcm.selectByExample(rce);
+		if(list!=null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
 }

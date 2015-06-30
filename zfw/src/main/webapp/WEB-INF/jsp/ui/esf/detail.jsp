@@ -107,9 +107,11 @@
 			<h2 class="f16">位置</h2>
 			<p class="pdY5">
 				<a href="${ctx }/xq/esf/${rc.id}/map"
-					class="f000">地址：<span class="f999"> ${rc.address }
+					class="f000"><span class="f999"> ${rc.address }
 				</span></a>
 			</p>
+			
+			<c:if test="${rc.longitude != null && rc.latitude !=null}">
 			<div style="position: relative;">
 				<a href="${ctx }/xq/esf/${rc.id}/map">
 					<img
@@ -117,6 +119,7 @@
 					width="100%" alt=""> <span class="maptxt">${rc.name }</span>
 				</a>
 			</div>
+			</c:if>
 		</section>
 		</c:if>
 		

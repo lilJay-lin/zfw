@@ -37,6 +37,9 @@ import com.mimi.zfw.mybatis.pojo.Information;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.INameListService;
+import com.mimi.zfw.service.IRealEstateProjectService;
+import com.mimi.zfw.service.IRentalHousingService;
+import com.mimi.zfw.service.ISecondHandHouseService;
 import com.mimi.zfw.service.IUserService;
 
 //import com.mimi.zfw.web.bind.annotation.CurrentUser;
@@ -52,6 +55,12 @@ public class IndexController {
 	
 	@Resource
 	private INameListService nameListService;
+	@Resource
+	private IRealEstateProjectService repService;
+	@Resource
+	private ISecondHandHouseService shhService;
+	@Resource
+	private IRentalHousingService rhService;
 	
     // @Autowired
     // @Qualifier("BirdEyeViewService")
@@ -128,6 +137,14 @@ public class IndexController {
 
     @RequestMapping(value = "/{keyWord}/search",method = RequestMethod.GET)
     public String search(HttpServletRequest request ,@PathVariable String keyWord) {
+    	int xfNum = repService.countRealEstateProjectByParams(keyWord, null, null, null, null, null, null);
+    	int esfNum = shhService.countSecondHandHouseByParams(null, keyWord, null, null, null, null);
+    	int zfNum = rhService.countRentalHousingByParams(null, keyWord, null, null, null, null);
+    	int totalNum = xfNum+esfNum+zfNum;
+    	request.setAttribute("xfNum", xfNum);
+    	request.setAttribute("esfNum", esfNum);
+    	request.setAttribute("zfNum", zfNum);
+    	request.setAttribute("totalNum", totalNum);
     	System.out.println(keyWord);
 	return "ui/searchResult";
     }

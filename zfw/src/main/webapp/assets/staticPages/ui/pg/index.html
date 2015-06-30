@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+	<div class="main">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="javascript:void(0);" onclick="history.back(-1);"
+					class="back"><i></i></a>
+			</div>
+			<div class="cent">二手房评估</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="/xf/bj.html">新房</a></td>
+								<td width="24%"><a href="/esf/bj/">二手房</a></td>
+								<td width="24%"><a href="/zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="mCFJ">
+			<section class="mForm mBox">
+				<form onsubmit="return submitForm()" id="pingguForm">
+				<dl>
+					<dt>
+						&nbsp;&nbsp;小<span style="margin: 0 1em;"></span>区&nbsp;：
+					</dt>
+					<dd>
+						<div class="dropbox">
+							<input type="text" id="xqName" name="xqName" class="ipt-text"
+								dataId="" searching="false" searchingName=""
+								resultContainer="xq_search_result" placeholder="请选择下拉提示"
+								onkeyup="return inputOnKeyup(event,this)"
+								onFocus="return inputOnFocus(event,this)"
+								onblur="return inputOnBlus(event,this)" required>
+							<div class="dropcont" id="js_sea" style="display: block;">
+								<ul id="xq_search_result" class="none"
+									style="border-top: 0; border-bottom: 0">
+								</ul>
+							</div>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						楼<span style="margin: 0 1em;"></span>层：
+					</dt>
+					<dd>
+						<input id="curFloor" type="text" pattern="^[1-9][0-9]*$" required >
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						朝<span style="margin: 0 1em;"></span>向：
+					</dt>
+					<dd>
+						<select name="forward" id="forward">
+							<option value="南北">南北</option>
+							<option value="南">南</option>
+							<option value="东南">东南</option>
+							<option value="东">东</option>
+							<option value="西南">西南</option>
+							<option value="北">北</option>
+							<option value="西">西</option>
+							<option value="东西">东西</option>
+							<option value="东北">东北</option>
+							<option value="西北">西北</option>
+						</select>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						面<span style="margin: 0 1em;"></span>积：
+					</dt>
+					<dd>
+						<input type="number" placeholder="填写面积" style="width: 83px;"
+							id="area">㎡
+					</dd>
+				</dl>
+				<input type="submit" id="submitBtn" class="none">
+				</form>
+				<div class="none" id="moreinfo">
+					<dl>
+						<dt>景观情况：</dt>
+						<dd>
+							<select name="landscape" id="landscape"><option value="">请选择</option>
+								<option value="景观房">景观房</option>
+								<option value="侧景观房">侧景观房</option>
+								<option value="一般">一般</option>
+								<option value="有遮挡">有遮挡</option></select>
+						</dd>
+					</dl>
+					<dl>
+						<dt>采光通风：</dt>
+						<dd>
+							<select name="daylighting" id="daylighting"><option
+									value="">请选择</option>
+								<option value="无暗房/南北通风">无暗房/南北通风</option>
+								<option value="南北通风">南北通风</option>
+								<option value="一般">一般</option>
+								<option value="差">差</option></select>
+						</dd>
+					</dl>
+					<dl>
+						<dt>噪音影响：</dt>
+						<dd>
+							<select name="zyyx" id="zyyx"><option value="">请选择</option>
+								<option value="无噪音">无噪音</option>
+								<option value="噪音较小">噪音较小</option>
+								<option value="噪音较大">噪音较大</option></select>
+						</dd>
+					</dl>
+					<dl>
+						<dt>厌恶设施：</dt>
+						<dd>
+							<select name="facilities" id="facilities"><option
+									value="">请选择</option>
+								<option value="很近">很近</option>
+								<option value="较近">较近</option>
+								<option value="无">无</option></select>
+						</dd>
+					</dl>
+					<dl class="bdbt">
+						<dt>厌恶因素：</dt>
+						<dd class="ssHate">
+							<input type="checkbox" class="ipt-cb" name="detestFactor1"
+								value="变电站">变电站 <input type="checkbox" class="ipt-cb"
+								name="detestFactor1" value="垃圾场">垃圾场 <input
+								type="checkbox" class="ipt-cb" name="detestFactor1" value="发射塔">发射塔
+						</dd>
+					</dl>
+				</div>
+				<div class="cfjlm pdY10 bdbt" id="loadfj">
+					<a href="javascript:void(0);" class="loadmore" onclick="showMore()">继续填写，评估更准确</a>
+				</div>
+			</section>
+			<section class="pd10 bdt bdb">
+					<p class="f18">评估结果：<span><span class="f999 flor f14">&nbsp;34758元/平</span><span class="fc00 flor f18">420万/套</span></span></p>
+<!-- 					<span class="f16">总价 <span class="fc00 f18">420万元</span>  <span class="flor">单价 <span class="fc00 f18">34758元/平</span></span></span> -->
+					<div class="l"></div>
+					<div >
+<!-- 						<span style="width:48%;display:inline-block">房屋单价 <span class="fc00">34758元/平</span></span> -->
+						<span style="width:48%;display:inline-block">小区在售二手房 <span class="fc00">15套</span></span>
+						<span style="width:48%;display:inline-block">小区均价  <span class="fc00">34758元/平</span></span>
+						<span style="width:48%;display:inline-block">小区出租房 <span class="fc00">42套</span></span>
+					</div>
+			</section>
+			<div class="cfj-btnBox mt10">
+				<a href="javascript:void(0);" class="formbtn02" onclick="submitBtnClick()">评估我的房子</a>
+			</div>
+		</div>
+
+		<footer class="bdt mt10">
+			<p class="pdY10 f12">© www.h0758.net</p>
+		</footer>
+	</div>
+</body>
+<script>
+	function inputOnKeyup(event, element) {
+		nameChange(element);
+	}
+	function inputOnFocus(event, element) {
+		var ele = $(element);
+		var container = $("#" + ele.attr("resultContainer"));
+		container.removeClass("none");
+		nameChange(element);
+	}
+	function inputOnBlus(event, element) {
+		var ele = $(element);
+		var container = $("#" + ele.attr("resultContainer"));
+		setTimeout(function() {
+			container.addClass("none");
+
+		}, 500);
+
+	}
+	function nameChange(element) {
+		var ele = $(element);
+		if (ele.attr("searching") == "true" || ele.val() == "") {
+			return;
+		}
+		ele.attr("searching", "true");
+		ele.attr("searchingName", ele.val());
+		setTimeout(
+				function() {
+					var container = $("#" + ele.attr("resultContainer"));
+					container.empty();
+					for (var i = 0; i < 20; i++) {
+						var str = ' <li class="li-loudong" dataId="dataId"  onclick="selectName(this)">'
+								+ ele.attr("searchingName") + '_' + i + '</li>';
+						container.append(str);
+					}
+					ele.attr("searching", "false");
+					if (ele.attr("searchingName") != ele.val()) {
+						nameChange(element);
+					}
+				}, 1000);
+	}
+	function selectName(element) {
+		var ele = $(element);
+		alert(ele.html());
+	}
+	function showMore() {
+		$("#loadfj").addClass("none");
+		$("#moreinfo").removeClass("none");
+	}
+	function submitBtnClick(){
+		$("#submitBtn").click();
+// 		$("#pingguForm").submit();
+	}
+	function submitForm(){
+		alert("sdf");
+		return false;
+	}
+	$(".ipt-cb").change(function(){
+		alert(this.checked);
+	})
+</script>
+</html>

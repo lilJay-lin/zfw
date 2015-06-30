@@ -60,7 +60,7 @@ public class ZFController {
 				null, null, null, null, null, null, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = rhService.countRentalHousingByParams(null, null, null,
-				null, null, null, null);
+				null, null, null);
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/zf/index";
@@ -148,7 +148,7 @@ public class ZFController {
 				grossFloorArea, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = rhService.countRentalHousingByParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
-				grossFloorArea, orderBy);
+				grossFloorArea);
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/zf/index";

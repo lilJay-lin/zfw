@@ -84,7 +84,7 @@ public class RentalHousingServiceImpl extends
 	@Override
 	public int countRentalHousingByParams(String residenceCommunityId,
 			String keyWord, String region, String rental, Integer roomNum,
-			String grossFloorArea, String orderBy) {
+			String grossFloorArea) {
 		RentalHousingExample rhe = bindRentalHousingParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
 				grossFloorArea);

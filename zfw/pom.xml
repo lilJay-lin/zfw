@@ -95,10 +95,16 @@
 			<version>1.2.2</version>
 		</dependency>
 		<!-- 导入java ee jar 包 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax</groupId> -->
+<!-- 			<artifactId>javaee-api</artifactId> -->
+<!-- 			<version>7.0</version> -->
+<!-- 		</dependency> -->
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
+		    <scope>provided</scope>
 		</dependency>
 		<!-- 导入Mysql数据库链接jar包 -->
 		<dependency>
@@ -269,12 +275,23 @@
 	</dependencies>
 	<build>
 		<finalName>zfw</finalName>
+		<resources>
+			<resource>  
+                <directory>src/main/java</directory>  
+                <includes>  
+                    <include>**/*.properties</include>  
+                    <include>**/*.xml</include>  
+                </includes>  
+                <!-- 是否替换资源中的属性-->  
+                <filtering>false</filtering>  
+            </resource>  
+		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>  

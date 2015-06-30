@@ -8,7 +8,10 @@ import java.io.OutputStream;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.HashMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -26,6 +30,7 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -380,27 +385,27 @@ public class UserController {
 		JSONObject jo = new JSONObject();
 		boolean result = geetest.validateRequest(request);
 		if (result) {
-			// int rNum = (int) (Math.random() * 999999);
-			// String rNumStr = String.valueOf(rNum);
-			// while (rNumStr.length() < 6) {
-			// rNumStr = "0" + rNumStr;
-			// }
-			// HashMap<String, Object> receiveMap = ytxAPI.sendTemplateSMS(
-			// phoneNum, "1", new String[] { rNumStr, "44" });
-			// if ("000000".equals(receiveMap.get("statusCode"))) {
-			// request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
-			// phoneNum);
-			// request.getSession().setAttribute(
-			// Constants.ACCESS_PHONE_CAPTCHA, rNumStr);
-			// } else {
-			// result = false;
-			// jo.put("msg", "发送验证码出错，请稍后重试");
-			// }
+			int rNum = (int) (Math.random() * 999999);
+			String rNumStr = String.valueOf(rNum);
+			while (rNumStr.length() < 6) {
+				rNumStr = "0" + rNumStr;
+			}
+			HashMap<String, Object> receiveMap = ytxAPI.sendTemplateSMS(
+					phoneNum, "1", new String[] { rNumStr, "44" });
+			if ("000000".equals(receiveMap.get("statusCode"))) {
+				request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
+						phoneNum);
+				request.getSession().setAttribute(
+						Constants.ACCESS_PHONE_CAPTCHA, rNumStr);
+			} else {
+				result = false;
+				jo.put("msg", "发送验证码出错，请稍后重试");
+			}
 
-			request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
-					phoneNum);
-			request.getSession().setAttribute(Constants.ACCESS_PHONE_CAPTCHA,
-					"414141");
+//			request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
+//					phoneNum);
+//			request.getSession().setAttribute(Constants.ACCESS_PHONE_CAPTCHA,
+//					"414141");
 		} else {
 			jo.put("msg", Constants.SMOOTH_CAPTCHA_ERROR);
 		}
@@ -493,4 +498,54 @@ public class UserController {
 		return fileName;
 	}
 
+	@RequestMapping(value = "/mi/users", method = { RequestMethod.GET })
+	    public String miUser(HttpServletRequest request) {
+			addHeadImgUrl(request);
+			return "mi/user/index";
+	    }
+	    
+	    @RequestMapping(value = "/mi/users/page/{curPage}", method = { RequestMethod.GET })
+	    @ResponseBody
+	    public Object miIndex(HttpServletRequest request,@PathVariable int curPage) {
+		
+			Object res = null;
+			
+			int page= curPage-1>0?curPage-1:0;
+			
+			String name =request.getParameter("name")==null?null:(String)request.getParameter("name");
+			
+			Integer pageSize = request.getParameter("pagesize")==null?Constants.DEFAULT_PAGE_SIZE:Integer.valueOf((String)request.getParameter("pagesize"));
+			int rows =0;
+			try {
+				rows = userService.countUserByParams(name);
+				List<User> items = userService.findUserByParams(name, page, pageSize);
+				int totalpage = rows%pageSize ==0?rows/pageSize:(rows/pageSize + 1);
+				res = getJsonObject(rows, totalpage, curPage,pageSize,items,"1", "");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				res = getJsonObject(rows,0, curPage,pageSize, null,"0", "");
+			}
+			return res;
+	    } 
+	    
+	    
+	    @SuppressWarnings("unchecked")
+			public Object getJsonObject(int rows,int totalpage,int curPage,int pageSize,List items,String rescode,String msg){
+			JSONObject jo = new JSONObject();
+			
+			Map map = new HashedMap();
+			map.put("totalrows", rows);
+			map.put("curpage",curPage);
+			map.put("totalpage",totalpage);
+			map.put("pagesize",pageSize);
+			
+			jo.put("pageinfo", map);
+			jo.put("items", items);
+			
+			jo.put("rescode", rescode);
+			jo.put("msg", msg);
+			
+			
+			return jo.toString();
+	    }
 }

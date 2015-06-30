@@ -11,7 +11,7 @@
 			<dd>
 				<div class="dropbox">
 					<input type="text" id="xqName" name="xqName" class="ipt-text"
-						dataId="" searching="false" searchingName=""
+						dataId="" searching="false" searchingName="" autocomplete="off"
 						resultContainer="xq_search_result" placeholder="请选择下拉提示"
 						onkeyup="return inputOnKeyup(event,this)"
 						onFocus="return inputOnFocus(event,this)"
@@ -66,7 +66,7 @@
 				<span class="fc00">*</span>面<span style="margin-right: 2em;"></span>积：
 			</dt>
 			<dd>
-				<input id="grossFloorArea" type="text" class="ipt-text referprice"
+				<input id="grossFloorArea" type="text" class="ipt-text referprice" autocomplete="off"
 					style="width: 85%;" pattern="^[0-9]+\.{0,1}[0-9]{0,2}$" required>
 				平米
 			</dd>
@@ -112,10 +112,10 @@
 					style="margin-right: 2em;"></span>层：
 			</dt>
 			<dd>
-				第 <input id="curFloor" type="text" pattern="^[1-9][0-9]*$" required
+				第 <input id="curFloor" type="text" pattern="^[1-9][0-9]*$" required autocomplete="off"
 					class="ipt-text referprice" style="width: 27%;"> 层<span
 					style="margin-right: 2em;"></span>共 <input id="totalFloor"
-					type="text" pattern="^[1-9][0-9]*$" required
+					type="text" pattern="^[1-9][0-9]*$" required autocomplete="off"
 					class="ipt-text referprice" style="width: 27%;"> 层
 			</dd>
 		</dl>
@@ -124,7 +124,7 @@
 				<span class="fc00">*</span>租<span style="margin-right: 2em;"></span>金：
 			</dt>
 			<dd>
-				<input id="rental" name="price" type="text"
+				<input id="rental" name="price" type="text" autocomplete="off"
 					pattern="^[1-9][0-9]*$" required class="ipt-text"
 					style="width: 80%;"> 元/月
 			</dd>

@@ -141,4 +141,9 @@ public class Constants {
 	public static final String IMAGE_URLS_SPLIT_STRING = ",";
 	
 	public static final int ACTIVE_TIME = 90;
+	
+	public static final String ASSESSMENT_ITEM_TYPE_RADIO = "单选";
+	public static final String ASSESSMENT_ITEM_TYPE_MULTI = "多选";
+	
+	public static final String ASSESSMENT_ERROR_NO_RESULT = "暂无数据";
 }

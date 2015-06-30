@@ -89,7 +89,7 @@ public class AdvertisementServiceImpl extends
 		ad.setContentUrl("http://www.baidu.com");
 		ad.setLocation(Constants.AD_LOCATION_HOME_MIDDLE_ONE);
 		ad.setName("广告");
-		ad.setPreImageUrl(preImgUrl[0]);
+		ad.setPreImageUrl("http://img2.imgtn.bdimg.com/it/u=944210427,3514583163&fm=15&gp=0.jpg");
 		ad.setSummary("提要");
 		am.insertSelective(ad);
 	}

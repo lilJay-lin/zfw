@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,8 +48,8 @@ public class ESFController {
 	private ISHHImageService shhiService;
 	@Resource
 	private ISHHPanoService shhpService;
-    @Resource
-    private IUserService userService;
+	@Resource
+	private IUserService userService;
 
 	@RequestMapping(value = "/esf", method = { RequestMethod.GET })
 	public String esf(HttpServletRequest request) {
@@ -58,7 +57,7 @@ public class ESFController {
 				null, null, null, null, null, null, null, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = shhService.countSecondHandHouseByParams(null, null,
-				null, null, null, null, null);
+				null, null, null, null);
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/esf/index";
@@ -112,7 +111,7 @@ public class ESFController {
 				tempTime = tempTime / 12;
 				dateDesc = "年前更新";
 			}
-			if(tempTime>0){
+			if (tempTime > 0) {
 				dateDesc = "(" + tempTime + dateDesc + ")";
 			}
 		}
@@ -146,7 +145,7 @@ public class ESFController {
 				grossFloorArea, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = shhService.countSecondHandHouseByParams(
 				residenceCommunityId, keyWord, region, totalPrice, roomNum,
-				grossFloorArea, orderBy);
+				grossFloorArea);
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/esf/index";
@@ -179,120 +178,125 @@ public class ESFController {
 		return jo.toString();
 	}
 
-	
 	@RequestMapping(value = "user/esf", method = { RequestMethod.GET })
 	public String toCurUserEsf(HttpServletRequest request) {
 		String userId = userService.getCurUserId();
-		List<SecondHandHouse> list = shhService.getByUserId(userId,0,Constants.DEFAULT_PAGE_SIZE);
+		List<SecondHandHouse> list = shhService.getByUserId(userId, 0,
+				Constants.DEFAULT_PAGE_SIZE);
 		int total = shhService.countByUserId(userId);
 		request.setAttribute("results", list);
 		request.setAttribute("total", total);
 		return "ui/user/esf/index";
 	}
 
-	
 	@RequestMapping(value = "user/esf/add", method = { RequestMethod.GET })
 	public String toAdd(HttpServletRequest request) {
 		return "ui/user/esf/add";
 	}
 
-	
 	@RequestMapping(value = "user/esf/json/add", method = { RequestMethod.POST })
-	public @ResponseBody Object add(HttpServletRequest request,SecondHandHouse shh,String imgUrls) {
+	public @ResponseBody
+	Object add(HttpServletRequest request, SecondHandHouse shh, String imgUrls) {
 		JSONObject jo = new JSONObject();
-		try{
-			String errorStr = shhService.saveCascading(shh,imgUrls);
-			if(StringUtils.isBlank(errorStr)){
+		try {
+			String errorStr = shhService.saveCascading(shh, imgUrls);
+			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
-			}else{
+			} else {
 				jo.put("success", false);
 				jo.put("msg", errorStr);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			jo.put("success", false);
 			jo.put("msg", "发布出错!");
 		}
 		return jo.toString();
 	}
 
-	
 	@RequestMapping(value = "user/esf/json/del", method = { RequestMethod.POST })
-	public @ResponseBody Object del(HttpServletRequest request,String id) {
+	public @ResponseBody
+	Object del(HttpServletRequest request, String id) {
 		JSONObject jo = new JSONObject();
-		try{
+		try {
 			String errorStr = shhService.deleteUserSHHByFlag(id);
-			if(StringUtils.isBlank(errorStr)){
+			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
-			}else{
+			} else {
 				jo.put("success", false);
 				jo.put("msg", errorStr);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			jo.put("success", false);
 			jo.put("msg", "删除出错!");
 		}
 		return jo.toString();
 	}
 
-	
 	@RequestMapping(value = "user/esf/json/refresh", method = { RequestMethod.POST })
-	public @ResponseBody Object refresh(HttpServletRequest request,String id) {
+	public @ResponseBody
+	Object refresh(HttpServletRequest request, String id) {
 		JSONObject jo = new JSONObject();
-		try{
+		try {
 			String errorStr = shhService.refreshUserSHH(id);
-			if(StringUtils.isBlank(errorStr)){
+			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-				jo.put("time", cal.get(Calendar.YEAR)+"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH));
-			}else{
+				jo.put("time",
+						cal.get(Calendar.YEAR) + "-"
+								+ (cal.get(Calendar.MONTH) + 1) + "-"
+								+ cal.get(Calendar.DAY_OF_MONTH));
+			} else {
 				jo.put("success", false);
 				jo.put("msg", errorStr);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			jo.put("success", false);
 			jo.put("msg", "刷新出错!");
 		}
 		return jo.toString();
 	}
 
-	
 	@RequestMapping(value = "user/esf/json/update", method = { RequestMethod.POST })
-	public @ResponseBody Object update(HttpServletRequest request,SecondHandHouse shh,String imgUrls) {
+	public @ResponseBody
+	Object update(HttpServletRequest request, SecondHandHouse shh,
+			String imgUrls) {
 		JSONObject jo = new JSONObject();
-		try{
-			String errorStr = shhService.updateCascading(shh,imgUrls);
-			if(StringUtils.isBlank(errorStr)){
+		try {
+			String errorStr = shhService.updateCascading(shh, imgUrls);
+			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
-			}else{
+			} else {
 				jo.put("success", false);
 				jo.put("msg", errorStr);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			jo.put("success", false);
 			jo.put("msg", "修改出错!");
 		}
 		return jo.toString();
 	}
 
-	
 	@RequestMapping(value = "user/esf/{id}/manage", method = { RequestMethod.GET })
-	public String toManager(HttpServletRequest request,@PathVariable String id) {
+	public String toManager(HttpServletRequest request, @PathVariable String id) {
 		SecondHandHouse shh = shhService.get(id);
-		List<SHHImage> images = shhiService.getImagesByParams(id, 0, Integer.MAX_VALUE);
+		List<SHHImage> images = shhiService.getImagesByParams(id, 0,
+				Integer.MAX_VALUE);
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(shh.getUpdateDate());
 		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-		request.setAttribute("deadline", cal.get(Calendar.YEAR)+"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH));
+		request.setAttribute("deadline",
+				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
+						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
 		request.setAttribute("esf", shh);
 		request.setAttribute("images", images);
 		return "ui/user/esf/manage";
 	}
 
-	
 	@RequestMapping(value = "user/esf/json/{targetPage}-{pageSize}/search", method = { RequestMethod.GET })
 	public @ResponseBody
-	Object ajaxCurUserEsfSearch(HttpServletRequest request,@PathVariable Integer targetPage,@PathVariable Integer pageSize) {
+	Object ajaxCurUserEsfSearch(HttpServletRequest request,
+			@PathVariable Integer targetPage, @PathVariable Integer pageSize) {
 		if (targetPage == null) {
 			targetPage = 0;
 		}
@@ -300,19 +304,19 @@ public class ESFController {
 			pageSize = Constants.DEFAULT_PAGE_SIZE;
 		}
 		JSONObject jo = new JSONObject();
-		try{
+		try {
 			String userId = userService.getCurUserId();
-			jo.put("results", shhService.getByUserId(userId,targetPage,pageSize));
+			jo.put("results",
+					shhService.getByUserId(userId, targetPage, pageSize));
 			jo.put("success", true);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
 		return jo.toString();
 	}
-	
-	
+
 	@RequestMapping(value = "/user/esf/uploadImg", method = {
 			RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody
@@ -372,5 +376,4 @@ public class ESFController {
 		return fileName;
 	}
 
-	
 }

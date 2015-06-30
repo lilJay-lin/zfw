@@ -84,7 +84,7 @@ public class SecondHandHouseServiceImpl extends
 	@Override
 	public int countSecondHandHouseByParams(String residenceCommunityId,
 			String keyWord, String region, String totalPrice, Integer roomNum,
-			String grossFloorArea, String orderBy) {
+			String grossFloorArea) {
 		SecondHandHouseExample shhe = bindSecondHandHouseParams(
 				residenceCommunityId, keyWord, region, totalPrice, roomNum,
 				grossFloorArea);

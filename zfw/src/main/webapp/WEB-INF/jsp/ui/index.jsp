@@ -72,7 +72,7 @@
 						<a href="javascript:;" class="sp"><i></i>
 							<p>商铺</p></a> <a href="javascript:;" class="xzl"><i></i>
 							<p>写字楼</p></a> <a href="javascript:;" class="ckcf"><i></i>
-							<p>厂房仓库</p></a> <a href="javascript:;" class="esfpg"><i></i>
+							<p>厂房仓库</p></a> <a href="${ctx }/pg" class="esfpg"><i></i>
 							<p>二手房评估</p></a>
 					</div>
 				</div>

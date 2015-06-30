@@ -359,4 +359,38 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     public boolean isRememberMe() {
 	return SecurityUtils.getSubject().isRemembered();
     }
+    
+    @Override
+    public List<User> findUserByParams(String name, Integer curPage,
+    	Integer pageSize) {
+    	// TODO Auto-generated method stub
+
+    	UserExample userExample = new UserExample();
+    	UserExample.Criteria cri = userExample.createCriteria();
+    	if(name != null){
+    		cri.andNameLike("%"+name+"%");
+    	}
+    	cri.andDelFlagEqualTo(false);
+    	userExample.setLimitStart(curPage* pageSize);
+    	userExample.setLimitSize(pageSize);
+
+    	List<User> users = um.selectByExample(userExample);
+
+    	return users;
+    }
+
+    @Override
+    public int countUserByParams(String name) {
+    	// TODO Auto-generated method stub
+    	UserExample userExample = new UserExample();
+    	UserExample.Criteria cri = userExample.createCriteria();
+    	if(name != null){
+    		cri.andNameLike("%"+name+"%");
+    	}
+    	cri.andDelFlagEqualTo(false);
+
+    	int len = um.countByExample(userExample);
+
+    	return len;
+    }
 }

@@ -1,5 +1,7 @@
 package com.mimi.zfw.listener;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.ApplicationListener;
@@ -7,12 +9,15 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Repository;
 
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
+import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IAssessmentItemService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IResidenceCommunityService;
 import com.mimi.zfw.service.IRoleService;
+import com.mimi.zfw.service.ISHHFloorPriceLinearFunctionService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
 
@@ -33,6 +38,10 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private IAdvertisementService adService;
     @Resource
     private IResidenceCommunityService rcService;
+    @Resource
+    private IAssessmentItemService aiServcie;
+    @Resource
+    private ISHHFloorPriceLinearFunctionService shhfplfService;
 
     @Resource
     private CCPRestSmsSDK ytxAPI;
@@ -68,6 +77,12 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 	infoService.initInformation();
 	adService.initAdvertisement();
 	rcService.initResidenceCommunicity();
+	aiServcie.initAssessItem();
+	List<ResidenceCommunity> list = rcService.listAll();
+	for(int i=0;i<list.size();i++){
+		rcService.refreshResidenceCommunity(list.get(i).getId(), true, true);
+	}
+	shhfplfService.resetFunction();
     }
 
 }

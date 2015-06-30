@@ -97,6 +97,9 @@
         <table tableName="tbl_rental_housing" domainObjectName="RentalHousing"></table>
         <table tableName="tbl_rh_image" domainObjectName="RHImage"></table>
         <table tableName="tbl_rh_panorama" domainObjectName="RHPano"></table>
+        <table tableName="tbl_assessment_item" domainObjectName="AssessmentItem"></table>
+        <table tableName="tbl_assessment_parameter" domainObjectName="AssessmentParameter"></table>
+        <table tableName="tbl_shh_floor_price_linear_function" domainObjectName="SHHFloorPriceLinearFunction"></table>
 <!--         <table tableName="tbl_data_catalog" domainObjectName="DataCatalog"></table> -->
 <!--         <table tableName="tbl_data_object" domainObjectName="DataObject"></table> -->
 <!--         <table tableName="tbl_data_attr" domainObjectName="DataAttr"></table> -->
