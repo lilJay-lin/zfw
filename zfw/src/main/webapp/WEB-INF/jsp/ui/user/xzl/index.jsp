@@ -11,7 +11,7 @@
 			<div class="left">
 				<a href="${ctx }/user" class="back"><i></i></a>
 			</div>
-			<div class="cent">我的商铺</div>
+			<div class="cent">我的写字楼</div>
 			<div class="show_redrict head-icon">
 				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
 					onclick="hideOrOpenNav()"> <span><i></i>
@@ -21,9 +21,9 @@
 		</header>
 		<%@include file="../../inc/nav.jsp" %>
 		<div class="pc-content-list whitebg">
-			<a class="pc-content-item" href="${ctx }/user/sp/add">
+			<a class="pc-content-item" href="${ctx }/user/xzl/add">
 				<div class="bor">
-					<span class="flol icon sp"></span> <span class="flol">发布商铺</span>
+					<span class="flol icon sp"></span> <span class="flol">发布写字楼</span>
 				</div>
 			</a>
 		</div>
@@ -31,13 +31,13 @@
 			<c:when test="${total!=0}">
 				<div class="resultWarp whitebg mt10 bdt">
 					<h5 id="search_result_num">
-						<h5>已发布${total }个商铺信息</h5>
+						<h5>已发布${total }个写字楼信息</h5>
 					</h5>
 				</div>
 				<section class="homeList whitebg bdb">
 					<ul id="itemList">
 		       			<c:forEach items="${results}" var="t" varStatus="status">
-						<li><a id="${t.id}" href="${ctx}/user/sp/${t.id }/manage">
+						<li><a id="${t.id}" href="${ctx}/user/xzl/${t.id }/manage">
 								<div class="img">
 									<img src="${t.preImageUrl }">
 								</div>
@@ -66,7 +66,7 @@
 			</c:when>
 			<c:otherwise>
 				<div class="searchNo">
-			    	<p class="f14">还没发布商铺信息。</p>
+			    	<p class="f14">还没发布写字楼信息。</p>
 				</div>
 			</c:otherwise>
 		</c:choose>
@@ -137,7 +137,7 @@ var curp = 1;
 		draginner.css('padding-left','10px');
 		draginner.addClass("loading");
 		draginner.html("正在加载...");
-		var url = "${ctx}/user/sp/json/{targetPage}-{pageSize}/search";
+		var url = "${ctx}/user/xzl/json/{targetPage}-{pageSize}/search";
 		url = url.replace("{targetPage}",curp+1);
 		url = url.replace("{pageSize}",5);
 		$.ajax({
@@ -147,7 +147,7 @@ var curp = 1;
 				if(json.success){
 					for(var i=0;i<json.results.length;i++){
 						var result = json.results[i];
-						var str = '<li><a id="{id}" href="${ctx}/user/sp/{id}/manage"> <div class="img"> <img src="{preImageUrl}"> </div> <div class="txt"> <p class="x-intro"> <h2>{name}</h2> <span class="new">{outOfDate}</span> </p> <p>{grossFloorArea}</p> <div class="stag"> <span class="t1">{address} </div> </div> </a></li>';
+						var str = '<li><a id="{id}" href="${ctx}/user/xzl/{id}/manage"> <div class="img"> <img src="{preImageUrl}"> </div> <div class="txt"> <p class="x-intro"> <h2>{name}</h2> <span class="new">{outOfDate}</span> </p> <p>{grossFloorArea}</p> <div class="stag"> <span class="t1">{address} </div> </div> </a></li>';
 						
 						var grossFloorArea = "";
 						if(result.grossFloorArea && result.grossFloorArea>0){

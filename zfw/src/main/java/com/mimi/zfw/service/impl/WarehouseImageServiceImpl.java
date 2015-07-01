@@ -35,6 +35,7 @@ public class WarehouseImageServiceImpl extends
 		ie.or().andWarehouseIdEqualTo(id).andDelFlagEqualTo(false);
 		ie.setLimitStart(targetPage*pageSize);
 		ie.setLimitSize(pageSize);
+		ie.setOrderByClause("update_date asc");
 		return wim.selectByExample(ie);
 	}
 

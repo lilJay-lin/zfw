@@ -13,6 +13,7 @@ import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IAssessmentItemService;
 import com.mimi.zfw.service.IInformationService;
+import com.mimi.zfw.service.IOfficeBuildingService;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IResidenceCommunityService;
@@ -45,6 +46,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private ISHHFloorPriceLinearFunctionService shhfplfService;
     @Resource
     private IShopService shopService;
+    @Resource
+    private IOfficeBuildingService obService;
 
     @Resource
     private CCPRestSmsSDK ytxAPI;
@@ -73,20 +76,21 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 		"ce3126c41d6a4181b13fb9399db922b2");
 	ytxAPI.setAppId("8a48b5514d32a2a8014d9562b2ca47c6");
 
-	permissionService.initPermission();
-	roleService.initRole();
-	userService.initUser();
-	repService.initRealEstateProject();
-	infoService.initInformation();
-	adService.initAdvertisement();
-	rcService.initResidenceCommunicity();
-	aiServcie.initAssessItem();
-	shopService.initShop();
-	List<ResidenceCommunity> list = rcService.listAll();
-	for(int i=0;i<list.size();i++){
-		rcService.refreshResidenceCommunity(list.get(i).getId(), true, true);
-	}
-	shhfplfService.resetFunction();
+//	permissionService.initPermission();
+//	roleService.initRole();
+//	userService.initUser();
+//	repService.initRealEstateProject();
+//	infoService.initInformation();
+//	adService.initAdvertisement();
+//	rcService.initResidenceCommunicity();
+//	aiServcie.initAssessItem();
+//	shopService.initShop();
+	obService.initOfficeBuilding();
+//	List<ResidenceCommunity> list = rcService.listAll();
+//	for(int i=0;i<list.size();i++){
+//		rcService.refreshResidenceCommunity(list.get(i).getId(), true, true);
+//	}
+//	shhfplfService.resetFunction();
     }
 
 }

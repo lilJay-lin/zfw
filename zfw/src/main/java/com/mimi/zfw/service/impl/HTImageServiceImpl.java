@@ -45,6 +45,7 @@ public class HTImageServiceImpl extends
 		hie.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
 		hie.setLimitStart(targetPage*pageSize);
 		hie.setLimitSize(pageSize);
+		hie.setOrderByClause("update_date asc");
 		return him.selectByExample(hie);
 	}
 

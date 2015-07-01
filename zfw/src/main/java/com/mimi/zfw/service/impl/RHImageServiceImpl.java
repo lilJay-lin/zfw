@@ -33,6 +33,7 @@ public class RHImageServiceImpl extends
 		ie.or().andRentalHousingIdEqualTo(id).andDelFlagEqualTo(false);
 		ie.setLimitStart(targetPage * pageSize);
 		ie.setLimitSize(pageSize);
+		ie.setOrderByClause("update_date asc");
 		return rhim.selectByExample(ie);
 	}
 

@@ -35,6 +35,7 @@ public class OBImageServiceImpl extends
 		ie.or().andOfficeBuildingIdEqualTo(id).andDelFlagEqualTo(false);
 		ie.setLimitStart(targetPage*pageSize);
 		ie.setLimitSize(pageSize);
+		ie.setOrderByClause("update_date asc");
 		return obim.selectByExample(ie);
 	}
 
