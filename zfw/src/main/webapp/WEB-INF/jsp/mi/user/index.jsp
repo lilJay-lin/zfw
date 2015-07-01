@@ -57,7 +57,7 @@
 								<table class="datatable-table">
 									<thead>
 										<th>
-											<input type="checkbox" />
+											<input type="checkbox" id="selectAll"/>
 										</th>
 										<th>名称</th>
 										<th>邮箱</th>
@@ -70,7 +70,7 @@
 										<th>更新日期</th>-->
 										<th>操作</th>
 									</thead>
-									<tbody>
+									<tbody id="userlist">
 									</tbody>
 								</table>
 								<div class="datatable-toolbar disabled">
@@ -108,29 +108,7 @@
 			<div class="slider skin">
 				<div class="clearfix">&nbsp</div>
 				<div class="clearfix">&nbsp</div>
-				<ul class="slider-nav skin">
-					<li class="submenu active">
-						<a href="javascript:void(0)">
-							<i class="icon-key"></i>
-							<span class="hidden-tablet"> 系统管理</span>
-							<span class="label">2</span>
-						</a>
-						<ul class="subNav" >
-							<li>
-								<a  href="${ctx}/mi/users">
-									<i class="icon-user"></i>
-									<span > 用户管理</span>
-								</a>
-							</li>
-							<li>
-								<a  href="/roles">
-									<i class="icon-hdd"></i>
-									<span > 角色管理</span>
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
+				<%@include file="../inc/left.jsp" %>
 			</div>
 			
 			<!-- 左边侧边栏区域结束     -->
@@ -145,7 +123,7 @@
 			{{#each this}}
 			<tr>
 				<td>
-					<input type="checkbox" />
+					<input type="checkbox" data-id="{{id}}"/>
 				</td>
 				<td>{{name}}</td>
 				<td>{{email}}</td>
@@ -176,6 +154,12 @@
 	<script src="${ctx}/assets/js/style.js" type="text/javascript" charset="utf-8"></script>
 
 	<script>
+	  	//checkbox 全选
+	  	$("#selectAll").on("change",function(){
+	  		if($(this).attr("checked")){
+	  			$("#userlist").find("input[type='checkbox']").attr("checked",true);
+	  		}
+	  	})
 		function template(id,data){
 			var tpl = Handlebars.compile($(id).html());
 			return tpl(data);
@@ -193,7 +177,7 @@
 					var items = data.items;
 					console.log(items.length);
 					var pageinfo = data.pageinfo;
-					$(".datatable-table tbody").html(template("#user-info-template",items));
+					$("#userlist").html(template("#user-info-template",items));
 					pagination(pageinfo);
 //					$("#datatable-toolbar").html(template("#pagination_tpl",pageinfo))
 				},

@@ -79,7 +79,7 @@
 		}
 	}
 	
-	
+	r.util = a;
 })(window.util || (window.util ={}));
 /*
 *jquery fn

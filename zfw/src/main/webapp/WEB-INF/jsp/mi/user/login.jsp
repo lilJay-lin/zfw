@@ -7,10 +7,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/font-awesome/css/font-awesome.css"/>
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/css/mi.css"/>
-
+         <%@include file="../inc/header.jsp" %>
 		<title>登录?</title>
 	</head>
 	<body>
@@ -18,7 +15,7 @@
 			<h2 style="text-align: center;">登录</h2>
 			<form class="login-form" action="${ctx}/mi/user/login" method="post">
 				<fieldset>
-					<c:if test="${error } != null }"><div class="help-inline">${error }</div></c:if>
+					<c:if test="${error  != null }"><div id="error" class="help-inline">${error }</div></c:if>
 					<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 					<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 					
@@ -56,18 +53,37 @@
 	<script type="text/javascript" src="${encrypUrl}/BigInt.js"></script>
 	<script type="text/javascript" src="${encrypUrl}/Barrett.js"></script>
 	<script type="text/javascript" src="${encrypUrl}/md5.js"></script>
-	<script src="${ctx}/assets/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="${ctx}/assets/js/style.js" type="text/javascript" charset="utf-8"></script>
 	<script>
+		var useRememberPsw = !1;
+		if($("#error").html!=""){
+			util.cookie("password","",-1);
+		}else if($.cookie("password")!=""){
+			$("#txtpsw").val("111111");
+			useRememberPsw = !0;
+		}
+		$("#txtpsw").on("change",function(){
+			useRememberPsw = !1;
+		});
 		function RSAEncrypt() {
-			var thisPwd = document.getElementById("txtpsw").value;
-			thisPwd = hex_md5(thisPwd);
-			setMaxDigits(130);
-			var publicExponent = document.getElementById("publicExponent").value;
-			var modulus = document.getElementById("modulus").value;
-			var key = new RSAKeyPair(publicExponent, "", modulus);
-			var result = encryptedString(key, encodeURIComponent(thisPwd));
-			document.getElementById("txtpsw").value = encodeURIComponent(result);
+			var result = "";
+			if(useRememberPsw){
+				result =util.cookie("password");
+				document.getElementById("txtpsw").value =result;
+			}else{
+				var thisPwd = document.getElementById("txtpsw").value;
+				thisPwd = hex_md5(thisPwd);
+				setMaxDigits(130);
+				var publicExponent = document.getElementById("publicExponent").value;
+				var modulus = document.getElementById("modulus").value;
+				var key = new RSAKeyPair(publicExponent, "", modulus);
+				result = encodeURIComponent(encryptedString(key, encodeURIComponent(thisPwd)));
+				document.getElementById("txtpsw").value =result;
+				
+			}
+			if($("#rememberMe").attr("checked")){
+				 util.cookie("password", result,30);
+			}
 		}
 		function refreshSubmitBtn(){
 			if($(".btn").attr("disabled") == false){

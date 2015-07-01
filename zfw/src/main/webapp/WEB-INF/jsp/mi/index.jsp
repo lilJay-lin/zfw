@@ -4,11 +4,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/font-awesome/css/font-awesome.css"/>
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/css/mi.css"/>
-		<title>后台管理</title>
+         <%@include file="../inc/header.jsp" %>
+         <title>后台管理</title>
 	</head>
 	<body>
 		
@@ -54,29 +51,7 @@
 			<div class="slider skin">
 				<div class="clearfix">&nbsp</div>
 				<div class="clearfix">&nbsp</div>
-				<ul class="slider-nav skin">
-					<li class="submenu active">
-						<a href="javascript:void(0)">
-							<i class="icon-key"></i>
-							<span class="hidden-tablet"> 系统管理</span>
-							<span class="label">2</span>
-						</a>
-						<ul class="subNav" >
-							<li>
-								<a  href="${ctx}/mi/users">
-									<i class="icon-user"></i>
-									<span > 用户管理</span>
-								</a>
-							</li>
-							<li>
-								<a  href="/roles">
-									<i class="icon-hdd"></i>
-									<span > 角色管理</span>
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
+				<%@include file="inc/left.jsp" %>
 			</div>
 			
 			<!-- 左边侧边栏区域结束     -->
@@ -87,7 +62,6 @@
 			<p>@copyright-------------------</p>
 		</div>
 	</body>
-	<script src="${ctx}/assets/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="${ctx}/assets/js/style.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

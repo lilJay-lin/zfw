@@ -1,8 +1,11 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,6 +22,7 @@ import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
 import com.mimi.zfw.mybatis.dao.RoleMapper;
 import com.mimi.zfw.mybatis.dao.UserMapper;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
@@ -33,6 +37,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	implements IUserService {
     @Resource
     private UserMapper um;
+    @Resource
+    private RelationUserAndRoleMapper userRoleMapper;
     @Resource
     private RoleMapper rm;
     @Resource
@@ -393,4 +399,77 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     	return len;
     }
+
+    @Override
+    public int deleteBatchUserAddFlag(List<String> ids) {
+	// TODO Auto-generated method stub
+
+	UserExample ue = new UserExample();
+	ue.or().andIdIn(ids);
+	User user = new User();
+	user.setDelFlag(true);
+	int row = um.updateByExampleSelective(user, ue);
+	
+	return row;
+    }
+
+    @Override
+    public int deleteUserAddFlag(String id) {
+	// TODO Auto-generated method stub
+	User user = new User();
+	user.setId(id);
+	user.setDelFlag(true);
+	int row = um.updateByPrimaryKeySelective(user);
+	
+	return row;
+    }
+
+    @Override
+    public int updateBatchUser(List<String> ids, User user) {
+	// TODO Auto-generated method stub
+	
+	if(user == null){
+	    return 0;
+	}
+	
+	UserExample ue = new UserExample();
+	ue.or().andIdIn(ids);
+	
+	int row = um.updateByExampleSelective(user, ue);
+	
+	return row;
+    }
+
+    @Override
+    public List<Map<String, Object>> findUserRoleByUser(UserExample example) {
+	// TODO Auto-generated method stub
+	if(example == null){
+	    return null;
+	}
+	List<Map<String,Object>> res = new ArrayList<Map<String,Object>>();
+	
+	List<User> users = um.selectByExample(example);
+	
+	if(users!=null){
+	    for(User user: users){
+		RelationUserAndRoleExample ex  = new RelationUserAndRoleExample();
+		ex.or().andUserIdEqualTo(user.getId());
+		
+		List<RelationUserAndRole> userRoles = userRoleMapper.selectByExample(ex);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("user", user);
+		map.put("userRole", userRoles);
+		
+		res.add(map);
+		
+	    }
+	    
+	}
+	
+	return res;
+    }
+
+    
 }
