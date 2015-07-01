@@ -59,21 +59,17 @@
 			<div class="bigNav" style="display: block;">
 				<div class="icons chooseNav">
 					<div class="flexbox chooseNav1">
-						<a href="${ctx }/xf" class="xf"><i></i>
-							<p>新房</p></a> <a href="${ctx }/esf" class="esf"><i></i>
-							<p>二手房</p></a> <a href="${ctx }/zf" class="zf"><i></i>
-							<p>租房</p></a>  <a href="javascript:spreadNav();"
-							class="more gather"><i></i>
-							<p>更多</p></a>
-							<a href="javascript:gatherNav();" class="more spread none"><i></i>
-							<p>收起</p></a>
+						<a href="${ctx }/xf" class="xf"><i></i><p>新房</p></a>
+						<a href="${ctx }/esf" class="esf"><i></i><p>二手房</p></a>
+						<a href="${ctx }/zf" class="zf"><i></i><p>租房</p></a>
+						<a href="javascript:spreadNav();" class="more gather"><i></i><p>更多</p></a>
+						<a href="javascript:gatherNav();" class="more spread none"><i></i><p>收起</p></a>
 					</div>
 					<div class="flexbox chooseNav2 spread none">
-						<a href="javascript:;" class="sp"><i></i>
-							<p>商铺</p></a> <a href="javascript:;" class="xzl"><i></i>
-							<p>写字楼</p></a> <a href="javascript:;" class="ckcf"><i></i>
-							<p>厂房仓库</p></a> <a href="${ctx }/pg" class="esfpg"><i></i>
-							<p>二手房评估</p></a>
+						<a href="${ctx }/sp" class="sp"><i></i> <p>商铺</p></a> 
+						<a href="${ctx }/xzl" class="xzl"><i></i><p>写字楼</p></a>
+						<a href="${ctx }/cfck" class="cfck"><i></i><p>厂房仓库</p></a> 
+						<a href="${ctx }/pg" class="esfpg"><i></i><p>二手房评估</p></a>
 					</div>
 				</div>
 				<br style="display: inline;">

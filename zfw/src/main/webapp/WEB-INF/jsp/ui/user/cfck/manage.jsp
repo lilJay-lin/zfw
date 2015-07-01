@@ -9,9 +9,9 @@
 	<div class="main whitebg">
 		<header>
 			<div class="left">
-				<a href="${ctx }/user/xzl" class="back"><i></i></a>
+				<a href="${ctx }/user/cfck" class="back"><i></i></a>
 			</div>
-			<div class="cent">管理写字楼</div>
+			<div class="cent">管理厂房仓库</div>
 			<div class="show_redrict head-icon">
 				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
 					onclick="hideOrOpenNav()"> <span><i></i>
@@ -56,7 +56,7 @@
 		<%@include file="../../inc/footer.jsp" %>
 		<%@include file="../../inc/goHead.jsp" %>
 	</div>
-	<input type="hidden" id="obId" value="${ob.id }">
+	<input type="hidden" id="warehouseId" value="${warehouse.id }">
 </body>
 <%@include file="../../inc/bottom.jsp" %>
 <script>
@@ -71,13 +71,11 @@ function submitForm() {
 	btn.addClass("disabled");
 	btn.val("提交中...");
 	
-	var obId = $("#obId").val();
+	var warehouseId = $("#warehouseId").val();
 	var grossFloorArea = $("#grossFloorArea").val();
 	var region = $("#region").val();
 	var type = $("#type").val();
-	var decorationStatus = $("#decorationStatus").val();
 	
-	var propertyFee = $("#propertyFee").val();
 	var rental = $("#rental").val();
 	var totalPrice = $("#totalPrice").val();
 	var phoneNum = $("#phoneNum").val();
@@ -122,13 +120,13 @@ function submitForm() {
 	$.ajax({
 		type: "POST",
 		async: true,
-		url: "${ctx}/user/xzl/json/update",
-		data: {id:obId,grossFloorArea:grossFloorArea,region:region,type:type,decorationStatus:decorationStatus,propertyFee:propertyFee,rental:rental,totalPrice:totalPrice,rentOrSale:rentOrSale,phoneNum:phoneNum,name:name,address:address,introduction:introduction,preImageUrl:preImageUrl,imgUrls:imgUrls},
+		url: "${ctx}/user/cfck/json/update",
+		data: {id:warehouseId,grossFloorArea:grossFloorArea,region:region,type:type,rental:rental,totalPrice:totalPrice,rentOrSale:rentOrSale,phoneNum:phoneNum,name:name,address:address,introduction:introduction,preImageUrl:preImageUrl,imgUrls:imgUrls},
 		dataType: "json",
 		success: function (data) {
 			if(data.success){
 				alert("修改成功");
-				top.location = "${ctx}/user/xzl";
+				top.location = "${ctx}/user/cfck";
 			}else{
 				alert(data.msg);
 			}
@@ -171,7 +169,7 @@ $(function(){
 		var formData = new FormData($("#uploadForm")[0]);	
 	    $.ajax({
 	        type:'POST',
-	        url:'${ctx}/user/xzl/uploadImg',
+	        url:'${ctx}/user/cfck/uploadImg',
 	        data: formData,
 	        async: true,
 	        cache: false,
@@ -196,38 +194,32 @@ $(function(){
 	initData();
 }); 
 	function initData(){
-		if("${ob.grossFloorArea}"){
-			$("#grossFloorArea").val("${ob.grossFloorArea}");
+		if("${warehouse.grossFloorArea}"){
+			$("#grossFloorArea").val("${warehouse.grossFloorArea}");
 		}
-		if("${ob.region}"){
-			$("#region").val("${ob.region}");
+		if("${warehouse.region}"){
+			$("#region").val("${warehouse.region}");
 		}
-		if("${ob.type}"){
-			$("#type").val("${ob.type}");
+		if("${warehouse.type}"){
+			$("#type").val("${warehouse.type}");
 		}
-		if("${ob.decorationStatus}"){
-			$("#decorationStatus").val("${ob.decorationStatus}");
+		if("${warehouse.rental}"){
+			$("#rental").val("${warehouse.rental}");
 		}
-		if("${ob.propertyFee}"){
-			$("#propertyFee").val("${ob.propertyFee}");
+		if("${warehouse.totalPrice}"){
+			$("#totalPrice").val("${warehouse.totalPrice}");
 		}
-		if("${ob.rental}"){
-			$("#rental").val("${ob.rental}");
+		if("${warehouse.phoneNum}"){
+			$("#phoneNum").val("${warehouse.phoneNum}");
 		}
-		if("${ob.totalPrice}"){
-			$("#totalPrice").val("${ob.totalPrice}");
+		if("${warehouse.name}"){
+			$("#name").val("${warehouse.name}");
 		}
-		if("${ob.phoneNum}"){
-			$("#phoneNum").val("${ob.phoneNum}");
+		if("${warehouse.address}"){
+			$("#address").val("${warehouse.address}");
 		}
-		if("${ob.name}"){
-			$("#name").val("${ob.name}");
-		}
-		if("${ob.address}"){
-			$("#address").val("${ob.address}");
-		}
-		if("${ob.introduction}"){
-			$("#introduction").val("${ob.introduction}");
+		if("${warehouse.introduction}"){
+			$("#introduction").val("${warehouse.introduction}");
 		}
 		var btn = $("#submit");
 		btn.val("确定修改");
@@ -264,8 +256,8 @@ $(function(){
 		$.ajax({
 			type: "POST",
 			async: true,
-			url: "${ctx}/user/xzl/json/refresh",
-			data: {id:$("#obId").val()},
+			url: "${ctx}/user/cfck/json/refresh",
+			data: {id:$("#warehouseId").val()},
 			dataType: "json",
 			success: function (data) {
 				if(data.success){
@@ -298,13 +290,13 @@ $(function(){
 			$.ajax({
 				type: "POST",
 				async: true,
-				url: "${ctx}/user/xzl/json/del",
-				data: {id:$("#obId").val()},
+				url: "${ctx}/user/cfck/json/del",
+				data: {id:$("#warehouseId").val()},
 				dataType: "json",
 				success: function (data) {
 					if(data.success){
 						alert("删除成功");
-						top.location = "${ctx}/user/xzl";
+						top.location = "${ctx}/user/cfck";
 					}else{
 						alert(data.msg);
 					}

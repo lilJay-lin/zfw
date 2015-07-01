@@ -41,6 +41,12 @@
 						class="searchListName" data-ywtype="爱上,出售,住宅,,,,">二手房</span></a></li>
 				<li><a href="${ctx }/zf/-${keyWord }-----default/search"><span class="flor f999">${zfNum }条</span><span
 						class="searchListName" >租房</span></a></li>
+				<li><a href="${ctx }/sp/${keyWord }-------default/search"><span class="flor f999">${spNum }条</span><span
+						class="searchListName" >商铺</span></a></li>
+				<li><a href="${ctx }/xzl/${keyWord }-------default/search"><span class="flor f999">${xzlNum }条</span><span
+						class="searchListName" >写字楼</span></a></li>
+				<li><a href="${ctx }/cfck/${keyWord }-------default/search"><span class="flor f999">${cfckNum }条</span><span
+						class="searchListName" >厂房仓库</span></a></li>
 			</ul>
 		</div>
 	</div>

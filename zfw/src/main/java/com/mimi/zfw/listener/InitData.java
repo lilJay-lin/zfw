@@ -21,6 +21,7 @@ import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.ISHHFloorPriceLinearFunctionService;
 import com.mimi.zfw.service.IShopService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.service.IWarehouseService;
 import com.mimi.zfw.util.RSAUtil;
 
 @Repository
@@ -48,6 +49,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
     private IShopService shopService;
     @Resource
     private IOfficeBuildingService obService;
+    @Resource
+    private IWarehouseService wService;
 
     @Resource
     private CCPRestSmsSDK ytxAPI;
@@ -85,7 +88,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 //	rcService.initResidenceCommunicity();
 //	aiServcie.initAssessItem();
 //	shopService.initShop();
-	obService.initOfficeBuilding();
+//	obService.initOfficeBuilding();
+	wService.initWarehouse();
 //	List<ResidenceCommunity> list = rcService.listAll();
 //	for(int i=0;i<list.size();i++){
 //		rcService.refreshResidenceCommunity(list.get(i).getId(), true, true);

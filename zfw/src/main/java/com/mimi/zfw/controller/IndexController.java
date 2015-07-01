@@ -37,10 +37,13 @@ import com.mimi.zfw.mybatis.pojo.Information;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.INameListService;
+import com.mimi.zfw.service.IOfficeBuildingService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IRentalHousingService;
 import com.mimi.zfw.service.ISecondHandHouseService;
+import com.mimi.zfw.service.IShopService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.service.IWarehouseService;
 
 //import com.mimi.zfw.web.bind.annotation.CurrentUser;
 
@@ -61,6 +64,12 @@ public class IndexController {
 	private ISecondHandHouseService shhService;
 	@Resource
 	private IRentalHousingService rhService;
+	@Resource
+	private IShopService spService;
+	@Resource
+	private IOfficeBuildingService obService;
+	@Resource
+	private IWarehouseService wService;
 	
     // @Autowired
     // @Qualifier("BirdEyeViewService")
@@ -140,12 +149,17 @@ public class IndexController {
     	int xfNum = repService.countRealEstateProjectByParams(keyWord, null, null, null, null, null, null);
     	int esfNum = shhService.countSecondHandHouseByParams(null, keyWord, null, null, null, null);
     	int zfNum = rhService.countRentalHousingByParams(null, keyWord, null, null, null, null);
-    	int totalNum = xfNum+esfNum+zfNum;
+    	int spNum = spService.countShopByParams(keyWord, null, null, null, null, null, null);
+    	int xzlNum = obService.countOfficeBuildingByParams(keyWord, null, null, null, null, null, null);
+    	int cfckNum = wService.countWarehouseByParams(keyWord, null, null, null, null, null, null);
+    	int totalNum = xfNum+esfNum+zfNum+spNum+xzlNum+cfckNum;
     	request.setAttribute("xfNum", xfNum);
     	request.setAttribute("esfNum", esfNum);
     	request.setAttribute("zfNum", zfNum);
+    	request.setAttribute("spNum", spNum);
+    	request.setAttribute("xzlNum", xzlNum);
+    	request.setAttribute("cfckNum", cfckNum);
     	request.setAttribute("totalNum", totalNum);
-    	System.out.println(keyWord);
 	return "ui/searchResult";
     }
     

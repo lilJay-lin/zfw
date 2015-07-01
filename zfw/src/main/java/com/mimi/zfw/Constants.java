@@ -162,4 +162,6 @@ public class Constants {
 	public static final String OFFICE_BUILDING_TYPE_ZHT = "商业综合体楼";
 	public static final String OFFICE_BUILDING_TYPE_JD = "酒店写字楼";
 
+	public static final String WAREHOUSE_TYPE_CF = "厂房";
+	public static final String WAREHOUSE_TYPE_CK = "仓库";
 }
