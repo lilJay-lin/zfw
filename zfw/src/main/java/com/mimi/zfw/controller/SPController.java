@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,7 @@ import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class SPController {
+	private static final Logger LOG = LoggerFactory.getLogger(SPController.class);  
 	@Resource
 	private IShopService shopService;
 	@Resource
@@ -138,6 +141,7 @@ public class SPController {
 					orderBy, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询商铺出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -173,6 +177,7 @@ public class SPController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("保存商铺出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "发布出错!");
 		}
@@ -192,6 +197,7 @@ public class SPController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("删除商铺出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "删除出错!");
 		}
@@ -217,6 +223,7 @@ public class SPController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新商铺有效期出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "刷新出错!");
 		}
@@ -236,6 +243,7 @@ public class SPController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新商铺出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "修改出错!");
 		}
@@ -275,7 +283,7 @@ public class SPController {
 					shopService.getByUserId(userId, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("查询商铺出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -306,6 +314,7 @@ public class SPController {
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {
+			LOG.error("上传商铺图片出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "保存图片失败");
 		}

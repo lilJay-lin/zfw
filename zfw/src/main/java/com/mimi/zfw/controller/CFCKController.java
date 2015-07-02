@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
+import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.mybatis.pojo.WarehouseImage;
 import com.mimi.zfw.mybatis.pojo.WarehousePano;
-import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.service.IWarehouseImageService;
 import com.mimi.zfw.service.IWarehousePanoService;
@@ -35,6 +37,7 @@ import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class CFCKController {
+	private static final Logger LOG = LoggerFactory.getLogger(CFCKController.class);  
 	@Resource
 	private IWarehouseService wService;
 	@Resource
@@ -138,6 +141,7 @@ public class CFCKController {
 					orderBy, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询厂房仓库出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -173,6 +177,7 @@ public class CFCKController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("保存厂房仓库出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "发布出错!");
 		}
@@ -192,6 +197,7 @@ public class CFCKController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("删除厂房仓库出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "删除出错!");
 		}
@@ -217,6 +223,7 @@ public class CFCKController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新厂房仓库有效期出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "刷新出错!");
 		}
@@ -236,6 +243,7 @@ public class CFCKController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新厂房仓库出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "修改出错!");
 		}
@@ -275,7 +283,7 @@ public class CFCKController {
 					wService.getByUserId(userId, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("获取用户厂房仓库出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -306,6 +314,7 @@ public class CFCKController {
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {
+			LOG.error("上传厂房仓库图片出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "保存图片失败");
 		}

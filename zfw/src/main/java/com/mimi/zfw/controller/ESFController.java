@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,7 @@ import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class ESFController {
+	private static final Logger LOG = LoggerFactory.getLogger(ESFController.class);  
 	@Resource
 	private IResidenceCommunityService rcService;
 	@Resource
@@ -145,6 +148,7 @@ public class ESFController {
 					grossFloorArea, orderBy, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询二手房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -180,6 +184,7 @@ public class ESFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("保存二手房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "发布出错!");
 		}
@@ -199,6 +204,7 @@ public class ESFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("删除二手房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "删除出错!");
 		}
@@ -224,6 +230,7 @@ public class ESFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新二手房有效期出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "刷新出错!");
 		}
@@ -244,6 +251,7 @@ public class ESFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新二手房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "修改出错!");
 		}
@@ -283,7 +291,7 @@ public class ESFController {
 					shhService.getByUserId(userId, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("查询用户二手房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -315,6 +323,7 @@ public class ESFController {
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {
+			LOG.error("上传二手房图片出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "保存图片失败");
 		}

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,7 @@ import com.mimi.zfw.service.ISecondHandHouseService;
 
 @Controller
 public class PGController {
+	private static final Logger LOG = LoggerFactory.getLogger(PGController.class);  
 	@Resource
 	private IAssessmentItemService aiService;
 
@@ -110,7 +113,7 @@ public class PGController {
 				jo.put("msg", resultMap.get("error"));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("二手房评估出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "评估出错!");
 		}
@@ -140,6 +143,7 @@ public class PGController {
 				jo.put("msg", resultMap.get("error"));
 			}
 		} catch (Exception e) {
+			LOG.error("二手房简化评估出错！",e);
 			e.printStackTrace();
 			jo.put("success", false);
 			jo.put("msg", "评估出错!");

@@ -22,6 +22,8 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,6 +45,7 @@ import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
 
 @Controller
 public class UserController {
+	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);  
 
 	@Resource
 	private IUserService userService;
@@ -119,6 +122,7 @@ public class UserController {
 						request.getParameter("publicExponent"),
 						request.getParameter("modulus"), command.getPassword());
 			} catch (Exception e) {
+				LOG.error("密码解析出错！",e);
 				request.setAttribute("error", "密码解析出错，请稍后重试");
 				return "ui/user/resetPwd";
 			}
@@ -268,6 +272,7 @@ public class UserController {
 						request.getParameter("publicExponent"),
 						request.getParameter("modulus"), command.getPassword());
 			} catch (Exception e) {
+				LOG.error("密码解析出错！",e);
 				request.setAttribute("error", "密码解析出错，请稍后重试");
 				return "ui/user/register";
 			}
@@ -279,6 +284,7 @@ public class UserController {
 				addHeadImgUrl(request);
 				return "ui/user/index";
 			} catch (Exception e) {
+				LOG.error("密码登录出错！",e);
 				checkResult = getErrorFromLoginExceptionName(e.getClass()
 						.getName());
 			}
@@ -341,6 +347,7 @@ public class UserController {
 			}
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("校验登录名出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "校验出错！");
 		}
@@ -366,6 +373,7 @@ public class UserController {
 			}
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("校验电话号码出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "校验出错！");
 
@@ -460,6 +468,7 @@ public class UserController {
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {
+			LOG.error("保存用户头像出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "保存图片失败");
 		}

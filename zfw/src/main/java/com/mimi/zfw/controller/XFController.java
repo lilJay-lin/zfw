@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,7 @@ import com.mimi.zfw.service.IRealEstateProjectService;
 
 @Controller
 public class XFController {
+	private static final Logger LOG = LoggerFactory.getLogger(XFController.class);  
 
 	@Resource
 	private IRealEstateProjectService repService;
@@ -129,6 +132,7 @@ public class XFController {
 			}
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询新房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}

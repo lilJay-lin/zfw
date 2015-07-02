@@ -19,6 +19,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -49,6 +51,7 @@ import com.mimi.zfw.service.IWarehouseService;
 
 @Controller("indexController")
 public class IndexController {
+	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);  
 
 	@Resource
 	private IAdvertisementService adService;
@@ -138,6 +141,7 @@ public class IndexController {
 				jo.put("success", true);
 			}
 		}catch(Exception e){
+			LOG.error("保存报名名单出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "报名出错！");
 		}

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,7 @@ import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class ZFController {
+	private static final Logger LOG = LoggerFactory.getLogger(ZFController.class);  
 	@Resource
 	private IResidenceCommunityService rcService;
 	@Resource
@@ -145,6 +148,7 @@ public class ZFController {
 					grossFloorArea, orderBy, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询租房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -180,6 +184,7 @@ public class ZFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("保存租房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "发布出错!");
 		}
@@ -199,6 +204,7 @@ public class ZFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("删除租房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "删除出错!");
 		}
@@ -224,6 +230,7 @@ public class ZFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新租房有效期出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "刷新出错!");
 		}
@@ -243,6 +250,7 @@ public class ZFController {
 				jo.put("msg", errorStr);
 			}
 		} catch (Exception e) {
+			LOG.error("更新租房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "修改出错!");
 		}
@@ -282,6 +290,7 @@ public class ZFController {
 					rhService.getByUserId(userId, targetPage, pageSize));
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询用户租房出错！",e);
 			e.printStackTrace();
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
@@ -314,6 +323,7 @@ public class ZFController {
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {
+			LOG.error("保存租房图片出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "保存图片失败");
 		}

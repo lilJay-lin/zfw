@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Repository;
@@ -26,6 +28,7 @@ import com.mimi.zfw.util.RSAUtil;
 
 @Repository
 public class InitData implements ApplicationListener<ContextRefreshedEvent> {
+	private static final Logger LOG = LoggerFactory.getLogger(InitData.class);  
 
     @Resource
     private IUserService userService;
@@ -72,29 +75,29 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 	try {
 	    RSAUtil.generateKeyPair();
 	} catch (Exception e) {
-	    e.printStackTrace();
+		LOG.error("生成密钥出错！",e);
 	}
 	ytxAPI.init("sandboxapp.cloopen.com", "8883");
 	ytxAPI.setAccount("8a48b5514d32a2a8014d95626ee147c3",
 		"ce3126c41d6a4181b13fb9399db922b2");
 	ytxAPI.setAppId("8a48b5514d32a2a8014d9562b2ca47c6");
 
-//	permissionService.initPermission();
-//	roleService.initRole();
-//	userService.initUser();
-//	repService.initRealEstateProject();
-//	infoService.initInformation();
-//	adService.initAdvertisement();
-//	rcService.initResidenceCommunicity();
-//	aiServcie.initAssessItem();
-//	shopService.initShop();
-//	obService.initOfficeBuilding();
+	permissionService.initPermission();
+	roleService.initRole();
+	userService.initUser();
+	repService.initRealEstateProject();
+	infoService.initInformation();
+	adService.initAdvertisement();
+	rcService.initResidenceCommunicity();
+	aiServcie.initAssessItem();
+	shopService.initShop();
+	obService.initOfficeBuilding();
 	wService.initWarehouse();
-//	List<ResidenceCommunity> list = rcService.listAll();
-//	for(int i=0;i<list.size();i++){
-//		rcService.refreshResidenceCommunity(list.get(i).getId(), true, true);
-//	}
-//	shhfplfService.resetFunction();
+	List<ResidenceCommunity> list = rcService.listAll();
+	for(int i=0;i<list.size();i++){
+		rcService.refreshResidenceCommunity(list.get(i).getId(), true, true);
+	}
+	shhfplfService.resetFunction();
     }
 
 }
