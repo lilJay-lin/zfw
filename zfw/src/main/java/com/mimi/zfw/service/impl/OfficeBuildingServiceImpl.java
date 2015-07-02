@@ -410,6 +410,7 @@ public class OfficeBuildingServiceImpl extends
 		ob.setLastEditor(userId);
 		obm.insertSelective(ob);
 
+		long timeMillis = System.currentTimeMillis();
 		// 创建商铺图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -422,6 +423,9 @@ public class OfficeBuildingServiceImpl extends
 					obi.setLastEditor(ob.getLastEditor());
 					obi.setOfficeBuildingId(ob.getId());
 					obi.setName(ob.getName());
+					Date nowDate = new Date(++timeMillis);
+					obi.setCreateDate(nowDate);
+					obi.setUpdateDate(nowDate);
 					obim.insertSelective(obi);
 				}
 			}
@@ -456,6 +460,8 @@ public class OfficeBuildingServiceImpl extends
 		for (int j = 0; j < oldImgs.size(); j++) {
 			oldImgs.get(j).setDelFlag(true);
 		}
+		
+		long timeMillis = System.currentTimeMillis();
 		// 添加新图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -477,6 +483,9 @@ public class OfficeBuildingServiceImpl extends
 						obi.setLastEditor(ob.getLastEditor());
 						obi.setOfficeBuildingId(ob.getId());
 						obi.setName(ob.getName());
+						Date nowDate = new Date(++timeMillis);
+						obi.setCreateDate(nowDate);
+						obi.setUpdateDate(nowDate);
 						obim.insertSelective(obi);
 					}
 				}

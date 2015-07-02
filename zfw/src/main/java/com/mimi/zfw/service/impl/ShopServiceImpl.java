@@ -348,6 +348,7 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 		shop.setLastEditor(userId);
 		sm.insertSelective(shop);
 
+		long timeMillis = System.currentTimeMillis();
 		// 创建商铺图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -360,6 +361,9 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 					si.setLastEditor(shop.getLastEditor());
 					si.setShopId(shop.getId());
 					si.setName(shop.getName());
+					Date nowDate = new Date(++timeMillis);
+					si.setCreateDate(nowDate);
+					si.setUpdateDate(nowDate);
 					sim.insertSelective(si);
 				}
 			}
@@ -394,6 +398,8 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 		for (int j = 0; j < oldImgs.size(); j++) {
 			oldImgs.get(j).setDelFlag(true);
 		}
+
+		long timeMillis = System.currentTimeMillis();
 		// 添加新图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -415,6 +421,9 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 						si.setLastEditor(shop.getLastEditor());
 						si.setShopId(shop.getId());
 						si.setName(shop.getName());
+						Date nowDate = new Date(++timeMillis);
+						si.setCreateDate(nowDate);
+						si.setUpdateDate(nowDate);
 						sim.insertSelective(si);
 					}
 				}

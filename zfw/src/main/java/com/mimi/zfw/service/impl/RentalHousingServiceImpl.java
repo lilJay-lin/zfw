@@ -289,6 +289,7 @@ public class RentalHousingServiceImpl extends
 		rh.setRegion(rc.getRegion());
 		rhm.insertSelective(rh);
 
+		long timeMillis = System.currentTimeMillis();
 		// 创建租房图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -301,6 +302,9 @@ public class RentalHousingServiceImpl extends
 					ri.setLastEditor(rh.getLastEditor());
 					ri.setRentalHousingId(rh.getId());
 					ri.setName(rh.getName());
+					Date nowDate = new Date(++timeMillis);
+					ri.setCreateDate(nowDate);
+					ri.setUpdateDate(nowDate);
 					rhim.insertSelective(ri);
 				}
 			}
@@ -475,6 +479,7 @@ public class RentalHousingServiceImpl extends
 		// 更新租房
 		rhm.updateByPrimaryKeySelective(rh);
 
+		long timeMillis = System.currentTimeMillis();
 		// 更新租房图片
 		RHImageExample ie = new RHImageExample();
 		ie.or().andRentalHousingIdEqualTo(rh.getId()).andDelFlagEqualTo(false);
@@ -503,6 +508,9 @@ public class RentalHousingServiceImpl extends
 						ri.setLastEditor(rh.getLastEditor());
 						ri.setRentalHousingId(rh.getId());
 						ri.setName(rh.getName());
+						Date nowDate = new Date(++timeMillis);
+						ri.setCreateDate(nowDate);
+						ri.setUpdateDate(nowDate);
 						rhim.insertSelective(ri);
 					}
 				}

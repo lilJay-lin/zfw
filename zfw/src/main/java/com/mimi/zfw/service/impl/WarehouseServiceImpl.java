@@ -306,6 +306,7 @@ public class WarehouseServiceImpl extends
 		warehouse.setLastEditor(userId);
 		wm.insertSelective(warehouse);
 
+		long timeMillis = System.currentTimeMillis();
 		// 创建商铺图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -318,6 +319,9 @@ public class WarehouseServiceImpl extends
 					wi.setLastEditor(warehouse.getLastEditor());
 					wi.setWarehouseId(warehouse.getId());
 					wi.setName(warehouse.getName());
+					Date nowDate = new Date(++timeMillis);
+					wi.setCreateDate(nowDate);
+					wi.setUpdateDate(nowDate);
 					wim.insertSelective(wi);
 				}
 			}
@@ -352,6 +356,8 @@ public class WarehouseServiceImpl extends
 		for (int j = 0; j < oldImgs.size(); j++) {
 			oldImgs.get(j).setDelFlag(true);
 		}
+
+		long timeMillis = System.currentTimeMillis();
 		// 添加新图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -373,6 +379,9 @@ public class WarehouseServiceImpl extends
 						wi.setLastEditor(warehouse.getLastEditor());
 						wi.setWarehouseId(warehouse.getId());
 						wi.setName(warehouse.getName());
+						Date nowDate = new Date(++timeMillis);
+						wi.setCreateDate(nowDate);
+						wi.setUpdateDate(nowDate);
 						wim.insertSelective(wi);
 					}
 				}

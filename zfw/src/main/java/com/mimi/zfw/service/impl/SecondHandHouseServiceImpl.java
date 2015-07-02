@@ -267,7 +267,8 @@ public class SecondHandHouseServiceImpl extends
 		shh.setResidenceCommunityId(rc.getId());
 		shh.setRegion(rc.getRegion());
 		shhm.insertSelective(shh);
-		
+
+		long timeMillis = System.currentTimeMillis();
 		//创建二手房图片
 		if(StringUtils.isNotBlank(imgUrls)){
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -280,6 +281,9 @@ public class SecondHandHouseServiceImpl extends
 					si.setLastEditor(shh.getLastEditor());
 					si.setSecondHandHouseId(shh.getId());
 					si.setName(shh.getName());
+					Date nowDate = new Date(++timeMillis);
+					si.setCreateDate(nowDate);
+					si.setUpdateDate(nowDate);
 					shhim.insertSelective(si);
 				}
 			}
@@ -380,6 +384,8 @@ public class SecondHandHouseServiceImpl extends
 		for(int j=0;j<oldImgs.size();j++){
 			oldImgs.get(j).setDelFlag(true);
 		}
+		
+		long timeMillis = System.currentTimeMillis();
 		//添加新图片
 		if(StringUtils.isNotBlank(imgUrls)){
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -401,6 +407,9 @@ public class SecondHandHouseServiceImpl extends
 						si.setLastEditor(shh.getLastEditor());
 						si.setSecondHandHouseId(shh.getId());
 						si.setName(shh.getName());
+						Date nowDate = new Date(++timeMillis);
+						si.setCreateDate(nowDate);
+						si.setUpdateDate(nowDate);
 						shhim.insertSelective(si);
 					}
 				}
