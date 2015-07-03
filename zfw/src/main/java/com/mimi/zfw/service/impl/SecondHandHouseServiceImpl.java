@@ -281,7 +281,8 @@ public class SecondHandHouseServiceImpl extends
 					si.setLastEditor(shh.getLastEditor());
 					si.setSecondHandHouseId(shh.getId());
 					si.setName(shh.getName());
-					Date nowDate = new Date(++timeMillis);
+					timeMillis = timeMillis + 1000;
+					Date nowDate = new Date(timeMillis);
 					si.setCreateDate(nowDate);
 					si.setUpdateDate(nowDate);
 					shhim.insertSelective(si);
@@ -407,7 +408,8 @@ public class SecondHandHouseServiceImpl extends
 						si.setLastEditor(shh.getLastEditor());
 						si.setSecondHandHouseId(shh.getId());
 						si.setName(shh.getName());
-						Date nowDate = new Date(++timeMillis);
+						timeMillis = timeMillis + 1000;
+						Date nowDate = new Date(timeMillis);
 						si.setCreateDate(nowDate);
 						si.setUpdateDate(nowDate);
 						shhim.insertSelective(si);

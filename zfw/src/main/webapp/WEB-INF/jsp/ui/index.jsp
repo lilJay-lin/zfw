@@ -76,24 +76,25 @@
 			</div>
 		</section>
 		
-		<c:if test="${admfs != null and fn:length(admfs) != 0 }">
+		<c:if test="${adm4s != null and fn:length(adm4s) != 0 }">
 		<section class="homeBan mt10">
 			<table border="0" width="100%" cellpadding="0" cellspacing="0">
 				<tbody>
-	       			<c:forEach items="${admfs}" var="t" varStatus="status">
+	       			<c:forEach items="${adm4s}" var="t" varStatus="status">
 						<c:if test="${status.index%2==0}">
 							<tr>
 						</c:if>
 						<td><a href="${t.contentUrl }" ><dl>
 									<dt>
-										<h3>${t.name }</h3>
+										<h3>${t.name }
+										</h3>
 										<p>${t.summary }</p>
 									</dt>
 									<dd>
 										<img alt="" src="${t.preImageUrl }" style="display: inline;">
 									</dd>
 								</dl> </a></td>
-						<c:if test="${status.index%2==0}">
+						<c:if test="${status.index%2==1}">
 							</tr>
 						</c:if>
 	       			</c:forEach>

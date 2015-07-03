@@ -3,7 +3,6 @@ package com.mimi.zfw.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +27,12 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.OBImage;
 import com.mimi.zfw.mybatis.pojo.OBPano;
 import com.mimi.zfw.mybatis.pojo.OfficeBuilding;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IOBImageService;
 import com.mimi.zfw.service.IOBPanoService;
 import com.mimi.zfw.service.IOfficeBuildingService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.DateUtil;
-import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class XZLController {
@@ -46,6 +45,8 @@ public class XZLController {
 	private IOBPanoService obpService;
     @Resource
     private IUserService userService;
+	@Resource
+	private IAliyunOSSService aossService;
 
     @RequestMapping(value = "/xzl", method = { RequestMethod.GET })
 	public String ob(HttpServletRequest request) {
@@ -54,6 +55,12 @@ public class XZLController {
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = obService.countOfficeBuildingByParams(null, null, null, null,
 				Constants.ROS_RENT_ONLY, null, null);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				OfficeBuilding ob = list.get(i);
+				ob.setPreImageUrl(aossService.addImgParams(ob.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/xzl/index";
@@ -79,6 +86,18 @@ public class XZLController {
 			map.put("imgUrl", panos.get(i).getPreImageUrl());
 			topImgs.add(map);
 		}
+		if(panos!=null && !panos.isEmpty()){
+			for(int i=0;i<panos.size();i++){
+				OBPano pano = panos.get(i);
+				pano.setPreImageUrl(aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+		if(topImgs!=null && !topImgs.isEmpty()){
+			for(int i=0;i<topImgs.size();i++){
+				Map<String, String> map = topImgs.get(i);
+				map.put("imgUrl",aossService.addImgParams(map.get("imgUrl"), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
 
 		OfficeBuilding ob = obService.get(id);
 
@@ -86,8 +105,8 @@ public class XZLController {
 		if (ob != null) {
 			dateDesc = DateUtil.getUpdateTimeStr(ob.getUpdateDate());
 		}
+		
 		request.setAttribute("panos", panos);
-
 		request.setAttribute("ob", ob);
 		request.setAttribute("topImgs", topImgs);
 		request.setAttribute("dateDesc", dateDesc);
@@ -99,8 +118,41 @@ public class XZLController {
 		List<OBImage> images = obiService.getImagesByParams(id, 0,
 				Integer.MAX_VALUE);
 		List<OBPano> panos = obpService.getPanosByOBId(id);
-		request.setAttribute("panos", panos);
-		request.setAttribute("images", images);
+		List<Map<String,Object>> photos = new ArrayList<Map<String,Object>>();
+		if(panos!=null && !panos.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_PANO);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<panos.size();i++){
+				OBPano pano = panos.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", pano.getName());
+				map.put("contentUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_PANO);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+
+		if(images!=null && !images.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_IMAGE);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<images.size();i++){
+				OBImage image = images.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", image.getName());
+				map.put("contentUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_IMAGE);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+		request.setAttribute("photos", photos);
 		return "ui/photo/photoList";
 	}
 
@@ -115,6 +167,12 @@ public class XZLController {
 				0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = obService.countOfficeBuildingByParams(keyWord, region,
 				grossFloorArea, type, rentOrSale, rental, totalPrice);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				OfficeBuilding ob = list.get(i);
+				ob.setPreImageUrl(aossService.addImgParams(ob.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/xzl/index";
@@ -136,9 +194,16 @@ public class XZLController {
 		}
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("results", obService.findOfficeBuildingsByParams(keyWord, region,
+			List<OfficeBuilding> list = obService.findOfficeBuildingsByParams(keyWord, region,
 					grossFloorArea, type, rentOrSale, rental, totalPrice,
-					orderBy, targetPage, pageSize));
+					orderBy, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					OfficeBuilding ob = list.get(i);
+					ob.setPreImageUrl(aossService.addImgParams(ob.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results", list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询写字楼出错！",e);
@@ -154,6 +219,12 @@ public class XZLController {
 		List<OfficeBuilding> list = obService.getByUserId(userId, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int total = obService.countByUserId(userId);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				OfficeBuilding ob = list.get(i);
+				ob.setPreImageUrl(aossService.addImgParams(ob.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", total);
 		return "ui/user/xzl/index";
@@ -169,6 +240,7 @@ public class XZLController {
 	Object add(HttpServletRequest request, OfficeBuilding ob, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = obService.saveCascading(ob, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -235,6 +307,7 @@ public class XZLController {
 	Object update(HttpServletRequest request, OfficeBuilding ob, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = obService.updateCascading(ob, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -261,6 +334,12 @@ public class XZLController {
 		request.setAttribute("deadline",
 				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
 						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+		if(images!=null && !images.isEmpty()){
+			for(int i=0;i<images.size();i++){
+				OBImage obi = images.get(i);
+				obi.setContentUrl(aossService.addImgParams(obi.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG));
+			}
+		}
 		request.setAttribute("ob", ob);
 		request.setAttribute("images", images);
 		return "ui/user/xzl/manage";
@@ -279,8 +358,14 @@ public class XZLController {
 		JSONObject jo = new JSONObject();
 		try {
 			String userId = userService.getCurUserId();
-			jo.put("results",
-					obService.getByUserId(userId, targetPage, pageSize));
+			List<OfficeBuilding> list = obService.getByUserId(userId, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					OfficeBuilding ob = list.get(i);
+					ob.setPreImageUrl(aossService.addImgParams(ob.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results",list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询用户写字楼出错！",e);
@@ -298,20 +383,8 @@ public class XZLController {
 			@RequestParam("theFile") MultipartFile theFile) {
 		JSONObject jo = new JSONObject();
 		try {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.getTimeInMillis();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH) + 1;
-			int day = cal.get(Calendar.DAY_OF_MONTH);
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			String path = "/assets/upload/" + year + "/" + month + "/" + day
-					+ "/" + hour + "/";
-			path = request.getContextPath()
-					+ path
-					+ FileUtil.saveFileToServer(theFile, request.getSession()
-							.getServletContext().getRealPath("/")
-							+ path);
+			String path = aossService.saveFileToServer(theFile);
+			path = aossService.addImgParams(path,Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {

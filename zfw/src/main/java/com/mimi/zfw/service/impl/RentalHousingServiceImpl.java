@@ -302,7 +302,8 @@ public class RentalHousingServiceImpl extends
 					ri.setLastEditor(rh.getLastEditor());
 					ri.setRentalHousingId(rh.getId());
 					ri.setName(rh.getName());
-					Date nowDate = new Date(++timeMillis);
+					timeMillis = timeMillis + 1000;
+					Date nowDate = new Date(timeMillis);
 					ri.setCreateDate(nowDate);
 					ri.setUpdateDate(nowDate);
 					rhim.insertSelective(ri);
@@ -508,7 +509,8 @@ public class RentalHousingServiceImpl extends
 						ri.setLastEditor(rh.getLastEditor());
 						ri.setRentalHousingId(rh.getId());
 						ri.setName(rh.getName());
-						Date nowDate = new Date(++timeMillis);
+						timeMillis = timeMillis + 1000;
+						Date nowDate = new Date(timeMillis);
 						ri.setCreateDate(nowDate);
 						ri.setUpdateDate(nowDate);
 						rhim.insertSelective(ri);

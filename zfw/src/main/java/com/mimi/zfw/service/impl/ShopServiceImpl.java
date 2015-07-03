@@ -58,18 +58,8 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 	}
 
 	private void initTestData() {
-		String[] imgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg" };
-		String[] preImgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" };
+		String[] imgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
+		String[] preImgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		for (int i = 0; i < 50; i++) {
 			Shop shop = new Shop();
 			shop.setId(UUID.randomUUID().toString());
@@ -141,7 +131,7 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 			shop.setDescription("描述啊楼上的房间啊拉伸到房间拉克丝放大镜");
 			shop.setTags("标签1,标签2,标签3");
 			shop.setPriority(RandomUtils.nextInt(100));
-			shop.setPreImageUrl("http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg");
+			shop.setPreImageUrl(Constants.ALIYUN_OSS_TEST_IMG_URLS[3]);
 
 			sm.insertSelective(shop);
 
@@ -361,7 +351,8 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 					si.setLastEditor(shop.getLastEditor());
 					si.setShopId(shop.getId());
 					si.setName(shop.getName());
-					Date nowDate = new Date(++timeMillis);
+					timeMillis = timeMillis + 1000;
+					Date nowDate = new Date(timeMillis);
 					si.setCreateDate(nowDate);
 					si.setUpdateDate(nowDate);
 					sim.insertSelective(si);
@@ -421,7 +412,8 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 						si.setLastEditor(shop.getLastEditor());
 						si.setShopId(shop.getId());
 						si.setName(shop.getName());
-						Date nowDate = new Date(++timeMillis);
+						timeMillis = timeMillis + 1000;
+						Date nowDate = new Date(timeMillis);
 						si.setCreateDate(nowDate);
 						si.setUpdateDate(nowDate);
 						sim.insertSelective(si);

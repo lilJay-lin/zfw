@@ -59,18 +59,8 @@ public class WarehouseServiceImpl extends
 	}
 	
 	private void initTestData(){
-		String[] imgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg" };
-		String[] preImgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" };
+		String[] imgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
+		String[] preImgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		for (int i = 0; i < 50; i++) {
 			Warehouse warehouse = new Warehouse();
 			warehouse.setId(UUID.randomUUID().toString());
@@ -122,7 +112,7 @@ public class WarehouseServiceImpl extends
 			warehouse.setDescription("描述啊楼上的房间啊拉伸到房间拉克丝放大镜");
 			warehouse.setTags("标签1,标签2,标签3");
 			warehouse.setPriority(RandomUtils.nextInt(100));
-			warehouse.setPreImageUrl("http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg");
+			warehouse.setPreImageUrl(Constants.ALIYUN_OSS_TEST_IMG_URLS[5]);
 
 			wm.insertSelective(warehouse);
 
@@ -319,7 +309,8 @@ public class WarehouseServiceImpl extends
 					wi.setLastEditor(warehouse.getLastEditor());
 					wi.setWarehouseId(warehouse.getId());
 					wi.setName(warehouse.getName());
-					Date nowDate = new Date(++timeMillis);
+					timeMillis = timeMillis + 1000;
+					Date nowDate = new Date(timeMillis);
 					wi.setCreateDate(nowDate);
 					wi.setUpdateDate(nowDate);
 					wim.insertSelective(wi);
@@ -379,7 +370,8 @@ public class WarehouseServiceImpl extends
 						wi.setLastEditor(warehouse.getLastEditor());
 						wi.setWarehouseId(warehouse.getId());
 						wi.setName(warehouse.getName());
-						Date nowDate = new Date(++timeMillis);
+						timeMillis = timeMillis + 1000;
+						Date nowDate = new Date(timeMillis);
 						wi.setCreateDate(nowDate);
 						wi.setUpdateDate(nowDate);
 						wim.insertSelective(wi);

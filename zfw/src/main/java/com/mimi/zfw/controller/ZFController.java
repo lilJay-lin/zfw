@@ -3,7 +3,6 @@ package com.mimi.zfw.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +28,13 @@ import com.mimi.zfw.mybatis.pojo.RHImage;
 import com.mimi.zfw.mybatis.pojo.RHPano;
 import com.mimi.zfw.mybatis.pojo.RentalHousing;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IRHImageService;
 import com.mimi.zfw.service.IRHPanoService;
 import com.mimi.zfw.service.IRentalHousingService;
 import com.mimi.zfw.service.IResidenceCommunityService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.DateUtil;
-import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class ZFController {
@@ -50,6 +49,8 @@ public class ZFController {
 	private IRHPanoService rhpService;
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IAliyunOSSService aossService;
 
 	@RequestMapping(value = "/zf", method = { RequestMethod.GET })
 	public String zf(HttpServletRequest request) {
@@ -58,6 +59,12 @@ public class ZFController {
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = rhService.countRentalHousingByParams(null, null, null,
 				null, null, null);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				RentalHousing rh = list.get(i);
+				rh.setPreImageUrl(aossService.addImgParams(rh.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/zf/index";
@@ -83,6 +90,19 @@ public class ZFController {
 			map.put("imgUrl", panos.get(i).getPreImageUrl());
 			topImgs.add(map);
 		}
+		if(panos!=null && !panos.isEmpty()){
+			for(int i=0;i<panos.size();i++){
+				RHPano pano = panos.get(i);
+				pano.setPreImageUrl(aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+		if(topImgs!=null && !topImgs.isEmpty()){
+			for(int i=0;i<topImgs.size();i++){
+				Map<String, String> map = topImgs.get(i);
+				map.put("imgUrl",aossService.addImgParams(map.get("imgUrl"), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+
 
 		RentalHousing rh = rhService.get(id);
 		ResidenceCommunity rc = rcService.get(rh.getResidenceCommunityId());
@@ -91,8 +111,8 @@ public class ZFController {
 		if (rh != null) {
 			dateDesc = DateUtil.getUpdateTimeStr(rh.getUpdateDate());
 		}
+		
 		request.setAttribute("panos", panos);
-
 		request.setAttribute("zf", rh);
 		request.setAttribute("rc", rc);
 		request.setAttribute("topImgs", topImgs);
@@ -105,8 +125,41 @@ public class ZFController {
 		List<RHImage> images = rhiService.getImagesByParams(id, 0,
 				Integer.MAX_VALUE);
 		List<RHPano> panos = rhpService.getPanosByRHId(id);
-		request.setAttribute("panos", panos);
-		request.setAttribute("images", images);
+		List<Map<String,Object>> photos = new ArrayList<Map<String,Object>>();
+		if(panos!=null && !panos.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_PANO);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<panos.size();i++){
+				RHPano pano = panos.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", pano.getName());
+				map.put("contentUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_PANO);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+
+		if(images!=null && !images.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_IMAGE);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<images.size();i++){
+				RHImage image = images.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", image.getName());
+				map.put("contentUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_IMAGE);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+		request.setAttribute("photos", photos);
 		return "ui/photo/photoList";
 	}
 
@@ -122,6 +175,12 @@ public class ZFController {
 		int totalNum = rhService.countRentalHousingByParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
 				grossFloorArea);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				RentalHousing rh = list.get(i);
+				rh.setPreImageUrl(aossService.addImgParams(rh.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/zf/index";
@@ -143,9 +202,16 @@ public class ZFController {
 		}
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("results", rhService.findRentalHousingsByParams(
+			List<RentalHousing> list = rhService.findRentalHousingsByParams(
 					residenceCommunityId, keyWord, region, rental, roomNum,
-					grossFloorArea, orderBy, targetPage, pageSize));
+					grossFloorArea, orderBy, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					RentalHousing rh = list.get(i);
+					rh.setPreImageUrl(aossService.addImgParams(rh.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results", list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询租房出错！",e);
@@ -161,6 +227,12 @@ public class ZFController {
 		List<RentalHousing> list = rhService.getByUserId(userId, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int total = rhService.countByUserId(userId);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				RentalHousing rh = list.get(i);
+				rh.setPreImageUrl(aossService.addImgParams(rh.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", total);
 		return "ui/user/zf/index";
@@ -176,6 +248,7 @@ public class ZFController {
 	Object add(HttpServletRequest request, RentalHousing rh, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = rhService.saveCascading(rh, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -242,6 +315,7 @@ public class ZFController {
 	Object update(HttpServletRequest request, RentalHousing rh, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = rhService.updateCascading(rh, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -268,6 +342,12 @@ public class ZFController {
 		request.setAttribute("deadline",
 				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
 						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+		if(images!=null && !images.isEmpty()){
+			for(int i=0;i<images.size();i++){
+				RHImage ri = images.get(i);
+				ri.setContentUrl(aossService.addImgParams(ri.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG));
+			}
+		}
 		request.setAttribute("zf", rh);
 		request.setAttribute("images", images);
 		return "ui/user/zf/manage";
@@ -286,8 +366,14 @@ public class ZFController {
 		JSONObject jo = new JSONObject();
 		try {
 			String userId = userService.getCurUserId();
-			jo.put("results",
-					rhService.getByUserId(userId, targetPage, pageSize));
+			List<RentalHousing> list = rhService.getByUserId(userId, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					RentalHousing rh = list.get(i);
+					rh.setPreImageUrl(aossService.addImgParams(rh.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results",list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询用户租房出错！",e);
@@ -306,20 +392,8 @@ public class ZFController {
 
 		JSONObject jo = new JSONObject();
 		try {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.getTimeInMillis();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH) + 1;
-			int day = cal.get(Calendar.DAY_OF_MONTH);
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			String path = "/assets/upload/" + year + "/" + month + "/" + day
-					+ "/" + hour + "/";
-			path = request.getContextPath()
-					+ path
-					+ FileUtil.saveFileToServer(theFile, request.getSession()
-							.getServletContext().getRealPath("/")
-							+ path);
+			String path = aossService.saveFileToServer(theFile);
+			path = aossService.addImgParams(path,Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {

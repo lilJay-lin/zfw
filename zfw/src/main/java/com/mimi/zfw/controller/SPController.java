@@ -3,7 +3,6 @@ package com.mimi.zfw.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +27,12 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Shop;
 import com.mimi.zfw.mybatis.pojo.ShopImage;
 import com.mimi.zfw.mybatis.pojo.ShopPano;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IShopImageService;
 import com.mimi.zfw.service.IShopPanoService;
 import com.mimi.zfw.service.IShopService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.DateUtil;
-import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class SPController {
@@ -46,6 +45,8 @@ public class SPController {
 	private IShopPanoService spService;
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IAliyunOSSService aossService;
 
 	@RequestMapping(value = "/sp", method = { RequestMethod.GET })
 	public String sp(HttpServletRequest request) {
@@ -54,6 +55,12 @@ public class SPController {
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = shopService.countShopByParams(null, null, null, null,
 				Constants.ROS_RENT_ONLY, null, null);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				Shop shop = list.get(i);
+				shop.setPreImageUrl(aossService.addImgParams(shop.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/sp/index";
@@ -79,6 +86,18 @@ public class SPController {
 			map.put("imgUrl", panos.get(i).getPreImageUrl());
 			topImgs.add(map);
 		}
+		if(panos!=null && !panos.isEmpty()){
+			for(int i=0;i<panos.size();i++){
+				ShopPano pano = panos.get(i);
+				pano.setPreImageUrl(aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+		if(topImgs!=null && !topImgs.isEmpty()){
+			for(int i=0;i<topImgs.size();i++){
+				Map<String, String> map = topImgs.get(i);
+				map.put("imgUrl",aossService.addImgParams(map.get("imgUrl"), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
 
 		Shop shop = shopService.get(id);
 
@@ -86,8 +105,8 @@ public class SPController {
 		if (shop != null) {
 			dateDesc = DateUtil.getUpdateTimeStr(shop.getUpdateDate());
 		}
+		
 		request.setAttribute("panos", panos);
-
 		request.setAttribute("sp", shop);
 		request.setAttribute("topImgs", topImgs);
 		request.setAttribute("dateDesc", dateDesc);
@@ -99,8 +118,41 @@ public class SPController {
 		List<ShopImage> images = siService.getImagesByParams(id, 0,
 				Integer.MAX_VALUE);
 		List<ShopPano> panos = spService.getPanosByShopId(id);
-		request.setAttribute("panos", panos);
-		request.setAttribute("images", images);
+		List<Map<String,Object>> photos = new ArrayList<Map<String,Object>>();
+		if(panos!=null && !panos.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_PANO);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<panos.size();i++){
+				ShopPano pano = panos.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", pano.getName());
+				map.put("contentUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_PANO);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+
+		if(images!=null && !images.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_IMAGE);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<images.size();i++){
+				ShopImage image = images.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", image.getName());
+				map.put("contentUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_IMAGE);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+		request.setAttribute("photos", photos);
 		return "ui/photo/photoList";
 	}
 
@@ -115,6 +167,12 @@ public class SPController {
 				0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = shopService.countShopByParams(keyWord, region,
 				grossFloorArea, type, rentOrSale, rental, totalPrice);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				Shop shop = list.get(i);
+				shop.setPreImageUrl(aossService.addImgParams(shop.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/sp/index";
@@ -136,9 +194,16 @@ public class SPController {
 		}
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("results", shopService.findShopsByParams(keyWord, region,
+			List<Shop> list = shopService.findShopsByParams(keyWord, region,
 					grossFloorArea, type, rentOrSale, rental, totalPrice,
-					orderBy, targetPage, pageSize));
+					orderBy, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					Shop shop = list.get(i);
+					shop.setPreImageUrl(aossService.addImgParams(shop.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results", list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询商铺出错！",e);
@@ -154,6 +219,12 @@ public class SPController {
 		List<Shop> list = shopService.getByUserId(userId, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int total = shopService.countByUserId(userId);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				Shop shop = list.get(i);
+				shop.setPreImageUrl(aossService.addImgParams(shop.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", total);
 		return "ui/user/sp/index";
@@ -169,6 +240,7 @@ public class SPController {
 	Object add(HttpServletRequest request, Shop shop, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = shopService.saveCascading(shop, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -235,6 +307,7 @@ public class SPController {
 	Object update(HttpServletRequest request, Shop sp, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = shopService.updateCascading(sp, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -261,6 +334,12 @@ public class SPController {
 		request.setAttribute("deadline",
 				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
 						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+		if(images!=null && !images.isEmpty()){
+			for(int i=0;i<images.size();i++){
+				ShopImage si = images.get(i);
+				si.setContentUrl(aossService.addImgParams(si.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG));
+			}
+		}
 		request.setAttribute("sp", sp);
 		request.setAttribute("images", images);
 		return "ui/user/sp/manage";
@@ -279,8 +358,14 @@ public class SPController {
 		JSONObject jo = new JSONObject();
 		try {
 			String userId = userService.getCurUserId();
-			jo.put("results",
-					shopService.getByUserId(userId, targetPage, pageSize));
+			List<Shop> list = shopService.getByUserId(userId, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					Shop shop = list.get(i);
+					shop.setPreImageUrl(aossService.addImgParams(shop.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results",list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询商铺出错！",e);
@@ -297,20 +382,8 @@ public class SPController {
 			@RequestParam("theFile") MultipartFile theFile) {
 		JSONObject jo = new JSONObject();
 		try {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.getTimeInMillis();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH) + 1;
-			int day = cal.get(Calendar.DAY_OF_MONTH);
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			String path = "/assets/upload/" + year + "/" + month + "/" + day
-					+ "/" + hour + "/";
-			path = request.getContextPath()
-					+ path
-					+ FileUtil.saveFileToServer(theFile, request.getSession()
-							.getServletContext().getRealPath("/")
-							+ path);
+			String path = aossService.saveFileToServer(theFile);
+			path = aossService.addImgParams(path,Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {

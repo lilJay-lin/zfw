@@ -19,6 +19,7 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.Information;
 import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IInformationService;
 
 @Controller
@@ -30,6 +31,8 @@ public class InformationController {
 
 	@Resource
 	private IInformationService infoService;
+	@Resource
+	private IAliyunOSSService aossService;
 
 	@RequestMapping(value = "/info", method = { RequestMethod.GET })
 	public String toFCInfo(HttpServletRequest request) {
@@ -38,6 +41,18 @@ public class InformationController {
 		List<Information> infoList = infoService.findByParams(
 				Constants.INFORMATION_TYPE_FC, 0, Constants.DEFAULT_PAGE_SIZE);
 		int total = infoService.countByParams(Constants.INFORMATION_TYPE_FC);
+		if(infoList!=null && !infoList.isEmpty()){
+			for(int i=0;i<infoList.size();i++){
+				Information info = infoList.get(i);
+				info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
+		if(ads!=null && !ads.isEmpty()){
+			for(int i=0;i<ads.size();i++){
+				Advertisement ad = ads.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
+			}
+		}
 		request.setAttribute("ads", ads);
 		request.setAttribute("results", infoList);
 		request.setAttribute("total", total);
@@ -51,6 +66,18 @@ public class InformationController {
 		List<Information> infoList = infoService.findByParams(type, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int total = infoService.countByParams(type);
+		if(infoList!=null && !infoList.isEmpty()){
+			for(int i=0;i<infoList.size();i++){
+				Information info = infoList.get(i);
+				info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
+		if(ads!=null && !ads.isEmpty()){
+			for(int i=0;i<ads.size();i++){
+				Advertisement ad = ads.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
+			}
+		}
 		request.setAttribute("ads", ads);
 		request.setAttribute("results", infoList);
 		request.setAttribute("total", total);
@@ -62,6 +89,12 @@ public class InformationController {
 		List<Advertisement> ads = adService
 				.getActiveByLocation(Constants.AD_LOCATION_INFO_TOP);
 		Information info = infoService.get(id);
+		if(ads!=null && !ads.isEmpty()){
+			for(int i=0;i<ads.size();i++){
+				Advertisement ad = ads.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
+			}
+		}
 		request.setAttribute("ads", ads);
 		request.setAttribute("info", info);
 		return "ui/zx/detail";
@@ -81,6 +114,12 @@ public class InformationController {
 		try {
 			List<Information> list = infoService.findByParams(type, targetPage,
 					pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					Information info = list.get(i);
+					info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
 			jo.put("results", list);
 			jo.put("success", true);
 		} catch (Exception e) {
@@ -105,6 +144,12 @@ public class InformationController {
 		JSONObject jo = new JSONObject();
 		try {
 			List<Information> list = infoService.findByREPId(realEstateProjectId, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					Information info = list.get(i);
+					info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
 			jo.put("results", list);
 			jo.put("success", true);
 		} catch (Exception e) {

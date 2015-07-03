@@ -1,5 +1,7 @@
 package com.mimi.zfw.util;
 
+import org.apache.commons.lang.math.RandomUtils;
+
 public class MathUtil {
 	public static void main(String[] args) {
 ////		double[] x = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -23,16 +25,30 @@ public class MathUtil {
 //		for(int i=0;i<x.length;i++){
 //			System.out.println(y[i]+"_"+(a*x[i]+b));
 //		}
-		float total = 100;
-		float rate = 0.05f;
-		int n = 30;
+//		float total = 100;
+//		float rate = 0.05f;
+//		int n = 30;
+//		for(int i=0;i<n;i++){
+//			total= total * (1+rate);
+//		}
+//		System.out.println(total);
+		testRandom();
+	}
+	
+	public static void testRandom(){
+		int n= 1000000;
+		float notChanged = 0;
+		float changed = 0;
 		for(int i=0;i<n;i++){
-			total= total * (1+rate);
+			int result = RandomUtils.nextInt(3);//0,1,2
+			int choose1 = RandomUtils.nextInt(3);
+			if(choose1==result){
+				notChanged++;
+			}else{
+				changed++;
+			}
 		}
-		System.out.println(total);
-		
-		
-		
+		System.out.println(notChanged/n+"_"+changed/n);
 	}
 
 	/**

@@ -37,6 +37,7 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.Information;
 import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.INameListService;
 import com.mimi.zfw.service.IOfficeBuildingService;
@@ -83,6 +84,8 @@ public class IndexController {
 
     @Resource
     private IUserService userService;
+	@Resource
+	private IAliyunOSSService aossService;
 
     // @RequestMapping("/aa")
     // public String index(@CurrentUser User loginUser, Model model) {
@@ -114,9 +117,36 @@ public class IndexController {
     	Advertisement admo = null;
     	if(admos!=null && !admos.isEmpty()){
     		admo = admos.get(0);
+    		admo.setPreImageUrl(aossService.addImgParams(admo.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
     	}
     	List<Information> fczx = infoService.findByParams(Constants.INFORMATION_TYPE_FC, 0, 15);
     	List<Information> zhzx = infoService.findByParams(Constants.INFORMATION_TYPE_ZH, 0, 15);
+    	
+
+		if(adts!=null && !adts.isEmpty()){
+			for(int i=0;i<adts.size();i++){
+				Advertisement ad = adts.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
+			}
+		}
+		if(adm4s!=null && !adm4s.isEmpty()){
+			for(int i=0;i<adm4s.size();i++){
+				Advertisement ad = adm4s.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD_SMALL));
+			}
+		}
+		if(fczx!=null && !fczx.isEmpty()){
+			for(int i=0;i<fczx.size();i++){
+				Information info = fczx.get(i);
+				info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
+		if(zhzx!=null && !zhzx.isEmpty()){
+			for(int i=0;i<zhzx.size();i++){
+				Information info = zhzx.get(i);
+				info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
     	request.setAttribute("adts", adts);
     	request.setAttribute("adm4s", adm4s);
     	request.setAttribute("admo", admo);

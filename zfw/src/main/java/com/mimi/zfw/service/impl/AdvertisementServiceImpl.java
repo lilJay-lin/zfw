@@ -43,12 +43,7 @@ public class AdvertisementServiceImpl extends
 
 	private void initTestData() {
 		Date nowDate = new Date(System.currentTimeMillis());
-		String[] preImgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" };
+		String[] preImgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		for (int i = 0; i < 5; i++) {
 			Advertisement ad = new Advertisement();
 			ad.setId(UUID.randomUUID().toString());
@@ -89,7 +84,7 @@ public class AdvertisementServiceImpl extends
 		ad.setContentUrl("http://www.baidu.com");
 		ad.setLocation(Constants.AD_LOCATION_HOME_MIDDLE_ONE);
 		ad.setName("广告");
-		ad.setPreImageUrl("http://img2.imgtn.bdimg.com/it/u=944210427,3514583163&fm=15&gp=0.jpg");
+		ad.setPreImageUrl(Constants.ALIYUN_OSS_TEST_IMG_URLS[5]);
 		ad.setSummary("提要");
 		am.insertSelective(ad);
 	}

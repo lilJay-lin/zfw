@@ -3,7 +3,6 @@ package com.mimi.zfw.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +27,12 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.mybatis.pojo.WarehouseImage;
 import com.mimi.zfw.mybatis.pojo.WarehousePano;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.service.IWarehouseImageService;
 import com.mimi.zfw.service.IWarehousePanoService;
 import com.mimi.zfw.service.IWarehouseService;
 import com.mimi.zfw.util.DateUtil;
-import com.mimi.zfw.util.FileUtil;
 
 @Controller
 public class CFCKController {
@@ -46,6 +45,8 @@ public class CFCKController {
 	private IWarehousePanoService wpService;
     @Resource
     private IUserService userService;
+	@Resource
+	private IAliyunOSSService aossService;
 
     @RequestMapping(value = "/cfck", method = { RequestMethod.GET })
 	public String cfck(HttpServletRequest request) {
@@ -54,6 +55,12 @@ public class CFCKController {
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = wService.countWarehouseByParams(null, null, null, null,
 				Constants.ROS_RENT_ONLY, null, null);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				Warehouse warehouse = list.get(i);
+				warehouse.setPreImageUrl(aossService.addImgParams(warehouse.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/cfck/index";
@@ -79,6 +86,18 @@ public class CFCKController {
 			map.put("imgUrl", panos.get(i).getPreImageUrl());
 			topImgs.add(map);
 		}
+		if(panos!=null && !panos.isEmpty()){
+			for(int i=0;i<panos.size();i++){
+				WarehousePano pano = panos.get(i);
+				pano.setPreImageUrl(aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+		if(topImgs!=null && !topImgs.isEmpty()){
+			for(int i=0;i<topImgs.size();i++){
+				Map<String, String> map = topImgs.get(i);
+				map.put("imgUrl",aossService.addImgParams(map.get("imgUrl"), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
 
 		Warehouse warehouse = wService.get(id);
 
@@ -86,8 +105,8 @@ public class CFCKController {
 		if (warehouse != null) {
 			dateDesc = DateUtil.getUpdateTimeStr(warehouse.getUpdateDate());
 		}
+		
 		request.setAttribute("panos", panos);
-
 		request.setAttribute("warehouse", warehouse);
 		request.setAttribute("topImgs", topImgs);
 		request.setAttribute("dateDesc", dateDesc);
@@ -99,8 +118,41 @@ public class CFCKController {
 		List<WarehouseImage> images = wiService.getImagesByParams(id, 0,
 				Integer.MAX_VALUE);
 		List<WarehousePano> panos = wpService.getPanosByWarehouseId(id);
-		request.setAttribute("panos", panos);
-		request.setAttribute("images", images);
+		List<Map<String,Object>> photos = new ArrayList<Map<String,Object>>();
+		if(panos!=null && !panos.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_PANO);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<panos.size();i++){
+				WarehousePano pano = panos.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", pano.getName());
+				map.put("contentUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_PANO);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+
+		if(images!=null && !images.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_IMAGE);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<images.size();i++){
+				WarehouseImage image = images.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", image.getName());
+				map.put("contentUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_IMAGE);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+		request.setAttribute("photos", photos);
 		return "ui/photo/photoList";
 	}
 
@@ -115,6 +167,12 @@ public class CFCKController {
 				0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = wService.countWarehouseByParams(keyWord, region,
 				grossFloorArea, type, rentOrSale, rental, totalPrice);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				Warehouse warehouse = list.get(i);
+				warehouse.setPreImageUrl(aossService.addImgParams(warehouse.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		return "ui/cfck/index";
@@ -136,9 +194,16 @@ public class CFCKController {
 		}
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("results", wService.findWarehousesByParams(keyWord, region,
+			List<Warehouse> list = wService.findWarehousesByParams(keyWord, region,
 					grossFloorArea, type, rentOrSale, rental, totalPrice,
-					orderBy, targetPage, pageSize));
+					orderBy, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					Warehouse warehouse = list.get(i);
+					warehouse.setPreImageUrl(aossService.addImgParams(warehouse.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results", list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("查询厂房仓库出错！",e);
@@ -154,6 +219,12 @@ public class CFCKController {
 		List<Warehouse> list = wService.getByUserId(userId, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int total = wService.countByUserId(userId);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				Warehouse warehouse = list.get(i);
+				warehouse.setPreImageUrl(aossService.addImgParams(warehouse.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", total);
 		return "ui/user/cfck/index";
@@ -169,6 +240,7 @@ public class CFCKController {
 	Object add(HttpServletRequest request, Warehouse warehouse, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = wService.saveCascading(warehouse, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -235,6 +307,7 @@ public class CFCKController {
 	Object update(HttpServletRequest request, Warehouse warehouse, String imgUrls) {
 		JSONObject jo = new JSONObject();
 		try {
+			imgUrls = aossService.batchClearImgParams(imgUrls);
 			String errorStr = wService.updateCascading(warehouse, imgUrls);
 			if (StringUtils.isBlank(errorStr)) {
 				jo.put("success", true);
@@ -261,6 +334,12 @@ public class CFCKController {
 		request.setAttribute("deadline",
 				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
 						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+		if(images!=null && !images.isEmpty()){
+			for(int i=0;i<images.size();i++){
+				WarehouseImage obi = images.get(i);
+				obi.setContentUrl(aossService.addImgParams(obi.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG));
+			}
+		}
 		request.setAttribute("warehouse", warehouse);
 		request.setAttribute("images", images);
 		return "ui/user/cfck/manage";
@@ -279,8 +358,14 @@ public class CFCKController {
 		JSONObject jo = new JSONObject();
 		try {
 			String userId = userService.getCurUserId();
-			jo.put("results",
-					wService.getByUserId(userId, targetPage, pageSize));
+			List<Warehouse> list = wService.getByUserId(userId, targetPage, pageSize);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					Warehouse warehouse = list.get(i);
+					warehouse.setPreImageUrl(aossService.addImgParams(warehouse.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
+			jo.put("results",list);
 			jo.put("success", true);
 		} catch (Exception e) {
 			LOG.error("获取用户厂房仓库出错！",e);
@@ -297,20 +382,8 @@ public class CFCKController {
 			@RequestParam("theFile") MultipartFile theFile) {
 		JSONObject jo = new JSONObject();
 		try {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.getTimeInMillis();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH) + 1;
-			int day = cal.get(Calendar.DAY_OF_MONTH);
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			String path = "/assets/upload/" + year + "/" + month + "/" + day
-					+ "/" + hour + "/";
-			path = request.getContextPath()
-					+ path
-					+ FileUtil.saveFileToServer(theFile, request.getSession()
-							.getServletContext().getRealPath("/")
-							+ path);
+			String path = aossService.saveFileToServer(theFile);
+			path = aossService.addImgParams(path,Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {

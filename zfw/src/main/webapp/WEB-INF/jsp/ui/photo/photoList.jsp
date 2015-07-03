@@ -133,6 +133,24 @@
 		       			</c:forEach>
 					</div>
 				</c:if>
+				<c:if test="${photos != null and fn:length(photos) != 0 }">
+	       			<c:forEach items="${photos}" var="p" varStatus="statusP">
+						<c:if test="${p.list != null and fn:length(p.list) != 0 }">
+		       				<h3>${p.name }</h3>
+							<div class="gallery" >
+				       			<c:forEach items="${p.list}" var="t" varStatus="status">
+								<figure >
+									<a href="${t.contentUrl }" data-type="${t.dataType }"> <img
+										class="lazy" data-original="${t.preImageUrl}" src="${ctx }/assets/img/loading.gif"
+										itemprop="thumbnail" alt="Image description" />
+									</a>
+									<figcaption itemprop="caption description">${t.name }</figcaption>
+								</figure>
+				       			</c:forEach>
+							</div>
+						</c:if>
+	       			</c:forEach>
+				</c:if>
 			</div>
 		</div>
 
@@ -441,9 +459,11 @@
 	initPhotoSwipeFromDOM('.gallery');
 	
 	$(function(){
-		$("img.lazy").lazyload({
-     container: $("#container")
-});
+		setTimeout(function(){
+			$("img.lazy").lazyload({
+				container: $("#container")
+			});
+		}, 500);
 	})
 </script>
 </html>
