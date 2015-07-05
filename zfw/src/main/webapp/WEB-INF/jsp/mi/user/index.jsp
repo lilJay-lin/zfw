@@ -23,12 +23,12 @@
 							<h2>用户管理</h2>
 						</div>
 						<div class="box-cnt">
-							<div class="datatable">
+							<div class="datatable" id="userinfo">
 								<div class="datatabls-filter">
 									<label>
 										<!--搜索：-->
-										<input type="text" />
-										<input type="button" class="btn" value="搜索" />
+										<input type="text" id="searchbyname" />
+										<input type="button" class="btn" id="search-user" value="搜索" />
 									</label>
 								</div>
 								<table class="datatable-table">
@@ -47,7 +47,7 @@
 										<th>更新日期</th>-->
 										<th>操作</th>
 									</thead>
-									<tbody id="userlist">
+									<tbody class="page-data-list">
 									</tbody>
 								</table>
 								<div class="datatable-toolbar disabled">
@@ -67,7 +67,7 @@
 									</div>
 									<div class="center">
 										<div class="datatable-pagination">
-											<ul id="pagination">
+											<ul class="pagination">
 												
 											</ul>
 										</div>
@@ -204,62 +204,20 @@
 	  	 * 分页
 	  	 * 
 	  	 */
-		function template(id,data){
-			var tpl = Handlebars.compile($(id).html());
-			return tpl(data);
-		}
-		function getPage(index){
-			var p = index || 1;
-			var url = "${ctx}/mi/users/page/"+p;
-			$.ajax({
-				type:"GET",
-				url:url,
-				dataType:"json",
-				async:true,
-				data:{pagesize:"2"},
-				success:function(data){
-					var items = data.items;
-					console.log(items.length);
-					var pageinfo = data.pageinfo;
-					$("#userlist").html(template("#user-info-template",items));
-					pagination(pageinfo);
-//					$("#datatable-toolbar").html(template("#pagination_tpl",pageinfo))
-				},
-				error:function(){
-					
-				}
-			});
-		}
-		function prePage(){
-			var page = $("#pagination").data("curpage")||0;
-			console.log(page);
-			page = (page-1>0?page-1:1);
-			getPage(page)
-		}
-		function nextPage(){
-			var page = $("#pagination").data("curpage")||0;
-			var totalpage = $("#pagination").data("totalpage")||0;
-			page = (page+1>totalpage?totalpage:(page+1));
-			getPage(page)
-		}
-		function reloadPage(){
-			var page = $("#pagination").data("curpage")||0;
-			getPage(page)
-		}
-		function pagination(pageinfo){
-			var pagesize = pageinfo.pagesize||10;
-			var start = (pageinfo.curpage-1)*pagesize + 1;
-			var end = pageinfo.curpage*pagesize >=pageinfo.totalrows?pageinfo.totalrows:pageinfo.curpage*pagesize;
-			$(".datatable-info").html("共"+pageinfo.totalrows+"条 当前展示第"+start+"条到第"+end+"条");
-			var html = '<li class="prev disabled"><a href="javascript:;" onclick="prePage()">← 上一页</a>'
-			for(var i=0;i<pageinfo.totalpage;i++){
-				html+='<li '+(i+1==pageinfo.curpage?'class="active"':'')+'><a href="javascript:;" onclick="getPage('+(i+1)+')">'+(i+1)+'</a></li>';
-			}
-			html +='<li class="next"><a href="javascript:;" onclick="nextPage()">下一页 → </a></li>';
-			$("#pagination").html(html);
-			$("#pagination").data("curpage",pageinfo.curpage);
-			$("#pagination").data("totalpage",pageinfo.totalpage);
-		}
-		getPage();
+	  	var page = new Page({
+	  			container:"#userinfo",
+	  			template:"#user-info-template",
+	  			url:"${ctx}/mi/users/page/",
+	  			data:{pagesize:4}
+	  	})
+	  	page.init();
+	  	
+	  	$("#search-user").click(function(){
+	  		var name = encodeURIComponent($("#searchbyname").val());
+	  		page.setData({"name":name})
+	  		page.init();
+	  	})
+	  	
+	  	
 	</script>
 </html>

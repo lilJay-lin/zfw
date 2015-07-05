@@ -92,12 +92,12 @@
 											<h2>添加关联关系</h2>
 										</div>
 										<div class="box-cnt">
-											<div class="datatable">
+											<div class="datatable" id="roleinfo">
 												<div class="datatabls-filter">
 													<label>
 														<!--搜索：-->
-														<input type="text" />
-														<input type="button" class="btn" value="搜索" />
+														<input type="text" id="searchbyname"/>
+														<input type="button" class="btn" value="搜索" id="search-role" />
 													</label>
 												</div>
 												<table class="datatable-table">
@@ -108,7 +108,7 @@
 															<th>操作</th>
 														</tr>
 													</thead>
-													<tbody id="rolelist">
+													<tbody class="page-data-list">
 														
 													</tbody>
 												</table>
@@ -118,7 +118,7 @@
 													</div>
 													<div class="center">
 														<div class="datatable-pagination">
-															<ul id="pagination">
+															<ul class="pagination">
 																
 															</ul>
 														</div>
@@ -292,54 +292,17 @@
 		/*
 		 *分页功能 
 		 */
-		function getPage(index){
-			var p = index || 1;
-			var url = "${ctx}/mi/roles/page/"+p;
-			$.ajax({
-				type:"GET",
-				url:url,
-				dataType:"json",
-				async:true,
-//				data:{pagesize:"2"},
-				success:function(data){
-					var items = data.items;
-					var pageinfo = data.pageinfo;
-					$("#rolelist").html(template("#role-template",items));
-					pagination(pageinfo);
-//					$("#datatable-toolbar").html(template("#pagination_tpl",pageinfo))
-				},
-				error:function(){
-					
-				}
-			});
-		}
-		function prePage(){
-			var page = $("#pagination").data("curpage")||0;
-			page = (page-1>0?page-1:1);
-			getPage(page)
-		}
-		function nextPage(){
-			var page = $("#pagination").data("curpage")||0;
-			var totalpage = $("#pagination").data("totalpage")||0;
-			page = (page+1>totalpage?totalpage:(page+1));
-			getPage(page)
-		}
-		
-		function pagination(pageinfo){
-			var pagesize = pageinfo.pagesize||10;
-			var start = (pageinfo.curpage-1)*pagesize + 1;
-			var end = pageinfo.curpage*pagesize >=pageinfo.totalrows?pageinfo.totalrows:pageinfo.curpage*pagesize;
-			$(".datatable-info").html("共"+pageinfo.totalrows+"条 当前展示第"+start+"条到第"+end+"条");
-			var html = '<li class="prev disabled"><a href="javascript:;" onclick="prePage()">← 上一页</a>'
-			for(var i=0;i<pageinfo.totalpage;i++){
-				html+='<li '+(i+1==pageinfo.curpage?'class="active"':'')+'><a href="javascript:;" onclick="getPage('+(i+1)+')">'+(i+1)+'</a></li>';
-			}
-			html +='<li class="next"><a href="javascript:;" onclick="nextPage()">下一页 → </a></li>';
-			$("#pagination").html(html);
-			$("#pagination").data("curpage",pageinfo.curpage);
-			$("#pagination").data("totalpage",pageinfo.totalpage);
-		}
-		getPage();
+	  	var page = new Page({
+	  			container:"#roleinfo",
+	  			template:"#role-template",
+	  			url:"${ctx}/mi/roles/page/"
+	  	})
+	  	page.init();	  	
+	  	$("#search-role").click(function(){
+	  		var name = encodeURIComponent($("#searchbyname").val());
+	  		page.setData({"name":name})
+	  		page.init();
+	  	})
 		
 		/*
 		 * 保存

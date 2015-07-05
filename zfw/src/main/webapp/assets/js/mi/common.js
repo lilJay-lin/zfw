@@ -80,6 +80,105 @@
 	}
 	
 	r.util = a;
+	
+	
+	/*
+  	 * 分页
+  	 * 
+  	 */
+  	function Page(opt){
+  		this.options={
+  			container:"",
+  			template:"",
+  			url:"",
+  			data:{}
+  		}
+  		$.extend(this.options,opt);
+  		this.$container = $(this.options.container);
+  	}
+  	Page.prototype={
+  		init:function(idx){
+			this.getPage(idx);
+  		},
+  		setData:function(data){
+	  		$.extend(this.options.data,data)
+	  	},
+  		template:function(id,data){
+			var tpl = Handlebars.compile($(id).html());
+			return tpl(data);
+		},
+  		getPage:function(index){
+  			var self = this;
+  			var p = index || 1;
+			var url = self.options.url+p;
+	  		$.ajax({
+				type:"GET",
+				url:url,
+				dataType:"json",
+				async:true,
+				data:self.options.data,
+				success:function(data){
+					var items = data.items;
+					var pageinfo = data.pageinfo;
+					self.$container.find(".page-data-list").html(self.template(self.options.template,items));
+					self.pagination(pageinfo);
+				},
+				error:function(){
+					
+				}
+			});
+  		},
+  		pagination:function(pageinfo){
+  			var self = this;
+  			var p = self.$container.find(".pagination");
+  			var info = self.$container.find(".datatable-info");
+  			var pagesize = pageinfo.pagesize||10;
+			var start = (pageinfo.curpage-1)*pagesize + 1;
+			var end = pageinfo.curpage*pagesize >=pageinfo.totalrows?pageinfo.totalrows:pageinfo.curpage*pagesize;
+			info.html("共"+pageinfo.totalrows+"条 当前展示第"+start+"条到第"+end+"条");
+			var html = '<li class="prev disabled"><a href="javascript:;"  data-page="pre">← 上一页</a>'
+			for(var i=0;i<pageinfo.totalpage;i++){
+				html+='<li '+(i+1==pageinfo.curpage?'class="active"':'')+'><a href="javascript:;" data-page="'+(i+1)+'">'+(i+1)+'</a></li>';
+			}
+			html +='<li class="next"><a href="javascript:;"  data-page="next">下一页 → </a></li>';
+			p.html(html);
+			p.data("curpage",pageinfo.curpage);
+			p.data("totalpage",pageinfo.totalpage);
+			self.addPaginationHandle(p);
+  		},
+  		addPaginationHandle:function(){
+  			var self = this;
+  			var p = self.$container.find(".pagination");
+  			p.on("click","a",function(){
+  				var $e = $(this);
+  				var page = $e.data("page");
+  				if(page == 'pre'){
+  					self.prex();
+  				}else if(page=='next'){
+  					self.next();
+  				}else{
+  					self.getPage(page)
+  				}
+  			})
+  		},
+		prex:function (){
+			var self = this;
+  			var p = self.$container.find(".pagination");
+			var page = p.data("curpage")||0;
+			console.log(page);
+			page = (page-1>0?page-1:1);
+			self.getPage(page)
+		},
+		next:function (){
+			var self = this;
+  			var p = self.$container.find(".pagination");
+			var page = p.data("curpage")||0;
+			var totalpage = p.data("totalpage")||0;
+			page = (page+1>totalpage?totalpage:(page+1));
+			self.getPage(page)
+		}
+  	}
+  	r.Page = Page;
 })(window);
 /*
 *jquery fn

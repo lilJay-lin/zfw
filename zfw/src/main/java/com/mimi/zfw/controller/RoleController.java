@@ -1,6 +1,9 @@
 package com.mimi.zfw.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Base64.Decoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Role;
+import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IRoleService;
 
@@ -76,14 +81,31 @@ public class RoleController {
 	String userid = request.getParameter("userid") == null ? null
 		: (String) request.getParameter("userid");
 
+	String name = request.getParameter("name") == null ? null
+		: (String) request.getParameter("name");
+	
+	RoleExample example = new RoleExample() ;
+	if(StringUtils.isNotEmpty(name)){
+	    try {
+		example.or().andNameEqualTo(URLDecoder.decode(name,"utf-8"));
+	    } catch (UnsupportedEncodingException e) {
+		// TODO Auto-generated catch block
+		JSONObject jo = new JSONObject();
+		jo.put("success", false);
+		jo.put("msg", "查询条件解码错误");
+		
+		return jo.toString();
+	    }
+	}
+	
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
 	
 	int rows = 0;
 	try {
 	    //有userid则查询关联的role，无则查询所有role
-	    rows =userid==null ? roleService.countRoleByExample(null) : roleService.countRolesByUserId(userid);
-	    List<Role> items = userid==null ? roleService.findRoleByExample(null, page, pageSize):roleService.findRolesByUserId(userid, page, pageSize);
+	    rows =userid==null ? roleService.countRoleByExample(example) : roleService.countRolesByUserId(userid);
+	    List<Role> items = userid==null ? roleService.findRoleByExample(example, page, pageSize):roleService.findRolesByUserId(userid, page, pageSize);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows / pageSize + 1);
 	    res = getJsonObject(rows, totalpage, curPage, pageSize, items, true, "");
 	} catch (Exception e) {
