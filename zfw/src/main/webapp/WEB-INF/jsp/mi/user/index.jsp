@@ -131,9 +131,9 @@
 	  	//checkbox 全选
 	  	$("#selectAll").on("change",function(){
 	  		if($(this).is(":checked")){
-	  			$("#userlist").find("input[type='checkbox']").prop("checked","checked");
+	  			$(".page-data-list").find("input[type='checkbox']").prop("checked","checked");
 	  		}else{
-	  			$("#userlist").find("input[type='checkbox']").prop("checked",false);
+	  			$(".page-data-list").find("input[type='checkbox']").prop("checked",false);
 	  		}
 	  	})
 	  	
@@ -143,7 +143,7 @@
 	  	function batchOperation(e){
 	  		var option = $("#batch_option").val();
 	  		var userids = "";
-	  		$("#userlist").find("input[type='checkbox']").each(function(idx,item){
+	  		$(".page-data-list").find("input[type='checkbox']").each(function(idx,item){
 	  			if($(item).is(":checked")){
 	  			userids==""?userids=$(item).val():userids+="/"+$(item).val();
 	  			}
