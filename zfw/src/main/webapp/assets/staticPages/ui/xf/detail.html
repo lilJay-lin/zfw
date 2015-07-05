@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="../../../js/ui/common.min.js"></script>
+<script type="text/javascript"
+	src="../../../js/jquery.event.drag-1.5.min.js"></script>
+<script src="../../../js/jquery.touchSlider.js"></script>
+</head>
+<body>
+	<div class="main">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">楼盘详情</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="../xf/index.html">新房</a></td>
+								<td width="24%"><a href="../esf/bj/">二手房</a></td>
+								<td width="24%"><a href="../zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="imgTouchSlider">
+			<div class="main_image">
+				<ul>
+					<li><a href="http://www.baidu.com">
+							<div class="playBtn"></div><img
+							src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
+							</a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+				</ul>
+				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+			</div>
+			<div class="flicking_con">
+				<div class="flicking_inner">
+					<a href="">1</a> <a href="">2</a><a href="">3</a>
+				</div>
+			</div>
+		</div>
+		<section class=" pd10 bdb">
+			<div>
+				<span class="f18 pd10">楼盘名称</span>
+				<div class="pdY5">
+					<span class="fc00 f14">均价：21314元/平方米</span><span class="flor f14">热线电话：<span
+						class="f999">1233211233</span></span>
+				</div>
+				<p class="f14">
+					地址：<span class="f999">的了房间啊法拉克是京东方拉斯卡房间拉开房间上来看略卡考虑卡略卡</span>
+				</p>
+			</div>
+		</section>
+		<section class=" pd10 f14 mt10 bdt bdb lh105">
+			<div>
+				<h2 class="f16 pdt5">楼盘详情</h2>
+
+				<p>
+					开盘时间：<span class="f999">预计2015年6月14日1-3、5#开盘</span>
+				</p>
+				<p>
+					入住时间：<span class="f999">预计2015年下半年一期9栋楼交房</span>
+				</p>
+				<div class="l"></div>
+				<p>
+					物业类型：<span class="f999">住宅</span>
+				</p>
+				<p>
+					建筑类别：<span class="f999">板楼,多层,小高层</span>
+				</p>
+				<p>
+					装修状况：<span class="f999">毛坯</span>
+				</p>
+				<p>
+					住<span style="margin-right: .5em;"></span>户<span
+						style="margin-right: .5em;"></span>数：<span class="f999">186户</span>
+				</p>
+				<p>
+					容<span style="margin-right: .5em;"></span>积<span
+						style="margin-right: .5em;"></span>率：<span class="f999">1.50</span>
+				</p>
+				<p>
+					绿<span style="margin-right: .5em;"></span>化<span
+						style="margin-right: .5em;"></span>率：<span class="f999">30%</span>
+				</p>
+				<p>
+					停<span style="margin-right: .5em;"></span>车<span
+						style="margin-right: .5em;"></span>位：<span class="f999">共1598个</span>
+				</p>
+				<p>
+					产权年限：<span class="f999">70年</span>
+				</p>
+				<div class="l"></div>
+				<p>
+					开<span style="margin-right: .5em;"></span>发<span
+						style="margin-right: .5em;"></span>商： <span class="f999">北京首都开发股份有限公司</span>
+				</p>
+				<p>
+					预售许可证：<span class="f999">京房售证字(2014)188号</span>
+				</p>
+				<p>
+					物业公司： <span class="f999">北京首开鸿城实业有限公司</span>
+				</p>
+				<p>
+					物<span style="margin-right: .5em;"></span>业<span
+						style="margin-right: .5em;"></span>费： <span class="f999">2.98元/平方米·月</span>
+				</p>
+				<div class="l"></div>
+				<h3>楼盘介绍</h3>
+				<p class="f999">昂受到法律框架阿斯顿蓝山咖啡卡机上来看房送健康贾克斯法律思考狂来说剑看拉斯咖啡店就卡死京东方卡拉斯经典款楼上的房间啊塑料袋放空间</p>
+
+				<div class="l"></div>
+				<h3>周边配套</h3>
+				<p class="f999">昂受到法律框架阿斯顿蓝山咖啡卡机上来看房送健康贾克斯法律思考狂来说剑看拉斯咖啡店就卡死京东方卡拉斯经典款楼上的房间啊塑料袋放空间</p>
+
+				<div class="l"></div>
+				<h3>交通配套</h3>
+				<p class="f999">公交：425路、927路、38路、268路、831路、834路、56路、126路、66路、76A路、864路、223路
+					地铁：2号线黄边站</p>
+			</div>
+		</section>
+		<section class="mt10 homeList bdb">
+			<ul>
+				<h3 class="f999 f16 pdY5">三居</h3>
+				<li><a href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro"></p>
+							<h2>户型1</h2>
+							<span class="new">在售</span>
+							<p></p>
+							<p>3室2厅2卫1厨 约159㎡</p>
+						</div>
+				</a></li>
+				<li><a href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro"></p>
+							<h2>户型1</h2>
+							<span class="new">在售</span>
+							<p></p>
+							<p>3室2厅2卫1厨 约159㎡</p>
+						</div>
+				</a></li>
+				<li><a href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro"></p>
+							<h2>户型1</h2>
+							<span class="new">在售</span>
+							<p></p>
+							<p>3室2厅2卫1厨 约159㎡</p>
+						</div>
+				</a></li>
+			</ul>
+
+			<ul>
+				<h3 class="f999 f16 pdY5">四居</h3>
+				<li><a href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro"></p>
+							<h2>户型1</h2>
+							<span class="new">在售</span>
+							<p></p>
+							<p>3室2厅2卫1厨 约159㎡</p>
+						</div>
+				</a></li>
+			</ul>
+			<ul>
+				<h3 class="f999 f16 pdY5">五居</h3>
+				<li><a href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro"></p>
+							<h2>户型1</h2>
+							<span class="new">在售</span>
+							<p></p>
+							<p>3室2厅2卫1厨 约159㎡</p>
+						</div>
+				</a></li>
+				<li><a href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro"></p>
+							<h2>户型1</h2>
+							<span class="new">在售</span>
+							<p></p>
+							<p>3室2厅2卫1厨 约159㎡</p>
+						</div>
+				</a></li>
+			</ul>
+		</section>
+		<section class=" pd10 mt10 bdt bdb f14">
+			<h2 class="f16">位置</h2>
+			<p class="pdY5">
+				<a id="wapxfxqy_B02_27"
+					href="/map/?c=map&amp;a=xfMapbyId&amp;city=gz&amp;xqid=2811346746"
+					class="f000">地址：<span class="f999"> 新塘镇花园东路6号新塘镇花园东路6号新
+				</span></a>
+			</p>
+
+			<!-- 路线导航需要修改 -->
+			<div style="position: relative; display: none;" id="drivedaohang">
+				<a class="rbox6 f16 awhite"
+					href="/xf.d?m=drivemap&amp;mapx=113.57745361328125000000&amp;mapy=23.10794067382812500000&amp;src=xf"
+					style="position: absolute; width: 80px; height: 30px; right: 4px; top: 98px; background: rgba(0, 0, 0, 0.5) url(http://js.soufunimg.com/wireless_m/touch/img/ico-xfxq-map.png) no-repeat 4px center; background-size: 16px 16px; padding-left: 16px; line-height: 30px; z-index: 10">路线导航</a>
+			</div>
+			<!-- 路线导航需要修改 -->
+
+			<div id="wapxfxqy_B02_27" style="position: relative;">
+				<a
+					href="/map/?c=map&amp;a=xfMapbyId&amp;city=gz&amp;xqid=2811346746">
+					<img
+					src="http://api.map.baidu.com/staticimage?width=300&height=130&zoom=14&markers=112.489633,23.054454&markerStyles=s,"
+					width="100%" alt=""> <span class="maptxt">广州新塘新世界花园</span>
+				</a>
+			</div>
+		</section>
+		
+		<section class="mt10 bdt bdb">
+			<h3 class="pd10 f16">视频看房</h3>
+			<div class="imgTouchSlider">
+				<div class="main_image">
+					<ul>
+						<li><a href="http://www.baidu.com">
+								<div class="playBtn"></div><img
+								src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
+								</a></li>
+						<li><a href="http://www.baidu.com">
+								<div class="playBtn"></div><img
+								src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+						<li><a href="http://www.baidu.com">
+								<div class="playBtn"></div><img
+								src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+					</ul>
+					<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+						href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+				</div>
+				<div class="flicking_con">
+					<div class="flicking_inner">
+						<a href="">1</a> <a href="">2</a><a href="">3</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="mt10 bdt bdb">
+			<h3 class="pd10 f16">全景看房</h3>
+		<div class="imgTouchSlider">
+			<div class="main_image">
+				<ul>
+					<li><a href="http://www.baidu.com">
+							<div class="play360Btn"></div><img
+							src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
+							</a></li>
+					<li><a href="http://www.baidu.com">
+							<div class="play360Btn"></div><img
+							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+					<li><a href="http://www.baidu.com">
+							<div class="play360Btn"></div><img
+							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+				</ul>
+				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+			</div>
+			<div class="flicking_con">
+				<div class="flicking_inner">
+					<a href="">1</a> <a href="">2</a><a href="">3</a>
+				</div>
+			</div>
+		</div>
+		</section>
+		<section class="NewsList mt10" >
+
+			<!--150325-->
+			<div class="zd-tip" style="display: none;">
+				<span></span>
+			</div>
+			<!--150325 end-->
+
+			<div class="homeTitle clearfix">
+				<h1>相关资讯</h1>
+			</div>
+			<ul id="itemList">
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16194688.htm"
+					id="wapdsy_D04_23">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg"
+									alt=""
+									src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>京拟用闲置地建养老设施</h3>
+								<p>北京拟利用国有企业闲置土地，建32个养老设施。</p>
+							</div>
+						</div>
+				</a></li>
+
+
+				<li ><a
+					href="http://www.fang.com/news/2015-06-09/16194951.htm"
+					id="wapdsy_D04_27">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810779273_000/120x120.jpg"
+									alt=""
+									src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>万科将轻资产做到底</h3>
+								<p>近日，万科将分拆物流地产，将轻资产做到底。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://m.fang.com/zt/wap/201504/xfwtdyjwx.html?city=bj&amp;m=xfdg"
+					id="wapdsy_D04_28">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn3.soufunimg.com/viewimage/news/2015_06/08/1433746764656/120x120.jpg"
+									alt=""
+									src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>新房委托第一季：无补贴不买房</h3>
+								<p>互联网购房新模式，新房委托第一季：无补贴不买房。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://m.fang.com/zt/wap/201505/sbb_swiper_ani_css.html?city=bj&amp;m=xfdg"
+					id="wapdsy_D04_29">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://imgn5.soufunimg.com/viewimage/news/2015_06/03/1433310943441/120x120.jpg"
+									alt=""
+									src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>房大十八变—不变大妈变女神</h3>
+								<p>是Diao丝？是女神？海量盘等你评，最帅评房师就是你！</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li ><a
+					href="http://www.fang.com/news/2015-05-14/15918529.htm"
+					id="wapdsy_D04_30">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img
+									data-original="http://img.soufun.com/viewimage/news/2015_05/14/news/1431592806016_000/120x120.jpg"
+									alt=""
+									src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>搜房网招聘资讯编辑运营</h3>
+								<p>搜房网招聘资讯编辑、运营，待遇从优，加入我们吧！</p>
+							</div>
+						</div>
+				</a></li>
+
+			</ul>
+		</section>
+		<div id="drag" class="cenBtn">
+			<a class="draginner" href="javascript:void(0);">查看更多资讯</a>
+		</div>
+		<footer class="mt10 bdt">
+		<p class="pdY10 f12">© www.h0758.net</p>
+	</footer>
+		<a id="showgohead" class="backTopBtn none" href="javascript:void(0)" onclick="gotohead()">&nbsp;</a>
+	</div>
+</body>
+<script>
+var total=2;
+var allowLoad = true;
+var curp = 1;
+	$(function() {
+		initScrollEvent();
+		
+		$(".imgTouchSlider").each(function(){
+			initSlider(this);
+		})
+
+		$(window).resize(function() {
+			fitSize();
+		});
+		fitSize();
+	});
+
+	function initScrollEvent(){
+		$("body").scrollTop(1);
+		if(total<=1){
+			$('#drag').hide();
+		    allowLoad = false;
+		}
+		//滚动到页面底部时，自动加载更多
+		var scrollFlag=false;
+		window.addEventListener("scroll",function scrollHandler(){
+
+			var backTopBtn = $("#showgohead");
+			if(backTopBtn[0]){
+				window.pageYOffset>window.innerHeight*2-60?backTopBtn.removeClass("none"):backTopBtn.addClass("none");
+			}
+			
+			var scrollh = $(document).height();
+			var bua = navigator.userAgent.toLowerCase();
+			if(scrollFlag){
+				if(bua.indexOf('iphone') != -1 || bua.indexOf('ios') != -1){
+					scrollh = scrollh-140;
+				}else{
+					scrollh = scrollh-80;
+				}
+			}
+			var c=document.documentElement.clientHeight || document.body.clientHeight, t=$(document).scrollTop();
+			if(allowLoad != false && ($(document).scrollTop() + $(window).height()) >= scrollh){
+				load();
+			}
+		},100); 
+		$('#drag').click(function () {
+			load();
+		});
+	}
+	function initSlider(element){
+
+		var sliderObj = $(element).children(".main_image");
+		var flickObj = $(element).find(".flicking_con a");
+		
+		var dragBln = false;
+		sliderObj.touchSlider(
+				{
+					flexible : true,
+					speed : 200,
+					paging : flickObj,
+					counter : function(e) {
+						flickObj.removeClass("on")
+								.eq(e.current - 1).addClass("on");
+					}
+				});
+		sliderObj.bind("mousedown", function() {
+			dragBln = false;
+		})
+		sliderObj.bind("dragstart", function() {
+			dragBln = true;
+		})
+		sliderObj.click(function() {
+			if (dragBln) {
+				return false;
+			}
+		})
+		var timer = setInterval(function() {
+			sliderObj[0].animate(-1,true);
+		}, 5000);
+		$(element).hover(function() {
+			clearInterval(timer);
+		}, function() {
+			timer = setInterval(function() {
+				sliderObj[0].animate(-1,true);
+			}, 5000);
+		})
+		sliderObj.bind("touchstart", function() {
+			clearInterval(timer);
+		}).bind("touchend", function() {
+			timer = setInterval(function() {
+				sliderObj[0].animate(-1,true);
+			}, 5000);
+		})
+	}
+	function fitSize() {
+		var bw = $("body").width();
+		if (bw > 640) {
+			bw = 640;
+		}
+		$(".main_image").height(bw * 0.75);
+
+		$(".imgTouchSlider").each(function(){
+			var fw = $(this).find(".flicking_inner a").length*21;
+			$(this).find(".flicking_inner").css("left", (bw - fw) * 0.5 + "px");
+		})
+	}
+	function load(){
+		var draginner=$('.draginner');
+		if(draginner.hasClass("loading")){
+			return;
+		}
+		allowLoad = false;
+		draginner.css('padding-left','10px');
+		draginner.addClass("loading");
+		draginner.html("正在加载...");
+		setTimeout(function(){
+			var str = ' <li ><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li>';
+// 			var str = '<li><a id="" href="/xf/bj/1010710185.htm"> <div class="img"> <img src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg"> </div> <div class="txt"> <p class="x-intro"> <h2>一杯澜</h2> <span class="new">20000元/平</span> </p> <p>北戴河新区国际娱乐中心东3公里（原碧海蓝天度假村）</p> <div class="stag"> <span class="t1">户型：二居(<span class="t2">1</span>) 三居(<span class="t2">2</span>)</span></div></div></a></li>';
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			draginner.css('padding-left','0px');
+			draginner.removeClass("loading");
+			draginner.html("查看更多资讯");
+			curp=curp+1;
+			allowLoad = true;
+			if(curp>total){
+				$('#drag').hide();
+				allowLoad = false;
+			}
+		},1000);
+	}
+
+	function gotohead(){
+		window.scrollTo(0, 1);
+	}
+</script>
+</html>

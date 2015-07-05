@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<!-- Core CSS file -->
+<link rel="stylesheet" href="../../../tools/photoswipe/photoswipe.css"> 
+
+<!-- Skin CSS file (styling of UI - buttons, caption, etc.)
+     In the folder of skin CSS file there are also:
+     - .png and .svg icons sprite, 
+     - preloader.gif (for browsers that do not support CSS animations) -->
+<link rel="stylesheet" href="../../../tools/photoswipe/default-skin/default-skin.css"> 
+
+<!-- Core JS file -->
+<script src="../../../tools/photoswipe/photoswipe.min.js"></script> 
+
+<!-- UI JS file -->
+<script src="../../../tools/photoswipe/photoswipe-ui-default.min.js"></script> 
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <a href="http://www.baidu.com" class="playBtn none"></a>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+<!--                 <button class="pswp__button pswp__button--share" title="Share"></button> -->
+
+<!--                 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> -->
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<button id="btn">Open PhotoSwipe</button>
+</body>
+<script>
+var openPhotoSwipe = function() {
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+
+    // build items array
+    var items = [
+        {
+            src: 'https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg',
+//             w: 964,
+//             h: 1024
+            w: 0,
+            h: 0,
+            videoUrl:'http://www.baidu.com'
+        },
+//         {
+//         	html:'<div class="js-center-img-box" style="width: 748px;height: 300px;text-align: center;display: table-cell;vertical-align: middle;"><a href="http://www.baidu.com" class="playBtn"></a><img class="center-img" style="margin: 0 auto;" src="https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"></img></div>'
+//         	html: '<div style="height:100%;display:table"><span style="display:table-cell;vertical-align:middle"><a href="http://www.baidu.com" class="playBtn"></a><img style="width:100%" src="https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"></img></span></div>'
+//         },
+        {
+            src: 'https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg',
+            w: 1024,
+            h: 683
+        }
+    ];
+    
+    // define options (if needed)
+    var options = {
+             // history & focus options are disabled on CodePen        
+        history: false,
+        focus: false,
+
+        showAnimationDuration: 0,
+        hideAnimationDuration: 0
+        
+    };
+    
+    var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.listen('gettingData', function(index, item) {
+            if (item.w < 1 || item.h < 1) { // unknown size
+            var img = new Image(); 
+            img.onload = function() { // will get size after load
+            item.w = this.width; // set image width
+            item.h = this.height; // set image height
+               gallery.invalidateCurrItems(); // reinit Items
+               gallery.updateSize(true); // reinit Items
+            }
+        img.src = item.src; // let's download image
+        }
+    });
+    gallery.listen('afterChange', function() { 
+    	var item = gallery.currItem;
+        if(item.videoUrl){
+        	$(".playBtn").removeClass("none");
+        	$(".playBtn").attr("href",item.videoUrl);
+        }else{
+        	$(".playBtn").addClass("none");
+        }
+    });
+    gallery.init();
+    gallery.goTo(0);
+};
+
+openPhotoSwipe();
+
+document.getElementById('btn').onclick = openPhotoSwipe;
+
+$(window).resize(function() {
+	fitSize();
+});
+fitSize();
+function fitSize(){
+	var bw = $("body").width();
+	if (bw > 640) {
+		bw = 640;
+	}
+	var bh = $("body").height();
+	$(".js-center-img-box").width(bw);
+	$(".js-center-img-box").height(bh);
+}
+</script>
+</html>

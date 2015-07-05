@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="../../../js/ui/common.min.js"></script>
+<script type="text/javascript"
+	src="../../../js/jquery.event.drag-1.5.min.js"></script>
+<script src="../../../js/jquery.touchSlider.js"></script>
+</head>
+<body>
+	<div class="main">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">二手房详情</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="../xf/index.html">新房</a></td>
+								<td width="24%"><a href="../esf/bj/">二手房</a></td>
+								<td width="24%"><a href="../zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="imgTouchSlider">
+			<div class="main_image">
+				<ul>
+					<li><a href="http://www.baidu.com">
+							<div class="playBtn"></div><img
+							src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
+							</a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+				</ul>
+				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+			</div>
+			<div class="flicking_con">
+				<div class="flicking_inner">
+					<a href="">1</a> <a href="">2</a><a href="">3</a>
+				</div>
+			</div>
+		</div>
+		<section class=" pd10 bdb">
+			<div>
+				<span class="f18 pd10">户型名称</span><span class="flor f14">热线电话：<span
+						class="f999">1233211233</span></span>
+				<div class="pdY5">
+				<span class="f14 f999 ">2015/6/20（2天前更新）</span>
+					<span class="fc00 f14 flor">参考价：50.48万元</span>
+				</div>
+			</div>
+		</section>
+		<section class=" pd10 f14 mt10 bdt bdb lh105">
+			<div class="detailMsg">
+
+				<p>
+					户型：<span class="f999">2室2厅1卫1厨</span>
+				</p>
+				<p>
+					小区：<a href="detail.html"><span >小区名称</span></a>
+				</p>
+				<p>
+					面积：<span class="f999">91.21㎡</span>
+				</p>
+				<p>
+					装修：<span class="f999">毛坯</span>
+				</p>
+				<p>
+					朝向：<span class="f999">南北</span>
+				</p>
+				<p>
+					楼层：<span class="f999">3/20层</span>
+				</p>
+				<div class="l"></div>
+				<h3>描述</h3>
+				<p class="f999">昂受到法律框架阿斯顿蓝山咖啡卡机上来看房送健康贾克斯法律思考狂来说剑看拉斯咖啡店就卡死京东方卡拉斯经典款楼上的房间啊塑料袋放空间</p>
+
+			</div>
+		</section>
+		
+		<section class=" pd10 mt10 bdt bdb f14">
+			<h2 class="f16">位置</h2>
+			<p class="pdY5">
+				<a id="wapxfxqy_B02_27"
+					href="/map/?c=map&amp;a=xfMapbyId&amp;city=gz&amp;xqid=2811346746"
+					class="f000">地址：<span class="f999"> 新塘镇花园东路6号新塘镇花园东路6号新
+				</span></a>
+			</p>
+
+			<!-- 路线导航需要修改 -->
+			<div style="position: relative; display: none;" id="drivedaohang">
+				<a class="rbox6 f16 awhite"
+					href="/xf.d?m=drivemap&amp;mapx=113.57745361328125000000&amp;mapy=23.10794067382812500000&amp;src=xf"
+					style="position: absolute; width: 80px; height: 30px; right: 4px; top: 98px; background: rgba(0, 0, 0, 0.5) url(http://js.soufunimg.com/wireless_m/touch/img/ico-xfxq-map.png) no-repeat 4px center; background-size: 16px 16px; padding-left: 16px; line-height: 30px; z-index: 10">路线导航</a>
+			</div>
+			<!-- 路线导航需要修改 -->
+
+			<div id="wapxfxqy_B02_27" style="position: relative;">
+				<a
+					href="/map/?c=map&amp;a=xfMapbyId&amp;city=gz&amp;xqid=2811346746">
+					<img
+					src="http://api.map.baidu.com/staticimage?width=300&height=130&zoom=14&markers=112.489633,23.054454&markerStyles=s,"
+					width="100%" alt=""> <span class="maptxt">广州新塘新世界花园</span>
+				</a>
+			</div>
+		</section>
+		
+		<section class="mt10 bdt bdb">
+			<h3 class="pd10 f16">全景看房</h3>
+		<div class="imgTouchSlider">
+			<div class="main_image">
+				<ul>
+					<li><a href="http://www.baidu.com">
+							<div class="play360Btn"></div><img
+							src='http://www.cr11gfdc.com/uploads/bimg/1376971412.jpg'>
+							</a></li>
+					<li><a href="http://www.baidu.com">
+							<div class="play360Btn"></div><img
+							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+					<li><a href="http://www.baidu.com">
+							<div class="play360Btn"></div><img
+							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+				</ul>
+				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+			</div>
+			<div class="flicking_con">
+				<div class="flicking_inner">
+					<a href="">1</a> <a href="">2</a><a href="">3</a>
+				</div>
+			</div>
+		</div>
+		</section>
+		<footer class="mt10 bdt">
+		<p class="pdY10 f12">© www.h0758.net</p>
+		<a id="showgohead" class="backTopBtn none" href="javascript:void(0)" onclick="gotohead()">&nbsp;</a>
+	</footer>
+	</div>
+</body>
+<script>
+var total=2;
+var allowLoad = true;
+var curp = 1;
+	$(function() {
+		initScrollEvent();
+		
+		$(".imgTouchSlider").each(function(){
+			initSlider(this);
+		})
+
+		$(window).resize(function() {
+			fitSize();
+		});
+		fitSize();
+	});
+
+	function initScrollEvent(){
+		$("body").scrollTop(1);
+		if(total<=1){
+			$('#drag').hide();
+		    allowLoad = false;
+		}
+		//滚动到页面底部时，自动加载更多
+		var scrollFlag=false;
+		window.addEventListener("scroll",function scrollHandler(){
+
+			var backTopBtn = $("#showgohead");
+			if(backTopBtn[0]){
+				window.pageYOffset>window.innerHeight*2-60?backTopBtn.removeClass("none"):backTopBtn.addClass("none");
+			}
+			
+			var scrollh = $(document).height();
+			var bua = navigator.userAgent.toLowerCase();
+			if(scrollFlag){
+				if(bua.indexOf('iphone') != -1 || bua.indexOf('ios') != -1){
+					scrollh = scrollh-140;
+				}else{
+					scrollh = scrollh-80;
+				}
+			}
+			var c=document.documentElement.clientHeight || document.body.clientHeight, t=$(document).scrollTop();
+			if(allowLoad != false && ($(document).scrollTop() + $(window).height()) >= scrollh){
+				load();
+			}
+		},100); 
+		$('#drag').click(function () {
+			load();
+		});
+	}
+	function initSlider(element){
+
+		var sliderObj = $(element).children(".main_image");
+		var flickObj = $(element).find(".flicking_con a");
+		
+		var dragBln = false;
+		sliderObj.touchSlider(
+				{
+					flexible : true,
+					speed : 200,
+					paging : flickObj,
+					counter : function(e) {
+						flickObj.removeClass("on")
+								.eq(e.current - 1).addClass("on");
+					}
+				});
+		sliderObj.bind("mousedown", function() {
+			dragBln = false;
+		})
+		sliderObj.bind("dragstart", function() {
+			dragBln = true;
+		})
+		sliderObj.click(function() {
+			if (dragBln) {
+				return false;
+			}
+		})
+		var timer = setInterval(function() {
+			sliderObj[0].animate(-1,true);
+		}, 5000);
+		$(element).hover(function() {
+			clearInterval(timer);
+		}, function() {
+			timer = setInterval(function() {
+				sliderObj[0].animate(-1,true);
+			}, 5000);
+		})
+		sliderObj.bind("touchstart", function() {
+			clearInterval(timer);
+		}).bind("touchend", function() {
+			timer = setInterval(function() {
+				sliderObj[0].animate(-1,true);
+			}, 5000);
+		})
+	}
+	function fitSize() {
+		var bw = $("body").width();
+		if (bw > 640) {
+			bw = 640;
+		}
+		$(".main_image").height(bw * 0.75);
+
+		$(".imgTouchSlider").each(function(){
+			var fw = $(this).find(".flicking_inner a").length*21;
+			$(this).find(".flicking_inner").css("left", (bw - fw) * 0.5 + "px");
+		})
+	}
+	function load(){
+		var draginner=$('.draginner');
+		if(draginner.hasClass("loading")){
+			return;
+		}
+		allowLoad = false;
+		draginner.css('padding-left','10px');
+		draginner.addClass("loading");
+		draginner.html("正在加载...");
+		setTimeout(function(){
+			var str = ' <li ><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li>';
+// 			var str = '<li><a id="" href="/xf/bj/1010710185.htm"> <div class="img"> <img src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg"> </div> <div class="txt"> <p class="x-intro"> <h2>一杯澜</h2> <span class="new">20000元/平</span> </p> <p>北戴河新区国际娱乐中心东3公里（原碧海蓝天度假村）</p> <div class="stag"> <span class="t1">户型：二居(<span class="t2">1</span>) 三居(<span class="t2">2</span>)</span></div></div></a></li>';
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			draginner.css('padding-left','0px');
+			draginner.removeClass("loading");
+			draginner.html("查看更多资讯");
+			curp=curp+1;
+			allowLoad = true;
+			if(curp>total){
+				$('#drag').hide();
+				allowLoad = false;
+			}
+		},1000);
+	}
+
+	function gotohead(){
+		window.scrollTo(0, 1);
+	}
+</script>
+</html>
