@@ -4,36 +4,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/font-awesome/css/font-awesome.css"/>
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/css/mi.css"/>
+         <%@include file="../inc/header.jsp" %>
 		<title>后台管理</title>
 	</head>
 	<body>
 		
 		<!-- 头部导航条开始     -->
-		<div class="navbar skin">
-			<a class="navbar-brand skin">后台管理</a>
-			<div class="navbar-inner">
-				<ul class="nav">
-					<li ><a href="#" class="btn"><i class="icon-tasks"></i></a></li>
-					<li><a href="#" class="btn"><i class="icon-envelope"></i></a></li>
-					<li><a href="#" class="btn"><i class="icon-wrench"></i></a></li>
-					<li>
-						<a href="#">
-							<div class="nav-avatar">
-								<img src="${headImgUrl }" alt="Avatar">
-							</div>
-							<div class="nav-user">
-								<p>Welcome!</p>
-								<p> <shiro:principal/></p>
-							</div>
-						</a> 
-					</li>
-				</ul>
-			</div>
-		</div>
+		<%@include file="../inc/nav.jsp" %>
 		<!-- 头部导航条结束     -->
 		<div class="clearfix"></div>
 		
@@ -57,7 +34,7 @@
 								<table class="datatable-table">
 									<thead>
 										<th>
-											<input type="checkbox" id="selectAll"/>
+											<input type="checkbox"  id="selectAll"/>
 										</th>
 										<th>名称</th>
 										<th>邮箱</th>
@@ -75,12 +52,13 @@
 								</table>
 								<div class="datatable-toolbar disabled">
 									<div class="toolbar">
-										<select id="selectError3">
-											<option>删除</option>
-											<option>解冻</option>
-											<option>锁定</option>
+										<select id="batch_option">
+											<option value="del" selected="selected">删除</option>
+											<option value="unlock">解冻</option>
+											<option value="lock">锁定</option>
 										</select>
-										<a class="btn">批量操作</a>
+										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										<a class="btn" href="${ctx}/mi/user/add">新增</a>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -123,7 +101,7 @@
 			{{#each this}}
 			<tr>
 				<td>
-					<input type="checkbox" data-id="{{id}}"/>
+					<input type="checkbox" value="{{id}}"/>
 				</td>
 				<td>{{name}}</td>
 				<td>{{email}}</td>
@@ -135,13 +113,13 @@
 				<td>{{createDate}}</td>
 				<td>{{updateDate}}</td>-->
 				<td>
-					<a class="btn btn-info" href="mi/user/{{id}}">
+					<!--<a class="btn btn-info" href="${ctx}/mi/user/{{id}}">
 						<i class="icon-zoom-in "></i>                                            
-					</a>
-					<a class="btn btn-info" href="mi/user/{{id}}">
+					</a>-->
+					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
-					<a class="btn btn-danger" href="mi/user/{{id}}">
+					<a class="btn btn-danger" href="javascript:;" onclick="delUser(this);return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
 					</a>
 				</td>
@@ -149,17 +127,83 @@
 			{{/each}}
 		</script>
 	</body>
-	<script src="${ctx}/assets/js//handlebars-v3.0.3.js" type="text/javascript" charset="utf-8"></script>
-	<script src="${ctx}/assets/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="${ctx}/assets/js/style.js" type="text/javascript" charset="utf-8"></script>
-
 	<script>
 	  	//checkbox 全选
 	  	$("#selectAll").on("change",function(){
-	  		if($(this).attr("checked")){
-	  			$("#userlist").find("input[type='checkbox']").attr("checked",true);
+	  		if($(this).is(":checked")){
+	  			$("#userlist").find("input[type='checkbox']").prop("checked","checked");
+	  		}else{
+	  			$("#userlist").find("input[type='checkbox']").prop("checked",false);
 	  		}
 	  	})
+	  	
+	  	/*
+	  	 * 批量操作
+	  	 */
+	  	function batchOperation(e){
+	  		var option = $("#batch_option").val();
+	  		var userids = "";
+	  		$("#userlist").find("input[type='checkbox']").each(function(idx,item){
+	  			if($(item).is(":checked")){
+	  			userids==""?userids=$(item).val():userids+="/"+$(item).val();
+	  			}
+	  		})
+	  		if(userids == ""){
+	  			alert("请选择需要更新的用户")
+	  		}
+			var user = {};
+	  		if(option =="del"){
+	  			user.delFlag = true;
+	  		}else if(option == "unlock"){
+	  			user.locked = false;
+	  		}else if(option == "lock"){
+	  			user.locked = true;
+	  		}
+	  		updateUser(e,userids,user);
+	  	}
+	  	function delUser(e){
+	  		var id = $(e).data("id");
+	  		var user = {delFlag:true};
+	  		updateUser(e,id,user);
+	  	}
+	  	function updateUser(e,userids,user){
+	  		console.log(user);
+	  		var $e = $(this);
+	  		if( $e.data("lazy")){
+	  			return ;
+	  		}
+	  		 $e.data("lazy",1);
+	  		var url = "${ctx}/mi/users";
+	  		$.ajax({
+	  			type:"post",
+	  			data:$.extend({"userids":userids},user),
+	  			url:url,
+	  			async:true,
+	  			dataType:"json",
+	  			success:function(data){
+	  				if(data){
+	  					if(data.success){
+	  						alert(data.msg);
+	  						reloadPage()
+	  					}else{
+	  						alert(data.msg);
+	  					}
+	  				}
+	  			},
+	  			error:function(){
+	  				alert("更新失败")
+	  			},
+	  			complete:function(){
+	  				 $e.data("lazy",0);
+	  			}
+	  		});
+	  	}
+	  	
+	  	
+	  	/*
+	  	 * 分页
+	  	 * 
+	  	 */
 		function template(id,data){
 			var tpl = Handlebars.compile($(id).html());
 			return tpl(data);
@@ -198,7 +242,10 @@
 			page = (page+1>totalpage?totalpage:(page+1));
 			getPage(page)
 		}
-		
+		function reloadPage(){
+			var page = $("#pagination").data("curpage")||0;
+			getPage(page)
+		}
 		function pagination(pageinfo){
 			var pagesize = pageinfo.pagesize||10;
 			var start = (pageinfo.curpage-1)*pagesize + 1;

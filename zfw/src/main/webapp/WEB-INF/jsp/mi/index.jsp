@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-         <%@include file="../inc/header.jsp" %>
+         <%@include file="inc/header.jsp" %>
          <title>后台管理</title>
 	</head>
 	<body>
@@ -62,6 +62,4 @@
 			<p>@copyright-------------------</p>
 		</div>
 	</body>
-	<script src="${ctx}/assets/js/style.js" type="text/javascript" charset="utf-8"></script>
-
 </html>

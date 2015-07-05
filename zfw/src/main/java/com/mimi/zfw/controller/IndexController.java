@@ -34,6 +34,7 @@ import com.baidu.ueditor.um.Uploader;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.Information;
+import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.INameListService;
@@ -137,9 +138,22 @@ public class IndexController {
 
     @RequestMapping(value = "/mi",method = RequestMethod.GET)
     public String indexMI(HttpServletRequest request, Model model) {
-	request.setAttribute("page", userService.listAll());
+	addHeadImgUrl(request);
 	request.setAttribute("sn", request.getServerName());
 	return "mi/index";
+    }
+    
+    private void addHeadImgUrl(HttpServletRequest request) {
+	User user = userService.getCurUser();
+	String hiu = Constants.HEAD_IMG_DEFAULT_URL;
+	if (user != null && StringUtils.isNotBlank(user.getHeadImgUrl())) {
+	    hiu = user.getHeadImgUrl();
+	}
+	if (hiu.indexOf("http://") == -1
+		&& hiu.indexOf(request.getContextPath()) == -1) {
+	    hiu = request.getContextPath() + hiu;
+	}
+	request.setAttribute("headImgUrl", hiu);
     }
 
     @RequestMapping(value = "/unauthorized")

@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,8 +39,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
+import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.User;
+import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
 import com.mimi.zfw.web.captcha.GeetestLib;
@@ -52,6 +52,8 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private IRoleService roleService;
     @Resource
     private GeetestLib geetest;
     @Resource
@@ -417,11 +419,6 @@ public class UserController {
 	return "user/success";
     }
 
-    @RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
-    public String indexMI() {
-	return "mi/user/index";
-    }
-
     @RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
     public String toMILogin(HttpServletRequest request, Model model) {
 	setRSAParams(model);
@@ -522,57 +519,164 @@ public class UserController {
 		    pageSize);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
-	    res = getJsonObject(rows, totalpage, curPage, pageSize, items, "1",
-		    "");
+	    res = getJsonObject(rows, totalpage, curPage, pageSize, items,
+		    true, "");
+
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
-	    res = getJsonObject(rows, 0, curPage, pageSize, null, "0", "");
+	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
 	}
 	return res;
     }
 
-    @RequestMapping(value = "/mi/users", method = { RequestMethod.DELETE })
+
+    @RequestMapping(value = "/mi/user/{id}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object delUser(HttpServletRequest request){
-	String ids = request.getAttribute("ids")==null?(String)request.getAttribute("ids"):"";
+    public Object getUser(@PathVariable String id, HttpServletRequest request) {
 
 	JSONObject jo = new JSONObject();
 	
-	try{
-	    List<String> pkeys = new ArrayList<String>();
-	    for(String id:ids.split("/")){
-		pkeys.add(id);
+	try {
+	    User user = (User) userService.get(id);
+	    if(user !=null){
+	        jo.put("user", user);
+	        List<Role> relationroles = roleService.getRolesByUserId(user.getId());
+	        jo.put("relationroles",relationroles);
+	    }
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    jo.put("user", null);
+	    jo.put("relationroles", null);
+	}
+	
+
+	return jo.toString();
+    }
+
+    @RequestMapping(value = "/mi/user/add", method = { RequestMethod.GET })
+    public String toAddUser(Model model, HttpServletRequest request) {
+
+	// return new ModelAndView("mi/users/add","user",new User());
+
+	setRSAParams(model);
+	
+	return "mi/user/add";
+    }
+
+    @RequestMapping(value = "/mi/user", method = { RequestMethod.POST })
+    @ResponseBody
+    public Object addUser(HttpServletRequest request, User user, String roles,String publicExponent,String modulus) {
+
+	JSONObject jo = new JSONObject();
+
+	if (user == null) {
+	    jo.put("success", false);
+	    jo.put("msg", "新增用户信息不能为空!");
+	} else {
+	    try {
+		String password = RSAUtil.getResult(publicExponent,modulus, user.getPassword());
+		user.setPassword(password);
+	    } catch (Exception e) {
+		jo.put("success", false);
+		jo.put("msg", "密码解析出错，请稍后重试!");
 	    }
 	    
-	    
-	    
-	}catch(Exception e){
-	    
+	    try {
+		user.setId(UUID.randomUUID().toString());
+
+		Map<String,String> res = userService.addUser(user, roles);
+
+		if (StringUtils.isEmpty(res.get("msg"))) {
+		    jo.put("success", true);
+		    jo.put("msg", "新增用户保存成功!");
+
+		} else {
+		    jo.put("success", false);
+		    jo.put("msg", res.get("msg"));
+		    jo.put("field", res.get("field"));
+		}
+
+	    } catch (Exception e) {
+		jo.put("success", false);
+		jo.put("msg", "新增用户保存失败!");
+	    }
+
 	}
-	
-	return "mi/users/index";
+
+	return jo.toString();
     }
     
-    @RequestMapping(value="/mi/user/{id}" , method = {RequestMethod.GET})
-    public String  editUser(@PathVariable String id ,HttpServletRequest request ,Model model){
-	User user =(User) userService.get(id);
+    @RequestMapping(value="/mi/user/{userid}/edit", method = {RequestMethod.GET})
+    public String toUpdateUser(Model model,@PathVariable String userid){
 	
-	if(user != null){
-	    
-	    
-	    
-	    
-	}
-	model.addAttribute("user",user);
+	model.addAttribute("userid", userid);
+	setRSAParams(model);
 	
-	return "mi/users/edit";
+	return "/mi/user/edit";
     }
     
+
+
+    @RequestMapping(value = "/mi/user/{userid}", method = { RequestMethod.POST })
+    @ResponseBody
+    public Object updateUser(HttpServletRequest request, User user,@PathVariable String userid,
+	    String addroles, String delroles,String publicExponent,String modulus) {
+
+	JSONObject jo = new JSONObject();
+	try {
+
+	    try {
+		String password = RSAUtil.getResult(publicExponent,modulus, user.getPassword());
+		user.setPassword(password);
+	    } catch (Exception e) {
+		jo.put("success", false);
+		jo.put("msg", "密码解析出错，请稍后重试!");
+	    }
+	    
+	    Map<String,String> res = userService.updateUser(user, addroles, delroles);
+
+	    if (StringUtils.isEmpty(res.get("msg"))) {
+		    jo.put("success", true);
+		    jo.put("msg", "新增用户保存成功!");
+
+		} else {
+		    jo.put("success", false);
+		    jo.put("msg", res.get("msg"));
+		    jo.put("field", res.get("field"));
+		}
+
+	} catch (Exception e) {
+	    jo.put("success", false);
+	    jo.put("msg", "更新用户失败!");
+	}
+
+	return jo.toString();
+    }
+
+    @RequestMapping(value = "/mi/users", method = { RequestMethod.POST })
+    @ResponseBody
+    public Object updateBatchUser(HttpServletRequest request,User user,String userids){
+	JSONObject jo = new JSONObject();
+	
+	try {
+	    int i = userService.updateBatchUser(userids, user);
+
+		jo.put("success", true);
+		jo.put("msg", "用户更新成功");
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+
+		jo.put("success", false);
+		jo.put("msg", "用户更新失败");
+	}
+	
+	return jo.toString();
+    }
     public Object getJsonObject(int rows, int totalpage, int curPage,
-	    int pageSize, List<User> items, String rescode, String msg) {
+	    int pageSize, List<User> items, boolean rescode, String msg) {
 	JSONObject jo = new JSONObject();
 
-	Map<String,Integer> map = new HashMap<String,Integer>();
+	Map<String, Integer> map = new HashMap<String, Integer>();
 	map.put("totalrows", rows);
 	map.put("curpage", curPage);
 	map.put("totalpage", totalpage);
@@ -581,7 +685,7 @@ public class UserController {
 	jo.put("pageinfo", map);
 	jo.put("items", items);
 
-	jo.put("rescode", rescode);
+	jo.put("success", rescode);
 	jo.put("msg", msg);
 
 	return jo.toString();
