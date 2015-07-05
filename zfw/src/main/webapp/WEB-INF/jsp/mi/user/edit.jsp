@@ -23,7 +23,7 @@
 							<h2>编辑用户</h2>
 						</div>
 						<div class="box-cnt">
-							<form class="form">
+							<form class="form" enctype="multipart/form-data">
 								<fieldset>
 									<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
@@ -72,7 +72,7 @@
 										<label class="control-label">上传图片</label>
 										<div class="control error">
 											<div class="uploader">
-												<input type="file" name="headImgUrl"/>
+												<input type="file" name="headImgUrl" accept="image/*" />
 												<span class="filename" style="-webkit-user-select: none;">没有选择文件...</span>
 												<span class="action" style="-webkit-user-select: none;">选择</span>
 											</div>
@@ -319,6 +319,7 @@
 			var form = $(".form");
 			var res = form.validate();
 			var userid = $("#userid").val();
+			alert(form.find("input[name='headImgUrl']").val())
 			if(res){
 			
 				var user = {

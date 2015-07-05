@@ -41,8 +41,8 @@
 										<th>手机号码</th>
 										<th>状态</th>
 										<th>描述</th>
-										<!--<th>创建者</th>
-										<th>上次编辑</th>
+										<th>创建者</th>
+										<!--<th>上次编辑</th>
 										<th>创建日期</th>
 										<th>更新日期</th>-->
 										<th>操作</th>
@@ -108,6 +108,7 @@
 				<td>{{phoneNum}}</td>
 				{{#if locked}}<td>锁定{{else}}<td>正常</td>{{/if}}
 				<td>{{description}}</td>
+				<td>{{creater}}</td>
 				<!--<td>{{create}}</td>
 				<td>{{lastEditor}}</td>
 				<td>{{createDate}}</td>
@@ -184,7 +185,7 @@
 	  				if(data){
 	  					if(data.success){
 	  						alert(data.msg);
-	  						reloadPage()
+	  						page.reloadPage()
 	  					}else{
 	  						alert(data.msg);
 	  					}

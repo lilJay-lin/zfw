@@ -444,12 +444,15 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	UserExample ue = new UserExample();
 	ue.or().andIdIn(userList).andDelFlagEqualTo(false);
-
+	
+	User curUser = this.getCurUser();
+	user.setLastEditor(curUser.getName());
+	
 	int row = um.updateByExampleSelective(user, ue);
 	
 	Boolean delFlag = user.getDelFlag();
 	
-	if(delFlag == true){
+	if(delFlag!=null && delFlag == true){
 	    RelationUserAndRoleExample userRolesExample = new RelationUserAndRoleExample();
 	    userRolesExample.or().andUserIdIn(userList).andDelFlagEqualTo(false);
 	    RelationUserAndRole record = new RelationUserAndRole();
@@ -559,6 +562,10 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	resMap = this.checkUser(user);
 
+	User curUser = this.getCurUser();
+	user.setLastEditor(curUser.getName());
+	user.setCreater(curUser.getName());
+	
 	this.save(user);
 
 	if (!StringUtils.isEmpty(roleids)) {
@@ -626,7 +633,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     }
 
     @Override
-    public Map updateUser(User user, String addroles, String delroles) {
+    public Map<String,String> updateUser(User user, String addroles, String delroles) {
 	// TODO Auto-generated method stub
 
 	Map<String, String> resMap = new HashMap<String, String>();
@@ -641,6 +648,11 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	resMap = this.checkUser(user);
 
+	User curUser = this.getCurUser();
+	user.setLastEditor(curUser.getName());
+	
+	um.updateByPrimaryKeySelective(user);
+	
 	if (!StringUtils.isEmpty(addroles)) {
 
 	    this.saveRelationUserAndRole(userid, addroles);

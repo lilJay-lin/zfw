@@ -176,6 +176,12 @@
 			var totalpage = p.data("totalpage")||0;
 			page = (page+1>totalpage?totalpage:(page+1));
 			self.getPage(page)
+		},
+		reloadPage:function(){
+			var self = this;
+  			var p = self.$container.find(".pagination");
+			var page = p.data("curpage")||0;
+			self.getPage(page)
 		}
   	}
   	r.Page = Page;

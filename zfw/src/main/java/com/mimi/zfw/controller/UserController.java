@@ -613,7 +613,7 @@ public class UserController {
 
 	    if (StringUtils.isEmpty(res.get("msg"))) {
 		jo.put("success", true);
-		jo.put("msg", "新增用户保存成功!");
+		jo.put("msg", "更新用户成功!");
 
 	    } else {
 		jo.put("success", false);
@@ -636,7 +636,7 @@ public class UserController {
 	JSONObject jo = new JSONObject();
 
 	try {
-	    int i = userService.updateBatchUser(userids, user);
+	    userService.updateBatchUser(userids, user);
 
 	    jo.put("success", true);
 	    jo.put("msg", "用户更新成功");

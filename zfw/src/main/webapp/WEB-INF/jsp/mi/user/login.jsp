@@ -61,7 +61,8 @@
 			$("#txtpsw").val("111111")
 		}
 		$("#txtpsw").on("change",function(){
-			$("#password").val(RSAEncrypt($(this).val()))
+			RSAEncrypt($(this).val());
+			$("#password").val(hex_md5($(this).val()))
 		});
 		function RSAEncrypt(pwd) {
 			var thisPwd = hex_md5(pwd);
