@@ -20,6 +20,7 @@ import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
+import com.mimi.zfw.mybatis.pojo.UserExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRoleService;
 
@@ -97,7 +98,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
     @Override
     public List<Role> getRolesByUserId(String id) {
 	if (id == null) {
-	    return null;
+	    return new ArrayList<Role>();
 	}
 	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
 	rure.or().andUserIdEqualTo(id).andDelFlagEqualTo(false);
@@ -116,6 +117,69 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	} else {
 	    return null;
 	}
+    }
+
+    @Override
+    public List<Role> findRoleByExample(RoleExample example, Integer curPage,
+	    Integer pageSize) {
+	// TODO Auto-generated method stub
+	if(example == null){
+	    example = new RoleExample();
+	    example.or().andDelFlagEqualTo(false);
+	}
+
+	example.setLimitStart(curPage* pageSize);
+	example.setLimitSize(pageSize);
+	
+	List<Role> roles = rm.selectByExample(example);
+	
+	return roles;
+    }
+
+    @Override
+    public int countRoleByExample(RoleExample example) {
+	// TODO Auto-generated method stub
+	if(example == null){
+	    example = new RoleExample();
+	    example.or().andDelFlagEqualTo(false);
+	}
+	List<Role> roles = rm.selectByExample(example);
+	
+	return roles.size();
+    }
+
+    @Override
+    public List<Role> findRolesByUserId(String id, Integer curPage,
+	    Integer pageSize) {
+	// TODO Auto-generated method stub
+	if (id == null) {
+	    return null;
+	}
+	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
+	rure.or().andUserIdEqualTo(id).andDelFlagEqualTo(false);
+	rure.setLimitStart(curPage* pageSize);
+	rure.setLimitSize(pageSize);
+	List<RelationUserAndRole> relations = rurm.selectByExample(rure);
+	List<String> roleIds = new ArrayList<String>();
+	for (int i = 0; i < relations.size(); i++) {
+	    String roleId = relations.get(i).getRoleId();
+	    if (!roleIds.contains(roleId)) {
+		roleIds.add(roleId);
+	    }
+	}
+	RoleExample re = new RoleExample();
+	if (!roleIds.isEmpty()) {
+	    re.or().andIdIn(roleIds).andDelFlagEqualTo(false);
+	    return rm.selectByExample(re);
+	} else {
+	    return null;
+	}
+    }
+
+    @Override
+    public int countRolesByUserId(String id) {
+	// TODO Auto-generated method stub
+	return this.getRolesByUserId(id).size();
     }
 
 }

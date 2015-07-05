@@ -1,6 +1,7 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.mybatis.pojo.UserExample;
@@ -46,4 +47,22 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
     public List<User> findUserByParams(String name ,Integer curPage,Integer pageSize);
     
     public int countUserByParams(String name);
+    
+    public int deleteBatchUserAddFlag(List<String> ids);
+    
+    public int deleteUserAddFlag(String id);
+    
+    public int updateBatchUser(String userids,User user);
+    
+    public List<Map<String,Object>> findUserRoleByUser(UserExample example);
+    
+    public int saveRelationUserAndRole(String userid ,String roleids);
+    
+    public int deleteRelationUserAndRole(String userid ,String roleids);
+    
+    public Map<String,String> addUser(User user ,String roleids);
+    
+    public Map<String,String> updateUser(User user ,String addroles,String delroles);
+    
+    public Map<String,String> checkUser(User user);
 }
