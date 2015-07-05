@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+
+<link href="../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="../../../js/ui/common.min.js"></script>
+<script type="text/javascript"
+	src="../../../js/jquery.event.drag-1.5.min.js"></script>
+<script src="../../../js/jquery.touchSlider.js"></script>
+</head>
+<body>
+	<div class="main">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">资讯</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="/xf/bj.html">新房</a></td>
+								<td width="24%"><a href="/esf/bj/">二手房</a></td>
+								<td width="24%"><a href="/zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<div class="imgTouchSlider">
+			<div class="main_image">
+				<ul>
+					<li><a href="http://www.baidu.com"><img
+							src='http://imgd0.soufunimg.com/2015/06/08/220k/14186f5ba988452fb24e2943dcdd6164.jpg'></a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img5.imgtn.bdimg.com/it/u=2287864838,1909084761&fm=15&gp=0.jpg'></a></li>
+					<li><a href="http://www.baidu.com"><img
+							src='http://img3.imgtn.bdimg.com/it/u=1908525209,2227035484&fm=15&gp=0.jpg'></a></li>
+				</ul>
+				<a href="javascript:void(0);" id="btn_prev" class="btn_prev"></a> <a
+					href="javascript:void(0);" id="btn_next" class="btn_next"></a>
+			</div>
+			<div class="flicking_con">
+				<div class="flicking_inner">
+					<a href="">1</a> <a href="">2</a><a href="">3</a>
+				</div>
+			</div>
+		</div>
+		<div class="mLogin">
+			<div class="mTab flexbox whitebg">
+					<a href="javascript:void(0)" class="active" onclick="setInfoType('fc',this)">房产</a> <a href="javascript:void(0)" onclick="setInfoType('zh',this)">综合</a>
+				</div>
+			</div>
+		<section class="NewsList">
+
+			<ul id="itemList">
+				<li><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>京拟用闲置地建养老设施</h3>
+								<p>北京拟利用国有企业闲置土地，建32个养老设施。</p>
+							</div>
+						</div>
+				</a></li>
+
+
+				<li><a href="http://www.fang.com/news/2015-06-09/16194951.htm" id="wapdsy_D04_27">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810779273_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>万科将轻资产做到底</h3>
+								<p>近日，万科将分拆物流地产，将轻资产做到底。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a href="http://m.fang.com/zt/wap/201504/xfwtdyjwx.html?city=bj&amp;m=xfdg" id="wapdsy_D04_28">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img data-original="http://imgn3.soufunimg.com/viewimage/news/2015_06/08/1433746764656/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>新房委托第一季：无补贴不买房</h3>
+								<p>互联网购房新模式，新房委托第一季：无补贴不买房。</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a href="http://m.fang.com/zt/wap/201505/sbb_swiper_ani_css.html?city=bj&amp;m=xfdg" id="wapdsy_D04_29">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img data-original="http://imgn5.soufunimg.com/viewimage/news/2015_06/03/1433310943441/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>房大十八变—不变大妈变女神</h3>
+								<p>是Diao丝？是女神？海量盘等你评，最帅评房师就是你！</p>
+							</div>
+						</div>
+				</a></li>
+
+				<li><a href="http://www.fang.com/news/2015-05-14/15918529.htm" id="wapdsy_D04_30">
+
+						<div class="bord">
+
+							<div class="lt">
+								<img data-original="http://img.soufun.com/viewimage/news/2015_05/14/news/1431592806016_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg">
+							</div>
+
+							<div class="rt">
+								<h3>搜房网招聘资讯编辑运营</h3>
+								<p>搜房网招聘资讯编辑、运营，待遇从优，加入我们吧！</p>
+							</div>
+						</div>
+				</a></li>
+
+			 <li><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li> <li><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li> <li><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li> <li><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li> <li><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li></ul>
+		</section>
+		<div id="drag" class="cenBtn">
+			<a class="draginner" href="javascript:void(0);">查看更多资讯</a>
+		</div>
+		<footer class="mt10 bdt">
+		<p class="pdY10 f12">© www.h0758.net</p>
+		</footer>
+		<a id="showgohead" class="backTopBtn none" href="javascript:void(0)" onclick="gotohead()">&nbsp;</a>
+	</div>
+</body>
+<script>
+
+
+
+var total=10;
+var allowLoad = true;
+var curp = 2;
+
+	$(function() {
+		initEvent();
+		$(".imgTouchSlider").each(function(){
+			initSlider(this);
+		})
+		$(window).resize(function() {
+			fitSize();
+		});
+		fitSize();
+	})
+	
+	function initEvent() {
+		initScrollEvent();
+		$("#criteriaList").children("li").children("em").click(function() {
+			spreadItem(this);
+		});
+		$("#criteriaList").children("li").children("p").children(
+				".js-sift-condition").click(function() {
+			selectItem(this);
+		})
+	}
+	function initScrollEvent(){
+		$("body").scrollTop(1);
+		if(total<=1){
+			$('#drag').hide();
+		    allowLoad = false;
+		}
+		//滚动到页面底部时，自动加载更多
+		var scrollFlag=false;
+		window.addEventListener("scroll",function scrollHandler(){
+
+			var backTopBtn = $("#showgohead");
+			if(backTopBtn[0]){
+				window.pageYOffset>window.innerHeight*2-60?backTopBtn.removeClass("none"):backTopBtn.addClass("none");
+			}
+			
+			var scrollh = $(document).height();
+			var bua = navigator.userAgent.toLowerCase();
+			if(scrollFlag){
+				if(bua.indexOf('iphone') != -1 || bua.indexOf('ios') != -1){
+					scrollh = scrollh-140;
+				}else{
+					scrollh = scrollh-80;
+				}
+			}
+			var c=document.documentElement.clientHeight || document.body.clientHeight, t=$(document).scrollTop();
+			if(allowLoad != false && ($(document).scrollTop() + $(window).height()) >= scrollh){
+				load();
+			}
+		},100); 
+		$('#drag').click(function () {
+			load();
+		});
+	}
+	function initSlider(element){
+
+		var sliderObj = $(element).children(".main_image");
+		var flickObj = $(element).find(".flicking_con a");
+		
+		var dragBln = false;
+		sliderObj.touchSlider(
+				{
+					flexible : true,
+					speed : 200,
+					paging : flickObj,
+					counter : function(e) {
+						flickObj.removeClass("on")
+								.eq(e.current - 1).addClass("on");
+					}
+				});
+		sliderObj.bind("mousedown", function() {
+			dragBln = false;
+		})
+		sliderObj.bind("dragstart", function() {
+			dragBln = true;
+		})
+		sliderObj.click(function() {
+			if (dragBln) {
+				return false;
+			}
+		})
+		var timer = setInterval(function() {
+			sliderObj[0].animate(-1,true);
+		}, 5000);
+		$(element).hover(function() {
+			clearInterval(timer);
+		}, function() {
+			timer = setInterval(function() {
+				sliderObj[0].animate(-1,true);
+			}, 5000);
+		})
+		sliderObj.bind("touchstart", function() {
+			clearInterval(timer);
+		}).bind("touchend", function() {
+			timer = setInterval(function() {
+				sliderObj[0].animate(-1,true);
+			}, 5000);
+		})
+	}
+	function fitSize() {
+		var bw = $("body").width();
+		if (bw > 640) {
+			bw = 640;
+		}
+		$(".main_image").height(bw /3);
+
+		$(".imgTouchSlider").each(function(){
+			var fw = $(this).find(".flicking_inner a").length*21;
+			$(this).find(".flicking_inner").css("left", (bw - fw) * 0.5 + "px");
+		})
+	}
+	function hideOrOpenNav() {
+		var navObj = $(".newNav");
+		var shadow = $(".popShadow");
+		if (navObj.hasClass("none")) {
+			navObj.removeClass("none");
+			shadow.removeClass("none");
+		} else {
+			navObj.addClass("none");
+			shadow.addClass("none");
+		}
+	}
+	function load(){
+		var draginner=$('.draginner');
+		if(draginner.hasClass("loading")){
+			return;
+		}
+		allowLoad = false;
+		draginner.css('padding-left','10px');
+		draginner.addClass("loading");
+		draginner.html("正在加载...");
+		setTimeout(function(){
+			var str = ' <li ><a href="http://www.fang.com/news/2015-06-09/16194688.htm" id="wapdsy_D04_23"> <div class="bord"> <div class="lt"> <img data-original="http://imgs.soufun.com/viewimage/news/2015_06/09/news/1433810092437_000/120x120.jpg" alt="" src="http://www.pdfangchan.com/upload/house/2011-12-19/2011121915571257_120x90.jpg"> </div> <div class="rt"> <h3>京拟用闲置地建养老设施</h3> <p>北京拟利用国有企业闲置土地，建32个养老设施。</p> </div> </div> </a></li>';
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			draginner.css('padding-left','0px');
+			draginner.removeClass("loading");
+			draginner.html("查看更多楼盘");
+			curp=curp+1;
+			allowLoad = true;
+			if(curp>total){
+				$('#drag').hide();
+				allowLoad = false;
+			}
+		},1000);
+	}
+
+	function gotohead(){
+		window.scrollTo(0, 1);
+	}
+	
+	function setInfoType(type,element){
+		$(element).siblings().removeClass("active");
+		$(element).addClass("active");
+	}
+
+</script>
+</html>
