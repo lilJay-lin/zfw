@@ -1,30 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="com.mimi.zfw.Constants"%>
 <%request.setAttribute("ctx", request.getContextPath());%>
 <%@include file="../inc/taglib.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<body>
-<h1>后台欢迎您 <shiro:principal/>!</h1><br/>
-<h2>Hello World!</h2>
-  		共${fn:length(page)}共用户<br/>
-       			<c:forEach items="${page}" var="t" varStatus="status">
-       				<div class="searchResultItem">
-						<span class="sri1">
-						${t.id}
-						</span>
-						<span class="sri2">
-							<a href="javascript:void(0)">${t.name }</a>
-						</span>
-						<span class="sri6">电话：${t.phoneNum }</span>
-						<span class="sri3">邮箱：${t.email }</span>
-						<span class="sri3">密码：${t.password }</span>
-<%-- 						<span class="sri3">查看：${t.password }</span> --%>
-<!-- 						编辑 删除 -->
+	<head>
+         <%@include file="inc/header.jsp" %>
+         <title>后台管理</title>
+	</head>
+	<body>
+		
+		<!-- 头部导航条开始     -->
+		<div class="navbar skin">
+			<a class="navbar-brand skin">后台管理</a>
+			<div class="navbar-inner">
+				<ul class="nav">
+					<li ><a href="#" class="btn"><i class="icon-tasks"></i></a></li>
+					<li><a href="#" class="btn"><i class="icon-envelope"></i></a></li>
+					<li><a href="#" class="btn"><i class="icon-wrench"></i></a></li>
+					<li>
+						<a href="#">
+							<div class="nav-avatar">
+								<img src="${headImgUrl }" alt="Avatar">
+							</div>
+							<div class="nav-user">
+								<p>Welcome!</p>
+								<p> <shiro:principal/></p>
+							</div>
+						</a> 
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 头部导航条结束     -->
+		<div class="clearfix"></div>
+		
+		<div class="container">
+			<!-- 右边内容区域开始     -->
+			<div class="main skin">
+				<div class="content">
+					<div class="box">
+											
 					</div>
-       			</c:forEach>
-</body>
+				</div>
+			</div>
+			<!-- 右边内容区域结束     -->
+			
+			
+			
+			<!-- 左边侧边栏区域开始     -->
+			<div class="slider skin">
+				<div class="clearfix">&nbsp</div>
+				<div class="clearfix">&nbsp</div>
+				<%@include file="inc/left.jsp" %>
+			</div>
+			
+			<!-- 左边侧边栏区域结束     -->
+		</div>
+		<!-- 底部区域开始     -->
+		<div class="footer">
+			<p>@copyright-------------------</p>
+		</div>
+	</body>
 </html>

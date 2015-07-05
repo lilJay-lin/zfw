@@ -56,12 +56,7 @@ public class InformationServiceImpl extends
 	private void initTestData(){
 		Date nowDate = new Date(System.currentTimeMillis());
 		List<RealEstateProject> repList = repm.selectByExample(null);
-		String[] preImgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" };
+		String[] preImgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		for(int i=0;i<200;i++){
 			Information info = new Information();
 			info.setId(UUID.randomUUID().toString());

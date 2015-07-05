@@ -157,8 +157,10 @@
                 /user/logout = logout
                 /user/** = authc
 				/mi/user/login = authc
-                /mi/** = perms["user:mi"]
-                /mi = perms["user:mi"]
+                /mi/** = authc,perms["user:mi"]
+                /mi = authc,perms["user:mi"]
+<!--                 /mi/** = perms["user:mi"] -->
+<!--                 /mi = perms["user:mi"] -->
                 /** = anon
             </value>
         </property>

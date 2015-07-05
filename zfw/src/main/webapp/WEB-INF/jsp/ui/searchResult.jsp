@@ -25,7 +25,7 @@
 			onsubmit="return false;" method="get" autocomplete="off">
 			<div class="searbox_new">
 				<div class="ipt" >
-					<input id="keyWord" type="search" name="keyWord" value=""
+					<input id="keyWord" type="search" name="keyWord" value="${keyWord }"
 						placeholder="楼盘名/户型名/地名等" autocomplete="off"><a
 						href="javascript:void(0);" class="off" style="display: none;"></a>
 				</div>
@@ -34,15 +34,19 @@
 		</form>
 		<div class="searList"  >
 			<ul>
-				<div class="searTips">共663个搜索结果，请选择类别查看</div>
-				<li><a href="javascript:;"><span class="flor f999">1条</span><span
-						class="searchListName" data-ywtype="爱上,新房,住宅,,,,">新房</span></a></li>
-				<li><a href="javascript:;"><span class="flor f999">约91条</span><span
+				<div class="searTips">共${totalNum }个搜索结果，请选择类别查看</div>
+				<li><a href="${ctx }/xf/${keyWord }------楼盘-default/search"><span class="flor f999">${xfNum }条</span><span
+						class="searchListName" >新房</span></a></li>
+				<li><a href="${ctx }/esf/-${keyWord }-----default/search"><span class="flor f999">${esfNum }条</span><span
 						class="searchListName" data-ywtype="爱上,出售,住宅,,,,">二手房</span></a></li>
-				<li><a href="javascript:;"><span class="flor f999">约11条</span><span
-						class="searchListName" data-ywtype="爱上,出租,住宅,,,,">租房</span></a></li>
-				<li><a href="javascript:;"><span class="flor f999">7条</span><span
-						class="searchListName" data-ywtype="爱上,出售,别墅,,,,">别墅出售</span></a></li>
+				<li><a href="${ctx }/zf/-${keyWord }-----default/search"><span class="flor f999">${zfNum }条</span><span
+						class="searchListName" >租房</span></a></li>
+				<li><a href="${ctx }/sp/${keyWord }-------default/search"><span class="flor f999">${spNum }条</span><span
+						class="searchListName" >商铺</span></a></li>
+				<li><a href="${ctx }/xzl/${keyWord }-------default/search"><span class="flor f999">${xzlNum }条</span><span
+						class="searchListName" >写字楼</span></a></li>
+				<li><a href="${ctx }/cfck/${keyWord }-------default/search"><span class="flor f999">${cfckNum }条</span><span
+						class="searchListName" >厂房仓库</span></a></li>
 			</ul>
 		</div>
 	</div>

@@ -59,45 +59,42 @@
 			<div class="bigNav" style="display: block;">
 				<div class="icons chooseNav">
 					<div class="flexbox chooseNav1">
-						<a href="${ctx }/xf" class="xf"><i></i>
-							<p>新房</p></a> <a href="${ctx }/esf" class="esf"><i></i>
-							<p>二手房</p></a> <a href="${ctx }/zf" class="zf"><i></i>
-							<p>租房</p></a>  <a href="javascript:spreadNav();"
-							class="more gather"><i></i>
-							<p>更多</p></a>
-							<a href="javascript:gatherNav();" class="more spread none"><i></i>
-							<p>收起</p></a>
+						<a href="${ctx }/xf" class="xf"><i></i><p>新房</p></a>
+						<a href="${ctx }/esf" class="esf"><i></i><p>二手房</p></a>
+						<a href="${ctx }/zf" class="zf"><i></i><p>租房</p></a>
+						<a href="javascript:spreadNav();" class="more gather"><i></i><p>更多</p></a>
+						<a href="javascript:gatherNav();" class="more spread none"><i></i><p>收起</p></a>
 					</div>
 					<div class="flexbox chooseNav2 spread none">
-						<a href="javascript:;" class="sp"><i></i>
-							<p>商铺</p></a> <a href="javascript:;" class="xzl"><i></i>
-							<p>写字楼</p></a> <a href="javascript:;" class="ckcf"><i></i>
-							<p>厂房仓库</p></a> <a href="javascript:;" class="esfpg"><i></i>
-							<p>二手房评估</p></a>
+						<a href="${ctx }/sp" class="sp"><i></i> <p>商铺</p></a> 
+						<a href="${ctx }/xzl" class="xzl"><i></i><p>写字楼</p></a>
+						<a href="${ctx }/cfck" class="cfck"><i></i><p>厂房仓库</p></a> 
+						<a href="${ctx }/pg" class="esfpg"><i></i><p>二手房评估</p></a>
 					</div>
 				</div>
 				<br style="display: inline;">
 			</div>
 		</section>
 		
-		<c:if test="${admfs != null and fn:length(admfs) != 0 }">
+		<c:if test="${adm4s != null and fn:length(adm4s) != 0 }">
 		<section class="homeBan mt10">
 			<table border="0" width="100%" cellpadding="0" cellspacing="0">
 				<tbody>
-	       			<c:forEach items="${admfs}" var="t" varStatus="status">
+	       			<c:forEach items="${adm4s}" var="t" varStatus="status">
 						<c:if test="${status.index%2==0}">
 							<tr>
 						</c:if>
 						<td><a href="${t.contentUrl }" ><dl>
 									<dt>
-										<h3>${t.name }</h3>
+										<h3>${t.name }
+										</h3>
 										<p>${t.summary }</p>
 									</dt>
 									<dd>
 										<img alt="" src="${t.preImageUrl }" style="display: inline;">
 									</dd>
 								</dl> </a></td>
-						<c:if test="${status.index%2==0}">
+						<c:if test="${status.index%2==1}">
 							</tr>
 						</c:if>
 	       			</c:forEach>

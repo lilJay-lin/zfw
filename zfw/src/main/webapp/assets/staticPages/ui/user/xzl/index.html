@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Insert title here</title>
+<link href="../../../../css/ui.css" rel="stylesheet" type="text/css" />
+
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="../../../../js/ui/common.min.js"></script>
+<script type="text/javascript"
+	src="../../../../js/jquery.event.drag-1.5.min.js"></script>
+<script src="../../../../js/jquery.touchSlider.js"></script>
+</head>
+<body>
+	<div class="main ">
+		<div class="popShadow none" onclick="hideOrOpenNav()"></div>
+		<header>
+			<div class="left">
+				<a href="../index.html" class="hLogo"></a>
+			</div>
+			<div class="cent">我的写字楼</div>
+			<div class="show_redrict head-icon">
+				<a class="icon-nav" id="show_redrict" href="javascript:void(0);"
+					onclick="hideOrOpenNav()"> <span><i></i>
+						<p>导航</p></span>
+				</a>
+			</div>
+		</header>
+		<div class="newNav none">
+			<div class="nav-box mt10">
+				<div class="nav-tit">
+					<a href="index.html"><span id="userinfo">个人中心</span></a> <strong>频道导航</strong>
+				</div>
+				<div class="nav-menu">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td width="24%"><a href="../index.html">首页</a></td>
+								<td width="24%"><a href="../xf/index.html">新房</a></td>
+								<td width="24%"><a href="../esf/bj/">二手房</a></td>
+								<td width="24%"><a href="../zf/bj/">租房</a></td>
+							</tr>
+							<tr>
+								<td><a href="/jiaju/bj.html">商铺</a></td>
+								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
+								<td><a href="/jiaju/bj.html">仓库</a></td>
+								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="pc-content-list whitebg">
+			<a class="pc-content-item" href="/user.d?m=myesfpage&amp;city=bj">
+				<div class="bor">
+					<span class="flol icon zf"></span> <span class="flol">发布租房</span>
+				</div>
+			</a>
+		</div>
+		<section class="homeList whitebg bdb mt10">
+			<ul id="itemList">
+			<h3 class="pd10 f16 bdb">还没发布写字楼信息</h3>
+				<li><a id="" href="/xf/bj/1010710185.htm">
+						<div class="img">
+							<img
+								src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg">
+						</div>
+						<div class="txt">
+							<p class="x-intro">
+							<h2>户型D</h2>
+							<span class="new">已过期</span>
+							</p>
+							<p>159㎡</p>
+
+							<div class="stag">
+								<span class="t1">
+									地址阿斯兰的房间爱速度快
+								</span>
+							</div>
+
+						</div>
+				</a></li>
+<!-- 				<li><a id="" href="/xf/bj/1010710185.htm"> -->
+<!-- 						<div class="img"> -->
+<!-- 							<img -->
+<!-- 								src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg"> -->
+<!-- 						</div> -->
+<!-- 						<div class="txt"> -->
+<!-- 							<p class="x-intro"> -->
+<!-- 							<h2>户型D</h2> -->
+<!-- 							<span class="new"></span> -->
+<!-- 							</p> -->
+<!-- 							<p>3室2厅2卫1厨 约159㎡</p> -->
+
+<!-- 							<div class="stag"> -->
+<!-- 								<span class="t1"> -->
+<!-- 									敏捷城 -->
+<!-- 								</span> -->
+<!-- 							</div> -->
+
+<!-- 						</div> -->
+<!-- 				</a></li> -->
+<!-- 				<li><a id="" href="/xf/bj/1010710185.htm"> -->
+<!-- 						<div class="img"> -->
+<!-- 							<img -->
+<!-- 								src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg"> -->
+<!-- 						</div> -->
+<!-- 						<div class="txt"> -->
+<!-- 							<p class="x-intro"> -->
+<!-- 							<h2>户型D</h2> -->
+<!-- 							<span class="new"></span> -->
+<!-- 							</p> -->
+<!-- 							<p>3室2厅2卫1厨 约159㎡</p> -->
+
+<!-- 							<div class="stag"> -->
+<!-- 								<span class="t1"> -->
+<!-- 									敏捷城 -->
+<!-- 								</span> -->
+<!-- 							</div> -->
+
+<!-- 						</div> -->
+<!-- 				</a></li> -->
+			</ul>
+		</section>
+<!-- 		<div id="drag" class="cenBtn"> -->
+<!-- 			<a class="draginner" href="javascript:void(0);">查看更多</a> -->
+<!-- 		</div> -->
+		
+		<footer class="mt10 bdt">
+		<p class="pdY10 f12">© www.h0758.net</p>
+		<a id="showgohead" class="backTopBtn none" href="javascript:void(0)" onclick="gotohead()">&nbsp;</a>
+	</footer>
+	</div>
+</body>
+<script>
+
+
+var total=10;
+var allowLoad = true;
+var curp = 2;
+
+	$(function() {
+		initEvent();
+	})
+	
+	function initEvent() {
+		initScrollEvent();
+		$("#criteriaList").children("li").children("em").click(function() {
+			spreadItem(this);
+		});
+		$("#criteriaList").children("li").children("p").children(
+				".js-sift-condition").click(function() {
+			selectItem(this);
+		})
+	}
+	function initScrollEvent(){
+		$("body").scrollTop(1);
+		if(total<=1){
+			$('#drag').hide();
+		    allowLoad = false;
+		}
+		//滚动到页面底部时，自动加载更多
+		var scrollFlag=false;
+		window.addEventListener("scroll",function scrollHandler(){
+
+			var backTopBtn = $("#showgohead");
+			if(backTopBtn[0]){
+				window.pageYOffset>window.innerHeight*2-60?backTopBtn.removeClass("none"):backTopBtn.addClass("none");
+			}
+			
+			var scrollh = $(document).height();
+			var bua = navigator.userAgent.toLowerCase();
+			if(scrollFlag){
+				if(bua.indexOf('iphone') != -1 || bua.indexOf('ios') != -1){
+					scrollh = scrollh-140;
+				}else{
+					scrollh = scrollh-80;
+				}
+			}
+			var c=document.documentElement.clientHeight || document.body.clientHeight, t=$(document).scrollTop();
+			if(allowLoad != false && ($(document).scrollTop() + $(window).height()) >= scrollh){
+				load();
+			}
+		},100); 
+		$('#drag').click(function () {
+			load();
+		});
+	}
+	function hideOrOpenNav() {
+		var navObj = $(".newNav");
+		var shadow = $(".popShadow");
+		if (navObj.hasClass("none")) {
+			navObj.removeClass("none");
+			shadow.removeClass("none");
+		} else {
+			navObj.addClass("none");
+			shadow.addClass("none");
+		}
+	}
+	function spreadList() {
+		var btn = $("#listMore");
+		if (btn.hasClass("down")) {
+			btn.removeClass("down");
+			btn.addClass("up");
+			btn.find(".txt").html("收起更多查询条件");
+			$("#criteriaList").children("li.notImportant").removeClass("none");
+		} else {
+			btn.removeClass("up");
+			btn.addClass("down");
+			btn.find(".txt").html("展开更多查询条件");
+			$("#criteriaList").children("li.notImportant").addClass("none");
+		}
+	}
+	function spreadItem(ele) {
+		var element = $(ele);
+		var li = element.parents("li:first");
+		if (element.hasClass("arrowDown")) {
+			element.removeClass("arrowDown");
+			element.addClass("arrowUp");
+			li.addClass("spread");
+		} else {
+			element.addClass("arrowDown");
+			element.removeClass("arrowUp");
+			li.removeClass("spread");
+		}
+	}
+	function selectItem(ele) {
+		var element = $(ele);
+		element.siblings(".js-sift-condition").removeClass("none");
+		element.addClass("none");
+		element.siblings(".js-selected").html(element.html());
+	}
+	function load(){
+		var draginner=$('.draginner');
+		if(draginner.hasClass("loading")){
+			return;
+		}
+		allowLoad = false;
+		draginner.css('padding-left','10px');
+		draginner.addClass("loading");
+		draginner.html("正在加载...");
+		setTimeout(function(){
+			var str = ' <li><a id="" href="/xf/bj/1010710185.htm"> <div class="img"> <img src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg"> </div> <div class="txt"> <p class="x-intro"> <h2>户型D</h2> <span class="new">已过期</span> </p> <p>3室2厅2卫1厨 约159㎡</p> <div class="stag"> <span class="t1"> 敏捷城 </span> </div> </div> </a></li>'
+// 			var str = '<li><a id="" href="/xf/bj/1010710185.htm"> <div class="img"> <img src="http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg"> </div> <div class="txt"> <p class="x-intro"> <h2>一杯澜</h2> <span class="new">20000元/平</span> </p> <p>北戴河新区国际娱乐中心东3公里（原碧海蓝天度假村）</p> <div class="stag"> <span class="t1">户型：二居(<span class="t2">1</span>) 三居(<span class="t2">2</span>)</span></div></div></a></li>';
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			$('#itemList').append(str);
+			draginner.css('padding-left','0px');
+			draginner.removeClass("loading");
+			draginner.html("查看更多");
+			curp=curp+1;
+			allowLoad = true;
+			if(curp>total){
+				$('#drag').hide();
+				allowLoad = false;
+			}
+		},1000);
+	}
+
+	function gotohead(){
+		window.scrollTo(0, 1);
+	}
+</script>
+</html>

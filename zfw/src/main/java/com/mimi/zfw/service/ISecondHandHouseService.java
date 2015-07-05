@@ -15,7 +15,7 @@ public interface ISecondHandHouseService extends
 
 	int countSecondHandHouseByParams(String residenceCommunityId,
 			String keyWord, String region, String totalPrice, Integer roomNum,
-			String grossFloorArea, String orderBy);
+			String grossFloorArea);
 
 	List<SecondHandHouse> getByUserId(String userId, Integer targetPage,
 			Integer pageSize);

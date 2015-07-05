@@ -64,6 +64,7 @@
 
 function inputOnKeyup(event, element) {
 	nameChange(element);
+	assessment();
 }
 function inputOnFocus(event, element) {
 	var ele = $(element);
@@ -122,6 +123,7 @@ function selectName(element) {
 	var ele = $(element);
 	$("#xqName").attr("dataId",ele.attr("dataId"));
 	$("#xqName").val(ele.html());
+	assessment();
 }
 
 function submitForm() {
@@ -197,8 +199,8 @@ $(function(){
 		   var filePath=$(element).val();
 		   var extStart=filePath.lastIndexOf(".");
 		   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
-		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"){
-			   return "图片限于png,gif,jpg格式";
+		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
+			   return "图片限于png,gif,jpg,jpeg格式";
 		   }else{
 				if(element.files[0].size>20*1024*1024){
 					return "图片最大支持20M";
@@ -298,6 +300,7 @@ $(function(){
 		btn.val("确定修改");
 		
 		refreshImgTips();
+		assessment();
 	}
 	
 	function refreshImgTips(){
@@ -380,6 +383,33 @@ $(function(){
 				complete:function(data){
 					btn.removeClass("disabled");
 					btn.html("删除房源");
+				}
+			});
+		}
+	}
+	function assessment(){
+		var xqName = $("#xqName").val();
+		var xqId = $("#xqName").attr("dataId");
+		var grossFloorArea = $("#grossFloorArea").val();
+		var forward = $("#forward").val();
+		var curFloor = $("#curFloor").val();
+		if(xqName && grossFloorArea && forward && curFloor){
+			$.ajax({
+				type: "GET",
+				async: true,
+				url: "${ctx}/pg/miniAnalyse",
+				data: {residenceCommunityName:xqName,residenceCommunityId:xqId,grossFloorArea:grossFloorArea,forward:forward,curFloor:curFloor},
+				dataType: "json",
+				success: function (data) {
+					if(data.success){
+						$("#refPrice").html(data.totalPrice);
+						$("#priceUnit").html("万/套");
+					}else if(data.msg){
+						alert(data.msg);
+					}
+				},
+				error: function (data) {
+					alert("评估失败，请稍后尝试！");
 				}
 			});
 		}

@@ -1,4 +1,4 @@
-﻿package com.mimi.zfw.web.captcha;
+package com.mimi.zfw.web.captcha;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -304,7 +304,7 @@
 			<h2 class="f16">位置</h2>
 			<p class="pdY5">
 				<a href="${ctx }/xf/${rep.id}/map"
-					class="f000">地址：<span class="f999"> ${rep.address }
+					class="f000"><span class="f999"> ${rep.address }
 				</span></a>
 			</p>
 			<div id="wapxfxqy_B02_27" style="position: relative;">

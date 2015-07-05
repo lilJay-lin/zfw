@@ -19,6 +19,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -34,15 +36,24 @@ import com.baidu.ueditor.um.Uploader;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.Information;
+import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.INameListService;
+import com.mimi.zfw.service.IOfficeBuildingService;
+import com.mimi.zfw.service.IRealEstateProjectService;
+import com.mimi.zfw.service.IRentalHousingService;
+import com.mimi.zfw.service.ISecondHandHouseService;
+import com.mimi.zfw.service.IShopService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.service.IWarehouseService;
 
 //import com.mimi.zfw.web.bind.annotation.CurrentUser;
 
 @Controller("indexController")
 public class IndexController {
+	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);  
 
 	@Resource
 	private IAdvertisementService adService;
@@ -52,6 +63,18 @@ public class IndexController {
 	
 	@Resource
 	private INameListService nameListService;
+	@Resource
+	private IRealEstateProjectService repService;
+	@Resource
+	private ISecondHandHouseService shhService;
+	@Resource
+	private IRentalHousingService rhService;
+	@Resource
+	private IShopService spService;
+	@Resource
+	private IOfficeBuildingService obService;
+	@Resource
+	private IWarehouseService wService;
 	
     // @Autowired
     // @Qualifier("BirdEyeViewService")
@@ -62,6 +85,8 @@ public class IndexController {
 
     @Resource
     private IUserService userService;
+	@Resource
+	private IAliyunOSSService aossService;
 
     // @RequestMapping("/aa")
     // public String index(@CurrentUser User loginUser, Model model) {
@@ -93,9 +118,36 @@ public class IndexController {
     	Advertisement admo = null;
     	if(admos!=null && !admos.isEmpty()){
     		admo = admos.get(0);
+    		admo.setPreImageUrl(aossService.addImgParams(admo.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
     	}
     	List<Information> fczx = infoService.findByParams(Constants.INFORMATION_TYPE_FC, 0, 15);
     	List<Information> zhzx = infoService.findByParams(Constants.INFORMATION_TYPE_ZH, 0, 15);
+    	
+
+		if(adts!=null && !adts.isEmpty()){
+			for(int i=0;i<adts.size();i++){
+				Advertisement ad = adts.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD));
+			}
+		}
+		if(adm4s!=null && !adm4s.isEmpty()){
+			for(int i=0;i<adm4s.size();i++){
+				Advertisement ad = adm4s.get(i);
+				ad.setPreImageUrl(aossService.addImgParams(ad.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD_SMALL));
+			}
+		}
+		if(fczx!=null && !fczx.isEmpty()){
+			for(int i=0;i<fczx.size();i++){
+				Information info = fczx.get(i);
+				info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
+		if(zhzx!=null && !zhzx.isEmpty()){
+			for(int i=0;i<zhzx.size();i++){
+				Information info = zhzx.get(i);
+				info.setPreImageUrl(aossService.addImgParams(info.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
     	request.setAttribute("adts", adts);
     	request.setAttribute("adm4s", adm4s);
     	request.setAttribute("admo", admo);
@@ -120,6 +172,7 @@ public class IndexController {
 				jo.put("success", true);
 			}
 		}catch(Exception e){
+			LOG.error("保存报名名单出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "报名出错！");
 		}
@@ -128,7 +181,20 @@ public class IndexController {
 
     @RequestMapping(value = "/{keyWord}/search",method = RequestMethod.GET)
     public String search(HttpServletRequest request ,@PathVariable String keyWord) {
-    	System.out.println(keyWord);
+    	int xfNum = repService.countRealEstateProjectByParams(keyWord, null, null, null, null, null, null);
+    	int esfNum = shhService.countSecondHandHouseByParams(null, keyWord, null, null, null, null);
+    	int zfNum = rhService.countRentalHousingByParams(null, keyWord, null, null, null, null);
+    	int spNum = spService.countShopByParams(keyWord, null, null, null, null, null, null);
+    	int xzlNum = obService.countOfficeBuildingByParams(keyWord, null, null, null, null, null, null);
+    	int cfckNum = wService.countWarehouseByParams(keyWord, null, null, null, null, null, null);
+    	int totalNum = xfNum+esfNum+zfNum+spNum+xzlNum+cfckNum;
+    	request.setAttribute("xfNum", xfNum);
+    	request.setAttribute("esfNum", esfNum);
+    	request.setAttribute("zfNum", zfNum);
+    	request.setAttribute("spNum", spNum);
+    	request.setAttribute("xzlNum", xzlNum);
+    	request.setAttribute("cfckNum", cfckNum);
+    	request.setAttribute("totalNum", totalNum);
 	return "ui/searchResult";
     }
     
@@ -137,9 +203,22 @@ public class IndexController {
 
     @RequestMapping(value = "/mi",method = RequestMethod.GET)
     public String indexMI(HttpServletRequest request, Model model) {
-	request.setAttribute("page", userService.listAll());
+	addHeadImgUrl(request);
 	request.setAttribute("sn", request.getServerName());
 	return "mi/index";
+    }
+    
+    private void addHeadImgUrl(HttpServletRequest request) {
+	User user = userService.getCurUser();
+	String hiu = Constants.HEAD_IMG_DEFAULT_URL;
+	if (user != null && StringUtils.isNotBlank(user.getHeadImgUrl())) {
+	    hiu = user.getHeadImgUrl();
+	}
+	if (hiu.indexOf("http://") == -1
+		&& hiu.indexOf(request.getContextPath()) == -1) {
+	    hiu = request.getContextPath() + hiu;
+	}
+	request.setAttribute("headImgUrl", hiu);
     }
 
     @RequestMapping(value = "/unauthorized")

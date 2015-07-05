@@ -84,7 +84,7 @@ public class RentalHousingServiceImpl extends
 	@Override
 	public int countRentalHousingByParams(String residenceCommunityId,
 			String keyWord, String region, String rental, Integer roomNum,
-			String grossFloorArea, String orderBy) {
+			String grossFloorArea) {
 		RentalHousingExample rhe = bindRentalHousingParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
 				grossFloorArea);
@@ -289,6 +289,7 @@ public class RentalHousingServiceImpl extends
 		rh.setRegion(rc.getRegion());
 		rhm.insertSelective(rh);
 
+		long timeMillis = System.currentTimeMillis();
 		// 创建租房图片
 		if (StringUtils.isNotBlank(imgUrls)) {
 			String[] urls = imgUrls.split(Constants.IMAGE_URLS_SPLIT_STRING);
@@ -301,6 +302,10 @@ public class RentalHousingServiceImpl extends
 					ri.setLastEditor(rh.getLastEditor());
 					ri.setRentalHousingId(rh.getId());
 					ri.setName(rh.getName());
+					timeMillis = timeMillis + 1000;
+					Date nowDate = new Date(timeMillis);
+					ri.setCreateDate(nowDate);
+					ri.setUpdateDate(nowDate);
 					rhim.insertSelective(ri);
 				}
 			}
@@ -321,7 +326,7 @@ public class RentalHousingServiceImpl extends
 			return "要删除的数据不存在";
 		}
 
-		// 删除二手房
+		// 删除租房
 		RentalHousing rh = new RentalHousing();
 		rh.setId(id);
 		rh.setDelFlag(true);
@@ -472,10 +477,11 @@ public class RentalHousingServiceImpl extends
 			rh.setResidenceCommunityId(rc.getId());
 		}
 
-		// 更新二手房
+		// 更新租房
 		rhm.updateByPrimaryKeySelective(rh);
 
-		// 更新二手房图片
+		long timeMillis = System.currentTimeMillis();
+		// 更新租房图片
 		RHImageExample ie = new RHImageExample();
 		ie.or().andRentalHousingIdEqualTo(rh.getId()).andDelFlagEqualTo(false);
 		List<RHImage> oldImgs = rhim.selectByExample(ie);
@@ -503,6 +509,10 @@ public class RentalHousingServiceImpl extends
 						ri.setLastEditor(rh.getLastEditor());
 						ri.setRentalHousingId(rh.getId());
 						ri.setName(rh.getName());
+						timeMillis = timeMillis + 1000;
+						Date nowDate = new Date(timeMillis);
+						ri.setCreateDate(nowDate);
+						ri.setUpdateDate(nowDate);
 						rhim.insertSelective(ri);
 					}
 				}

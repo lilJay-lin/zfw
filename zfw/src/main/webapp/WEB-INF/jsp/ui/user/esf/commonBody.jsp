@@ -11,7 +11,7 @@
 			<dd>
 				<div class="dropbox">
 					<input type="text" id="xqName" name="xqName" class="ipt-text"
-						dataId="" searching="false" searchingName=""
+						dataId="" searching="false" searchingName="" autocomplete="off"
 						resultContainer="xq_search_result" placeholder="请选择下拉提示"
 						onkeyup="return inputOnKeyup(event,this)"
 						onFocus="return inputOnFocus(event,this)"
@@ -66,8 +66,8 @@
 				<span class="fc00">*</span>面<span style="margin-right: 2em;"></span>积：
 			</dt>
 			<dd>
-				<input id="grossFloorArea" type="text" class="ipt-text referprice"
-					style="width: 85%;" pattern="^[0-9]+\.{0,1}[0-9]{0,2}$" required>
+				<input id="grossFloorArea" type="text" class="ipt-text referprice" onkeyup="assessment()"
+					style="width: 85%;" pattern="^[0-9]+\.{0,1}[0-9]{0,2}$" required autocomplete="off">
 				平米
 			</dd>
 		</dl>
@@ -77,7 +77,7 @@
 					style="margin-right: 2em;"></span>向：
 			</dt>
 			<dd>
-				<select name="forward" id="forward" class="referprice">
+				<select name="forward" id="forward" class="referprice" onchange="assessment()">
 					<option value="南北">南北</option>
 					<option value="南">南</option>
 					<option value="东南">东南</option>
@@ -112,18 +112,18 @@
 					style="margin-right: 2em;"></span>层：
 			</dt>
 			<dd>
-				第 <input id="curFloor" type="text" pattern="^[1-9][0-9]*$" required
-					class="ipt-text referprice" style="width: 27%;"> 层<span
+				第 <input id="curFloor" type="text" pattern="^[1-9][0-9]*$" required autocomplete="off"
+					class="ipt-text referprice" style="width: 27%;" onkeyup="assessment()"> 层<span
 					style="margin-right: 2em;"></span>共 <input id="totalFloor"
-					type="text" pattern="^[1-9][0-9]*$" required
+					type="text" pattern="^[1-9][0-9]*$" required autocomplete="off"
 					class="ipt-text referprice" style="width: 27%;"> 层
 			</dd>
 		</dl>
 		<div class="formIntro">
 			<p class="f16" id="pgShow"></p>
 			<p class="f16">
-				<!-- 					参考价格：<span class="fc00" id="refPrice">暂无</span><span id="priceUnit"></span> -->
-				参考价格：<span class="fc00" id="refPrice">124</span><span id="priceUnit">万/套</span>
+				参考价格：<span class="fc00" id="refPrice">暂无</span><span id="priceUnit"></span>
+<!-- 				参考价格：<span class="fc00" id="refPrice">124</span><span id="priceUnit">万/套</span> -->
 			</p>
 			<p class="f14 f999">评估价格仅供参考</p>
 		</div>
@@ -132,7 +132,7 @@
 				<span class="fc00">*</span>价<span style="margin-right: 2em;"></span>格：
 			</dt>
 			<dd>
-				<input id="totalPrice" name="price" type="text"
+				<input id="totalPrice" name="price" type="text" autocomplete="off"
 					pattern="^[1-9][0-9]*$" required class="ipt-text"
 					style="width: 80%;"> 万/套
 			</dd>

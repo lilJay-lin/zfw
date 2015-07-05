@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import com.mimi.zfw.mybatis.pojo.REPImage;
 import com.mimi.zfw.mybatis.pojo.REPPano;
 import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IHouseTypeService;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.IREPImageService;
@@ -32,6 +35,7 @@ import com.mimi.zfw.service.IRealEstateProjectService;
 
 @Controller
 public class XFController {
+	private static final Logger LOG = LoggerFactory.getLogger(XFController.class);  
 
 	@Resource
 	private IRealEstateProjectService repService;
@@ -48,7 +52,11 @@ public class XFController {
 	@Resource
 	private IHouseTypeService htService;
 	
-	@Resource IInformationService infoService;
+	@Resource 
+	IInformationService infoService;
+	
+	@Resource 
+	IAliyunOSSService aossService;
 
 	@RequestMapping(value = "/xf", method = { RequestMethod.GET })
 	public String xf(HttpServletRequest request) {
@@ -57,6 +65,12 @@ public class XFController {
 						null, null, null, 0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = repService.countRealEstateProjectByParams(null, null,
 				null, null, null, null, null);
+		if(list!=null && !list.isEmpty()){
+			for(int i=0;i<list.size();i++){
+				RealEstateProject rep = list.get(i);
+				rep.setPreImageUrl(aossService.addImgParams(rep.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+			}
+		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
 		// request.getSession().setAttribute("results", list);
@@ -80,6 +94,12 @@ public class XFController {
 			int totalNum = repService.countRealEstateProjectByParams(keyWord,
 					region, averagePrice, roomNum, grossFloorArea, saleStatus,
 					null);
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					RealEstateProject rep = list.get(i);
+					rep.setPreImageUrl(aossService.addImgParams(rep.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
 			request.setAttribute("results", list);
 			request.setAttribute("total", totalNum);
 			// request.getSession().setAttribute("results", list);
@@ -90,6 +110,13 @@ public class XFController {
 					orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
 			int totalNum = htService.countHouseTypeByParams(keyWord, region,
 					averagePrice, roomNum, grossFloorArea, saleStatus);
+
+			if(list!=null && !list.isEmpty()){
+				for(int i=0;i<list.size();i++){
+					HouseType ht = list.get(i);
+					ht.setPreImageUrl(aossService.addImgParams(ht.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				}
+			}
 			// request.getSession().setAttribute("results", list);
 			// request.getSession().setAttribute("total", totalNum);
 			request.setAttribute("results", list);
@@ -120,15 +147,28 @@ public class XFController {
 								averagePrice, roomNum, grossFloorArea,
 								saleStatus, bound, orderBy, targetPage,
 								pageSize);
+				if(list!=null && !list.isEmpty()){
+					for(int i=0;i<list.size();i++){
+						RealEstateProject rep = list.get(i);
+						rep.setPreImageUrl(aossService.addImgParams(rep.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+					}
+				}
 				jo.put("results", list);
 			} else {
 				List<HouseType> list = htService.findHouseTypeByParams(keyWord,
 						region, averagePrice, roomNum, grossFloorArea,
 						saleStatus, orderBy, targetPage, pageSize);
+				if(list!=null && !list.isEmpty()){
+					for(int i=0;i<list.size();i++){
+						HouseType ht = list.get(i);
+						ht.setPreImageUrl(aossService.addImgParams(ht.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+					}
+				}
 				jo.put("results", list);
 			}
 			jo.put("success", true);
 		} catch (Exception e) {
+			LOG.error("查询新房出错！",e);
 			jo.put("success", false);
 			jo.put("msg", "查询出错!");
 		}
@@ -200,6 +240,24 @@ public class XFController {
 			map.put("imgUrl", videos.get(i).getPreImageUrl());
 			topImgs.add(map);
 		}
+		if(panos!=null && !panos.isEmpty()){
+			for(int i=0;i<panos.size();i++){
+				REPPano pano = panos.get(i);
+				pano.setPreImageUrl(aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+		if(videos!=null && !videos.isEmpty()){
+			for(int i=0;i<videos.size();i++){
+				REPVideo video = videos.get(i);
+				video.setPreImageUrl(aossService.addImgParams(video.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
+		if(topImgs!=null && !topImgs.isEmpty()){
+			for(int i=0;i<topImgs.size();i++){
+				Map<String, String> map = topImgs.get(i);
+				map.put("imgUrl",aossService.addImgParams(map.get("imgUrl"), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_BANNER));
+			}
+		}
 
 		List<HouseType> hts = htService.getHouseTypeByREPId(id);
 
@@ -254,42 +312,74 @@ public class XFController {
 		return "ui/xf/detail";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/xf/{id}/photos", method = { RequestMethod.GET })
 	public String toPhoto(HttpServletRequest request, @PathVariable String id) {
 		List<REPImage> images = repiService.getImagesByREPId(id);
-		List<REPImage> jtt = new ArrayList<REPImage>();
-		List<REPImage> ptt = new ArrayList<REPImage>();
-		List<REPImage> sjt = new ArrayList<REPImage>();
-		List<REPImage> xgt = new ArrayList<REPImage>();
-
-		for (int i = 0; i < images.size(); i++) {
-			REPImage ri = images.get(i);
-			switch (ri.getType()) {
-			case Constants.REP_IMAGE_TYPE_JTT:
-				jtt.add(ri);
-				break;
-			case Constants.REP_IMAGE_TYPE_PTT:
-				ptt.add(ri);
-				break;
-			case Constants.REP_IMAGE_TYPE_SJT:
-				sjt.add(ri);
-				break;
-			case Constants.REP_IMAGE_TYPE_XGT:
-				xgt.add(ri);
-				break;
-			default:
-				break;
-			}
-		}
-
 		List<REPPano> panos = reppService.getPanosByHTId(id);
 		List<REPVideo> videos = repvService.getVideosByHTId(id);
-		request.setAttribute("panos", panos);
-		request.setAttribute("videos", videos);
-		request.setAttribute("jtt", jtt);
-		request.setAttribute("ptt", ptt);
-		request.setAttribute("sjt", sjt);
-		request.setAttribute("xgt", xgt);
+
+		List<Map<String,Object>> photos = new ArrayList<Map<String,Object>>();
+		if(panos!=null && !panos.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_PANO);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<panos.size();i++){
+				REPPano pano = panos.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", pano.getName());
+				map.put("contentUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(pano.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_PANO);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+
+		if(videos!=null && !videos.isEmpty()){
+			Map<String,Object> listMap = new HashMap<String,Object>();
+			listMap.put("name", Constants.PHOTO_DATA_TITLE_VIDEO);
+			List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+			for(int i=0;i<videos.size();i++){
+				REPVideo video = videos.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", video.getName());
+				map.put("contentUrl", aossService.addImgParams(video.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(video.getPreImageUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_VIDEO);
+				list.add(map);
+			}
+			listMap.put("list", list);
+			photos.add(listMap);
+		}
+
+		if(images!=null && !images.isEmpty()){
+			String[] types = {Constants.REP_IMAGE_TYPE_SJT,Constants.REP_IMAGE_TYPE_XGT,Constants.REP_IMAGE_TYPE_JTT,Constants.REP_IMAGE_TYPE_PTT};
+			List<Map<String,Object>> tempList = new ArrayList<Map<String,Object>>();
+			for(int j=0;j<types.length;j++){
+				Map<String,Object> tempMap = new HashMap<String,Object>();
+				tempMap.put("name", types[j]);
+				List<Map<String,String>> tempMapList = new ArrayList<Map<String,String>>();
+				tempMap.put("list", tempMapList);
+				tempList.add(tempMap);
+			}
+			for(int i=0;i<images.size();i++){
+				REPImage image = images.get(i);
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("name", image.getName());
+				map.put("contentUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_IMG));
+				map.put("preImageUrl", aossService.addImgParams(image.getContentUrl(), Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
+				map.put("dataType", Constants.PHOTO_DATA_TYPE_IMAGE);
+				for(int j=0;j<types.length;j++){
+					if(types[j].equals(image.getType())){
+						((List<Map<String,String>>) tempList.get(j).get("list")).add(map);
+					}
+				}
+			}
+			photos.addAll(tempList);
+		}
+		request.setAttribute("photos", photos);
 		return "ui/photo/photoList";
 	}
 

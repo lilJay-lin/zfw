@@ -468,8 +468,8 @@ header.homeHeader {
 .pc-banner .logined dt {
   display: table-cell;
   vertical-align: middle;
-  width: 55px;
-  height: 55px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #fff;
@@ -768,7 +768,7 @@ header.homeHeader {
 .bigNav .xzl i {
   background-position: 0px -150px;
 }
-.bigNav .ckcf i {
+.bigNav .cfck i {
   background-position: -50px -50px;
 }
 .bigNav .esfpg i {
@@ -1613,6 +1613,10 @@ header.homeHeader {
   overflow: hidden;
   background-size: 62px 62px;
 }
+.grade-addpic .add .upload-input {
+  width: 62px;
+  height: 62px;
+}
 .grade-addpic .imgClass {
   margin: 0px;
   width: 62px;
@@ -1651,4 +1655,96 @@ header.homeHeader {
 .taplink a.active {
   background: #63b8ff;
   color: #ffffff;
+}
+.mForm dl {
+  position: relative;
+  border-bottom: 1px solid #e4e4e4;
+  font-size: 16px;
+}
+.mForm dl:last-child {
+  border-bottom: none;
+}
+.mForm dt {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5.5em;
+  display: box;
+  display: -webkit-box;
+  display: -moz-box;
+}
+.mForm dt {
+  box-align: center;
+  box-pack: end;
+  box-orient: horizontal;
+  -webkit-box-align: center;
+  -webkit-box-pack: end;
+  -webkit-box-orient: horizontal;
+  -moz-box-align: center;
+  -moz-box-pack: end;
+  -moz-box-orient: horizontal;
+}
+.mForm dd {
+  margin-left: 5.5em;
+  padding: 10px;
+}
+.mForm input[type="text"],
+.mForm input[type="number"] {
+  vertical-align: initial;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: #999;
+}
+.mForm select {
+  border: none;
+  width: 100%;
+  font: inherit;
+  -webkit-appearance: none;
+  color: #999;
+}
+.mForm .selbox {
+  position: relative;
+}
+.mForm .selbox:after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  content: '';
+  margin-top: -3px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 5px;
+  border-color: #999 transparent transparent transparent;
+}
+.mBox {
+  border: 1px solid #e4e4e4;
+  border-width: 1px 0;
+  margin-bottom: 10px;
+}
+.cfjlm {
+  background-color: transparent;
+  text-align: center;
+}
+.loadmore {
+  position: relative;
+  padding-right: 15px;
+}
+.loadmore:after {
+  position: absolute;
+  content: '';
+  margin-left: 5px;
+  top: 50%;
+  margin-top: -5px;
+  width: 15px;
+  height: 15px;
+  background: url(../img/ui/icons/more.png) no-repeat;
+  background-size: 15px auto;
+}
+a.loadmore:link,
+a.loadmore:visited {
+  color: #333333;
 }

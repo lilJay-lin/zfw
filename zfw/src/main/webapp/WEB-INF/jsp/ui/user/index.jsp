@@ -69,13 +69,9 @@
 					<div class="bor">
 						<span class="flol icon xzl"></span> <span class="flol">我的写字楼</span>
 					</div>
-				</a> <a class="pc-content-item" href="${ctx }/user/ck">
+				</a> <a class="pc-content-item" href="${ctx }/user/cfck">
 					<div class="bor">
-						<span class="flol icon ck"></span> <span class="flol">我的仓库</span>
-					</div>
-				</a> <a class="pc-content-item" href="${ctx }/user/cf">
-					<div class="bor">
-						<span class="flol icon cf"></span> <span class="flol">我的厂房</span>
+						<span class="flol icon ck"></span> <span class="flol">我的厂房仓库</span>
 					</div>
 				</a>
 			</div>

@@ -190,8 +190,8 @@ $(function(){
 		   var filePath=$(element).val();
 		   var extStart=filePath.lastIndexOf(".");
 		   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
-		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"){
-			   return "图片限于png,gif,jpg格式";
+		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
+			   return "图片限于png,gif,jpg,jpeg格式";
 		   }else{
 				if(element.files[0].size>20*1024*1024){
 					return "图片最大支持20M";

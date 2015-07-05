@@ -1,8 +1,5 @@
 package com.mimi.zfw.util;
 
-import java.util.Calendar;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 public class NumberUtil {
 	public static int getIntOrZero(Object obj){
@@ -30,9 +27,11 @@ public class NumberUtil {
 //		Float f = 13.12314f;
 //		int k =  (int) f.floatValue();
 //		System.out.println(k);
-		Integer k = null;
-		if(k>3){
-			System.out.println(23);
-		}
+//		Integer k = null;
+//		if(k>3){
+//			System.out.println(23);
+//		}
+//		Object k = "sdf";
+//		System.out.println(StringUtils.isBlank((String) k));
 	}
 }
