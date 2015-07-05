@@ -473,6 +473,8 @@ public class UserController {
 	return "mi/user/index";
     }
 
+    @RequestMapping(value = "/mi/users/page/{curPage}", method = { RequestMethod.GET })
+    @ResponseBody
     public Object miIndex(HttpServletRequest request, @PathVariable int curPage) {
 
 	Object res = null;

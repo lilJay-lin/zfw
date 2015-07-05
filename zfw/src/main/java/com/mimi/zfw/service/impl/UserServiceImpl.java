@@ -404,29 +404,29 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	return len;
     }
 
-    @Override
-    public int deleteBatchUserAddFlag(List<String> ids) {
-	// TODO Auto-generated method stub
+//    @Override
+//    public int deleteBatchUserAddFlag(List<String> ids) {
+//	// TODO Auto-generated method stub
+//
+//	UserExample ue = new UserExample();
+//	ue.or().andIdIn(ids);
+//	User user = new User();
+//	user.setDelFlag(true);
+//	int row = um.updateByExampleSelective(user, ue);
+//
+//	return row;
+//    }
 
-	UserExample ue = new UserExample();
-	ue.or().andIdIn(ids);
-	User user = new User();
-	user.setDelFlag(true);
-	int row = um.updateByExampleSelective(user, ue);
-
-	return row;
-    }
-
-    @Override
-    public int deleteUserAddFlag(String id) {
-	// TODO Auto-generated method stub
-	User user = new User();
-	user.setId(id);
-	user.setDelFlag(true);
-	int row = um.updateByPrimaryKeySelective(user);
-
-	return row;
-    }
+//    @Override
+//    public int deleteUserAddFlag(String id) {
+//	// TODO Auto-generated method stub
+//	User user = new User();
+//	user.setId(id);
+//	user.setDelFlag(true);
+//	int row = um.updateByPrimaryKeySelective(user);
+//
+//	return row;
+//    }
 
     @Override
     public int updateBatchUser(String userids, User user) {
@@ -443,44 +443,54 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	}
 
 	UserExample ue = new UserExample();
-	ue.or().andIdIn(userList);
+	ue.or().andIdIn(userList).andDelFlagEqualTo(false);
 
 	int row = um.updateByExampleSelective(user, ue);
-
+	
+	Boolean delFlag = user.getDelFlag();
+	
+	if(delFlag == true){
+	    RelationUserAndRoleExample userRolesExample = new RelationUserAndRoleExample();
+	    userRolesExample.or().andUserIdIn(userList).andDelFlagEqualTo(false);
+	    RelationUserAndRole record = new RelationUserAndRole();
+	    record.setDelFlag(true);
+	    userRoleMapper.updateByExampleSelective(record, userRolesExample);
+	}
+	
 	return row;
     }
 
-    @Override
-    public List<Map<String, Object>> findUserRoleByUser(UserExample example) {
-	// TODO Auto-generated method stub
-	if (example == null) {
-	    return null;
-	}
-	List<Map<String, Object>> res = new ArrayList<Map<String, Object>>();
-
-	List<User> users = um.selectByExample(example);
-
-	if (users != null) {
-	    for (User user : users) {
-		RelationUserAndRoleExample ex = new RelationUserAndRoleExample();
-		ex.or().andUserIdEqualTo(user.getId());
-
-		List<RelationUserAndRole> userRoles = userRoleMapper
-			.selectByExample(ex);
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("user", user);
-		map.put("userRole", userRoles);
-
-		res.add(map);
-
-	    }
-
-	}
-
-	return res;
-    }
+//    @Override
+//    public List<Map<String, Object>> findUserRoleByUser(UserExample example) {
+//	// TODO Auto-generated method stub
+//	if (example == null) {
+//	    return null;
+//	}
+//	List<Map<String, Object>> res = new ArrayList<Map<String, Object>>();
+//
+//	List<User> users = um.selectByExample(example);
+//
+//	if (users != null) {
+//	    for (User user : users) {
+//		RelationUserAndRoleExample ex = new RelationUserAndRoleExample();
+//		ex.or().andUserIdEqualTo(user.getId());
+//
+//		List<RelationUserAndRole> userRoles = userRoleMapper
+//			.selectByExample(ex);
+//
+//		Map<String, Object> map = new HashMap<String, Object>();
+//
+//		map.put("user", user);
+//		map.put("userRole", userRoles);
+//
+//		res.add(map);
+//
+//	    }
+//
+//	}
+//
+//	return res;
+//    }
 
     @Override
     public int saveRelationUserAndRole(String userid, String roleids) {
@@ -525,7 +535,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    }
 
 	    RelationUserAndRoleExample userRoleExample = new RelationUserAndRoleExample();
-	    userRoleExample.or().andUserIdEqualTo(userid).andRoleIdIn(roleList);
+	    userRoleExample.or().andUserIdEqualTo(userid).andRoleIdIn(roleList).andDelFlagEqualTo(false);;
 
 	    RelationUserAndRole record = new RelationUserAndRole();
 	    record.setDelFlag(true);

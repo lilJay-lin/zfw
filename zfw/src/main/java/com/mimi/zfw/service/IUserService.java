@@ -48,13 +48,13 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
     
     public int countUserByParams(String name);
     
-    public int deleteBatchUserAddFlag(List<String> ids);
+//    public int deleteBatchUserAddFlag(List<String> ids);
     
-    public int deleteUserAddFlag(String id);
+//    public int deleteUserAddFlag(String id);
     
     public int updateBatchUser(String userids,User user);
     
-    public List<Map<String,Object>> findUserRoleByUser(UserExample example);
+//    public List<Map<String,Object>> findUserRoleByUser(UserExample example);
     
     public int saveRelationUserAndRole(String userid ,String roleids);
     
