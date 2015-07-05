@@ -205,7 +205,7 @@ public class RSAUtil {
 		try {
 			Cipher cipher = Cipher.getInstance("RSA",
 					new org.bouncycastle.jce.provider.BouncyCastleProvider());
-			cipher.init(cipher.DECRYPT_MODE, pk);
+			cipher.init(Cipher.DECRYPT_MODE, pk);
 			int blockSize = cipher.getBlockSize();
 			ByteArrayOutputStream bout = new ByteArrayOutputStream(64);
 			int j = 0;

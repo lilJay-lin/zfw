@@ -2,10 +2,6 @@ package com.mimi.zfw.service;
 
 import java.util.List;
 
-import com.mimi.zfw.mybatis.pojo.HTImage;
-import com.mimi.zfw.mybatis.pojo.HTPano;
-import com.mimi.zfw.mybatis.pojo.HTRing;
-import com.mimi.zfw.mybatis.pojo.HouseType;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
 

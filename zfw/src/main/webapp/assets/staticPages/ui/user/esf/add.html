@@ -263,6 +263,7 @@
 <script>
 	function inputOnKeyup(event, element) {
 		nameChange(element);
+		assessment();
 	}
 	function inputOnFocus(event, element) {
 		var ele = $(element);
@@ -291,9 +292,7 @@
 					var container = $("#" + ele.attr("resultContainer"));
 					container.empty();
 					for (var i = 0; i < 20; i++) {
-						var str = ' <li class="li-loudong" data-id="dataId"  onclick="selectName(this,"'
-								+ ele.attr("resultContainer")
-								+ '")">'
+						var str = ' <li class="li-loudong" data-id="dataId"  onclick="selectName(this)">'
 								+ ele.attr("searchingName") + '_' + i + '</li>';
 						container.append(str);
 					}
@@ -303,9 +302,11 @@
 					}
 				}, 1000);
 	}
-	function selectName(element, containerId) {
+	function selectName(element) {
 		var ele = $(element);
-		alert(ele.html());
+		$("#projname").val(ele.html());
+		assessment();
+// 		alert(ele.html());
 	}
 
 	function submitForm() {
@@ -346,5 +347,8 @@
 	}
 // 	var str = '<dd id="file_2"><img src="http://js.soufunimg.com/common_m/m_public/images/loading.gif" class="imgClass"><a href="javascript:;" class="del"></a></dd>';
 // 	alert($(str).children(".imgClass").attr("src"));
+function assessment(){
+	alert($("#projname").val()+"_"+$("#area").val()+"_"+$("#forward").val()+"_"+$("#floor").val());
+}
 </script>
 </html>

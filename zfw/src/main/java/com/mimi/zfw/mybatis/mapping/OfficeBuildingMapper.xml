@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mimi.zfw.mybatis.dao.OfficeBuildingMapper" >
+  <resultMap id="BaseResultMap" type="com.mimi.zfw.mybatis.pojo.OfficeBuilding" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="rental" property="rental" jdbcType="INTEGER" />
+    <result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+    <result column="gross_floor_area" property="grossFloorArea" jdbcType="REAL" />
+    <result column="decoration_status" property="decorationStatus" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="rent_or_sale" property="rentOrSale" jdbcType="VARCHAR" />
+    <result column="property_fee" property="propertyFee" jdbcType="REAL" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="out_of_date" property="outOfDate" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="pre_image_url" property="preImageUrl" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="last_editor" property="lastEditor" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, region, phone_num, rental, total_price, gross_floor_area, decoration_status, 
+    address, introduction, rent_or_sale, property_fee, type, out_of_date, description, 
+    tags, priority, pre_image_url, creater, last_editor, create_date, update_date, del_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuildingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_office_building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_office_building
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tbl_office_building
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuildingExample" >
+    delete from tbl_office_building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuilding" >
+    insert into tbl_office_building (id, name, region, 
+      phone_num, rental, total_price, 
+      gross_floor_area, decoration_status, address, 
+      introduction, rent_or_sale, property_fee, 
+      type, out_of_date, description, 
+      tags, priority, pre_image_url, 
+      creater, last_editor, create_date, 
+      update_date, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{rental,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, 
+      #{grossFloorArea,jdbcType=REAL}, #{decorationStatus,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=VARCHAR}, #{rentOrSale,jdbcType=VARCHAR}, #{propertyFee,jdbcType=REAL}, 
+      #{type,jdbcType=VARCHAR}, #{outOfDate,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{preImageUrl,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuilding" >
+    insert into tbl_office_building
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="phoneNum != null" >
+        phone_num,
+      </if>
+      <if test="rental != null" >
+        rental,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="grossFloorArea != null" >
+        gross_floor_area,
+      </if>
+      <if test="decorationStatus != null" >
+        decoration_status,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="rentOrSale != null" >
+        rent_or_sale,
+      </if>
+      <if test="propertyFee != null" >
+        property_fee,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="outOfDate != null" >
+        out_of_date,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="lastEditor != null" >
+        last_editor,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="rental != null" >
+        #{rental,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="grossFloorArea != null" >
+        #{grossFloorArea,jdbcType=REAL},
+      </if>
+      <if test="decorationStatus != null" >
+        #{decorationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="rentOrSale != null" >
+        #{rentOrSale,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyFee != null" >
+        #{propertyFee,jdbcType=REAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="outOfDate != null" >
+        #{outOfDate,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="preImageUrl != null" >
+        #{preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEditor != null" >
+        #{lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuildingExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_office_building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_office_building
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNum != null" >
+        phone_num = #{record.phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rental != null" >
+        rental = #{record.rental,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.grossFloorArea != null" >
+        gross_floor_area = #{record.grossFloorArea,jdbcType=REAL},
+      </if>
+      <if test="record.decorationStatus != null" >
+        decoration_status = #{record.decorationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rentOrSale != null" >
+        rent_or_sale = #{record.rentOrSale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyFee != null" >
+        property_fee = #{record.propertyFee,jdbcType=REAL},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outOfDate != null" >
+        out_of_date = #{record.outOfDate,jdbcType=BIT},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.preImageUrl != null" >
+        pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null" >
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastEditor != null" >
+        last_editor = #{record.lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_office_building
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      phone_num = #{record.phoneNum,jdbcType=VARCHAR},
+      rental = #{record.rental,jdbcType=INTEGER},
+      total_price = #{record.totalPrice,jdbcType=INTEGER},
+      gross_floor_area = #{record.grossFloorArea,jdbcType=REAL},
+      decoration_status = #{record.decorationStatus,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      rent_or_sale = #{record.rentOrSale,jdbcType=VARCHAR},
+      property_fee = #{record.propertyFee,jdbcType=REAL},
+      type = #{record.type,jdbcType=VARCHAR},
+      out_of_date = #{record.outOfDate,jdbcType=BIT},
+      description = #{record.description,jdbcType=VARCHAR},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      pre_image_url = #{record.preImageUrl,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      last_editor = #{record.lastEditor,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{record.delFlag,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuilding" >
+    update tbl_office_building
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="rental != null" >
+        rental = #{rental,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="grossFloorArea != null" >
+        gross_floor_area = #{grossFloorArea,jdbcType=REAL},
+      </if>
+      <if test="decorationStatus != null" >
+        decoration_status = #{decorationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="rentOrSale != null" >
+        rent_or_sale = #{rentOrSale,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyFee != null" >
+        property_fee = #{propertyFee,jdbcType=REAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="outOfDate != null" >
+        out_of_date = #{outOfDate,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="preImageUrl != null" >
+        pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEditor != null" >
+        last_editor = #{lastEditor,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mimi.zfw.mybatis.pojo.OfficeBuilding" >
+    update tbl_office_building
+    set name = #{name,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      rental = #{rental,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=INTEGER},
+      gross_floor_area = #{grossFloorArea,jdbcType=REAL},
+      decoration_status = #{decorationStatus,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      rent_or_sale = #{rentOrSale,jdbcType=VARCHAR},
+      property_fee = #{propertyFee,jdbcType=REAL},
+      type = #{type,jdbcType=VARCHAR},
+      out_of_date = #{outOfDate,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      pre_image_url = #{preImageUrl,jdbcType=VARCHAR},
+      creater = #{creater,jdbcType=VARCHAR},
+      last_editor = #{lastEditor,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+</mapper>

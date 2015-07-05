@@ -16,9 +16,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.mimi.zfw.Constants;
+import com.mimi.zfw.listener.InitData;
 import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
 import com.mimi.zfw.mybatis.dao.RoleMapper;
 import com.mimi.zfw.mybatis.dao.UserMapper;
@@ -36,6 +39,7 @@ import com.mimi.zfw.web.shiro.authc.UniqueidUsernamePasswordToken;
 @Service
 public class UserServiceImpl extends BaseService<User, UserExample, String>
 	implements IUserService {
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);  
     @Resource
     private UserMapper um;
     @Resource
@@ -307,14 +311,14 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    Iterator<String> it = set.iterator();
 	    int i = 0;
 	    while (it.hasNext()) {
-		i++;
-		String tempStr = it.next();
-		if (i == 2) {
-		    idStr = tempStr;
-		}
+			i++;
+			String tempStr = it.next();
+			if (i == 2) {
+			    idStr = tempStr;
+			}
 	    }
 	} catch (Exception e) {
-
+		LOG.error("获取当前用户ID出错！",e);
 	}
 	return idStr;
     }
@@ -638,5 +642,4 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	return resMap;
 
     }
-
 }

@@ -45,6 +45,10 @@
 		<property name="minIdle" value="${minIdle}"></property>
 		<!-- 获取连接最大等待时间 -->
 		<property name="maxWait" value="${maxWait}"></property>
+<!-- 		testOnBorrow的意思是从数据库连接池中取得连接时，对其的有效性进行检查。 -->
+		<property name="testOnBorrow" value="true"></property>
+<!-- 		validationQuery 是用来检查的SQL语句，“select 1”执行较快，是一个不错的检测语句。 -->
+		<property name="validationQuery" value="select 1"></property>
 	</bean>
 
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
@@ -84,6 +88,7 @@
 			<tx:method name="init*" propagation="REQUIRED" />
 			<tx:method name="sign*" propagation="REQUIRED" />
 			<tx:method name="refresh*" propagation="REQUIRED" />
+			<tx:method name="reset*" propagation="REQUIRED" />
 			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="find*" propagation="REQUIRED" read-only="true" />

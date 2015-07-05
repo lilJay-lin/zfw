@@ -1,6 +1,5 @@
 package com.mimi.zfw.service.impl;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -83,19 +82,8 @@ public class ResidenceCommunityServiceImpl extends
 	}
 
 	private void initTestData() {
-		String[] imgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg" };
-		String[] preImgUrl = {
-				"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg",
-				"https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg",
-				"https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg",
-				"https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg" };
-
+		String[] imgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
+		String[] preImgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		String[] names = { "百花园", "林隐天下", "比湖广场", "星湖名郡", "泰湖新城", "明珠花园",
 				"伴月花园", "恒裕海湾", "荷花苑", "龙景花园" };
 		String[] addressList = {
@@ -207,7 +195,7 @@ public class ResidenceCommunityServiceImpl extends
 
 				rc.setTags("标签1,标签2,标签3");
 				rc.setPriority((int) (Math.random() * 100));
-				rc.setPreImageUrl("http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg");
+				rc.setPreImageUrl(Constants.ALIYUN_OSS_TEST_IMG_URLS[0]);
 
 				for (int v = 0; v < imgUrl.length; v++) {
 					RCImage ri = new RCImage();
@@ -277,7 +265,7 @@ public class ResidenceCommunityServiceImpl extends
 					shh.setDescription("描述阿里山的房间了看阿什利打飞机阿什利打飞机拉氏底鳉蓝山咖啡的加了少看点卡拉斯");
 					shh.setTags("标签1,标签2,标签3");
 					shh.setPriority((int) (Math.random() * 50));
-					shh.setPreImageUrl("http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg");
+					shh.setPreImageUrl(Constants.ALIYUN_OSS_TEST_IMG_URLS[3]);
 
 					for (int ki = 0; ki < imgUrl.length; ki++) {
 						SHHImage si = new SHHImage();
@@ -372,7 +360,7 @@ public class ResidenceCommunityServiceImpl extends
 					rh.setDescription("描述阿里山的房间了看阿什利打飞机阿什利打飞机拉氏底鳉蓝山咖啡的加了少看点卡拉斯");
 					rh.setTags("标签1,标签2,标签3");
 					rh.setPriority((int) (Math.random() * 50));
-					rh.setPreImageUrl("http://img2.imgtn.bdimg.com/it/u=4157877028,1827198230&fm=21&gp=0.jpg");
+					rh.setPreImageUrl(Constants.ALIYUN_OSS_TEST_IMG_URLS[6]);
 
 					for (int ki = 0; ki < imgUrl.length; ki++) {
 						RHImage ri = new RHImage();
@@ -652,6 +640,17 @@ public class ResidenceCommunityServiceImpl extends
 		}
 		rcm.updateByPrimaryKeySelective(rc);
 		return rc;
+	}
+
+	@Override
+	public ResidenceCommunity getByName(String name) {
+		ResidenceCommunityExample rce = new ResidenceCommunityExample();
+		rce.or().andNameEqualTo(name).andDelFlagEqualTo(false);
+		List<ResidenceCommunity> list = rcm.selectByExample(rce);
+		if(list!=null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 }

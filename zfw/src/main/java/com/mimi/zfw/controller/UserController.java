@@ -1,14 +1,7 @@
 package com.mimi.zfw.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.interfaces.RSAPublicKey;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +20,8 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +36,7 @@ import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.User;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
@@ -49,6 +45,8 @@ import com.mimi.zfw.web.shiro.exception.IncorrectCaptchaException;
 
 @Controller
 public class UserController {
+    private static final Logger LOG = LoggerFactory
+	    .getLogger(UserController.class);
 
     @Resource
     private IUserService userService;
@@ -58,6 +56,8 @@ public class UserController {
     private GeetestLib geetest;
     @Resource
     private CCPRestSmsSDK ytxAPI;
+    @Resource
+    private IAliyunOSSService aossService;
 
     @RequestMapping(value = "/user", method = { RequestMethod.GET })
     public String user(HttpServletRequest request) {
@@ -76,6 +76,8 @@ public class UserController {
 	String hiu = Constants.HEAD_IMG_DEFAULT_URL;
 	if (user != null && StringUtils.isNotBlank(user.getHeadImgUrl())) {
 	    hiu = user.getHeadImgUrl();
+	    hiu = aossService.addImgParams(hiu,
+		    Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 	}
 	if (hiu.indexOf("http://") == -1
 		&& hiu.indexOf(request.getContextPath()) == -1) {
@@ -126,6 +128,7 @@ public class UserController {
 			request.getParameter("publicExponent"),
 			request.getParameter("modulus"), command.getPassword());
 	    } catch (Exception e) {
+		LOG.error("密码解析出错！", e);
 		request.setAttribute("error", "密码解析出错，请稍后重试");
 		return "ui/user/resetPwd";
 	    }
@@ -275,6 +278,7 @@ public class UserController {
 			request.getParameter("publicExponent"),
 			request.getParameter("modulus"), command.getPassword());
 	    } catch (Exception e) {
+		LOG.error("密码解析出错！", e);
 		request.setAttribute("error", "密码解析出错，请稍后重试");
 		return "ui/user/register";
 	    }
@@ -286,6 +290,7 @@ public class UserController {
 		addHeadImgUrl(request);
 		return "ui/user/index";
 	    } catch (Exception e) {
+		LOG.error("密码登录出错！", e);
 		checkResult = getErrorFromLoginExceptionName(e.getClass()
 			.getName());
 	    }
@@ -347,6 +352,7 @@ public class UserController {
 	    }
 	    jo.put("success", true);
 	} catch (Exception e) {
+	    LOG.error("校验登录名出错！", e);
 	    jo.put("success", false);
 	    jo.put("msg", "校验出错！");
 	}
@@ -371,6 +377,7 @@ public class UserController {
 	    }
 	    jo.put("success", true);
 	} catch (Exception e) {
+	    LOG.error("校验电话号码出错！", e);
 	    jo.put("success", false);
 	    jo.put("msg", "校验出错！");
 
@@ -386,27 +393,27 @@ public class UserController {
 	JSONObject jo = new JSONObject();
 	boolean result = geetest.validateRequest(request);
 	if (result) {
-	    // int rNum = (int) (Math.random() * 999999);
-	    // String rNumStr = String.valueOf(rNum);
-	    // while (rNumStr.length() < 6) {
-	    // rNumStr = "0" + rNumStr;
-	    // }
-	    // HashMap<String, Object> receiveMap = ytxAPI.sendTemplateSMS(
-	    // phoneNum, "1", new String[] { rNumStr, "44" });
-	    // if ("000000".equals(receiveMap.get("statusCode"))) {
+	    int rNum = (int) (Math.random() * 999999);
+	    String rNumStr = String.valueOf(rNum);
+	    while (rNumStr.length() < 6) {
+		rNumStr = "0" + rNumStr;
+	    }
+	    HashMap<String, Object> receiveMap = ytxAPI.sendTemplateSMS(
+		    phoneNum, "1", new String[] { rNumStr, "44" });
+	    if ("000000".equals(receiveMap.get("statusCode"))) {
+		request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
+			phoneNum);
+		request.getSession().setAttribute(
+			Constants.ACCESS_PHONE_CAPTCHA, rNumStr);
+	    } else {
+		result = false;
+		jo.put("msg", "发送验证码出错，请稍后重试");
+	    }
+
 	    // request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
 	    // phoneNum);
-	    // request.getSession().setAttribute(
-	    // Constants.ACCESS_PHONE_CAPTCHA, rNumStr);
-	    // } else {
-	    // result = false;
-	    // jo.put("msg", "发送验证码出错，请稍后重试");
-	    // }
-
-	    request.getSession().setAttribute(Constants.ACCESS_PHONE_NUM,
-		    phoneNum);
-	    request.getSession().setAttribute(Constants.ACCESS_PHONE_CAPTCHA,
-		    "414141");
+	    // request.getSession().setAttribute(Constants.ACCESS_PHONE_CAPTCHA,
+	    // "414141");
 	} else {
 	    jo.put("msg", Constants.SMOOTH_CAPTCHA_ERROR);
 	}
@@ -417,6 +424,11 @@ public class UserController {
     @RequestMapping(value = "/user/success", method = { RequestMethod.GET })
     public String success() {
 	return "user/success";
+    }
+
+    @RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
+    public String indexMI() {
+	return "mi/user/index";
     }
 
     @RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
@@ -442,55 +454,17 @@ public class UserController {
 
 	JSONObject jo = new JSONObject();
 	try {
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(new Date());
-	    cal.getTimeInMillis();
-	    int year = cal.get(Calendar.YEAR);
-	    int month = cal.get(Calendar.MONTH) + 1;
-	    int day = cal.get(Calendar.DAY_OF_MONTH);
-	    int hour = cal.get(Calendar.HOUR_OF_DAY);
-	    String path = "/assets/upload/" + year + "/" + month + "/" + day
-		    + "/" + hour + "/";
-	    path = request.getContextPath()
-		    + path
-		    + saveFileToServer(theFile, request.getSession()
-			    .getServletContext().getRealPath("/")
-			    + path);
+	    String path = aossService.saveFileToServer(theFile);
+	    path = aossService.addImgParams(path,
+		    Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 	    jo.put("imgPath", path);
 	    jo.put("success", true);
 	} catch (IOException e) {
+	    LOG.error("保存用户头像出错！", e);
 	    jo.put("success", false);
 	    jo.put("msg", "保存图片失败");
 	}
 	return jo.toString();
-    }
-
-    public String saveFileToServer(MultipartFile multifile, String path)
-	    throws IOException {
-	// 创建目录
-	File dir = new File(path);
-	if (!dir.exists()) {
-	    dir.mkdirs();
-	}
-	String fileName = multifile.getOriginalFilename();
-	fileName = UUID.randomUUID().toString()
-		+ fileName.substring(fileName.lastIndexOf("."));
-	// String fileName = UUID.randomUUID().toString();
-	// 读取文件流并保持在指定路径
-	InputStream inputStream = multifile.getInputStream();
-	OutputStream outputStream = new FileOutputStream(path + fileName);
-	byte[] buffer = multifile.getBytes();
-	int bytesum = 0;
-	int byteread = 0;
-	while ((byteread = inputStream.read(buffer)) != -1) {
-	    bytesum += byteread;
-	    outputStream.write(buffer, 0, byteread);
-	    outputStream.flush();
-	}
-	outputStream.close();
-	inputStream.close();
-
-	return fileName;
     }
 
     @RequestMapping(value = "/mi/users", method = { RequestMethod.GET })
@@ -499,8 +473,6 @@ public class UserController {
 	return "mi/user/index";
     }
 
-    @RequestMapping(value = "/mi/users/page/{curPage}", method = { RequestMethod.GET })
-    @ResponseBody
     public Object miIndex(HttpServletRequest request, @PathVariable int curPage) {
 
 	Object res = null;
@@ -529,26 +501,25 @@ public class UserController {
 	return res;
     }
 
-
     @RequestMapping(value = "/mi/user/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getUser(@PathVariable String id, HttpServletRequest request) {
 
 	JSONObject jo = new JSONObject();
-	
+
 	try {
 	    User user = (User) userService.get(id);
-	    if(user !=null){
-	        jo.put("user", user);
-	        List<Role> relationroles = roleService.getRolesByUserId(user.getId());
-	        jo.put("relationroles",relationroles);
+	    if (user != null) {
+		jo.put("user", user);
+		List<Role> relationroles = roleService.getRolesByUserId(user
+			.getId());
+		jo.put("relationroles", relationroles);
 	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    jo.put("user", null);
 	    jo.put("relationroles", null);
 	}
-	
 
 	return jo.toString();
     }
@@ -559,13 +530,14 @@ public class UserController {
 	// return new ModelAndView("mi/users/add","user",new User());
 
 	setRSAParams(model);
-	
+
 	return "mi/user/add";
     }
 
     @RequestMapping(value = "/mi/user", method = { RequestMethod.POST })
     @ResponseBody
-    public Object addUser(HttpServletRequest request, User user, String roles,String publicExponent,String modulus) {
+    public Object addUser(HttpServletRequest request, User user, String roles,
+	    String publicExponent, String modulus) {
 
 	JSONObject jo = new JSONObject();
 
@@ -574,17 +546,18 @@ public class UserController {
 	    jo.put("msg", "新增用户信息不能为空!");
 	} else {
 	    try {
-		String password = RSAUtil.getResult(publicExponent,modulus, user.getPassword());
+		String password = RSAUtil.getResult(publicExponent, modulus,
+			user.getPassword());
 		user.setPassword(password);
 	    } catch (Exception e) {
 		jo.put("success", false);
 		jo.put("msg", "密码解析出错，请稍后重试!");
 	    }
-	    
+
 	    try {
 		user.setId(UUID.randomUUID().toString());
 
-		Map<String,String> res = userService.addUser(user, roles);
+		Map<String, String> res = userService.addUser(user, roles);
 
 		if (StringUtils.isEmpty(res.get("msg"))) {
 		    jo.put("success", true);
@@ -605,45 +578,46 @@ public class UserController {
 
 	return jo.toString();
     }
-    
-    @RequestMapping(value="/mi/user/{userid}/edit", method = {RequestMethod.GET})
-    public String toUpdateUser(Model model,@PathVariable String userid){
-	
+
+    @RequestMapping(value = "/mi/user/{userid}/edit", method = { RequestMethod.GET })
+    public String toUpdateUser(Model model, @PathVariable String userid) {
+
 	model.addAttribute("userid", userid);
 	setRSAParams(model);
-	
+
 	return "/mi/user/edit";
     }
-    
-
 
     @RequestMapping(value = "/mi/user/{userid}", method = { RequestMethod.POST })
     @ResponseBody
-    public Object updateUser(HttpServletRequest request, User user,@PathVariable String userid,
-	    String addroles, String delroles,String publicExponent,String modulus) {
+    public Object updateUser(HttpServletRequest request, User user,
+	    @PathVariable String userid, String addroles, String delroles,
+	    String publicExponent, String modulus) {
 
 	JSONObject jo = new JSONObject();
 	try {
 
 	    try {
-		String password = RSAUtil.getResult(publicExponent,modulus, user.getPassword());
+		String password = RSAUtil.getResult(publicExponent, modulus,
+			user.getPassword());
 		user.setPassword(password);
 	    } catch (Exception e) {
 		jo.put("success", false);
 		jo.put("msg", "密码解析出错，请稍后重试!");
 	    }
-	    
-	    Map<String,String> res = userService.updateUser(user, addroles, delroles);
+
+	    Map<String, String> res = userService.updateUser(user, addroles,
+		    delroles);
 
 	    if (StringUtils.isEmpty(res.get("msg"))) {
-		    jo.put("success", true);
-		    jo.put("msg", "新增用户保存成功!");
+		jo.put("success", true);
+		jo.put("msg", "新增用户保存成功!");
 
-		} else {
-		    jo.put("success", false);
-		    jo.put("msg", res.get("msg"));
-		    jo.put("field", res.get("field"));
-		}
+	    } else {
+		jo.put("success", false);
+		jo.put("msg", res.get("msg"));
+		jo.put("field", res.get("field"));
+	    }
 
 	} catch (Exception e) {
 	    jo.put("success", false);
@@ -655,23 +629,25 @@ public class UserController {
 
     @RequestMapping(value = "/mi/users", method = { RequestMethod.POST })
     @ResponseBody
-    public Object updateBatchUser(HttpServletRequest request,User user,String userids){
+    public Object updateBatchUser(HttpServletRequest request, User user,
+	    String userids) {
 	JSONObject jo = new JSONObject();
-	
+
 	try {
 	    int i = userService.updateBatchUser(userids, user);
 
-		jo.put("success", true);
-		jo.put("msg", "用户更新成功");
+	    jo.put("success", true);
+	    jo.put("msg", "用户更新成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
-		jo.put("success", false);
-		jo.put("msg", "用户更新失败");
+	    jo.put("success", false);
+	    jo.put("msg", "用户更新失败");
 	}
-	
+
 	return jo.toString();
     }
+
     public Object getJsonObject(int rows, int totalpage, int curPage,
 	    int pageSize, List<User> items, boolean rescode, String msg) {
 	JSONObject jo = new JSONObject();

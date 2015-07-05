@@ -15,10 +15,10 @@
 								<td width="24%"><a href="${ctx }/zf">租房</a></td>
 							</tr>
 							<tr>
-								<td><a href="/jiaju/bj.html">商铺</a></td>
-								<td><a href="/zixun/bj.html#tt">写字楼</a></td>
-								<td><a href="/jiaju/bj.html">仓库</a></td>
-								<td><a href="/zixun/bj.html#tt">厂房</a></td>
+								<td><a href="${ctx }/sp">商铺</a></td>
+								<td><a href="${ctx }/xzl">写字楼</a></td>
+								<td><a href="${ctx }/cfck">厂房仓库</a></td>
+								<td><a href="${ctx }/pg">二手房评估</a></td>
 							</tr>
 						</tbody>
 					</table>

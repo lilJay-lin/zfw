@@ -35,6 +35,7 @@ public class SHHImageServiceImpl extends
 		ie.or().andSecondHandHouseIdEqualTo(id).andDelFlagEqualTo(false);
 		ie.setLimitStart(targetPage*pageSize);
 		ie.setLimitSize(pageSize);
+		ie.setOrderByClause("update_date asc");
 		return shhim.selectByExample(ie);
 	}
 

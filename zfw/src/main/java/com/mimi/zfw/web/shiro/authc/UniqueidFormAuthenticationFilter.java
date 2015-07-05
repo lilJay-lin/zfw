@@ -81,7 +81,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 		    request.getParameter("modulus"),
 		    request.getParameter("password"));
 	} catch (Exception e) {
-	    e.printStackTrace();
+		LOG.error("密码解析出错",e);
 	}
 	String captcha = getCaptcha(request);
 	// String loginType = getLoginType(request);
@@ -160,6 +160,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 		    userService.login(userService.getCurUserPrincipal());
 		    issueSuccessRedirect(request, response);
 		} catch (Exception e) {
+			LOG.error("自动登录失败",e);
 		    WebUtils.issueRedirect(request, response, loginUrl);
 		}
 	    } else {
