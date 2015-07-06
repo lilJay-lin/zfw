@@ -204,5 +204,7 @@ public class Constants {
 	public static final String PHOTO_DATA_TITLE_PANO = "全&nbsp;景";
 	public static final String PHOTO_DATA_TITLE_VIDEO = "全&nbsp;景";
 	public static final String PHOTO_DATA_TITLE_RING = "三&nbsp;维";
+	
+	public static final String MI_HEAD_IMG_DEFAULT_URL = "/assets/img/ui/logo.jpg";
 
 }

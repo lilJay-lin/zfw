@@ -1,10 +1,14 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -22,6 +26,7 @@ import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
 import com.mimi.zfw.mybatis.dao.RoleMapper;
 import com.mimi.zfw.mybatis.dao.UserMapper;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
@@ -37,6 +42,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);  
     @Resource
     private UserMapper um;
+    @Resource
+    private RelationUserAndRoleMapper userRoleMapper;
     @Resource
     private RoleMapper rm;
     @Resource
@@ -135,10 +142,10 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 			user.setDelFlag(true);
 			rur.setDelFlag(true);
 		    }
-		    if("12345678910".equals(names[j][i])){
+		    if ("12345678910".equals(names[j][i])) {
 			user.setLocked(true);
 		    }
-		    
+
 		    um.insertSelective(user);
 		    rurm.insertSelective(rur);
 		}
@@ -315,9 +322,9 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	}
 	return idStr;
     }
-    
+
     @Override
-    public String getCurUserPrincipal(){
+    public String getCurUserPrincipal() {
 	return (String) SecurityUtils.getSubject().getPrincipal();
     }
 
@@ -358,43 +365,303 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	return SecurityUtils.getSubject().isAuthenticated();
     }
 
-
     @Override
     public boolean isRememberMe() {
 	return SecurityUtils.getSubject().isRemembered();
     }
-    
+
     @Override
     public List<User> findUserByParams(String name, Integer curPage,
-    	Integer pageSize) {
-    	// TODO Auto-generated method stub
+	    Integer pageSize) {
+	// TODO Auto-generated method stub
 
-    	UserExample userExample = new UserExample();
-    	UserExample.Criteria cri = userExample.createCriteria();
-    	if(name != null){
-    		cri.andNameLike("%"+name+"%");
-    	}
-    	cri.andDelFlagEqualTo(false);
-    	userExample.setLimitStart(curPage* pageSize);
-    	userExample.setLimitSize(pageSize);
+	UserExample userExample = new UserExample();
+	UserExample.Criteria cri = userExample.createCriteria();
+	if (name != null) {
+	    cri.andNameLike("%" + name + "%");
+	}
+	cri.andDelFlagEqualTo(false);
+	userExample.setLimitStart(curPage * pageSize);
+	userExample.setLimitSize(pageSize);
 
-    	List<User> users = um.selectByExample(userExample);
+	List<User> users = um.selectByExample(userExample);
 
-    	return users;
+	return users;
     }
 
     @Override
     public int countUserByParams(String name) {
-    	// TODO Auto-generated method stub
-    	UserExample userExample = new UserExample();
-    	UserExample.Criteria cri = userExample.createCriteria();
-    	if(name != null){
-    		cri.andNameLike("%"+name+"%");
-    	}
-    	cri.andDelFlagEqualTo(false);
+	// TODO Auto-generated method stub
+	UserExample userExample = new UserExample();
+	UserExample.Criteria cri = userExample.createCriteria();
+	if (name != null) {
+	    cri.andNameLike("%" + name + "%");
+	}
+	cri.andDelFlagEqualTo(false);
 
-    	int len = um.countByExample(userExample);
+	int len = um.countByExample(userExample);
 
-    	return len;
+	return len;
+    }
+
+//    @Override
+//    public int deleteBatchUserAddFlag(List<String> ids) {
+//	// TODO Auto-generated method stub
+//
+//	UserExample ue = new UserExample();
+//	ue.or().andIdIn(ids);
+//	User user = new User();
+//	user.setDelFlag(true);
+//	int row = um.updateByExampleSelective(user, ue);
+//
+//	return row;
+//    }
+
+//    @Override
+//    public int deleteUserAddFlag(String id) {
+//	// TODO Auto-generated method stub
+//	User user = new User();
+//	user.setId(id);
+//	user.setDelFlag(true);
+//	int row = um.updateByPrimaryKeySelective(user);
+//
+//	return row;
+//    }
+
+    @Override
+    public int updateBatchUser(String userids, User user) {
+	// TODO Auto-generated method stub
+
+	if (user == null) {
+	    return 0;
+	}
+
+	String[] ids = userids.split("/");
+	List<String> userList = new ArrayList<String>();
+	for (String id : ids) {
+	    userList.add(id);
+	}
+
+	UserExample ue = new UserExample();
+	ue.or().andIdIn(userList).andDelFlagEqualTo(false);
+	
+	User curUser = this.getCurUser();
+	user.setLastEditor(curUser.getName());
+	
+	int row = um.updateByExampleSelective(user, ue);
+	
+	Boolean delFlag = user.getDelFlag();
+	
+	if(delFlag!=null && delFlag == true){
+	    RelationUserAndRoleExample userRolesExample = new RelationUserAndRoleExample();
+	    userRolesExample.or().andUserIdIn(userList).andDelFlagEqualTo(false);
+	    RelationUserAndRole record = new RelationUserAndRole();
+	    record.setDelFlag(true);
+	    userRoleMapper.updateByExampleSelective(record, userRolesExample);
+	}
+	
+	return row;
+    }
+
+//    @Override
+//    public List<Map<String, Object>> findUserRoleByUser(UserExample example) {
+//	// TODO Auto-generated method stub
+//	if (example == null) {
+//	    return null;
+//	}
+//	List<Map<String, Object>> res = new ArrayList<Map<String, Object>>();
+//
+//	List<User> users = um.selectByExample(example);
+//
+//	if (users != null) {
+//	    for (User user : users) {
+//		RelationUserAndRoleExample ex = new RelationUserAndRoleExample();
+//		ex.or().andUserIdEqualTo(user.getId());
+//
+//		List<RelationUserAndRole> userRoles = userRoleMapper
+//			.selectByExample(ex);
+//
+//		Map<String, Object> map = new HashMap<String, Object>();
+//
+//		map.put("user", user);
+//		map.put("userRole", userRoles);
+//
+//		res.add(map);
+//
+//	    }
+//
+//	}
+//
+//	return res;
+//    }
+
+    @Override
+    public int saveRelationUserAndRole(String userid, String roleids) {
+	// TODO Auto-generated method stub
+	int res = 0;
+
+	User user = this.get(userid);
+	if (user == null || StringUtils.isEmpty(roleids)) {
+	    res = 0;
+	} else {
+
+	    String[] ids = roleids.split("/");
+
+	    for (String roleid : ids) {
+		RelationUserAndRole record = new RelationUserAndRole();
+		record.setUserId(userid);
+		record.setRoleId(roleid);
+		record.setDelFlag(false);
+		record.setId(UUID.randomUUID().toString());
+		userRoleMapper.insert(record);
+		res++;
+	    }
+
+	}
+	return res;
+    }
+
+    @Override
+    public int deleteRelationUserAndRole(String userid, String roleids) {
+	// TODO Auto-generated method stub
+	int res = 0;
+
+	User user = this.get(userid);
+	if (user == null || StringUtils.isEmpty(roleids)) {
+	    res = 0;
+	} else {
+
+	    String[] ids = roleids.split("/");
+	    List<String> roleList = new ArrayList<String>();
+	    for (String id : ids) {
+		roleList.add(id);
+	    }
+
+	    RelationUserAndRoleExample userRoleExample = new RelationUserAndRoleExample();
+	    userRoleExample.or().andUserIdEqualTo(userid).andRoleIdIn(roleList).andDelFlagEqualTo(false);;
+
+	    RelationUserAndRole record = new RelationUserAndRole();
+	    record.setDelFlag(true);
+
+	    res = userRoleMapper.updateByExampleSelective(record,
+		    userRoleExample);
+
+	}
+	return res;
+    }
+
+    @Override
+    public Map<String, String> addUser(User user, String roleids) {
+	// TODO Auto-generated method stub
+	Map<String, String> resMap = new HashMap<String, String>();
+	resMap.put("msg", "");
+
+	if (user == null) {
+	    resMap.put("msg", "用户信息不能为空");
+	}
+
+	resMap = this.checkUser(user);
+
+	User curUser = this.getCurUser();
+	user.setLastEditor(curUser.getName());
+	user.setCreater(curUser.getName());
+	
+	this.save(user);
+
+	if (!StringUtils.isEmpty(roleids)) {
+	    String userId = user.getId();
+	    this.saveRelationUserAndRole(userId, roleids);
+
+	}
+
+	return resMap;
+    }
+
+    @Override
+    public Map<String, String> checkUser(User user) {
+	// TODO Auto-generated method stub
+	Map<String, String> resMap = new HashMap<String, String>();
+	resMap.put("msg", "");
+	String name = user.getName();
+	String phoneNum = user.getPhoneNum();
+	String email = user.getEmail();
+	String password = user.getPassword();
+
+	if (StringUtils.isEmpty(name)) {
+	    resMap.put("field", "name");
+	    resMap.put("msg", "名字不能为空");
+	    return resMap;
+	}
+
+	if (StringUtils.isEmpty(password)) {
+	    resMap.put("field", "password");
+	    resMap.put("msg", "密码不能空");
+	    return resMap;
+	}
+
+	if (StringUtils.isEmpty(email)) {
+	    resMap.put("field", "email");
+	    resMap.put("msg", "邮箱不能为空");
+	    return resMap;
+	}
+	
+	if(StringUtils.isEmpty(phoneNum)){
+	    resMap.put("field", "phoneNum");
+	    resMap.put("msg", "手机号码不能为空");
+	    return resMap;
+	}
+
+	if (!this.checkNameFormat(name)) {
+	    resMap.put("field", "name");
+	    resMap.put("msg", "用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头");
+	    return resMap;
+	}
+
+	if (!this.checkEamilFormat(email)) {
+	    resMap.put("field", "email");
+	    resMap.put("msg", "邮箱格式不正确");
+	    return resMap;
+	}
+
+	if ( !this.checkPhoneNumFormat(phoneNum)) {
+	    resMap.put("field", "phoneNum");
+	    resMap.put("msg", "手机号码格式不正确");
+	    return resMap;
+	}
+
+	return resMap;
+    }
+
+    @Override
+    public Map<String,String> updateUser(User user, String addroles, String delroles) {
+	// TODO Auto-generated method stub
+
+	Map<String, String> resMap = new HashMap<String, String>();
+	resMap.put("msg", "");
+
+	String userid = user.getId();
+
+	if (StringUtils.isEmpty(userid)
+		|| um.selectByPrimaryKey(userid) == null) {
+	    resMap.put("msg", "用户不存在!");
+	}
+
+	resMap = this.checkUser(user);
+
+	User curUser = this.getCurUser();
+	user.setLastEditor(curUser.getName());
+	
+	um.updateByPrimaryKeySelective(user);
+	
+	if (!StringUtils.isEmpty(addroles)) {
+
+	    this.saveRelationUserAndRole(userid, addroles);
+	}
+	if (!StringUtils.isEmpty(delroles)) {
+	    this.deleteRelationUserAndRole(userid, delroles);
+	}
+
+	return resMap;
+
     }
 }

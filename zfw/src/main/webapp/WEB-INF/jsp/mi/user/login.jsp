@@ -6,19 +6,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/font-awesome/css/font-awesome.css"/>
-		<link rel="stylesheet" type="text/css" href="${ctx}/assets/css/mi.css"/>
-
-		<title>登录?</title>
+         <%@include file="../inc/header.jsp" %>
+		<title>后台管理</title>
+		<title>登录</title>
 	</head>
 	<body>
 		<div class="login theme">
 			<h2 style="text-align: center;">登录</h2>
 			<form class="login-form" action="${ctx}/mi/user/login" method="post">
 				<fieldset>
-					<c:if test="${error } != null }"><div class="help-inline">${error }</div></c:if>
+					<c:if test="${error  != null }"><div id="error" class="help-inline">${error }</div></c:if>
 					<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 					<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 					
@@ -27,8 +24,9 @@
 					<input type="hidden" name="geetest_seccode"> 
 					<input type="text" id="txtname" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
 					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$" require="require" require_msg ="用户名不能为空"  placeholder="输入用户名" value="<shiro:principal></shiro:principal>"/>
-					<input type="password" id="txtpsw" name="password" max="32" min="6"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
+					<input type="password" id="txtpsw" name="pwd" max="32" min="6"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
 					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]*$" placeholder="输入密码" />
+					<input type="hidden" name="password" id="password"/>
 					<div class="captcha">
 					<script type="text/javascript"
 						src="http://api.geetest.com/get.php?gt=${geetestId }&product=embed"></script>
@@ -56,18 +54,24 @@
 	<script type="text/javascript" src="${encrypUrl}/BigInt.js"></script>
 	<script type="text/javascript" src="${encrypUrl}/Barrett.js"></script>
 	<script type="text/javascript" src="${encrypUrl}/md5.js"></script>
-	<script src="${ctx}/assets/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="${ctx}/assets/js/style.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-		function RSAEncrypt() {
-			var thisPwd = document.getElementById("txtpsw").value;
-			thisPwd = hex_md5(thisPwd);
+		var storePwd = util.cookie("password");
+		if(storePwd){
+			$("#password").val(storePwd);
+			$("#txtpsw").val("111111")
+		}
+		$("#txtpsw").on("change",function(){
+			RSAEncrypt($(this).val());
+			$("#password").val(hex_md5($(this).val()))
+		});
+		function RSAEncrypt(pwd) {
+			var thisPwd = hex_md5(pwd);
 			setMaxDigits(130);
 			var publicExponent = document.getElementById("publicExponent").value;
 			var modulus = document.getElementById("modulus").value;
 			var key = new RSAKeyPair(publicExponent, "", modulus);
-			var result = encryptedString(key, encodeURIComponent(thisPwd));
-			document.getElementById("txtpsw").value = encodeURIComponent(result);
+			result = encodeURIComponent(encryptedString(key, encodeURIComponent(thisPwd)));
+			return result;
 		}
 		function refreshSubmitBtn(){
 			if($(".btn").attr("disabled") == false){
@@ -95,8 +99,10 @@
 			var r = $(".login-form").validate();
 			if(r){
 				if(smoothCaptchObject.captchaReady==true){
-					RSAEncrypt();
 					$("#submitBtn").attr("disabled","disabled");
+					if($("#rememberMe").is(":checked")){
+						util.cookie("password",$("#password").val());
+					}
 					$(".login-form").submit();
 				}else{
 					$("#captchaerror").css("display","block").html("请输入验证码");
