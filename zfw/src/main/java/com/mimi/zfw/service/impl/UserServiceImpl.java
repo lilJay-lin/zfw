@@ -32,6 +32,7 @@ import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.mybatis.pojo.UserExample;
 import com.mimi.zfw.plugin.IBaseDao;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.MD5Util;
 import com.mimi.zfw.web.shiro.authc.UniqueidUsernamePasswordToken;
@@ -48,6 +49,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     private RoleMapper rm;
     @Resource
     private RelationUserAndRoleMapper rurm;
+    @Resource
+    private IAliyunOSSService aossService;
 
     @Resource
     @Override
@@ -650,6 +653,14 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	User curUser = this.getCurUser();
 	user.setLastEditor(curUser.getName());
+	
+	String headImgUrl = user.getHeadImgUrl();
+	if(StringUtils.isEmpty(headImgUrl)){
+	    headImgUrl = Constants.HEAD_IMG_DEFAULT_URL;
+	}else{
+//	    String path = aossService.saveFileToServer(headImgUrl);
+//	    path = aossService.addImgParams(path,Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
+	}
 	
 	um.updateByPrimaryKeySelective(user);
 	

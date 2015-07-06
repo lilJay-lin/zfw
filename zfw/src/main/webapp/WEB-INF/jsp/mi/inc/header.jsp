@@ -9,4 +9,4 @@
 <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <!--<script src="${ctx}/assets/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>-->
 <script src="${ctx}/assets/js//handlebars-v3.0.3.js" type="text/javascript" charset="utf-8"></script>
-<script src="${ctx}/assets/js/mi/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="${ctx}/assets/js/mi/common.min.js" type="text/javascript" charset="utf-8"></script>

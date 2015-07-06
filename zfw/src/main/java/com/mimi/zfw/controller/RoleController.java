@@ -86,7 +86,7 @@ public class RoleController {
 	RoleExample example = new RoleExample() ;
 	if(StringUtils.isNotEmpty(name)){
 	    try {
-		example.or().andNameEqualTo(URLDecoder.decode(name,"utf-8"));
+		example.or().andNameLike("%"+URLDecoder.decode(name,"utf-8")+"%");
 	    } catch (UnsupportedEncodingException e) {
 		// TODO Auto-generated catch block
 		JSONObject jo = new JSONObject();
