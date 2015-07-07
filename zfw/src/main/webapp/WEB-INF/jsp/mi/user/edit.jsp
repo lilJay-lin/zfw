@@ -23,7 +23,7 @@
 							<h2>编辑用户</h2>
 						</div>
 						<div class="box-cnt">
-							<form class="form" enctype="multipart/form-data">
+							<div class="form" >
 								<fieldset>
 									<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
@@ -68,16 +68,22 @@
 											</select>
 										</div>
 									</div>
+									<form enctype="multipart/form-data" method="post" id="uploadForm">
 									<div class="control-group">
-										<label class="control-label">上传图片</label>
+										<label class="control-label">上传图像</label>
 										<div class="control error">
 											<div class="uploader">
-												<input type="file" name="headImgUrl" accept="image/*" />
+												<input type="hidden" name="headImgUrl" />
+												<input type="file" name="theFile" accept="image/*"/>
 												<span class="filename" style="-webkit-user-select: none;">没有选择文件...</span>
 												<span class="action" style="-webkit-user-select: none;">选择</span>
 											</div>
+											<div class="control-img">
+												<img src="${headImgUrl}"/>
+											</div>
 										</div>
 									</div>
+									</form>
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control error">
@@ -145,7 +151,7 @@
 									  <button type="reset" class="btn" id="cancle">返回</button>
 									</div>
 								</fieldset>
-							</form>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -217,7 +223,19 @@
 			result = encodeURIComponent(encryptedString(key, encodeURIComponent(thisPwd)));
 			return result;
 		}
-		
+		function checkImgType(element){
+		   var filePath=$(element).val();
+		   var extStart=filePath.lastIndexOf(".");
+		   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
+		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
+			   return "图片限于png,gif,jpg,jpeg格式";
+		   }else{
+				if(element.files[0].size>20*1024*1024){
+					return "图片最大支持20M";
+				}
+		   }
+		   return null;
+		}
 		/*
 		 * 
 		 * 新增关联
@@ -314,12 +332,46 @@
 		$("#pwd").change(function(){
 			$("#password").val(RSAEncrypt($(this).val()))
 		})
+		
+		/*
+		 * 图片上传
+		 */
+		$(":file").change(function(){
+			var errorStr = checkImgType(this);
+			if(errorStr){
+				alert(errorStr);
+				return;
+			}
+			var formData = new FormData($("#uploadForm")[0]);	
+		    $.ajax({
+		        type:'POST',
+		        url:'${ctx}/user/uploadHeadImg',
+		        data: formData,
+		        async: true,
+		        cache: false,
+				dataType : "json",
+		        contentType: false,
+		        processData: false,
+		        success: function (data) {
+					if(data.success){
+						var final_url = data.imgPath;
+						$("input[name='headImgUrl']").val(final_url);
+						$(".control-img").find("img").attr("src",final_url);
+//						resetHeadImgUrl(final_url);
+					}else{
+						alert(data.msg);
+					}
+		        },
+		        error: function (data) {
+					alert("上传失败");
+		        }
+		    });
+		})
 		$("#submit").click(function(){
 			var btn = $(this);
 			var form = $(".form");
 			var res = form.validate();
 			var userid = $("#userid").val();
-			alert(form.find("input[name='headImgUrl']").val())
 			if(res){
 			
 				var user = {
@@ -350,8 +402,8 @@
 				var publicExponent = document.getElementById("publicExponent").value;
 				var modulus = document.getElementById("modulus").value;
 			   var url = "${ctx}/mi/user/"+userid;
-			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
+			   btn.attr("disabled","disabled");
+			   btn.addClass("disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
@@ -420,6 +472,8 @@
 				
 			}
 		});
+		
+		
 		/*
 		 * 返回
 		 */

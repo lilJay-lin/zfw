@@ -18,19 +18,19 @@
 	 * 文件上传
 	 */
 	function u(){
-		$(this).parent().find(".filename").html($(this).val())
+		$(this).parent().find(".filename").html($(this).val());
 	}
 	
 	/*
 	 * 关联关系
 	 */
-	function r(){
-		$(this).parentsUntil("li").remove();
-	}
+//	function r(){
+//		$(this).parentsUntil("li").remove();
+//	}
 	
-	$(document).delegate("li.submenu","click",t)
-	$(".uploader input").on("change",u)
-	$(".relation").delegate("a","click",r)
+	$(document).delegate("li.submenu","click",t);
+	$(document).delegate(".uploader input","change",u)
+//	$(".relation").delegate("a","click",r)
 	var h = function(){
 		var height = window.innerHeight;
 		if(typeof height != 'number'){

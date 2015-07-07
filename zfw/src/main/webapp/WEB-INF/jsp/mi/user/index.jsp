@@ -108,15 +108,15 @@
 				<td>{{phoneNum}}</td>
 				{{#if locked}}<td>锁定{{else}}<td>正常</td>{{/if}}
 				<td>{{description}}</td>
-				<td>{{creater}}</td>
-				<!--<td>{{create}}</td>
+				<!--<td>{{creater}}</td>
+				<td>{{create}}</td>
 				<td>{{lastEditor}}</td>
 				<td>{{createDate}}</td>
 				<td>{{updateDate}}</td>-->
 				<td>
-					<!--<a class="btn btn-info" href="${ctx}/mi/user/{{id}}">
+					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
-					</a>-->
+					</a>
 					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>

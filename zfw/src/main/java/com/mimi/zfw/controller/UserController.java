@@ -531,6 +531,8 @@ public class UserController {
 
 	// return new ModelAndView("mi/users/add","user",new User());
 
+	addHeadImgUrl(request);
+	
 	setRSAParams(model);
 
 	return "mi/user/add";
@@ -582,12 +584,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/mi/user/{userid}/edit", method = { RequestMethod.GET })
-    public String toUpdateUser(Model model, @PathVariable String userid) {
-
+    public String toUpdateUser(HttpServletRequest request,Model model, @PathVariable String userid) {
+	addHeadImgUrl(request);
 	model.addAttribute("userid", userid);
 	setRSAParams(model);
 
 	return "/mi/user/edit";
+    }
+    
+    @RequestMapping(value = "/mi/user/{userid}/detail", method = { RequestMethod.GET })
+    public String toViewUser(Model model, @PathVariable String userid) {
+
+	model.addAttribute("userid", userid);
+	setRSAParams(model);
+
+	return "/mi/user/detail";
     }
 
     @RequestMapping(value = "/mi/user/{userid}", method = { RequestMethod.POST })
@@ -607,6 +618,8 @@ public class UserController {
 		jo.put("success", false);
 		jo.put("msg", "密码解析出错，请稍后重试!");
 	    }
+	    
+//	    MultipartFile file = request.getParameter("file")==null?null:(MultipartFile)request.getAttribute("addroles");
 
 	    Map<String, String> res = userService.updateUser(user, addroles,
 		    delroles);
