@@ -436,6 +436,7 @@ smoothCaptchObject.captchaReady = false;
 			}else{
 				curForm = $(".wapForm.phone").children("form");
 			}
+			$("#txtPwd").val("");
 			curForm.submit();
 		}
 	}

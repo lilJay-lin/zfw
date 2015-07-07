@@ -76,7 +76,9 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 
 	private void init() {
 		try {
+			LOG.info("开始生产密匙");
 			RSAUtil.generateKeyPair();
+			LOG.info("生产密匙完成");
 		} catch (Exception e) {
 			LOG.error("生成密钥出错！", e);
 		}
@@ -84,7 +86,10 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 		ytxAPI.setAccount("8a48b5514d32a2a8014d95626ee147c3",
 				"ce3126c41d6a4181b13fb9399db922b2");
 		ytxAPI.setAppId("8a48b5514d32a2a8014d9562b2ca47c6");
-
+//		initTestData();
+	}
+	
+	private void initTestData(){
 		permissionService.initPermission();
 		roleService.initRole();
 		userService.initUser();
