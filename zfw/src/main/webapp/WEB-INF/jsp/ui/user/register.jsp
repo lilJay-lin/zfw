@@ -404,6 +404,7 @@ function submitForm() {
 	if (smoothCaptchObject.captchaReady && checkAll()) {
 		RSAEncrypt();
 		var curForm = $(".wapForm.phone").children("form");
+		$("txtPwd").val("");
 		curForm.submit();
 	}
 }

@@ -47,7 +47,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
      */
     protected boolean executeLogin(ServletRequest request,
 	    ServletResponse response) throws Exception {
-	UniqueidUsernamePasswordToken token = createToken(request, response);
+    	UniqueidUsernamePasswordToken token = createToken(request, response);
 	try {
 	    /* 图形验证码验证 */
 	    doCaptchaValidate((HttpServletRequest) request, token);
@@ -81,6 +81,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 		    request.getParameter("modulus"),
 		    request.getParameter("password"));
 	} catch (Exception e) {
+		password = "";
 		LOG.error("密码解析出错",e);
 	}
 	String captcha = getCaptcha(request);
