@@ -38,6 +38,7 @@ creater varchar(50),
 last_editor varchar(50),
 create_date timestamp DEFAULT CURRENT_TIMESTAMP,
 update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+del_flag tinyint(1) default false
 );
 
 drop table if exists tr_user_role;
@@ -52,7 +53,6 @@ update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 del_flag tinyint(1) default false
 );
 
-
 drop table if exists tr_role_permission;
 CREATE TABLE tr_role_permission(
 id varchar(50) PRIMARY KEY,
@@ -62,6 +62,7 @@ creater varchar(50),
 last_editor varchar(50),
 create_date timestamp DEFAULT CURRENT_TIMESTAMP,
 update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+del_flag tinyint(1) default false
 );
 
 drop table if exists tr_user_rep;
