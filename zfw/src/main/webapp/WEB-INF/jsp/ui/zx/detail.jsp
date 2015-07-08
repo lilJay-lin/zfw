@@ -51,7 +51,7 @@
 		<section class="bdb">
 			<div class="conTitle">
 			<h1>${info.name}</h1>
-			<p><span class="time"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"  value="${info.updateDate}" /></span> ${info.author } </p>
+			<p><span class="time"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"  value="${info.updateDate}" /></span> ${info.author } </p>
 			</div>
 			<div class="conWord">
 			${info.content }
