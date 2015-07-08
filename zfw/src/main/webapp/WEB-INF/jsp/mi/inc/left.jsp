@@ -20,6 +20,12 @@
 					<span > 角色管理</span>
 				</a>
 			</li>
+			<li>
+				<a  href="${ctx }/mi/info">
+					<i class="icon-hdd"></i>
+					<span > 资讯管理</span>
+				</a>
+			</li>
 		</ul>
 	</li>
 </ul>
