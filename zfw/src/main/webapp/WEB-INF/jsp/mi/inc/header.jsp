@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%request.setAttribute("ctx", request.getContextPath());%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="author" content="">
+<!-- <meta name="author" content=""> -->
 <meta name="keywords" content="">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <link rel="stylesheet" type="text/css" href="${ctx}/assets/font-awesome/css/font-awesome.css"/>

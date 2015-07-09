@@ -192,6 +192,7 @@ public class Constants {
 	public static final String ALIYUN_OSS_IMAGE_PARAMS_TYPE_AD_SMALL = "1e_100w_100h_1c_0i_1o_90Q_1x.{suffix}";
 	public static final String ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG = "1e_100w_100h_1c_0i_1o_90Q_1x.{suffix}";
 	public static final String ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG = "1e_120w_90h_1c_0i_1o_90Q_1x.{suffix}";
+	public static final String ALIYUN_OSS_IMAGE_PARAMS_TYPE_INFO_IMG = "0e_400w_400h_1c_0i_0o_90Q_1x.{suffix}|watermark=2&text=6IKH5oi_572R&type=ZmFuZ3poZW5na2FpdGk&size=40&color=I2ZmZmZmZg&p=9&y=10&x=10&t=40";
 	public static final String ALIYUN_OSS_IMAGE_STYLE_SPLIT = "@!";
 	public static final String ALIYUN_OSS_IMAGE_STYLE_TYPE_HEAD_IMG = "head-img";
 
@@ -206,5 +207,7 @@ public class Constants {
 	public static final String PHOTO_DATA_TITLE_RING = "三&nbsp;维";
 	
 	public static final String MI_HEAD_IMG_DEFAULT_URL = "/assets/img/ui/logo.jpg";
+
+	public static final String MI_IDS_SPLIT_STRING = "/";
 
 }

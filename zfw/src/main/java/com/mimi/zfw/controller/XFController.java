@@ -383,4 +383,46 @@ public class XFController {
 		return "ui/photo/photoList";
 	}
 
+    @RequestMapping(value = "/mi/xf/page/{curPage}", method = { RequestMethod.GET })
+    @ResponseBody
+    public Object getREPByPage(HttpServletRequest request, @PathVariable int curPage) {
+
+	Object res = null;
+
+	int page = curPage - 1 > 0 ? curPage - 1 : 0;
+
+	String name = request.getParameter("name") == null ? null
+		: (String) request.getParameter("name");
+
+	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
+		: Integer.valueOf((String) request.getParameter("pagesize"));
+	
+	try {
+		List<RealEstateProject> items = repService.findRealEstateProjectByParams(name, null, null, null, null, null, null, null, page, pageSize);
+		int rows = repService.countRealEstateProjectByParams(name, null, null, null, null, null, null);
+		int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows / pageSize + 1);
+	    res = getJsonObject(rows, totalpage, curPage, pageSize, items, true, "");
+	} catch (Exception e) {
+	    res = getJsonObject(0, 0, curPage, pageSize, null, false, "楼盘查询失败");
+	}
+	return res;
+    }
+    public Object getJsonObject(int rows, int totalpage, int curPage,
+    	    int pageSize, List<RealEstateProject> items, boolean rescode, String msg) {
+    	JSONObject jo = new JSONObject();
+
+    	Map<String, Integer> map = new HashMap<String, Integer>();
+    	map.put("totalrows", rows);
+    	map.put("curpage", curPage);
+    	map.put("totalpage", totalpage);
+    	map.put("pagesize", pageSize);
+
+    	jo.put("pageinfo", map);
+    	jo.put("items", items);
+
+    	jo.put("success", rescode);
+    	jo.put("msg", msg);
+
+    	return jo.toString();
+        }
 }

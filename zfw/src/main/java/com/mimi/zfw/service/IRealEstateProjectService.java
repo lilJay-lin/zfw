@@ -18,4 +18,6 @@ public interface IRealEstateProjectService extends
 			String averagePrice, Integer roomNum, String grossFloorArea,
 			String saleStatus, String bound);
 
+	public List<RealEstateProject> getREPByInfoId(String id);
+	
 }

@@ -20,6 +20,8 @@ public class Permission implements IBaseModel<String> {
 
     private Date updateDate;
 
+    private Boolean delFlag;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -84,5 +86,13 @@ public class Permission implements IBaseModel<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Boolean getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Boolean delFlag) {
+        this.delFlag = delFlag;
     }
 }

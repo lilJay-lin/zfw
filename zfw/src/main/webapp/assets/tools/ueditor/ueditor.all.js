@@ -7998,6 +7998,9 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
          * ```
          */
         getActionUrl: function(action){
+        	if(action == "uploadimage"){
+        		return this.getOpt('realServerUrl')+"ueditor/uploadImage";
+        	}
             var actionName = this.getOpt(action) || action,
                 imageUrl = this.getOpt('imageUrl'),
                 serverUrl = this.getOpt('serverUrl');
@@ -9370,7 +9373,11 @@ var htmlparser = UE.htmlparser = function (htmlstr,ignoreBlank) {
         b:1,code:1,i:1,u:1,strike:1,s:1,tt:1,strong:1,q:1,samp:1,em:1,span:1,
         sub:1,img:1,sup:1,font:1,big:1,small:1,iframe:1,a:1,br:1,pre:1
     };
-    htmlstr = htmlstr.replace(new RegExp(domUtils.fillChar, 'g'), '');
+    if(htmlstr){
+    	htmlstr = htmlstr.replace(new RegExp(domUtils.fillChar, 'g'), '');
+    }else{
+    	htmlstr = "";
+    }
     if(!ignoreBlank){
         htmlstr = htmlstr.replace(new RegExp('[\\r\\t\\n'+(ignoreBlank?'':' ')+']*<\/?(\\w+)\\s*(?:[^>]*)>[\\r\\t\\n'+(ignoreBlank?'':' ')+']*','g'), function(a,b){
             //br暂时单独处理
@@ -23917,7 +23924,11 @@ UE.plugin.register('autosave', function (){
             },
 
             'contentchange': function () {
-
+            	//修复取消自动保存无效
+                if (!me.getOpt('enableAutoSave')) {
+                    return;
+                }
+                
                 if ( !saveKey ) {
                     return;
                 }

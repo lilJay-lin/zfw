@@ -1,5 +1,6 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import com.mimi.zfw.mybatis.dao.REPImageMapper;
 import com.mimi.zfw.mybatis.dao.REPPanoMapper;
 import com.mimi.zfw.mybatis.dao.REPVideoMapper;
 import com.mimi.zfw.mybatis.dao.RealEstateProjectMapper;
+import com.mimi.zfw.mybatis.dao.RelationREPAndInformationMapper;
 import com.mimi.zfw.mybatis.pojo.HTImage;
 import com.mimi.zfw.mybatis.pojo.HTPano;
 import com.mimi.zfw.mybatis.pojo.HTRing;
@@ -28,6 +30,8 @@ import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample.Criteria;
+import com.mimi.zfw.mybatis.pojo.RelationREPAndInformation;
+import com.mimi.zfw.mybatis.pojo.RelationREPAndInformationExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRealEstateProjectService;
 
@@ -59,6 +63,9 @@ public class RealEstateProjectServiceImpl extends
 	
 	@Resource
 	private HTRingMapper htrm;
+	
+	@Resource
+	private RelationREPAndInformationMapper rrim;
 
 	@Resource
 	@Override
@@ -525,5 +532,28 @@ public class RealEstateProjectServiceImpl extends
 			repe.or(cri2);
 		}
 		return repe;
+	}
+
+	@Override
+	public List<RealEstateProject> getREPByInfoId(String id) {
+		if(StringUtils.isBlank(id)){
+			return null;
+		}
+		RelationREPAndInformationExample rrie = new RelationREPAndInformationExample();
+		rrie.or().andInformationIdEqualTo(id).andDelFlagEqualTo(false);
+		List<RelationREPAndInformation> relations = rrim.selectByExample(rrie);
+		if(relations!=null && !relations.isEmpty()){
+			List<String> repIds = new ArrayList<String>();
+			for(int i=0;i<relations.size();i++){
+				repIds.add(relations.get(i).getRealEstateProjectId());
+			}
+			if(!repIds.isEmpty()){
+				RealEstateProjectExample repe = new RealEstateProjectExample();
+				repe.or().andIdIn(repIds).andDelFlagEqualTo(false);
+				List<RealEstateProject> list = repm.selectByExample(repe);
+				return list;
+			}
+		}
+		return null;
 	}
 }

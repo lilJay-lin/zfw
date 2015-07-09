@@ -1329,14 +1329,10 @@ header.homeHeader {
   text-align: justify;
 }
 .conWord p {
-  text-indent: 2em;
   padding: 0 0 10px 0;
 }
-.conWord a {
-  color: #507fbd;
-}
 .conWord img {
-  width: 100%;
+  max-width: 100%;
 }
 .searchNo {
   padding: 70px 10px;

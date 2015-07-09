@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.baidu.ueditor.ActionEnter;
 import com.baidu.ueditor.um.Uploader;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
@@ -289,37 +288,62 @@ public class IndexController {
 	return "ueditor_test";
     }
 
-    @RequestMapping(value = "/ueditor/controller", method = {
-	    RequestMethod.GET, RequestMethod.POST })
-    public void ueditorController(HttpServletRequest request,
-	    HttpServletResponse response)
-	    throws ServletRequestBindingException, IOException {
-	request.setCharacterEncoding("utf-8");
-	response.setHeader("Content-Type", "text/html");
-	String rootPath = request.getSession().getServletContext()
-		.getRealPath("/");
-	// System.out.println(request.getSession().)
-	response.getWriter().write(new ActionEnter(request, rootPath).exec());
-    }
-
-    @RequestMapping(value = "/upload", method = { RequestMethod.GET,
-	    RequestMethod.POST })
-    public String upload(HttpServletRequest request,
-	    @RequestParam("theFile") MultipartFile theFile) {
-	// Page<BirdEyeViewModel> bevsPage = bevService.listAll(1, 10);
-	// Page<User> userPage = userService.listAll(1, 10);
-	// request.setAttribute("bevPage", bevsPage);
-	// request.setAttribute("userPage", userPage);
-	try {
-	    // saveFileToServer(theFile,request.getSession().getServletContext().getRealPath("/WEB-INF/upload")+"/");
-	    saveFileToServer(theFile,
-		    "C:\\Users\\Administrator\\Desktop\\test\\img_test\\");
-	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	return "index";
-    }
+//    @RequestMapping(value = "/ueditor/controller", method = {
+//	    RequestMethod.GET, RequestMethod.POST })
+//    public void ueditorController(HttpServletRequest request,
+//	    HttpServletResponse response)
+//	    throws ServletRequestBindingException, IOException {
+////    	saveFileToServer(upfile,
+////    		    "C:\\Users\\Administrator\\Desktop\\test\\img_test\\");
+//	request.setCharacterEncoding("utf-8");
+//	response.setHeader("Content-Type", "text/html");
+//	String rootPath = request.getSession().getServletContext()
+//		.getRealPath("/");
+//	// System.out.println(request.getSession().)
+//	response.getWriter().write(new ActionEnter(request, rootPath).exec());
+//    }
+//
+//    @RequestMapping(value = "/ueditor/uploadImage", method = {
+//	    RequestMethod.GET, RequestMethod.POST })
+//    public void ueditorUploadImage(HttpServletRequest request,
+//	    HttpServletResponse response,@RequestParam("upfile")MultipartFile upfile)
+//	    throws ServletRequestBindingException, IOException {
+//    	saveFileToServer(upfile,
+//    		    "C:\\Users\\Administrator\\Desktop\\test\\img_test\\");
+//	request.setCharacterEncoding("utf-8");
+//	response.setHeader("Content-Type", "text/html");
+//	String rootPath = request.getSession().getServletContext()
+//		.getRealPath("/");
+//	// System.out.println(request.getSession().)
+//	response.getWriter().write(new ActionEnter(request, rootPath).exec());
+//	State state = new BaseState(true);
+//	state.putInfo("url", "http://pica.nipic.com/2007-11-09/2007119124513598_2.jpg");
+//	state.putInfo("type", ".jpg");
+//	state.putInfo("original", "2007119124513598_2.jpg");
+//	state.putInfo( "size", "30000000" );
+//	state.putInfo( "title","2007119124513598_2.jpg");
+//	state.putInfo("", "");
+//	response.getWriter().write(state.toJSONString());
+//    }
+//
+//    @RequestMapping(value = "/upload", method = { RequestMethod.GET,
+//	    RequestMethod.POST })
+//    public String upload(HttpServletRequest request,
+//	    @RequestParam("theFile") MultipartFile theFile) {
+//	// Page<BirdEyeViewModel> bevsPage = bevService.listAll(1, 10);
+//	// Page<User> userPage = userService.listAll(1, 10);
+//	// request.setAttribute("bevPage", bevsPage);
+//	// request.setAttribute("userPage", userPage);
+//	try {
+//	    // saveFileToServer(theFile,request.getSession().getServletContext().getRealPath("/WEB-INF/upload")+"/");
+//	    saveFileToServer(theFile,
+//		    "C:\\Users\\Administrator\\Desktop\\test\\img_test\\");
+//	} catch (IOException e) {
+//	    // TODO Auto-generated catch block
+//	    e.printStackTrace();
+//	}
+//	return "index";
+//    }
 
     public String saveFileToServer(MultipartFile multifile, String path)
 	    throws IOException {
