@@ -87,9 +87,7 @@
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control error">
-											<textarea name="description">
-												
-											</textarea>
+											<textarea name="description"></textarea>
 										</div>
 									</div>
 									
@@ -387,11 +385,9 @@
 				
 			   for(var i in user){
 			   		var value = form.find("input[name="+i+"]").val();
-			   		if(!value){
-			   			i == "locked"?(value=false):(value="")
-			   		}
 			   		user[i]=value;
 			   }
+			   user['description']  = form.find("textarea[name='description']").val();
 			   var relation = {addroles:"",delroles:''};//mixRelationOperation(originalRelation,addRelation,delRelation);
 			   if(addRelation.length>0){
 			   		relation.addroles = addRelation.join("/")
@@ -457,9 +453,11 @@
 					
 					var form = $(".form");
 					for(var i in user){
-						form.find("input[name="+i+"]").length>0&&form.find("input[name="+i+"]").val(user[i]);
+						var e = form.find("input[name="+i+"]");
+						e.length>0&&e.val(user[i]);
 					}
-					
+					var d = form.find("textarea[name='description']");
+					d.length>0&&d.val(user['description']);
 					if(relationroles){
 						for(var i=0,l = relationroles.length;i<l;i++){
 							originalRelation.push(relationroles[i].id);

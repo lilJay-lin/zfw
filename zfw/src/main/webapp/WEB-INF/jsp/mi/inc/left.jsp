@@ -15,7 +15,7 @@
 				</a>
 			</li>
 			<li>
-				<a  href="/roles">
+				<a  href="${ctx}/mi/roles">
 					<i class="icon-hdd"></i>
 					<span > 角色管理</span>
 				</a>

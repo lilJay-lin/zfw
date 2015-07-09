@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ctc.wstx.util.StringUtil;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.listener.InitData;
 import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
@@ -376,7 +377,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     @Override
     public List<User> findUserByParams(String name, Integer curPage,
 	    Integer pageSize) {
-	// TODO Auto-generated method stub
+	
 
 	UserExample userExample = new UserExample();
 	UserExample.Criteria cri = userExample.createCriteria();
@@ -394,10 +395,10 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public int countUserByParams(String name) {
-	// TODO Auto-generated method stub
+	
 	UserExample userExample = new UserExample();
 	UserExample.Criteria cri = userExample.createCriteria();
-	if (name != null) {
+	if (!StringUtils.isBlank(name)) {
 	    cri.andNameLike("%" + name + "%");
 	}
 	cri.andDelFlagEqualTo(false);
@@ -409,7 +410,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 //    @Override
 //    public int deleteBatchUserAddFlag(List<String> ids) {
-//	// TODO Auto-generated method stub
+//	
 //
 //	UserExample ue = new UserExample();
 //	ue.or().andIdIn(ids);
@@ -422,7 +423,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 //    @Override
 //    public int deleteUserAddFlag(String id) {
-//	// TODO Auto-generated method stub
+//	
 //	User user = new User();
 //	user.setId(id);
 //	user.setDelFlag(true);
@@ -433,7 +434,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public int updateBatchUser(String userids, User user) {
-	// TODO Auto-generated method stub
+	
 
 	if (user == null) {
 	    return 0;
@@ -448,8 +449,9 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	UserExample ue = new UserExample();
 	ue.or().andIdIn(userList).andDelFlagEqualTo(false);
 	
-	User curUser = this.getCurUser();
-	user.setLastEditor(curUser.getName());
+//	User curUser = this.getCurUser();
+//	user.setLastEditor(curUser.getName());
+	user.setLastEditor(this.getCurUserId());
 	
 	int row = um.updateByExampleSelective(user, ue);
 	
@@ -460,6 +462,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    userRolesExample.or().andUserIdIn(userList).andDelFlagEqualTo(false);
 	    RelationUserAndRole record = new RelationUserAndRole();
 	    record.setDelFlag(true);
+	    record.setLastEditor(this.getCurUserId());
 	    userRoleMapper.updateByExampleSelective(record, userRolesExample);
 	}
 	
@@ -468,7 +471,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 //    @Override
 //    public List<Map<String, Object>> findUserRoleByUser(UserExample example) {
-//	// TODO Auto-generated method stub
+//	
 //	if (example == null) {
 //	    return null;
 //	}
@@ -500,7 +503,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public int saveRelationUserAndRole(String userid, String roleids) {
-	// TODO Auto-generated method stub
+	
 	int res = 0;
 
 	User user = this.get(userid);
@@ -515,6 +518,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 		record.setUserId(userid);
 		record.setRoleId(roleid);
 		record.setDelFlag(false);
+		record.setCreater(this.getCurUserId());
+		record.setLastEditor(this.getCurUserId());
 		record.setId(UUID.randomUUID().toString());
 		userRoleMapper.insert(record);
 		res++;
@@ -526,7 +531,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public int deleteRelationUserAndRole(String userid, String roleids) {
-	// TODO Auto-generated method stub
+	
 	int res = 0;
 
 	User user = this.get(userid);
@@ -545,6 +550,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	    RelationUserAndRole record = new RelationUserAndRole();
 	    record.setDelFlag(true);
+	    record.setLastEditor(this.getCurUserId());
 
 	    res = userRoleMapper.updateByExampleSelective(record,
 		    userRoleExample);
@@ -555,7 +561,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public Map<String, String> addUser(User user, String roleids) {
-	// TODO Auto-generated method stub
+	
 	Map<String, String> resMap = new HashMap<String, String>();
 	resMap.put("msg", "");
 
@@ -564,14 +570,19 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	}
 
 	resMap = this.checkUser(user);
-
-	User curUser = this.getCurUser();
-	user.setLastEditor(curUser.getName());
-	user.setCreater(curUser.getName());
 	
+	if(!StringUtils.isBlank(resMap.get("msg"))){
+	    return resMap;
+	}
+
+//	User curUser = this.getCurUser();
+//	user.setLastEditor(curUser.getName());
+//	user.setCreater(curUser.getName());
+	user.setCreater(this.getCurUserId());
+	user.setLastEditor(this.getCurUserId());
 	this.save(user);
 
-	if (!StringUtils.isEmpty(roleids)) {
+	if (!StringUtils.isBlank(roleids)) {
 	    String userId = user.getId();
 	    this.saveRelationUserAndRole(userId, roleids);
 
@@ -582,7 +593,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public Map<String, String> checkUser(User user) {
-	// TODO Auto-generated method stub
+	
 	Map<String, String> resMap = new HashMap<String, String>();
 	resMap.put("msg", "");
 	String name = user.getName();
@@ -637,22 +648,27 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public Map<String,String> updateUser(User user, String addroles, String delroles) {
-	// TODO Auto-generated method stub
+	
 
 	Map<String, String> resMap = new HashMap<String, String>();
 	resMap.put("msg", "");
 
 	String userid = user.getId();
 
-	if (StringUtils.isEmpty(userid)
+	if (StringUtils.isBlank(userid)
 		|| um.selectByPrimaryKey(userid) == null) {
 	    resMap.put("msg", "用户不存在!");
 	}
 
 	resMap = this.checkUser(user);
+	
+	if(!StringUtils.isBlank(resMap.get("msg"))){
+	    return resMap;
+	}
 
-	User curUser = this.getCurUser();
-	user.setLastEditor(curUser.getName());
+//	User curUser = this.getCurUser();
+//	user.setLastEditor(curUser.getName());
+	user.setLastEditor(this.getCurUserId());
 	
 	String headImgUrl = user.getHeadImgUrl();
 	if(StringUtils.isEmpty(headImgUrl)){
