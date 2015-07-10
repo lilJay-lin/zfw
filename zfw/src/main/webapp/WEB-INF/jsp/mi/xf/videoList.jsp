@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="box-cnt js-rep-ht-container" style="display:none">
-	<div class="datatable" id="htList">
+<div class="box-cnt js-rep-videos-container" style="display:none">
+	<div class="datatable" id="videoList">
 		<div class="datatabls-filter">
 			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
 				<input type="button" class="btn js-search-btn" value="搜索"/>
@@ -10,12 +10,10 @@
 		<table class="datatable-table">
 			<thead>
 				<th><input type="checkbox" id="selectAll" /></th>
+				<th>预览</th>
 				<th>名称</th>
+				<th>内容路径</th>
 				<th>描述</th>
-				<th>优先级</th>
-				<th>销售</th>
-				<th>价格</th>
-				<th>最后修改时间</th>
 				<th>操作</th>
 			</thead>
 			<tbody class="page-data-list">
@@ -25,8 +23,8 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="htBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/hx/add">新增</a>
+				</select> <a class="btn" href="javascript:;" onclick="videoBatchOperation(this);">批量操作</a>
+				<a class="btn" href="${ctx}/mi/${repId }/xfvideo/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -41,26 +39,24 @@
 		</div>
 	</div>
 </div>
-<script type="text/x-handlebars" id="ht-template">
+<script type="text/x-handlebars" id="video-template">
 			{{#each this}}
 			<tr>
 				<td>
 					<input type="checkbox" value="{{id}}"/>
 				</td>
+				<td><img src="{{preImageUrl}}" style="width:100px"></td>
 				<td>{{name}}</td>
+				<td>{{contentUrl}}</td>
 				<td>{{description}}</td>
-				<td>{{priority}}</td>
-				<td>{{saleStatus}}</td>
-				<td>{{averagePrice}}</td>
-				<td>{{updateDate}}</td>
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfvideo/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
-					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/edit">
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfvideo/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
-					<a class="btn btn-danger" href="javascript:;" onclick="delHt(this,'{{id}}');return false;" data-id="{{id}}">
+					<a class="btn btn-danger" href="javascript:;" onclick="delVideo(this,'{{id}}');return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
 					</a>
 				</td>
@@ -69,43 +65,43 @@
 
 		</script>
 		<script>
-		var htList = $("#htList");
-		var htCheckList = htList.find(".page-data-list");
-		var htDeling = false;
+		var videoList = $("#videoList");
+		var videoCheckList = videoList.find(".page-data-list");
+		var videoDeling = false;
 	  	//checkbox 全选
-	  	htList.find("#selectAll").on("change",function(){
+	  	videoList.find("#selectAll").on("change",function(){
 	  		if($(this).is(":checked")){
-	  			htCheckList.find("input[type='checkbox']").prop("checked","checked");
+	  			videoCheckList.find("input[type='checkbox']").prop("checked","checked");
 	  		}else{
-	  			htCheckList.find("input[type='checkbox']").prop("checked",false);
+	  			videoCheckList.find("input[type='checkbox']").prop("checked",false);
 	  		}
 	  	});
 	  	
 	  	/*
 	  	 * 批量操作
 	  	 */
-	  	function htBatchOperation(e){
-	  		var htIds = "";
-	  		htCheckList.find("input[type='checkbox']").each(function(idx,item){
+	  	function videoBatchOperation(e){
+	  		var videoIds = "";
+	  		videoCheckList.find("input[type='checkbox']").each(function(idx,item){
 	  			if($(item).is(":checked")){
-	  			htIds==""?htIds=$(item).val():htIds+="/"+$(item).val();
+	  			videoIds==""?videoIds=$(item).val():videoIds+="/"+$(item).val();
 	  			}
 	  		});
-	  		if(htIds == ""){
-	  			alert("请选择需要处理的户型");
+	  		if(videoIds == ""){
+	  			alert("请选择需要处理的视频");
 	  		}
-	  		delHt(e,htIds);
+	  		delVideo(e,videoIds);
 	  	}
-	  	function delHt(e,htIds){
-	  		if(htDeling){
-	  			alert("正在删除户型,请稍后再操作");
+	  	function delVideo(e,videoIds){
+	  		if(videoDeling){
+	  			alert("正在删除视频,请稍后再操作");
 	  			return;
 	  		}
-	  		htDeling = true;
-	  		var url = "${ctx}/mi/hx/batchDel";
+	  		videoDeling = true;
+	  		var url = "${ctx}/mi/xfvideo/batchDel";
 	  		$.ajax({
 	  			type:"post",
-	  			data:{"htIds":htIds},
+	  			data:{"videoIds":videoIds},
 	  			url:url,
 	  			async:true,
 	  			dataType:"json",
@@ -113,7 +109,7 @@
 	  				if(data){
 	  					if(data.success){
 	  						alert(data.msg);
-	  						htPage.reloadPage();
+	  						videoPage.reloadPage();
 	  					}else{
 	  						alert(data.msg);
 	  					}
@@ -123,7 +119,7 @@
 	  				alert("删除失败");
 	  			},
 	  			complete:function(){
-	  				htDeling = false;
+	  				videoDeling = false;
 	  			}
 	  		});
 	  	}
@@ -133,16 +129,16 @@
 	  	 * 分页
 	  	 * 
 	  	 */
-	  	var htPage = new Page({
-	  			container:"#htList",
-	  			template:"#ht-template",
-	  			url:"${ctx}/mi/${repId}/hx/page/",
-	  			data:{pagesize:10}
+	  	var videoPage = new Page({
+	  			container:"#videoList",
+	  			template:"#video-template",
+	  			url:"${ctx}/mi/${repId}/xfvideo/page/",
+	  			data:{pageSize:10}
 	  	});
 	  	
-	  	htList.find(".js-search-btn").click(function(){
-	  		var name = htList.find(".js-search-text").val();
-	  		htPage.setData({"name":name});
-	  		htPage.init();
+	  	videoList.find(".js-search-btn").click(function(){
+	  		var name = videoList.find(".js-search-text").val();
+	  		videoPage.setData({"name":name});
+	  		videoPage.init();
 	  	});
 	</script>

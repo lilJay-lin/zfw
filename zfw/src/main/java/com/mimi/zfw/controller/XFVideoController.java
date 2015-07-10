@@ -24,74 +24,72 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.mybatis.pojo.REPImage;
+import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.service.IAliyunOSSService;
-import com.mimi.zfw.service.IREPImageService;
+import com.mimi.zfw.service.IREPVideoService;
 import com.mimi.zfw.util.JsonDateValueProcessor;
 
 @Controller
-public class XFPhotoController {
+public class XFVideoController {
 	private static final Logger LOG = LoggerFactory
-			.getLogger(XFPhotoController.class);
+			.getLogger(XFVideoController.class);
 
 	@Resource
-	private IREPImageService repiService;
+	private IREPVideoService repvService;
 
 	@Resource
 	IAliyunOSSService aossService;
 
-	@RequestMapping(value = "/mi/{repId}/xfphoto/page/{curPage}", method = { RequestMethod.GET })
+	@RequestMapping(value = "/mi/{repId}/xfvideo/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
-	public Object getREPImageByPage(HttpServletRequest request,
-			@PathVariable int curPage,Integer pageSize, @PathVariable String repId, String name,
-			String type) {
+	public Object getREPVideoByPage(HttpServletRequest request,
+			@PathVariable int curPage,Integer pageSize, @PathVariable String repId, String name) {
 		Object res = null;
 		int page = curPage - 1 > 0 ? curPage - 1 : 0;
 		try {
-			List<REPImage> items = repiService.findByParams(repId, name, type,
+			List<REPVideo> items = repvService.findByParams(repId, name,
 					page, pageSize);
 			if (items != null && !items.isEmpty()) {
-				for (REPImage item : items) {
-					item.setContentUrl(aossService.addImgParams(
-							item.getContentUrl(),
+				for (REPVideo item : items) {
+					item.setPreImageUrl(aossService.addImgParams(
+							item.getPreImageUrl(),
 							Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
 				}
 			}
-			int rows = repiService.countByParams(repId, name, type);
+			int rows = repvService.countByParams(repId, name);
 			int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 					/ pageSize + 1);
 			res = getJsonObject(rows, totalpage, curPage, pageSize, items,
 					true, "");
 		} catch (Exception e) {
-			LOG.error("楼盘图片查询失败", e);
+			LOG.error("楼盘视频查询失败", e);
 			res = getJsonObject(0, 0, curPage, pageSize, null, false,
-					"楼盘图片查询失败");
+					"楼盘视频查询失败");
 		}
 		return res;
 	}
 
-	@RequestMapping(value = "/mi/{repId}/xfphoto/{imageId}/detail", method = { RequestMethod.GET })
-	public String toREPImageDetail(HttpServletRequest request,
-			@PathVariable String repId,@PathVariable String imageId) {
-		return "/mi/xfphoto/detail";
+	@RequestMapping(value = "/mi/{repId}/xfvideo/{videoId}/detail", method = { RequestMethod.GET })
+	public String toREPVideoDetail(HttpServletRequest request,
+			@PathVariable String repId,@PathVariable String videoId) {
+		return "/mi/xfvideo/detail";
 	}
 
-
-	@RequestMapping(value = "/mi/{repId}/xfphoto/add", method = { RequestMethod.GET })
-	public String toAddREPImage(HttpServletRequest request, @PathVariable String repId) {
-		return "mi/xfphoto/add";
+	@RequestMapping(value = "/mi/{repId}/xfvideo/add", method = { RequestMethod.GET })
+	public String toAddREPVideo(HttpServletRequest request, @PathVariable String repId) {
+		return "mi/xfvideo/add";
 	}
 
-	@RequestMapping(value = "/mi/xfphoto/add", method = { RequestMethod.POST })
+	@RequestMapping(value = "/mi/xfvideo/add", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object addREPImage(HttpServletRequest request, REPImage image) {
+	public Object addREPVideo(HttpServletRequest request, REPVideo video) {
 		JSONObject jo = new JSONObject();
 		try {
-			image.setContentUrl(aossService.clearImgParams(image.getContentUrl()));
-			Map<String, String> res = repiService.add(image);
+			video.setPreImageUrl(aossService.clearImgParams(video.getPreImageUrl()));
+			Map<String, String> res = repvService.add(video);
 			if (StringUtils.isEmpty(res.get("msg"))) {
 				jo.put("success", true);
-				jo.put("msg", "楼盘图片保存成功!");
+				jo.put("msg", "楼盘视频保存成功!");
 
 			} else {
 				jo.put("success", false);
@@ -102,71 +100,71 @@ public class XFPhotoController {
 		} catch (Exception e) {
 			LOG.error("楼盘保存失败",e);
 			jo.put("success", false);
-			jo.put("msg", "楼盘图片保存失败!");
+			jo.put("msg", "楼盘视频保存失败!");
 		}
 		return jo.toString();
 	}
 
 
-	@RequestMapping(value = "/mi/xfphoto/{id}", method = { RequestMethod.GET })
+	@RequestMapping(value = "/mi/xfvideo/{id}", method = { RequestMethod.GET })
 	@ResponseBody
-	public Object getREPImage(@PathVariable String id, HttpServletRequest request) {
+	public Object getREPVideo(@PathVariable String id, HttpServletRequest request) {
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
 		JSONObject jo = new JSONObject();
 		try {
-			REPImage image = repiService.get(id);
-			if (image != null) {
-				image.setContentUrl(aossService.addImgParams(
-						image.getContentUrl(),
+			REPVideo video = repvService.get(id);
+			if (video != null) {
+				video.setPreImageUrl(aossService.addImgParams(
+						video.getPreImageUrl(),
 						Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_PHOTO_SMALL_IMG));
-				jo.put("image", JSONObject.fromObject(image, jsonConfig));
+				jo.put("video", JSONObject.fromObject(video, jsonConfig));
 			}
 		} catch (Exception e) {
-			LOG.error("获取楼盘图片失败", e);
-			jo.put("image", null);
+			LOG.error("获取楼盘视频失败", e);
+			jo.put("video", null);
 		}
 		return jo.toString();
 	}
 
-	@RequestMapping(value = "/mi/{repId}/xfphoto/{imageId}/edit", method = { RequestMethod.GET })
-	public String toUpdateREPImage(HttpServletRequest request,
-			@PathVariable String repId,@PathVariable String imageId) {
-		return "/mi/xfphoto/edit";
+	@RequestMapping(value = "/mi/{repId}/xfvideo/{videoId}/edit", method = { RequestMethod.GET })
+	public String toUpdateREPVideo(HttpServletRequest request,
+			@PathVariable String repId,@PathVariable String videoId) {
+		return "/mi/xfvideo/edit";
 	}
 
-	@RequestMapping(value = "/mi/xfphoto/{id}", method = { RequestMethod.POST })
+	@RequestMapping(value = "/mi/xfvideo/{id}", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object updateREPImage(HttpServletRequest request, REPImage image) {
+	public Object updateREPVideo(HttpServletRequest request, REPVideo video) {
 		JSONObject jo = new JSONObject();
 		try {
-			image.setContentUrl(aossService.clearImgParams(image.getContentUrl()));
-			Map<String, String> res = repiService.modify(image);
+			video.setPreImageUrl(aossService.clearImgParams(video.getPreImageUrl()));
+			Map<String, String> res = repvService.modify(video);
 			if (res.isEmpty()) {
 				jo.put("success", true);
-				jo.put("msg", "更新楼盘图片成功!");
+				jo.put("msg", "更新楼盘视频成功!");
 			} else {
 				jo.put("success", false);
 				jo.put("msg", res.get("msg"));
 				jo.put("field", res.get("field"));
 			}
 		} catch (Exception e) {
-			LOG.error("更新楼盘图片失败", e);
+			LOG.error("更新楼盘视频失败", e);
 			jo.put("success", false);
-			jo.put("msg", "更新楼盘图片失败!");
+			jo.put("msg", "更新楼盘视频失败!");
 		}
 		return jo.toString();
 	}
 	
-	@RequestMapping(value = "/mi/xfphoto/batchDel", method = { RequestMethod.POST })
+	@RequestMapping(value = "/mi/xfvideo/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object batchDelREPImage(HttpServletRequest request, String imageIds) {
+	public Object batchDelREPVideo(HttpServletRequest request, String videoIds) {
 		JSONObject jo = new JSONObject();
 		try {
-			Map<String, String> res = repiService.batchDel(imageIds);
+			Map<String, String> res = repvService.batchDel(videoIds);
 			if (StringUtils.isEmpty(res.get("msg"))) {
 				jo.put("success", true);
-				jo.put("msg", "楼盘图片删除成功!");
+				jo.put("msg", "楼盘视频删除成功!");
 			} else {
 				jo.put("success", false);
 				jo.put("msg", res.get("msg"));
@@ -174,12 +172,12 @@ public class XFPhotoController {
 			}
 		} catch (Exception e) {
 			jo.put("success", false);
-			jo.put("msg", "楼盘图片删除失败!");
+			jo.put("msg", "楼盘视频删除失败!");
 		}
 		return jo.toString();
 	}
 
-	@RequestMapping(value = "/mi/xfphoto/uploadImg", method = { RequestMethod.POST })
+	@RequestMapping(value = "/mi/xfvideo/uploadImg", method = { RequestMethod.POST })
 	public @ResponseBody
 	Object upload(HttpServletRequest request,
 			@RequestParam("theFile") MultipartFile theFile) {
@@ -191,15 +189,15 @@ public class XFPhotoController {
 			jo.put("imgPath", path);
 			jo.put("success", true);
 		} catch (IOException e) {
-			LOG.error("上传楼盘图片出错！", e);
+			LOG.error("上传视频缩放图出错！", e);
 			jo.put("success", false);
-			jo.put("msg", "保存图片失败");
+			jo.put("msg", "保存视频缩放图失败");
 		}
 		return jo.toString();
 	}
 
 	public Object getJsonObject(int rows, int totalpage, int curPage,
-			int pageSize, List<REPImage> items, boolean rescode, String msg) {
+			int pageSize, List<REPVideo> items, boolean rescode, String msg) {
 		JSONObject jo = new JSONObject();
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("totalrows", rows);

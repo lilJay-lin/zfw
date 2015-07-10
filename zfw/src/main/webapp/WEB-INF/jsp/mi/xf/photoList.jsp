@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="box-cnt js-rep-photos-container">
+<div class="box-cnt js-rep-photos-container" style="display:none">
 	<div class="datatable" id="photoList">
 		<div class="datatabls-filter">
 			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
@@ -30,7 +30,7 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+				</select> <a class="btn" href="javascript:;" onclick="photoBatchOperation(this);">批量操作</a>
 				<a class="btn" href="${ctx}/mi/${repId }/xfphoto/add">新增</a>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 				<td>{{type}}</td>
 				<td>{{description}}</td>
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/xfphoto/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfphoto/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
 					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfphoto/{{id}}/edit">
@@ -87,7 +87,7 @@
 	  	/*
 	  	 * 批量操作
 	  	 */
-	  	function batchOperation(e){
+	  	function photoBatchOperation(e){
 	  		var imageIds = "";
 	  		photoCheckList.find("input[type='checkbox']").each(function(idx,item){
 	  			if($(item).is(":checked")){

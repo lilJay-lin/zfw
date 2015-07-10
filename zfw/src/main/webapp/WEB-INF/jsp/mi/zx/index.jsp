@@ -189,7 +189,7 @@
 	  			container:"#infoList",
 	  			template:"#info-template",
 	  			url:"${ctx}/mi/info/page/",
-	  			data:{pagesize:4}
+	  			data:{pagesize:10}
 	  	});
 	  	page.init();
 	  	

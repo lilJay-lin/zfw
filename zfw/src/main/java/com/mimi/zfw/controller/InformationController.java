@@ -250,6 +250,12 @@ public class InformationController {
 		return jo.toString();
 	}
 
+	@RequestMapping(value = "/mi/info/{infoId}/detail", method = { RequestMethod.GET })
+	public String toInfoDetail(HttpServletRequest request, Model model,
+			@PathVariable String infoId) {
+		return "/mi/zx/detail";
+	}
+
 	@RequestMapping(value = "/mi/info/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object miIndex(HttpServletRequest request,

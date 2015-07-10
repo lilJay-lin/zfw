@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script>
-						<div class="box-cnt js-rep-detail-container">
+						<div class="box-cnt js-rep-detail-container" style="display:none">
 							<div class="form">
 								<fieldset>
 									<input type="hidden" id="repId" name ="id" value="${repId}" />
@@ -250,24 +250,10 @@
 											map.addControl(top_left_navigation);  
 											var marker = new BMap.Marker(point);// 创建标注
 											map.addOverlay(marker);             // 将标注添加到地图中
-											marker.enableDragging();   
-											map.addEventListener("click", setPosition);
-											marker.addEventListener("dragend",getLocation);
-											getLocation();
-// 											map.clearOverlays();
-										  function getLocation(){
-											    var point2 = marker.getPosition();
-												$("#longitude").val(point2.lng);
-												$("#latitude").val(point2.lat);
-										  }
-										  function setPosition(e){
-											  marker.setPosition(e.point);
-											  getLocation();
-										  }
 										</script>
 									</div>
 									
-									<div class="box box-inline">
+									<div class="box box-inline js-relation-select-box">
 										<div class="box-hd">
 											<h2>关联用户</h2>
 										</div>
@@ -322,7 +308,7 @@
 									</div>
 									
 									
-									<div class="box box-inline">
+									<div class="box box-inline js-relation-select-box">
 										<div class="box-hd">
 											<h2>关联资讯</h2>
 										</div>

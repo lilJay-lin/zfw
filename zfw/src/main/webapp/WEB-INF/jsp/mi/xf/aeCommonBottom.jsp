@@ -61,6 +61,23 @@
 	
 		<script>
 		/*
+		 *百度地图
+		 */
+			marker.enableDragging();   
+			map.addEventListener("click", setPosition);
+			marker.addEventListener("dragend",getLocation);
+			getLocation();
+		  function getLocation(){
+			    var point2 = marker.getPosition();
+				$("#longitude").val(point2.lng);
+				$("#latitude").val(point2.lat);
+		  }
+		  function setPosition(e){
+			  marker.setPosition(e.point);
+			  getLocation();
+		  }
+		  
+		/*
 		 *分页功能 
 		 */
 	  	var userPage = new Page({

@@ -40,11 +40,13 @@
 						<div class="box-hd" onclick="openCloseREPDetail('js-rep-panos-container')">
 							<h2>管理楼盘全景</h2>
 						</div>
+						<%@include file="panoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseREPDetail('js-rep-rings-container')">
-							<h2>管理楼盘三维</h2>
+						<div class="box-hd" onclick="openCloseREPDetail('js-rep-videos-container')">
+							<h2>管理楼盘视频</h2>
 						</div>
+						<%@include file="videoList.jsp" %>
 					</div>
 				</div>
 			</div>
@@ -66,9 +68,10 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
-	$(".js-rep-detail-container").hide();
-	$(".js-rep-ht-container").hide();
-	$(".js-rep-photos-container").hide();
+// 	$(".js-rep-detail-container").hide();
+// 	$(".js-rep-ht-container").hide();
+// 	$(".js-rep-photos-container").hide();
+// 	$(".js-rep-panos-container").hide();
 		function openCloseREPDetail(clazz){
 			var ele = $("."+clazz);
 			if(ele.is(':hidden')){
@@ -81,14 +84,12 @@
 				if("js-rep-detail-container"==clazz){
 					initREPData();
 				}else if("js-rep-panos-container"==clazz){
-					initREPPanosData();
+					panoPage.init();
 				}else if("js-rep-photos-container"==clazz){
-// 					initREPPhotosData();
 				  	photoPage.init();
-				}else if("js-rep-rings-container"==clazz){
-					initREPRingsData();
+				}else if("js-rep-videos-container"==clazz){
+				  	videoPage.init();
 				}else if("js-rep-ht-container"==clazz){
-// 					initREPHTData();
 				  	htPage.init();
 				}
 			}

@@ -465,6 +465,12 @@ public class XFController {
 		return res;
 	}
 
+	@RequestMapping(value = "/mi/xf/{repId}/detail", method = { RequestMethod.GET })
+	public String toREPDetail(HttpServletRequest request,
+			@PathVariable String repId) {
+		return "/mi/xf/detail";
+	}
+
 	@RequestMapping(value = "/mi/xf/add", method = { RequestMethod.GET })
 	public String toAddREP(Model model, HttpServletRequest request) {
 		return "mi/xf/add";
@@ -526,7 +532,7 @@ public class XFController {
 	}
 
 	@RequestMapping(value = "/mi/xf/{repId}/edit", method = { RequestMethod.GET })
-	public String toUpdateInfo(HttpServletRequest request,
+	public String toUpdateREP(HttpServletRequest request,
 			@PathVariable String repId) {
 //		model.addAttribute("repId", repId);
 		return "/mi/xf/edit";
