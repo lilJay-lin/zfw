@@ -1,6 +1,8 @@
 package com.mimi.zfw.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.interfaces.RSAPublicKey;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Role;
+import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IRoleService;
@@ -483,7 +486,20 @@ public class UserController {
 
 	String name = request.getParameter("name") == null ? null
 		: (String) request.getParameter("name");
-
+	if(!StringUtils.isBlank(name)){
+	    try {
+		name = URLDecoder.decode(name,"utf-8");
+	    } catch (UnsupportedEncodingException e) {
+		
+		JSONObject jo = new JSONObject();
+		jo.put("success", false);
+		jo.put("msg", "查询条件解码出错");
+		LOG.error("查询角色分页，查询条件解码出错！",e);
+		
+		return jo.toString();
+	    }
+	}
+	
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
 	int rows = 0;
@@ -497,8 +513,9 @@ public class UserController {
 		    true, "");
 
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+	    
 	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
+	    LOG.error("查询用户分页信息出错！",e);
 	}
 	return res;
     }
@@ -518,9 +535,10 @@ public class UserController {
 		jo.put("relationroles", relationroles);
 	    }
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+	    
 	    jo.put("user", null);
 	    jo.put("relationroles", null);
+	    LOG.error("查询用户详细信息出错！",e);
 	}
 
 	return jo.toString();
@@ -556,6 +574,7 @@ public class UserController {
 	    } catch (Exception e) {
 		jo.put("success", false);
 		jo.put("msg", "密码解析出错，请稍后重试!");
+		LOG.error("新增用户密码解析出错！",e);
 	    }
 
 	    try {
@@ -576,6 +595,7 @@ public class UserController {
 	    } catch (Exception e) {
 		jo.put("success", false);
 		jo.put("msg", "新增用户保存失败!");
+		LOG.error("新增用户保存失败！",e);
 	    }
 
 	}
@@ -617,6 +637,7 @@ public class UserController {
 	    } catch (Exception e) {
 		jo.put("success", false);
 		jo.put("msg", "密码解析出错，请稍后重试!");
+		LOG.error("更新用户信息，密码解析出错！",e);
 	    }
 	    
 //	    MultipartFile file = request.getParameter("file")==null?null:(MultipartFile)request.getAttribute("addroles");
@@ -637,6 +658,7 @@ public class UserController {
 	} catch (Exception e) {
 	    jo.put("success", false);
 	    jo.put("msg", "更新用户失败!");
+	    LOG.error("更新用户信息失败！",e);
 	}
 
 	return jo.toString();
@@ -654,10 +676,9 @@ public class UserController {
 	    jo.put("success", true);
 	    jo.put("msg", "用户更新成功");
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
-
 	    jo.put("success", false);
 	    jo.put("msg", "用户更新失败");
+	    LOG.error("更新用户信息失败！",e);
 	}
 
 	return jo.toString();
