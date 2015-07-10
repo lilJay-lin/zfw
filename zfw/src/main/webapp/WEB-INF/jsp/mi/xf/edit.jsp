@@ -25,22 +25,24 @@
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd">
+						<div class="box-hd" onclick="openCloseREPDetail('js-rep-ht-container')">
 							<h2>管理楼盘户型</h2>
 						</div>
+						<%@include file="htList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd">
+						<div class="box-hd" onclick="openCloseREPDetail('js-rep-photos-container')">
 							<h2>管理楼盘相册</h2>
 						</div>
+						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd">
+						<div class="box-hd" onclick="openCloseREPDetail('js-rep-panos-container')">
 							<h2>管理楼盘全景</h2>
 						</div>
 					</div>
 					<div class="box">
-						<div class="box-hd">
+						<div class="box-hd" onclick="openCloseREPDetail('js-rep-rings-container')">
 							<h2>管理楼盘三维</h2>
 						</div>
 					</div>
@@ -64,6 +66,9 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
+	$(".js-rep-detail-container").hide();
+	$(".js-rep-ht-container").hide();
+	$(".js-rep-photos-container").hide();
 		function openCloseREPDetail(clazz){
 			var ele = $("."+clazz);
 			if(ele.is(':hidden')){
@@ -71,7 +76,22 @@
 			}else{
 				ele.hide();
 			}
-
+			if(!ele.attr("first")){
+				ele.attr("first",2);
+				if("js-rep-detail-container"==clazz){
+					initREPData();
+				}else if("js-rep-panos-container"==clazz){
+					initREPPanosData();
+				}else if("js-rep-photos-container"==clazz){
+// 					initREPPhotosData();
+				  	photoPage.init();
+				}else if("js-rep-rings-container"==clazz){
+					initREPRingsData();
+				}else if("js-rep-ht-container"==clazz){
+// 					initREPHTData();
+				  	htPage.init();
+				}
+			}
 		}
 	
 		$("#submit").click(function(){
@@ -119,76 +139,80 @@
 				$("body").scrollTop(0);
 			}
 		});
-		
-		/*
-		 * 编辑页面，渲染页面数据
-		 * 
-		 */
-		var id = $("#repId").val();
-		var getRepUrl = "${ctx}/mi/xf/"+id;
-		$.ajax({
-			type:"get",
-			url:getRepUrl,
-			async:true,
-			dataType:"json",
-			success:function(data){
-				if(data){
-					var rep = data.rep;
-					var relationUserList = data.relationUserList;
-					var relationInfoList = data.relationInfoList;
-					for(var i in rep){
-						if(i=="buildingType"){
-							var buildingTypes = rep["buildingType"];
-							if(buildingTypes){
-								var bts = buildingTypes.split(",");
-								$("[name=buildingType]").each(function(){
-									if($.inArray($(this).val(),bts)>-1){
-										this.checked = true;
-									}
-								});
+		function initREPData(){
+			/*
+			 * 编辑页面，渲染页面数据
+			 * 
+			 */
+			var id = $("#repId").val();
+			var getRepUrl = "${ctx}/mi/xf/"+id;
+			$.ajax({
+				type:"get",
+				url:getRepUrl,
+				async:true,
+				dataType:"json",
+				success:function(data){
+					if(data){
+						var rep = data.rep;
+						var relationUserList = data.relationUserList;
+						var relationInfoList = data.relationInfoList;
+						for(var i in rep){
+							if(i=="buildingType"){
+								var buildingTypes = rep["buildingType"];
+								if(buildingTypes){
+									var bts = buildingTypes.split(",");
+									$("[name=buildingType]").each(function(){
+										if($.inArray($(this).val(),bts)>-1){
+											this.checked = true;
+										}
+									});
+								}
+								continue;
 							}
-							continue;
-						}
-						if(i=="greenRate" || i=="floorAreaRatio" || i=="propertyFee"){
-							var num = Number(rep[i]);
-							if(num){
-								$("[name="+i+"]").val(Math.round(num*100)/100);
+							if(i=="greenRate" || i=="floorAreaRatio" || i=="propertyFee"){
+								var num = Number(rep[i]);
+								if(num){
+									$("[name="+i+"]").val(Math.round(num*100)/100);
+								}
+								continue;
 							}
-							continue;
+							if(i=="onSaleDate" || i=="onReadyDate"){
+								$("[name="+i+"]").datepicker( "setDate", rep[i] );
+								continue;
+							}
+							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(rep[i]);
 						}
-						if(i=="onSaleDate" || i=="onReadyDate"){
-							$("[name="+i+"]").datepicker( "setDate", rep[i] );
-							continue;
+						var preImageUrl = rep["preImageUrl"];
+						if(preImageUrl){
+							$(".control-img").find("img").attr("src",preImageUrl);
 						}
-						$("[name="+i+"]")[0]&&$("[name="+i+"]").val(rep[i]);
-					}
-					var preImageUrl = rep["preImageUrl"];
-					if(preImageUrl){
-						$(".control-img").find("img").attr("src",preImageUrl);
-					}
-					var lon = rep["longitude"];
-					var lat = rep["latitude"];
-					if(lon && lat){
-						var tp = new BMap.Point(lon,lat);
-						marker.setPosition(tp);
-					}
-					if(relationUserList){
-						for(var i=0,l = relationUserList.length;i<l;i++){
-							originalUserRelation.push(relationUserList[i].id);
+						var lon = rep["longitude"];
+						var lat = rep["latitude"];
+						if(lon && lat){
+							setTimeout(function(){
+								var tp = new BMap.Point(lon,lat);
+								marker.setPosition(tp);
+								map.centerAndZoom(tp, 15);
+							}, 1000);
 						}
-						$("#user-relation").append(template("#relation-user-template",relationUserList));
-					}
-					if(relationInfoList){
-						for(var i=0,l = relationInfoList.length;i<l;i++){
-							originalInfoRelation.push(relationInfoList[i].id);
+						if(relationUserList){
+							for(var i=0,l = relationUserList.length;i<l;i++){
+								originalUserRelation.push(relationUserList[i].id);
+							}
+							$("#user-relation").append(template("#relation-user-template",relationUserList));
 						}
-						$("#info-relation").append(template("#relation-info-template",relationInfoList));
+						if(relationInfoList){
+							for(var i=0,l = relationInfoList.length;i<l;i++){
+								originalInfoRelation.push(relationInfoList[i].id);
+							}
+							$("#info-relation").append(template("#relation-info-template",relationInfoList));
+						}
 					}
+				},
+				error:function(){
+					alert("获取楼盘信息失败");
 				}
-			},
-			error:function(){
-				alert("获取楼盘信息失败");
-			}
-		});
+			});
+		}
 	</script>
 </html>

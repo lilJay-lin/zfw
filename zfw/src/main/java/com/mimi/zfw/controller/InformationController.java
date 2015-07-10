@@ -312,8 +312,7 @@ public class InformationController {
 
 	@RequestMapping(value = "/mi/info/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object batchDelInfo(HttpServletRequest request, String infoIds,
-			String repIds) {
+	public Object batchDelInfo(HttpServletRequest request, String infoIds) {
 
 		JSONObject jo = new JSONObject();
 		try {

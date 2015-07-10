@@ -31,7 +31,8 @@ public class HouseTypeServiceImpl extends
 	@Override
 	public List<HouseType> findHouseTypeByParams(String keyWord, String region,
 			String averagePrice, Integer roomNum, String grossFloorArea,
-			String saleStatus, String orderBy, int targetPage, int pageSize) {
+			String saleStatus, String orderBy, Integer targetPage,
+			Integer pageSize) {
 		HouseTypeExample hte = bindHouseTypeParams(keyWord, region,
 				averagePrice, roomNum, grossFloorArea, saleStatus);
 		String orderByClause = "";
@@ -48,8 +49,10 @@ public class HouseTypeServiceImpl extends
 		}
 		orderByClause += "priority desc";
 		hte.setOrderByClause(orderByClause);
-		hte.setLimitStart(targetPage * pageSize);
-		hte.setLimitSize(pageSize);
+		if (targetPage != null && pageSize != null) {
+			hte.setLimitStart(targetPage * pageSize);
+			hte.setLimitSize(pageSize);
+		}
 		return htm.selectByExample(hte);
 	}
 
@@ -72,7 +75,8 @@ public class HouseTypeServiceImpl extends
 		if (StringUtils.isNotBlank(keyWord)) {
 			cri.andNameLike("%" + keyWord + "%").andDelFlagEqualTo(false);
 			cri2 = hte.createCriteria();
-			cri2.andRealEstateProjectNameLike("%" + keyWord + "%").andDelFlagEqualTo(false);
+			cri2.andRealEstateProjectNameLike("%" + keyWord + "%")
+					.andDelFlagEqualTo(false);
 		}
 		if (StringUtils.isNotBlank(region)) {
 			cri.andRegionEqualTo(region);
@@ -127,6 +131,42 @@ public class HouseTypeServiceImpl extends
 		HouseTypeExample hte = new HouseTypeExample();
 		hte.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
 		return htm.selectByExample(hte);
+	}
+
+	@Override
+	public List<HouseType> findByParams(String name, String repId,
+			Integer targetPage, Integer pageSize) {
+		if (StringUtils.isBlank(repId)) {
+			return null;
+		}
+		HouseTypeExample hte = bindHouseTypeParams(repId, name);
+		if (targetPage != null && pageSize != null) {
+			hte.setLimitStart(targetPage * pageSize);
+			hte.setLimitSize(pageSize);
+		}
+		return htm.selectByExample(hte);
+	}
+
+	@Override
+	public int countByParams(String name, String repId) {
+		if (StringUtils.isBlank(repId)) {
+			return 0;
+		}
+		HouseTypeExample hte = bindHouseTypeParams(repId, name);
+		return htm.countByExample(hte);
+	}
+
+	private HouseTypeExample bindHouseTypeParams(String repId, String name) {
+		HouseTypeExample hte = new HouseTypeExample();
+		HouseTypeExample.Criteria cri = hte.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if (StringUtils.isNotBlank(repId)) {
+			cri.andRealEstateProjectIdEqualTo(repId);
+		}
+		if (StringUtils.isNotBlank(name)) {
+			cri.andNameLike("%" + name + "%");
+		}
+		return hte;
 	}
 
 }

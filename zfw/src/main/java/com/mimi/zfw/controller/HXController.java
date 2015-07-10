@@ -8,10 +8,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.HTImage;
@@ -28,6 +33,8 @@ import com.mimi.zfw.service.IRealEstateProjectService;
 
 @Controller
 public class HXController {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(HXController.class);
 
 	@Resource
 	private IHouseTypeService htService;
@@ -166,4 +173,52 @@ public class HXController {
 		return "ui/photo/photoList";
 	}
 
+	@RequestMapping(value = "/mi/{repId}/hx/page/{curPage}", method = { RequestMethod.GET })
+	@ResponseBody
+	public Object getREPByPage(HttpServletRequest request,
+			@PathVariable int curPage ,@PathVariable String repId) {
+
+		Object res = null;
+
+		int page = curPage - 1 > 0 ? curPage - 1 : 0;
+
+		String name = request.getParameter("name") == null ? null
+				: (String) request.getParameter("name");
+
+		Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
+				: Integer.valueOf((String) request.getParameter("pagesize"));
+
+		try {
+			List<HouseType> items = htService.findByParams(name,repId, page, pageSize);
+			int rows = htService.countByParams(name, repId);
+			int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
+					/ pageSize + 1);
+			res = getJsonObject(rows, totalpage, curPage, pageSize, items,
+					true, "");
+		} catch (Exception e) {
+			LOG.error("户型查询失败",e);
+			res = getJsonObject(0, 0, curPage, pageSize, null, false, "户型查询失败");
+		}
+		return res;
+	}
+
+	public Object getJsonObject(int rows, int totalpage, int curPage,
+			int pageSize, List<HouseType> items, boolean rescode,
+			String msg) {
+		JSONObject jo = new JSONObject();
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("totalrows", rows);
+		map.put("curpage", curPage);
+		map.put("totalpage", totalpage);
+		map.put("pagesize", pageSize);
+
+		jo.put("pageinfo", map);
+		jo.put("items", items);
+
+		jo.put("success", rescode);
+		jo.put("msg", msg);
+
+		return jo.toString();
+	}
 }

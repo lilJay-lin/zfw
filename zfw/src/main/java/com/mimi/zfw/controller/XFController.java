@@ -498,7 +498,7 @@ public class XFController {
 
 	@RequestMapping(value = "/mi/xf/{id}", method = { RequestMethod.GET })
 	@ResponseBody
-	public Object getInfo(@PathVariable String id, HttpServletRequest request) {
+	public Object getREP(@PathVariable String id, HttpServletRequest request) {
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
 		JSONObject jo = new JSONObject();
@@ -526,15 +526,15 @@ public class XFController {
 	}
 
 	@RequestMapping(value = "/mi/xf/{repId}/edit", method = { RequestMethod.GET })
-	public String toUpdateInfo(HttpServletRequest request, Model model,
+	public String toUpdateInfo(HttpServletRequest request,
 			@PathVariable String repId) {
-		model.addAttribute("repId", repId);
+//		model.addAttribute("repId", repId);
 		return "/mi/xf/edit";
 	}
 
 	@RequestMapping(value = "/mi/xf/{repId}", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object updateInfo(HttpServletRequest request, RealEstateProject rep,
+	public Object updateREP(HttpServletRequest request, RealEstateProject rep,
 			@PathVariable String repId, String addUserRelations, String delUserRelations, String addInfoRelations, String delInfoRelations) {
 		JSONObject jo = new JSONObject();
 		try {
