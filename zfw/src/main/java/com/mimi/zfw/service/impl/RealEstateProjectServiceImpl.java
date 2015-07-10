@@ -2,7 +2,9 @@ package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -15,25 +17,31 @@ import com.mimi.zfw.mybatis.dao.HTImageMapper;
 import com.mimi.zfw.mybatis.dao.HTPanoMapper;
 import com.mimi.zfw.mybatis.dao.HTRingMapper;
 import com.mimi.zfw.mybatis.dao.HouseTypeMapper;
+import com.mimi.zfw.mybatis.dao.REPAvgPriceHistoryMapper;
 import com.mimi.zfw.mybatis.dao.REPImageMapper;
 import com.mimi.zfw.mybatis.dao.REPPanoMapper;
 import com.mimi.zfw.mybatis.dao.REPVideoMapper;
 import com.mimi.zfw.mybatis.dao.RealEstateProjectMapper;
 import com.mimi.zfw.mybatis.dao.RelationREPAndInformationMapper;
+import com.mimi.zfw.mybatis.dao.RelationUserAndREPMapper;
 import com.mimi.zfw.mybatis.pojo.HTImage;
 import com.mimi.zfw.mybatis.pojo.HTPano;
 import com.mimi.zfw.mybatis.pojo.HTRing;
 import com.mimi.zfw.mybatis.pojo.HouseType;
+import com.mimi.zfw.mybatis.pojo.REPAvgPriceHistory;
 import com.mimi.zfw.mybatis.pojo.REPImage;
 import com.mimi.zfw.mybatis.pojo.REPPano;
 import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndREP;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample.Criteria;
 import com.mimi.zfw.mybatis.pojo.RelationREPAndInformation;
 import com.mimi.zfw.mybatis.pojo.RelationREPAndInformationExample;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndREPExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRealEstateProjectService;
+import com.mimi.zfw.service.IUserService;
 
 @Service
 public class RealEstateProjectServiceImpl extends
@@ -66,6 +74,15 @@ public class RealEstateProjectServiceImpl extends
 	
 	@Resource
 	private RelationREPAndInformationMapper rrim;
+	
+	@Resource
+	private RelationUserAndREPMapper rurm;
+	
+	@Resource
+	private REPAvgPriceHistoryMapper raphm;
+
+	@Resource
+	private IUserService userService;
 
 	@Resource
 	@Override
@@ -555,5 +572,161 @@ public class RealEstateProjectServiceImpl extends
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Map<String, String> addREP(RealEstateProject rep, String userIds,
+			String infoIds) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rep == null) {
+			resMap.put("msg", "楼盘内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(rep);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		rep.setId(UUID.randomUUID().toString());
+		rep.setCreater(curUserId);
+		rep.setLastEditor(curUserId);
+		repm.insertSelective(rep);
+		addREPAvgPriceHistory(rep);
+		if (StringUtils.isNotBlank(infoIds)) {
+			String[] ids = infoIds.split(Constants.MI_IDS_SPLIT_STRING);
+			for (String infoId : ids) {
+				if (StringUtils.isNotBlank(infoId)) {
+					RelationREPAndInformation rri = new RelationREPAndInformation();
+					rri.setId(UUID.randomUUID().toString());
+					rri.setInformationId(infoId);
+					rri.setRealEstateProjectId(rep.getId());
+					rri.setCreater(curUserId);
+					rri.setLastEditor(curUserId);
+					rrim.insertSelective(rri);
+				}
+			}
+		}
+		if (StringUtils.isNotBlank(userIds)) {
+			String[] ids = userIds.split(Constants.MI_IDS_SPLIT_STRING);
+			for (String userId : ids) {
+				if (StringUtils.isNotBlank(userId)) {
+					RelationUserAndREP rur = new RelationUserAndREP();
+					rur.setId(UUID.randomUUID().toString());
+					rur.setUserId(userId);
+					rur.setRealEstateProjectId(rep.getId());
+					rur.setCreater(curUserId);
+					rur.setLastEditor(curUserId);
+					rurm.insertSelective(rur);
+				}
+			}
+		}
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> updateREP(RealEstateProject rep,
+			String addUserRelations, String delUserRelations,
+			String addInfoRelations, String delInfoRelations) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rep == null) {
+			resMap.put("msg", "楼盘内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(rep);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		rep.setLastEditor(curUserId);
+		repm.updateByPrimaryKeySelective(rep);
+		addREPAvgPriceHistory(rep);
+		if (StringUtils.isNotBlank(addInfoRelations)) {
+			String[] ids = addInfoRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			for (String infoId : ids) {
+				if (StringUtils.isNotBlank(infoId)) {
+					RelationREPAndInformation rri = new RelationREPAndInformation();
+					rri.setId(UUID.randomUUID().toString());
+					rri.setInformationId(infoId);
+					rri.setRealEstateProjectId(rep.getId());
+					rri.setCreater(curUserId);
+					rri.setLastEditor(curUserId);
+					rrim.insertSelective(rri);
+				}
+			}
+		}
+		if (StringUtils.isNotBlank(addUserRelations)) {
+			String[] ids = addUserRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			for (String userId : ids) {
+				if (StringUtils.isNotBlank(userId)) {
+					RelationUserAndREP rur = new RelationUserAndREP();
+					rur.setId(UUID.randomUUID().toString());
+					rur.setUserId(userId);
+					rur.setRealEstateProjectId(rep.getId());
+					rur.setCreater(curUserId);
+					rur.setLastEditor(curUserId);
+					rurm.insertSelective(rur);
+				}
+			}
+		}
+		if (StringUtils.isNotBlank(delInfoRelations)) {
+			String[] ids = delInfoRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			List<String> idList = new ArrayList<String>();
+			for (String infoId : ids) {
+				if (StringUtils.isNotBlank(infoId)) {
+					idList.add(infoId);
+				}
+			}
+			if(!idList.isEmpty()){
+				RelationREPAndInformationExample rrie = new RelationREPAndInformationExample();
+				rrie.or().andInformationIdIn(idList).andRealEstateProjectIdEqualTo(rep.getId()).andDelFlagEqualTo(false);
+				RelationREPAndInformation rri = new RelationREPAndInformation();
+				rri.setLastEditor(curUserId);
+				rri.setDelFlag(true);
+				rrim.updateByExampleSelective(rri, rrie);
+			}
+		}
+		if (StringUtils.isNotBlank(delUserRelations)) {
+			String[] ids = delUserRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			List<String> idList = new ArrayList<String>();
+			for (String userId : ids) {
+				if (StringUtils.isNotBlank(userId)) {
+					idList.add(userId);
+				}
+			}
+			if(!idList.isEmpty()){
+				RelationUserAndREPExample rure = new RelationUserAndREPExample();
+				rure.or().andUserIdIn(idList).andRealEstateProjectIdEqualTo(rep.getId()).andDelFlagEqualTo(false);
+				RelationUserAndREP rur = new RelationUserAndREP();
+				rur.setLastEditor(curUserId);
+				rur.setDelFlag(true);
+				rurm.updateByExampleSelective(rur, rure);
+			}
+		}
+		return resMap;
+	}
+	
+	private void addREPAvgPriceHistory(RealEstateProject rep){
+		if(rep!=null && rep.getAveragePrice()!=null){
+			REPAvgPriceHistory raph = new REPAvgPriceHistory();
+			raph.setId(UUID.randomUUID().toString());
+			raph.setCreater(rep.getLastEditor());
+			raph.setLastEditor(rep.getLastEditor());
+			raph.setRealEstateProjectId(rep.getId());
+			raph.setValue(rep.getAveragePrice());
+			raphm.insertSelective(raph);
+		}
+	}
+	
+	private Map<String, String> checkInfo(RealEstateProject rep) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		return resMap;
 	}
 }

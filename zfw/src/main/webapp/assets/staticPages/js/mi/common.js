@@ -130,17 +130,41 @@
   		},
   		pagination:function(pageinfo){
   			var self = this;
+  			self.removePaginationHandle();
   			var p = self.$container.find(".pagination");
   			var info = self.$container.find(".datatable-info");
   			var pagesize = pageinfo.pagesize||10;
 			var start = (pageinfo.curpage-1)*pagesize + 1;
 			var end = pageinfo.curpage*pagesize >=pageinfo.totalrows?pageinfo.totalrows:pageinfo.curpage*pagesize;
 			info.html("共"+pageinfo.totalrows+"条 当前展示第"+start+"条到第"+end+"条");
-			var html = '<li class="prev disabled"><a href="javascript:;"  data-page="pre">← 上一页</a>'
-			for(var i=0;i<pageinfo.totalpage;i++){
-				html+='<li '+(i+1==pageinfo.curpage?'class="active"':'')+'><a href="javascript:;" data-page="'+(i+1)+'">'+(i+1)+'</a></li>';
+			var curpage = parseInt(pageinfo.curpage,10);
+			var html ='<li  class="active"><a href="javascript:;"  data-page="'+curpage+'">'+curpage+' </a></li>';
+			var s=curpage-1,e=curpage+1,st  = '',a = parseInt(pageinfo.totalpage,10);;
+			for(;s>curpage-4;s--){
+				if(s>1)
+				html='<li><a href="javascript:;" data-page="'+s+'">'+s+'</a></li>'+html;
 			}
-			html +='<li class="next"><a href="javascript:;"  data-page="next">下一页 → </a></li>';
+			if(curpage!=1){
+				if(s==2){
+					st='<li><a href="javascript:;"  data-page="2">2</a>'+html;
+				}else if(s>2){
+					st='<li><a  href="javascript:;" class="blank">...</a></li>'+html;
+				}
+				html = '<li><a href="javascript:;"  data-page="1">1</a>'+st;
+			}
+			for(;e<curpage+4;e++){
+				if(e<a)
+				html+='<li><a href="javascript:;" data-page="'+e+'">'+e+'</a></li>';
+			}
+			
+			if(curpage!=a){
+				if(e == a-1){
+					html+='<li><a href="javascript:;"  data-page="'+(a-1)+'">'+(a-1)+'</a>'
+				}else if(e<a-1){
+					html+='<li><a href="javascript:;" class="blank">...</a></li>'
+				}
+				html +='<li><a href="javascript:;"  data-page="'+pageinfo.totalpage+'">'+pageinfo.totalpage+' </a></li>';
+			}
 			p.html(html);
 			p.data("curpage",pageinfo.curpage);
 			p.data("totalpage",pageinfo.totalpage);
@@ -149,7 +173,8 @@
   		addPaginationHandle:function(){
   			var self = this;
   			var p = self.$container.find(".pagination");
-  			p.on("click","a",function(){
+  			self.paginationHandle =function(e){
+  				e.preventDefault();
   				var $e = $(this);
   				var page = $e.data("page");
   				if(page == 'pre'){
@@ -159,7 +184,12 @@
   				}else{
   					self.getPage(page)
   				}
-  			})
+  			};
+  			p.delegate("a","click",self.paginationHandle)
+  		},
+  		removePaginationHandle:function(){
+  			var self = this;
+  			self.$container.find(".pagination").undelegate("a","click",self.paginationHandle)
   		},
 		prex:function (){
 			var self = this;

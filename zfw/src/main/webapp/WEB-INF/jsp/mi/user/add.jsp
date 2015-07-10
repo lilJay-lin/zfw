@@ -86,9 +86,7 @@
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control error">
-											<textarea name="description">
-												
-											</textarea>
+											<textarea name="description"></textarea>
 										</div>
 									</div>
 									
@@ -347,12 +345,9 @@
 					delFlag:false
 				}
 			   for(var i in user){
-			   		var value = form.find("input[name="+i+"]").val();
-			   		if(!value){
-			   			i == "locked"?(value=false):(value="")
-			   		}
-			   		user[i]=value;
+			   		form.find("input[name="+i+"]").length>0&&(user[i]=form.find("input[name="+i+"]").val());
 			   }
+			   user['description']  = form.find("textarea[name='description']").val();
 			   
 			   var roles = addRelation.join("/");
 				var publicExponent = document.getElementById("publicExponent").value;

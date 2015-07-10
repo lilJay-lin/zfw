@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.mimi.zfw.mybatis.dao.PermissionMapper;
@@ -15,6 +16,10 @@ import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.PermissionExample;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermission;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermissionExample;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
+import com.mimi.zfw.mybatis.pojo.Role;
+import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IPermissionService;
 
@@ -85,5 +90,93 @@ public class PermissionServiceImpl extends
 	pe.or().andIdIn(permissionIds);
 	return pm.selectByExample(pe);
     }
+
+    @Override
+    public List<Permission> getPermissionsByRoleId(String id) {
+	if (StringUtils.isBlank(id)) {
+	    return new ArrayList<Permission>();
+	}
+	RelationRoleAndPermissionExample rure = new RelationRoleAndPermissionExample();
+	rure.or().andRoleIdEqualTo(id).andDelFlagEqualTo(false);
+	List<RelationRoleAndPermission> relations = rrpm.selectByExample(rure);
+	List<String> permissionIds = new ArrayList<String>();
+	for (int i = 0; i < relations.size(); i++) {
+	    String permissionId = relations.get(i).getPermissionId();
+	    if (!permissionIds.contains(permissionId)) {
+		permissionIds.add(permissionId);
+	    }
+	}
+	PermissionExample re = new PermissionExample();
+	if (!permissionIds.isEmpty()) {
+	    re.or().andIdIn(permissionIds).andDelFlagEqualTo(false);
+	    return pm.selectByExample(re);
+	} else {
+	    return null;
+	}
+    }
+
+    @Override
+    public List<Permission> findPermissionByExample(PermissionExample example,
+	    Integer curPage, Integer pageSize) {
+	if(example == null){
+	    example = new PermissionExample();
+	    example.or().andDelFlagEqualTo(false);
+	}
+	
+	example.setLimitStart(curPage* pageSize);
+	example.setLimitSize(pageSize);
+	
+	List<Permission> permissions = pm.selectByExample(example);
+	
+	return permissions;
+	
+    }
+
+    @Override
+    public int countPermissionByExample(PermissionExample example) {
+	
+	if(example == null){
+	    example = new PermissionExample();
+	    example.or().andDelFlagEqualTo(false);
+	}
+	List<Permission> permissions = pm.selectByExample(example);
+	
+	return permissions==null?0: permissions.size();
+    }
+
+    @Override
+    public List<Permission> findPermissionByRoleId(String id, Integer curPage,
+	    Integer pageSize) {
+	
+	if (StringUtils.isBlank(id)) {
+	    return new ArrayList<Permission>();
+	}
+	RelationRoleAndPermissionExample rure = new RelationRoleAndPermissionExample();
+	rure.or().andRoleIdEqualTo(id).andDelFlagEqualTo(false);
+	rure.setLimitStart(curPage* pageSize);
+	rure.setLimitSize(pageSize);
+	List<RelationRoleAndPermission> relations = rrpm.selectByExample(rure);
+	List<String> permissionIds = new ArrayList<String>();
+	for (int i = 0; i < relations.size(); i++) {
+	    String permissionId = relations.get(i).getPermissionId();
+	    if (!permissionIds.contains(permissionId)) {
+		permissionIds.add(permissionId);
+	    }
+	}
+	PermissionExample re = new PermissionExample();
+	if (!permissionIds.isEmpty()) {
+	    re.or().andIdIn(permissionIds).andDelFlagEqualTo(false);
+	    return pm.selectByExample(re);
+	} else {
+	    return null;
+	}
+    }
+
+    @Override
+    public int countPermissionById(String id) {
+	
+	return this.getPermissionsByRoleId(id).size();
+    }
+
 
 }

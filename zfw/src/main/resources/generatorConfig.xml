@@ -109,6 +109,7 @@
         <table tableName="tbl_warehouse" domainObjectName="Warehouse"></table>
         <table tableName="tbl_warehouse_image" domainObjectName="WarehouseImage"></table>
         <table tableName="tbl_warehouse_panorama" domainObjectName="WarehousePano"></table>
+        <table tableName="tbl_rep_avg_price_history" domainObjectName="REPAvgPriceHistory"></table>
 <!--         <table tableName="tbl_data_catalog" domainObjectName="DataCatalog"></table> -->
 <!--         <table tableName="tbl_data_object" domainObjectName="DataObject"></table> -->
 <!--         <table tableName="tbl_data_attr" domainObjectName="DataAttr"></table> -->
@@ -117,6 +118,7 @@
         <table tableName="tr_user_role" domainObjectName="RelationUserAndRole"></table>
         <table tableName="tr_role_permission" domainObjectName="RelationRoleAndPermission"></table>
         <table tableName="tr_rep_info" domainObjectName="RelationREPAndInformation"></table>
+        <table tableName="tr_user_rep" domainObjectName="RelationUserAndREP"></table>
 <!--                 <table tableName="role" domainObjectName="Role"></table> -->
 <!--         <table tableName="user" domainObjectName="User"></table> -->
     </context>  

@@ -1,6 +1,7 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
@@ -19,5 +20,12 @@ public interface IRealEstateProjectService extends
 			String saleStatus, String bound);
 
 	public List<RealEstateProject> getREPByInfoId(String id);
-	
+
+	public Map<String, String> addREP(RealEstateProject rep, String userIds,
+			String infoIds);
+
+	public Map<String, String> updateREP(RealEstateProject rep,
+			String addUserRelations, String delUserRelations,
+			String addInfoRelations, String delInfoRelations);
+
 }

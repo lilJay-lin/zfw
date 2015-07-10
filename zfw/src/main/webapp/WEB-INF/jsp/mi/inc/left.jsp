@@ -15,9 +15,15 @@
 				</a>
 			</li>
 			<li>
-				<a  href="/roles">
+				<a  href="${ctx}/mi/roles">
 					<i class="icon-hdd"></i>
 					<span > 角色管理</span>
+				</a>
+			</li>
+			<li>
+				<a  href="${ctx }/mi/xf">
+					<i class="icon-hdd"></i>
+					<span > 新房管理</span>
 				</a>
 			</li>
 			<li>

@@ -2,11 +2,14 @@ package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.mimi.zfw.Constants;
@@ -16,13 +19,16 @@ import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
 import com.mimi.zfw.mybatis.dao.RoleMapper;
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermission;
+import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermissionExample;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
+import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.mybatis.pojo.UserExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRoleService;
+import com.mimi.zfw.service.IUserService;
 
 @Service
 public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
@@ -38,6 +44,9 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
     @Resource
     private RelationUserAndRoleMapper rurm;
+    
+    @Resource
+    private IUserService userService ;
 
     @Resource
     @Override
@@ -97,22 +106,22 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
     @Override
     public List<Role> getRolesByUserId(String id) {
-	if (id == null) {
+	if (StringUtils.isBlank(id)) {
 	    return new ArrayList<Role>();
 	}
 	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
 	rure.or().andUserIdEqualTo(id).andDelFlagEqualTo(false);
 	List<RelationUserAndRole> relations = rurm.selectByExample(rure);
-	List<String> roleIds = new ArrayList<String>();
+	List<String> roleids = new ArrayList<String>();
 	for (int i = 0; i < relations.size(); i++) {
-	    String roleId = relations.get(i).getRoleId();
-	    if (!roleIds.contains(roleId)) {
-		roleIds.add(roleId);
+	    String roleid = relations.get(i).getRoleId();
+	    if (!roleids.contains(roleid)) {
+		roleids.add(roleid);
 	    }
 	}
 	RoleExample re = new RoleExample();
-	if (!roleIds.isEmpty()) {
-	    re.or().andIdIn(roleIds).andDelFlagEqualTo(false);
+	if (!roleids.isEmpty()) {
+	    re.or().andIdIn(roleids).andDelFlagEqualTo(false);
 	    return rm.selectByExample(re);
 	} else {
 	    return null;
@@ -122,11 +131,11 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
     @Override
     public List<Role> findRoleByExample(RoleExample example, Integer curPage,
 	    Integer pageSize) {
-	// TODO Auto-generated method stub
+	
 	if(example == null){
 	    example = new RoleExample();
-	    example.or().andDelFlagEqualTo(false);
 	}
+	example.or().andDelFlagEqualTo(false);
 
 	example.setLimitStart(curPage* pageSize);
 	example.setLimitSize(pageSize);
@@ -138,21 +147,21 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
     @Override
     public int countRoleByExample(RoleExample example) {
-	// TODO Auto-generated method stub
+	
 	if(example == null){
 	    example = new RoleExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
 	List<Role> roles = rm.selectByExample(example);
 	
-	return roles.size();
+	return roles==null?0: roles.size();
     }
 
     @Override
     public List<Role> findRolesByUserId(String id, Integer curPage,
 	    Integer pageSize) {
-	// TODO Auto-generated method stub
-	if (id == null) {
+	
+	if (StringUtils.isBlank(id)) {
 	    return null;
 	}
 	RelationUserAndRoleExample rure = new RelationUserAndRoleExample();
@@ -160,16 +169,16 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	rure.setLimitStart(curPage* pageSize);
 	rure.setLimitSize(pageSize);
 	List<RelationUserAndRole> relations = rurm.selectByExample(rure);
-	List<String> roleIds = new ArrayList<String>();
+	List<String> roleids = new ArrayList<String>();
 	for (int i = 0; i < relations.size(); i++) {
-	    String roleId = relations.get(i).getRoleId();
-	    if (!roleIds.contains(roleId)) {
-		roleIds.add(roleId);
+	    String roleid = relations.get(i).getRoleId();
+	    if (!roleids.contains(roleid)) {
+		roleids.add(roleid);
 	    }
 	}
 	RoleExample re = new RoleExample();
-	if (!roleIds.isEmpty()) {
-	    re.or().andIdIn(roleIds).andDelFlagEqualTo(false);
+	if (!roleids.isEmpty()) {
+	    re.or().andIdIn(roleids).andDelFlagEqualTo(false);
 	    return rm.selectByExample(re);
 	} else {
 	    return null;
@@ -178,8 +187,182 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
     @Override
     public int countRolesByUserId(String id) {
-	// TODO Auto-generated method stub
+	
 	return this.getRolesByUserId(id).size();
+    }
+
+    @Override
+    public int saveRelationRoleAndPermission(String roldid, String permissions) {
+	
+	int res = 0;
+
+	Role role = this.get(roldid);
+	if (role == null || StringUtils.isEmpty(permissions)) {
+	    res = 0;
+	} else {
+	    
+	    String[] ids = permissions.split("/");
+
+	    for (String id : ids) {
+		RelationRoleAndPermission record = new RelationRoleAndPermission();
+		record.setRoleId(roldid);
+		record.setPermissionId(id);
+		record.setDelFlag(false);
+		record.setCreater(userService.getCurUserId());
+		record.setLastEditor(userService.getCurUserId());
+		record.setId(UUID.randomUUID().toString());
+		rrpm.insert(record);
+		res++;
+	    }
+
+	}
+	return res;
+    }
+
+    @Override
+    public int deleteRelationRoleAndPermission(String roleid, String permissions) {
+	
+	int res = 0;
+
+	Role role = this.get(roleid);
+	if (role == null || StringUtils.isEmpty(permissions)) {
+	    res = 0;
+	} else {
+
+	    String[] ids = permissions.split("/");
+	    List<String> pList = new ArrayList<String>();
+	    for (String id : ids) {
+		pList.add(id);
+	    }
+
+	    RelationRoleAndPermissionExample rolePermissinExample = new RelationRoleAndPermissionExample();
+	    rolePermissinExample.or().andRoleIdEqualTo(roleid).andPermissionIdIn(pList).andDelFlagEqualTo(false);;
+
+	    RelationRoleAndPermission record = new RelationRoleAndPermission();
+	    record.setDelFlag(true);
+	    record.setLastEditor(userService.getCurUserId());
+
+	    res = rrpm.updateByExampleSelective(record,
+		    rolePermissinExample);
+
+	}
+	return res;
+    }
+
+    @Override
+    public Map<String, String> addRole(Role role, String permissions) {
+	
+	Map<String, String> resMap = new HashMap<String, String>();
+	resMap.put("msg", "");
+
+	if (role == null) {
+	    resMap.put("msg", "角色信息不能为空");
+	}
+
+	resMap = this.checkRole(role);
+	
+	if(!StringUtils.isBlank(resMap.get("msg"))){
+	    return resMap;
+	}
+	role.setDelFlag(false);
+	role.setCreater(userService.getCurUserId());
+	role.setLastEditor(userService.getCurUserId());
+	
+	this.save(role);
+
+	if (!StringUtils.isBlank(permissions)) {
+	    String roleid = role.getId();
+	    this.saveRelationRoleAndPermission(roleid, permissions);
+
+	}
+
+	return resMap;
+    }
+
+    @Override
+    public Map<String, String> updateRole(Role role, String adds, String dels) {
+	
+	Map<String, String> resMap = new HashMap<String, String>();
+	resMap.put("msg", "");
+
+	String roleid = role.getId();
+
+	if (StringUtils.isBlank(roleid)
+		|| rm.selectByPrimaryKey(roleid) == null) {
+	    resMap.put("msg", "角色不存在!");
+	}
+
+	resMap = this.checkRole(role);
+
+	if(!StringUtils.isBlank(resMap.get("msg"))){
+	    return resMap;
+	}
+	role.setLastEditor(userService.getCurUserId());
+	
+	rm.updateByPrimaryKeySelective(role);
+	
+	if (!StringUtils.isEmpty(adds)) {
+
+	    this.saveRelationRoleAndPermission(roleid, adds);
+	}
+	if (!StringUtils.isEmpty(dels)) {
+	    this.deleteRelationRoleAndPermission(roleid, dels);
+	}
+
+	return resMap;
+
+    }
+
+    @Override
+    public Map<String, String> checkRole(Role role) {
+	Map<String,String> resMap = new HashMap<String, String>();
+	resMap.put("msg", "");
+	String name = role.getName();
+	if(StringUtils.isBlank(name)){
+	    resMap.put("field","name");
+	    resMap.put("msg", "角色名称不能为空");
+	}else if(!name.matches("^[0-9a-zA-Z_\u4E00-\u9FA5]+$")){
+	    resMap.put("field","name");
+	    resMap.put("msg", "角色名称只能由中文、阿拉伯数据、英文字母和下划线组成");
+	}
+	
+	
+	return resMap;
+    }
+
+    @Override
+    public int updateBatchRole(String roleids, Role role) {
+	
+
+	if (role == null) {
+	    return 0;
+	}
+
+	String[] ids = roleids.split("/");
+	List<String> rList = new ArrayList<String>();
+	for (String id : ids) {
+	    rList.add(id);
+	}
+
+	RoleExample ue = new RoleExample();
+	ue.or().andIdIn(rList).andDelFlagEqualTo(false);
+	
+	role.setLastEditor(userService.getCurUserId());
+	
+	int row = rm.updateByExampleSelective(role, ue);
+	
+	Boolean delFlag = role.getDelFlag();
+	
+	if(delFlag!=null && delFlag == true){
+	    RelationRoleAndPermissionExample rolePermissionExample = new RelationRoleAndPermissionExample();
+	    rolePermissionExample.or().andRoleIdIn(rList).andDelFlagEqualTo(false);
+	    RelationRoleAndPermission record = new RelationRoleAndPermission();
+	    record.setDelFlag(true);
+	    record.setLastEditor(userService.getCurUserId());
+	    rrpm.updateByExampleSelective(record, rolePermissionExample);
+	}
+	
+	return row;
     }
 
 }

@@ -59,9 +59,9 @@
 				return;
 			}
 			addRelation.push(id);
-			$(".relation").append(template("#relation-info-template",{"id":id,"name":name}))
+			$(".relation").append(template("#relation-info-template",{"id":id,"name":name}));
 			return false;
-		})
+		});
 		
 		/*
 		 * 删除关联
@@ -70,17 +70,11 @@
 			var id = $(this).data("id");
 			var idx = $.inArray(id,addRelation);
 			if(idx>-1){
-				addRelation.splice(idx,1)
+				addRelation.splice(idx,1);
 			}
 			$(this).parent().parent().remove();
 			return false;
-		})
-		
-		
-		function template(id,data){
-			var tpl = Handlebars.compile($(id).html());
-			return tpl(data);
-		}
+		});
 		
 		$("#submit").click(function(){
 			var btn=$(this);
@@ -97,12 +91,12 @@
 					priority:"",
 					tags:"",
 					preImageUrl:""
-				}
+				};
 			   for(var i in info){
 // 			   		var value = form.find("input[name="+i+"]").val();
 			   		var value = $("[name="+i+"]").val();
 			   		if(i=="content"){
-			   			value = UE.getEditor('UEContainer').getContent()
+			   			value = UE.getEditor('UEContainer').getContent();
 			   		}
 			   		info[i]=value;
 			   }
@@ -123,14 +117,14 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("input[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
+			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
 			   				}else{
-			   					alert(data.msg)
+			   					alert(data.msg);
 			   				}
 							btn.prop("disabled","false");
 							btn.removeClass("disabled");
 			   			}else{
-			   				alert(data.msg)
+			   				alert(data.msg);
 			   				window.location.href="${ctx}/mi/info";
 			   			}
 			   		}
@@ -144,6 +138,6 @@
 			}else{
 				$("body").scrollTop(0);
 			}
-		})
+		});
 	</script>
 </html>

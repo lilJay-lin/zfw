@@ -64,8 +64,6 @@
 				return;
 			}
 			addRelation.push(id);
-			console.log(delRelation);
-			console.log(addRelation);
 			$(".relation").append(template("#relation-info-template",{"id":id,"name":name}));
 			return false;
 		});
@@ -80,16 +78,9 @@
 			if($.inArray(id,delRelation)==-1){//del中没有，则存入
 				delRelation.push(id);
 			}
-			console.log(delRelation);
-			console.log(addRelation);
 			$(this).parent().parent().remove();
 			return false;
 		});
-		
-		function template(id,data){
-			var tpl = Handlebars.compile($(id).html());
-			return tpl(data);
-		}
 		
 		/*
 		 * 保存
@@ -144,7 +135,6 @@
 		   			if(!data.success){
 		   				if(name){
 		   					var p = form.find("input[name='"+name+"']");
-		   					console.log(p.next(".help-inline"));
 		   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
 		   				}else{
 		   					alert(data.msg);
