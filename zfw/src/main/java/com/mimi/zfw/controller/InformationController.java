@@ -250,6 +250,12 @@ public class InformationController {
 		return jo.toString();
 	}
 
+	@RequestMapping(value = "/mi/info/{infoId}/detail", method = { RequestMethod.GET })
+	public String toInfoDetail(HttpServletRequest request, Model model,
+			@PathVariable String infoId) {
+		return "/mi/zx/detail";
+	}
+
 	@RequestMapping(value = "/mi/info/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object miIndex(HttpServletRequest request,
@@ -312,8 +318,7 @@ public class InformationController {
 
 	@RequestMapping(value = "/mi/info/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object batchDelInfo(HttpServletRequest request, String infoIds,
-			String repIds) {
+	public Object batchDelInfo(HttpServletRequest request, String infoIds) {
 
 		JSONObject jo = new JSONObject();
 		try {

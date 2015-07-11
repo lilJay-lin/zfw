@@ -40,7 +40,7 @@
 	  	page.init();	  	
 	  	$("#search-rep").click(function(){
 	  		var name = encodeURIComponent($("#searchbyname").val());
-	  		page.setData({"name":name})
+	  		page.setData({"name":name});
 	  		page.init();
 	  	});
 		/*
@@ -51,19 +51,25 @@
 				window.location.href = "${ctx}/mi/info";
 			}
 		});
+		
+		function template(id,data){
+			var tpl = Handlebars.compile($(id).html());
+			return tpl(data);
+		}
+		
 		function checkImgType(element){
-			   var filePath=$(element).val();
-			   var extStart=filePath.lastIndexOf(".");
-			   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
-			   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
-				   return "图片限于png,gif,jpg,jpeg格式";
-			   }else{
-					if(element.files[0].size>20*1024*1024){
-						return "图片最大支持20M";
-					}
-			   }
-			   return null;
-			}
+		   var filePath=$(element).val();
+		   var extStart=filePath.lastIndexOf(".");
+		   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
+		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
+			   return "图片限于png,gif,jpg,jpeg格式";
+		   }else{
+				if(element.files[0].size>20*1024*1024){
+					return "图片最大支持20M";
+				}
+		   }
+		   return null;
+		}
 
 		$(":file").change(function(){
 			var errorStr = checkImgType(this);
@@ -94,5 +100,5 @@
 					alert("上传失败");
 		        }
 		    });
-		})
+		});
 		</script>

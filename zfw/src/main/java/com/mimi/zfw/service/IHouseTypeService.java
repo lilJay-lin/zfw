@@ -10,11 +10,16 @@ public interface IHouseTypeService extends
 
 	public List<HouseType> findHouseTypeByParams(String keyWord, String region,
 			String averagePrice, Integer roomNum, String grossFloorArea,
-			String saleStatus, String orderBy, int targetPage, int pageSize);
+			String saleStatus, String orderBy, Integer targetPage, Integer pageSize);
 
 	public int countHouseTypeByParams(String keyWord, String region,
 			String averagePrice, Integer roomNum, String grossFloorArea,
 			String saleStatus);
-	
+
 	public List<HouseType> getHouseTypeByREPId(String id);
+
+	public List<HouseType> findByParams(String name, String repId, Integer targetPage,
+			Integer pageSize);
+
+	public int countByParams(String name, String repId);
 }

@@ -21,6 +21,12 @@
 				</a>
 			</li>
 			<li>
+				<a  href="${ctx }/mi/xf">
+					<i class="icon-hdd"></i>
+					<span > 新房管理</span>
+				</a>
+			</li>
+			<li>
 				<a  href="${ctx }/mi/info">
 					<i class="icon-hdd"></i>
 					<span > 资讯管理</span>

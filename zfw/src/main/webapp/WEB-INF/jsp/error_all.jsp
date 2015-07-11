@@ -44,6 +44,7 @@
             out.println("对不起,您访问的页面出了一点内部小问题,请<a href=\"" + url + "\">刷新一下</a>重新访问,或者先去别的页面转转,过会再来吧~<br/><br/>");
         }
     %>
+    <br/>
     <a href="javascript:void(0);" onclick="history.go(-1)">返回刚才页面</a><br/><br/>
     </body>
 </html>

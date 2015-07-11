@@ -65,4 +65,6 @@ public interface IUserService extends IBaseService<User, UserExample, String> {
     public Map<String,String> updateUser(User user ,String addroles,String delroles);
     
     public Map<String,String> checkUser(User user);
+
+	public List<User> getUsersByREPId(String id);
 }

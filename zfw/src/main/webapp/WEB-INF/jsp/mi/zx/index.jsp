@@ -93,9 +93,7 @@
 		</div>
 		
 		<!-- 底部区域开始     -->
-		<div class="footer">
-			<p>@copyright-------------------</p>
-		</div>
+		<%@include file="../inc/footer.jsp" %>
 		<!-- 底部区域结束     -->	
 		<script type="text/x-handlebars" id = "info-template">
 			{{#each this}}
@@ -133,7 +131,7 @@
 	  		}else{
 	  			$(".page-data-list").find("input[type='checkbox']").prop("checked",false);
 	  		}
-	  	})
+	  	});
 	  	
 	  	/*
 	  	 * 批量操作
@@ -144,9 +142,9 @@
 	  			if($(item).is(":checked")){
 	  			infoIds==""?infoIds=$(item).val():infoIds+="/"+$(item).val();
 	  			}
-	  		})
+	  		});
 	  		if(infoIds == ""){
-	  			alert("请选择需要处理的资讯")
+	  			alert("请选择需要处理的资讯");
 	  		}
 	  		delInfo(e,infoIds);
 	  	}
@@ -174,7 +172,7 @@
 	  				}
 	  			},
 	  			error:function(){
-	  				alert("删除失败")
+	  				alert("删除失败");
 	  			},
 	  			complete:function(){
 	  				deling = false;
@@ -191,8 +189,8 @@
 	  			container:"#infoList",
 	  			template:"#info-template",
 	  			url:"${ctx}/mi/info/page/",
-	  			data:{pagesize:4}
-	  	})
+	  			data:{pagesize:10}
+	  	});
 	  	page.init();
 	  	
 	  	$("#search-info").click(function(){
@@ -200,9 +198,9 @@
 // 	  		var infoType = encodeURIComponent($("#infoType").val());
 	  		var name = $("#searchbyname").val();
 	  		var infoType = $("#infoType").val();
-	  		page.setData({"name":name,"type":infoType})
+	  		page.setData({"name":name,"type":infoType});
 	  		page.init();
-	  	})
+	  	});
 	  	
 	  	
 	</script>

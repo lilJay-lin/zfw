@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -22,10 +21,12 @@ import org.springframework.stereotype.Service;
 
 import com.ctc.wstx.util.StringUtil;
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.listener.InitData;
+import com.mimi.zfw.mybatis.dao.RelationUserAndREPMapper;
 import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;
 import com.mimi.zfw.mybatis.dao.RoleMapper;
 import com.mimi.zfw.mybatis.dao.UserMapper;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndREP;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndREPExample;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
@@ -50,6 +51,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     private RoleMapper rm;
     @Resource
     private RelationUserAndRoleMapper rurm;
+    @Resource
+    private RelationUserAndREPMapper rurepm;
     @Resource
     private IAliyunOSSService aossService;
 
@@ -211,7 +214,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     }
 
     private boolean checkValueFormat(String value, String regex) {
-	if (value != null && !"".equals(value.trim())) {
+	if (StringUtils.isNotBlank(value)) {
 	    return value.matches(regex);
 	}
 	return false;
@@ -381,7 +384,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	UserExample userExample = new UserExample();
 	UserExample.Criteria cri = userExample.createCriteria();
-	if (name != null) {
+	if (StringUtils.isNotBlank(name)) {
 	    cri.andNameLike("%" + name + "%");
 	}
 	cri.andDelFlagEqualTo(false);
@@ -691,4 +694,26 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	return resMap;
 
     }
+
+	@Override
+	public List<User> getUsersByREPId(String id) {
+		if(StringUtils.isBlank(id)){
+			return null;
+		}
+		RelationUserAndREPExample rure = new RelationUserAndREPExample();
+		rure.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		List<RelationUserAndREP> relations = rurepm.selectByExample(rure);
+		if(relations!=null && !relations.isEmpty()){
+			List<String> ids = new ArrayList<String>();
+			for(int i=0;i<relations.size();i++){
+				ids.add(relations.get(i).getUserId());
+			}
+			if(!ids.isEmpty()){
+				UserExample ue = new UserExample();
+				ue.or().andIdIn(ids).andDelFlagEqualTo(false);
+				return um.selectByExample(ue);
+			}
+		}
+		return null;
+	}
 }
