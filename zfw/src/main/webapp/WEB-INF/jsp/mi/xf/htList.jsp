@@ -21,7 +21,7 @@
 			<tbody class="page-data-list">
 			</tbody>
 		</table>
-		<div class="datatable-toolbar disabled">
+		<div class="datatable-toolbar js-edit-content">
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
@@ -41,33 +41,6 @@
 		</div>
 	</div>
 </div>
-<script type="text/x-handlebars" id="ht-template">
-			{{#each this}}
-			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
-				<td>{{name}}</td>
-				<td>{{description}}</td>
-				<td>{{priority}}</td>
-				<td>{{saleStatus}}</td>
-				<td>{{averagePrice}}</td>
-				<td>{{updateDate}}</td>
-				<td>
-					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/detail">
-						<i class="icon-zoom-in "></i>                                            
-					</a>
-					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/edit">
-						<i class="icon-edit "></i>                                            
-					</a>
-					<a class="btn btn-danger" href="javascript:;" onclick="delHt(this,'{{id}}');return false;" data-id="{{id}}">
-						<i class="icon-trash "></i> 
-					</a>
-				</td>
-			</tr>
-			{{/each}}
-
-		</script>
 		<script>
 		var htList = $("#htList");
 		var htCheckList = htList.find(".page-data-list");

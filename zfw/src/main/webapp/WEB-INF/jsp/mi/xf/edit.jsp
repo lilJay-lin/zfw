@@ -216,4 +216,103 @@
 			});
 		}
 	</script>
+	
+		<script type="text/x-handlebars" id="pano-template">
+			{{#each this}}
+			<tr>
+				<td>
+					<input type="checkbox" value="{{id}}"/>
+				</td>
+				<td><img src="{{preImageUrl}}" style="width:100px"></td>
+				<td>{{name}}</td>
+				<td>{{contentUrl}}</td>
+				<td>{{description}}</td>
+				<td>
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfpano/{{id}}/detail">
+						<i class="icon-zoom-in "></i>                                            
+					</a>
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfpano/{{id}}/edit">
+						<i class="icon-edit "></i>                                            
+					</a>
+					<a class="btn btn-danger" href="javascript:;" onclick="delPano(this,'{{id}}');return false;" data-id="{{id}}">
+						<i class="icon-trash "></i> 
+					</a>
+				</td>
+			</tr>
+			{{/each}}
+		</script>
+		<script type="text/x-handlebars" id="photo-template">
+			{{#each this}}
+			<tr>
+				<td>
+					<input type="checkbox" value="{{id}}"/>
+				</td>
+				<td><img src="{{contentUrl}}" style="width:100px"></td>
+				<td>{{name}}</td>
+				<td>{{type}}</td>
+				<td>{{description}}</td>
+				<td>
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfphoto/{{id}}/detail">
+						<i class="icon-zoom-in "></i>                                            
+					</a>
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfphoto/{{id}}/edit">
+						<i class="icon-edit "></i>                                            
+					</a>
+					<a class="btn btn-danger" href="javascript:;" onclick="delPhoto(this,'{{id}}');return false;" data-id="{{id}}">
+						<i class="icon-trash "></i> 
+					</a>
+				</td>
+			</tr>
+			{{/each}}
+		</script>
+		<script type="text/x-handlebars" id="video-template">
+			{{#each this}}
+			<tr>
+				<td>
+					<input type="checkbox" value="{{id}}"/>
+				</td>
+				<td><img src="{{preImageUrl}}" style="width:100px"></td>
+				<td>{{name}}</td>
+				<td>{{contentUrl}}</td>
+				<td>{{description}}</td>
+				<td>
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfvideo/{{id}}/detail">
+						<i class="icon-zoom-in "></i>                                            
+					</a>
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfvideo/{{id}}/edit">
+						<i class="icon-edit "></i>                                            
+					</a>
+					<a class="btn btn-danger" href="javascript:;" onclick="delVideo(this,'{{id}}');return false;" data-id="{{id}}">
+						<i class="icon-trash "></i> 
+					</a>
+				</td>
+			</tr>
+			{{/each}}
+		</script>
+		<script type="text/x-handlebars" id="ht-template">
+			{{#each this}}
+			<tr>
+				<td>
+					<input type="checkbox" value="{{id}}"/>
+				</td>
+				<td>{{name}}</td>
+				<td>{{description}}</td>
+				<td>{{priority}}</td>
+				<td>{{saleStatus}}</td>
+				<td>{{averagePrice}}</td>
+				<td>{{updateDate}}</td>
+				<td>
+					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/detail">
+						<i class="icon-zoom-in "></i>                                            
+					</a>
+					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/edit">
+						<i class="icon-edit "></i>                                            
+					</a>
+					<a class="btn btn-danger" href="javascript:;" onclick="delHt(this,'{{id}}');return false;" data-id="{{id}}">
+						<i class="icon-trash "></i> 
+					</a>
+				</td>
+			</tr>
+			{{/each}}
+		</script>
 </html>
