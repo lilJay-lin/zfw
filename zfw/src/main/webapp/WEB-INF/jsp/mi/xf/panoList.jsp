@@ -19,7 +19,7 @@
 			<tbody class="page-data-list">
 			</tbody>
 		</table>
-		<div class="datatable-toolbar disabled">
+		<div class="datatable-toolbar js-edit-content">
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
@@ -39,31 +39,6 @@
 		</div>
 	</div>
 </div>
-<script type="text/x-handlebars" id="pano-template">
-			{{#each this}}
-			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
-				<td><img src="{{preImageUrl}}" style="width:100px"></td>
-				<td>{{name}}</td>
-				<td>{{contentUrl}}</td>
-				<td>{{description}}</td>
-				<td>
-					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfpano/{{id}}/detail">
-						<i class="icon-zoom-in "></i>                                            
-					</a>
-					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfpano/{{id}}/edit">
-						<i class="icon-edit "></i>                                            
-					</a>
-					<a class="btn btn-danger" href="javascript:;" onclick="delPano(this,'{{id}}');return false;" data-id="{{id}}">
-						<i class="icon-trash "></i> 
-					</a>
-				</td>
-			</tr>
-			{{/each}}
-
-		</script>
 		<script>
 		var panoList = $("#panoList");
 		var panoCheckList = panoList.find(".page-data-list");

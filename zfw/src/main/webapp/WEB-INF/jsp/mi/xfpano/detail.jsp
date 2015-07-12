@@ -78,7 +78,8 @@
 		initPanoData();
 		$("#submit").hide();
 		$("#cancle").on("click",function(){
-			window.location.href = "${ctx}/mi/xf/${repId}/edit";
+// 			window.location.href = "${ctx}/mi/xf/${repId}/edit";
+			window.history.back(-1);
 		});
 		$(".uploader").hide();
 	</script>
