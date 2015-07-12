@@ -20,15 +20,15 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>用户管理</h2>
+							<h2>商铺管理</h2>
 						</div>
 						<div class="box-cnt">
-							<div class="datatable" id="userinfo">
+							<div class="datatable" id="spList">
 								<div class="datatabls-filter">
 									<label>
 										<!--搜索：-->
 										<input type="text" id="searchbyname" />
-										<input type="button" class="btn" id="search-user" value="搜索" />
+										<input type="button" class="btn" id="search" value="搜索" />
 									</label>
 								</div>
 								<table class="datatable-table">
@@ -37,13 +37,9 @@
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										<th>名称</th>
-										<th>邮箱</th>
-										<th>手机号码</th>
-										<th>状态</th>
+										<th>地址</th>
 										<th>描述</th>
-										<!--<th>创建者</th>-->
-										<!--<th>上次编辑</th>
-										<th>创建日期</th>-->
+										<th>优先级</th>
 										<th>最后修改时间</th>
 										<th>操作</th>
 									</thead>
@@ -54,11 +50,9 @@
 									<div class="toolbar">
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
-											<option value="unlock">解冻</option>
-											<option value="lock">锁定</option>
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
-										<a class="btn" href="${ctx}/mi/user/add">新增</a>
+										<a class="btn" href="${ctx}/mi/shop/add">新增</a>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -84,8 +78,8 @@
 			
 			<!-- 左边侧边栏区域开始     -->
 			<div class="slider skin">
-				<div class="clearfix">&nbsp</div>
-				<div class="clearfix">&nbsp</div>
+				<div class="clearfix">&nbsp;</div>
+				<div class="clearfix">&nbsp;</div>
 				<%@include file="../inc/left.jsp" %>
 			</div>
 			
@@ -93,36 +87,29 @@
 		</div>
 		
 		<!-- 底部区域开始     -->
-		<div class="footer">
-			<p>@copyright-------------------</p>
-		</div>
+		<%@include file="../inc/footer.jsp" %>
 		<!-- 底部区域结束     -->	
-		<script type="text/x-handlebars" id = "user-info-template">
+		<script type="text/x-handlebars" id = "sp-template">
 			{{#each this}}
 			<tr>
 				<td>
 					<input type="checkbox" value="{{id}}"/>
 				</td>
 				<td>{{name}}</td>
-				<td>{{email}}</td>
-				<td>{{phoneNum}}</td>
-				{{#if locked}}<td>锁定{{else}}<td>正常</td>{{/if}}
+				<td>{{address}}</td>
 				<td>{{description}}</td>
-				<!--<td>{{creater}}</td>
-				<td>{{create}}</td>
-				<td>{{lastEditor}}</td>
-				<td>{{createDate}}</td>-->
+				<td>{{priority}}</td>
 				{{#with updateDate}}
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/shop/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
-					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/edit">
+					<a class="btn btn-info" href="${ctx}/mi/shop/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
-					<a class="btn btn-danger" href="javascript:;" onclick="delUser(this);return false;" data-id="{{id}}">
+					<a class="btn btn-danger" href="javascript:;" onclick="delObject(this,'{{id}}');return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
 					</a>
 				</td>
@@ -131,6 +118,7 @@
 		</script>
 	</body>
 	<script>
+		var deling = false;
 	  	//checkbox 全选
 	  	$("#selectAll").on("change",function(){
 	  		if($(this).is(":checked")){
@@ -138,48 +126,36 @@
 	  		}else{
 	  			$(".page-data-list").find("input[type='checkbox']").prop("checked",false);
 	  		}
-	  	})
+	  	});
 	  	
 	  	/*
 	  	 * 批量操作
 	  	 */
 	  	function batchOperation(e){
-	  		var option = $("#batch_option").val();
-	  		var userids = "";
+	  		var ids = "";
 	  		$(".page-data-list").find("input[type='checkbox']").each(function(idx,item){
 	  			if($(item).is(":checked")){
-	  			userids==""?userids=$(item).val():userids+="/"+$(item).val();
+	  			ids==""?ids=$(item).val():ids+="/"+$(item).val();
 	  			}
-	  		})
-	  		if(userids == ""){
-	  			alert("请选择需要更新的用户")
+	  		});
+	  		if(ids == ""){
+	  			alert("请选择需要处理的商铺");
 	  		}
-			var user = {};
-	  		if(option =="del"){
-	  			user.delFlag = true;
-	  		}else if(option == "unlock"){
-	  			user.locked = false;
-	  		}else if(option == "lock"){
-	  			user.locked = true;
-	  		}
-	  		updateUser(e,userids,user);
+	  		
+	  		delObject(e,ids);
 	  	}
-	  	function delUser(e){
-	  		var id = $(e).data("id");
-	  		var user = {delFlag:true};
-	  		updateUser(e,id,user);
-	  	}
-	  	function updateUser(e,userids,user){
-	  		console.log(user);
-	  		var $e = $(this);
-	  		if( $e.data("lazy")){
-	  			return ;
+	  	function delObject(e,ids){
+	  		if(deling){
+	  			alert("正在删除商铺,请稍后再操作");
+	  			return;
 	  		}
-	  		 $e.data("lazy",1);
-	  		var url = "${ctx}/mi/users";
+	  		var obj = {};
+	  		obj.delFlag = true;
+	  		deling = true;
+	  		var url = "${ctx}/mi/shops";
 	  		$.ajax({
 	  			type:"post",
-	  			data:$.extend({"userids":userids},user),
+	  			data:$.extend({"shopids":ids},obj),
 	  			url:url,
 	  			async:true,
 	  			dataType:"json",
@@ -187,17 +163,17 @@
 	  				if(data){
 	  					if(data.success){
 	  						alert(data.msg);
-	  						page.reloadPage()
+	  						page.reloadPage();
 	  					}else{
 	  						alert(data.msg);
 	  					}
 	  				}
 	  			},
 	  			error:function(){
-	  				alert("更新失败")
+	  				alert("删除失败");
 	  			},
 	  			complete:function(){
-	  				 $e.data("lazy",0);
+	  				deling = false;
 	  			}
 	  		});
 	  	}
@@ -208,19 +184,17 @@
 	  	 * 
 	  	 */
 	  	var page = new Page({
-	  			container:"#userinfo",
-	  			template:"#user-info-template",
-	  			url:"${ctx}/mi/users/page/",
-	  			data:{pagesize:4}
-	  	})
+	  			container:"#spList",
+	  			template:"#sp-template",
+	  			url:"${ctx}/mi/shop/page/",
+	  			data:{pagesize:10}
+	  	});
 	  	page.init();
 	  	
-	  	$("#search-user").click(function(){
-	  		var name = encodeURIComponent($("#searchbyname").val());
-	  		page.setData({"name":name})
+	  	$("#search").click(function(){
+	  		var name = $("#searchbyname").val();
+	  		page.setData({"name":name});
 	  		page.init();
-	  	})
-	  	
-	  	
+	  	});
 	</script>
 </html>

@@ -1,7 +1,10 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -122,6 +125,61 @@ public class ShopImageServiceImpl extends
 	List<ShopImage> list = sim.selectByExample(example);
 
 	return list==null?0: list.size();
+    }
+
+    @Override
+    public Map<String, String> addShopImage(ShopImage shopImage) {
+	// TODO Auto-generated method stub
+	Map<String, String> resMap = new HashMap<String, String>();
+	if (shopImage == null) {
+	    resMap.put("msg", "商铺图片内容不能为空");
+	    return resMap;
+	}
+	resMap = checkShopImage(shopImage);
+	if (!resMap.isEmpty()) {
+	    return resMap;
+	}
+	String curId = userService.getCurUserId();
+	shopImage.setCreater(curId);
+	shopImage.setLastEditor(curId);
+	shopImage.setDelFlag(false);
+	shopImage.setId(UUID.randomUUID().toString());
+	sim.insertSelective(shopImage);
+
+	return resMap;	
+    }
+
+    @Override
+    public Map<String, String> updateShopImage(ShopImage shopImage) {
+	Map<String, String> resMap = new HashMap<String, String>();
+	if (shopImage == null) {
+	    resMap.put("msg", "商铺图片内容不能为空");
+	    return resMap;
+	}
+	resMap = checkShopImage(shopImage);
+	if (!resMap.isEmpty()) {
+	    return resMap;
+	}
+	
+	shopImage.setLastEditor(userService.getCurUserId());
+	sim.updateByPrimaryKeySelective(shopImage);
+
+	return resMap;
+    }
+
+    @Override
+    public Map<String, String> checkShopImage(ShopImage shopImage) {
+	Map<String, String> resMap = new HashMap<String, String>();
+	
+	if(StringUtils.isBlank(shopImage.getName())){
+	    resMap.put("field","name");
+	    resMap.put("msg","商铺名称不能为空");
+	}
+	if(StringUtils.isBlank(shopImage.getContentUrl())){
+	    resMap.put("msg","商铺图片不能为空");
+	}
+	
+	return resMap;
     }
 
 

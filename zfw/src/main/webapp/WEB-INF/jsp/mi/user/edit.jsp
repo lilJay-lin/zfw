@@ -350,7 +350,7 @@
 				return;
 			}
 			var self = $(this);
-//			self.prop("disabled","disabled");
+			self.attr("disabled","disabled");
 			var formData = new FormData($("#uploadForm")[0]);	
 			$(".uploader-loading").show();
 			uploading = !0;
@@ -377,7 +377,7 @@
 					alert("上传失败");
 		        }
 		        complete:function(){
-//					self.prop("disabled","false");
+			   		btn.removeAttr("disabled");
 					uploading =!1;
 					$(".uploader-loading").hide();
 		        }
@@ -387,7 +387,8 @@
 			var btn = $(this);
 			var form = $(".form");
 			if(uploading){
-				alert("图像正在上传，请稍后..")
+				alert("图像正在上传，请稍后..");
+				return ;
 			}
 			var res = form.validate();
 			var userid = $("#userid").val();

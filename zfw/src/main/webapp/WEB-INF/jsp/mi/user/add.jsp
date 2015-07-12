@@ -351,7 +351,8 @@
 			var btn=$(this);
 			var form = $(".form");
 			if(uploading){
-				alert("图像正在上传，请稍后..")
+				alert("图像正在上传，请稍后..");
+				return ;
 			}
 			var res = form.validate();
 			if(res){
@@ -376,7 +377,6 @@
 			   var data = {"roles":roles,"publicExponent":publicExponent,"modulus":modulus};
 			   var url = "${ctx}/mi/user";
 			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
@@ -393,8 +393,7 @@
 			   				}else{
 			   					alert(data.msg)
 			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
+			   				btn.removeAttr("disabled");
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg)
