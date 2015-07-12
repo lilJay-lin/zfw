@@ -100,7 +100,7 @@
 				<td>{{description}}</td>
 				<td>{{priority}}</td>
 				{{#with updateDate}}
-					<td>{{dateformat time 3}}</td>
+				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
 					<a class="btn btn-info" href="${ctx}/mi/xf/{{id}}/detail">
