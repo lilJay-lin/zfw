@@ -2,7 +2,6 @@ package com.mimi.zfw.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -41,7 +39,6 @@ import com.mimi.zfw.service.IREPPanoService;
 import com.mimi.zfw.service.IREPVideoService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IUserService;
-import com.mimi.zfw.util.JsonDateValueProcessor;
 
 @Controller
 public class XFController {
@@ -505,8 +502,6 @@ public class XFController {
 	@RequestMapping(value = "/mi/xf/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREP(@PathVariable String id, HttpServletRequest request) {
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
 		JSONObject jo = new JSONObject();
 		
 		try {
@@ -515,7 +510,7 @@ public class XFController {
 				rep.setPreImageUrl(aossService.addImgParams(
 						rep.getPreImageUrl(),
 						Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
-				jo.put("rep", JSONObject.fromObject(rep, jsonConfig));
+				jo.put("rep", rep);
 				List<User> relationUserList = userService.getUsersByREPId(id);
 				List<Information> relationInfoList = infoService.findByREPId(id, 0, Integer.MAX_VALUE);
 				jo.put("relationUserList", relationUserList);
@@ -528,7 +523,6 @@ public class XFController {
 			jo.put("relationInfoList", null);
 		}
 		return jo.toString();
-//		return JSONObject.fromObject(jo, jsonConfig).toString();
 	}
 
 	@RequestMapping(value = "/mi/xf/{repId}/edit", method = { RequestMethod.GET })
@@ -557,6 +551,27 @@ public class XFController {
 			LOG.error("更新楼盘失败", e);
 			jo.put("success", false);
 			jo.put("msg", "更新楼盘失败!");
+		}
+		return jo.toString();
+	}
+	
+	@RequestMapping(value = "/mi/xf/batchDel", method = { RequestMethod.POST })
+	@ResponseBody
+	public Object batchDelHTPano(HttpServletRequest request, String repIds) {
+		JSONObject jo = new JSONObject();
+		try {
+			Map<String, String> res = repService.batchDel(repIds);
+			if (StringUtils.isEmpty(res.get("msg"))) {
+				jo.put("success", true);
+				jo.put("msg", "楼盘删除成功!");
+			} else {
+				jo.put("success", false);
+				jo.put("msg", res.get("msg"));
+				jo.put("field", res.get("field"));
+			}
+		} catch (Exception e) {
+			jo.put("success", false);
+			jo.put("msg", "楼盘删除失败!");
 		}
 		return jo.toString();
 	}

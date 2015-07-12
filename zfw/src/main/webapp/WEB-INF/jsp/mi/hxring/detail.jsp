@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增楼盘</h2>
+							<h2>户型三维详情</h2>
 						</div>
 						<%@include file="commonBody.jsp" %>
 					</div>
@@ -44,9 +44,10 @@
 		
 	</body>
 	<%@include file="commonBottom.jsp" %>
-	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-		inAdd = true;
-		$(".js-rep-detail-container").show();
+		$("#submit").hide();
+		$(".uploader").hide();
+		inDetail = true;
 	</script>
 </html>

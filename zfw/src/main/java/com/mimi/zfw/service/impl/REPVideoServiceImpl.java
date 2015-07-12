@@ -64,6 +64,7 @@ public class REPVideoServiceImpl extends
 			ve.setLimitStart(targetPage * pageSize);
 			ve.setLimitSize(pageSize);
 		}
+		ve.setOrderByClause("update_date desc");
 		return repvm.selectByExample(ve);
 	}
 

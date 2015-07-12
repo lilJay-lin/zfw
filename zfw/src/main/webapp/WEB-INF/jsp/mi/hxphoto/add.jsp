@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增楼盘</h2>
+							<h2>新增户型图片</h2>
 						</div>
 						<%@include file="commonBody.jsp" %>
 					</div>
@@ -47,6 +47,5 @@
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
 		inAdd = true;
-		$(".js-rep-detail-container").show();
 	</script>
 </html>

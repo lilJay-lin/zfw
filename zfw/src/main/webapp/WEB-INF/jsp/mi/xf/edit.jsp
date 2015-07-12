@@ -22,7 +22,7 @@
 						<div class="box-hd" onclick="openCloseREPDetail('js-rep-detail-container')">
 							<h2>编辑楼盘</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
 						<div class="box-hd" onclick="openCloseREPDetail('js-rep-ht-container')">
@@ -66,157 +66,12 @@
 		<%@include file="../inc/footer.jsp" %>
 		<!-- 底部区域结束     -->
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-// 	$(".js-rep-detail-container").hide();
-// 	$(".js-rep-ht-container").hide();
-// 	$(".js-rep-photos-container").hide();
-// 	$(".js-rep-panos-container").hide();
-		function openCloseREPDetail(clazz){
-			var ele = $("."+clazz);
-			if(ele.is(':hidden')){
-				ele.show();
-			}else{
-				ele.hide();
-			}
-			if(!ele.attr("first")){
-				ele.attr("first",2);
-				if("js-rep-detail-container"==clazz){
-					initREPData();
-				}else if("js-rep-panos-container"==clazz){
-					panoPage.init();
-				}else if("js-rep-photos-container"==clazz){
-				  	photoPage.init();
-				}else if("js-rep-videos-container"==clazz){
-				  	videoPage.init();
-				}else if("js-rep-ht-container"==clazz){
-				  	htPage.init();
-				}
-			}
-		}
-	
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			var res = form.validate();
-			var repId = $("#repId").val();
-			if(res){
-				var rep = getREPData();
-				var relation = {addUserRelations:addUserRelation.join("/"),delUserRelations:delUserRelation.join("/"),addInfoRelations:addInfoRelation.join("/"),delInfoRelations:delInfoRelation.join("/")};
-			   var url = "${ctx}/mi/xf/"+repId;
-			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:$.extend(relation,rep),
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
-			   			}else{
-			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/xf";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
-			   		alert("修改楼盘失败!");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
-		function initREPData(){
-			/*
-			 * 编辑页面，渲染页面数据
-			 * 
-			 */
-			var id = $("#repId").val();
-			var getRepUrl = "${ctx}/mi/xf/"+id;
-			$.ajax({
-				type:"get",
-				url:getRepUrl,
-				async:true,
-				dataType:"json",
-				success:function(data){
-					if(data){
-						var rep = data.rep;
-						var relationUserList = data.relationUserList;
-						var relationInfoList = data.relationInfoList;
-						for(var i in rep){
-							if(i=="buildingType"){
-								var buildingTypes = rep["buildingType"];
-								if(buildingTypes){
-									var bts = buildingTypes.split(",");
-									$("[name=buildingType]").each(function(){
-										if($.inArray($(this).val(),bts)>-1){
-											this.checked = true;
-										}
-									});
-								}
-								continue;
-							}
-							if(i=="greenRate" || i=="floorAreaRatio" || i=="propertyFee"){
-								var num = Number(rep[i]);
-								if(num){
-									$("[name="+i+"]").val(Math.round(num*100)/100);
-								}
-								continue;
-							}
-							if(i=="onSaleDate" || i=="onReadyDate"){
-								$("[name="+i+"]").datepicker( "setDate", rep[i] );
-								continue;
-							}
-							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(rep[i]);
-						}
-						var preImageUrl = rep["preImageUrl"];
-						if(preImageUrl){
-							$(".control-img").find("img").attr("src",preImageUrl);
-						}
-						var lon = rep["longitude"];
-						var lat = rep["latitude"];
-						if(lon && lat){
-							setTimeout(function(){
-								var tp = new BMap.Point(lon,lat);
-								marker.setPosition(tp);
-								map.centerAndZoom(tp, 15);
-							}, 1000);
-						}
-						if(relationUserList){
-							for(var i=0,l = relationUserList.length;i<l;i++){
-								originalUserRelation.push(relationUserList[i].id);
-							}
-							$("#user-relation").append(template("#relation-user-template",relationUserList));
-						}
-						if(relationInfoList){
-							for(var i=0,l = relationInfoList.length;i<l;i++){
-								originalInfoRelation.push(relationInfoList[i].id);
-							}
-							$("#info-relation").append(template("#relation-info-template",relationInfoList));
-						}
-					}
-				},
-				error:function(){
-					alert("获取楼盘信息失败");
-				}
-			});
-		}
+		inEdit = true;
 	</script>
-	
 		<script type="text/x-handlebars" id="pano-template">
 			{{#each this}}
 			<tr>
@@ -300,12 +155,14 @@
 				<td>{{priority}}</td>
 				<td>{{saleStatus}}</td>
 				<td>{{averagePrice}}</td>
-				<td>{{updateDate}}</td>
+				{{#with updateDate}}
+					<td>{{dateformat time 3}}</td>
+				{{/with}}
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/hx/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
-					<a class="btn btn-info" href="${ctx}/mi/hx/{{id}}/edit">
+					<a class="btn btn-info" href="${ctx}/mi/${repId}/hx/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
 					<a class="btn btn-danger" href="javascript:;" onclick="delHt(this,'{{id}}');return false;" data-id="{{id}}">

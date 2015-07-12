@@ -25,10 +25,15 @@ import com.mimi.zfw.mybatis.dao.RealEstateProjectMapper;
 import com.mimi.zfw.mybatis.dao.RelationREPAndInformationMapper;
 import com.mimi.zfw.mybatis.dao.RelationUserAndREPMapper;
 import com.mimi.zfw.mybatis.pojo.HTImage;
+import com.mimi.zfw.mybatis.pojo.HTImageExample;
 import com.mimi.zfw.mybatis.pojo.HTPano;
+import com.mimi.zfw.mybatis.pojo.HTPanoExample;
 import com.mimi.zfw.mybatis.pojo.HTRing;
+import com.mimi.zfw.mybatis.pojo.HTRingExample;
 import com.mimi.zfw.mybatis.pojo.HouseType;
+import com.mimi.zfw.mybatis.pojo.HouseTypeExample;
 import com.mimi.zfw.mybatis.pojo.REPAvgPriceHistory;
+import com.mimi.zfw.mybatis.pojo.REPAvgPriceHistoryExample;
 import com.mimi.zfw.mybatis.pojo.REPImage;
 import com.mimi.zfw.mybatis.pojo.REPPano;
 import com.mimi.zfw.mybatis.pojo.REPVideo;
@@ -727,6 +732,116 @@ public class RealEstateProjectServiceImpl extends
 	
 	private Map<String, String> checkInfo(RealEstateProject rep) {
 		Map<String, String> resMap = new HashMap<String, String>();
+		if (rep == null) {
+			resMap.put("msg", "楼盘内容不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(rep.getPreImageUrl())) {
+			resMap.put("msg", "楼盘缩略图不能为空");
+			return resMap;
+		}
+		if (rep.getAveragePrice() != null) {
+			resMap.put("msg", "楼盘均价不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(rep.getName())) {
+			resMap.put("msg", "楼盘名称不能为空");
+			return resMap;
+		}
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> batchDel(String repIds) {
+
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (StringUtils.isBlank(repIds)) {
+			resMap.put("msg", "删除内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		String[] repIdArr = repIds.split(Constants.MI_IDS_SPLIT_STRING);
+		List<String> repIdList = new ArrayList<String>();
+		for (int i = 0; i < repIdArr.length; i++) {
+			if (StringUtils.isNotBlank(repIdArr[i])) {
+				repIdList.add(repIdArr[i]);
+			}
+		}
+		
+		if(!repIdList.isEmpty()){
+			//删除楼盘
+			RealEstateProjectExample repe = new RealEstateProjectExample();
+			repe.or().andIdIn(repIdList).andDelFlagEqualTo(false);
+			RealEstateProject rep = new RealEstateProject();
+			rep.setDelFlag(true);
+			rep.setLastEditor(curUserId);
+			repm.updateByExampleSelective(rep, repe);
+			
+			//删除户型
+			HouseTypeExample hte = new HouseTypeExample();
+			hte.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			List<HouseType> htList = htm.selectByExample(hte);
+
+			if(htList!=null && !htList.isEmpty()){
+				List<String> htIdList = new ArrayList<String>();
+				for(int i=0;i<htList.size();i++){
+					htIdList.add(htList.get(i).getId());
+				}
+				HouseType ht = new HouseType();
+				ht.setDelFlag(true);
+				ht.setLastEditor(curUserId);
+				htm.updateByExampleSelective(ht, hte);
+				
+				HTPanoExample pe = new HTPanoExample();
+				pe.or().andHouseTypeIdIn(htIdList).andDelFlagEqualTo(false);
+				HTPano pano = new HTPano();
+				pano.setDelFlag(true);
+				pano.setLastEditor(curUserId);
+				htpm.updateByExampleSelective(pano, pe);
+				
+				HTRingExample re = new HTRingExample();
+				re.or().andHouseTypeIdIn(htIdList).andDelFlagEqualTo(false);
+				HTRing ring = new HTRing();
+				ring.setDelFlag(true);
+				ring.setLastEditor(curUserId);
+				htrm.updateByExampleSelective(ring, re);
+				
+				HTImageExample ie = new HTImageExample();
+				ie.or().andHouseTypeIdIn(htIdList).andDelFlagEqualTo(false);
+				HTImage image = new HTImage();
+				image.setDelFlag(true);
+				image.setLastEditor(curUserId);
+				htim.updateByExampleSelective(image, ie);
+			}
+			
+			//删除用户关联关系
+			RelationUserAndREPExample rure = new RelationUserAndREPExample();
+			rure.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			RelationUserAndREP rur = new RelationUserAndREP();
+			rur.setDelFlag(true);
+			rur.setLastEditor(curUserId);
+			rurm.updateByExampleSelective(rur, rure);
+			
+			//删除资讯关联关系
+			RelationREPAndInformationExample rrie = new RelationREPAndInformationExample();
+			rrie.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			RelationREPAndInformation rri = new RelationREPAndInformation();
+			rri.setDelFlag(true);
+			rri.setLastEditor(curUserId);
+			rrim.updateByExampleSelective(rri, rrie);
+			
+			//删除历史价格记录
+			REPAvgPriceHistoryExample raphe = new REPAvgPriceHistoryExample();
+			raphe.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			REPAvgPriceHistory raph = new REPAvgPriceHistory();
+			raph.setDelFlag(true);
+			raph.setLastEditor(curUserId);
+			raphm.updateByExampleSelective(raph, raphe);
+		}
 		return resMap;
 	}
 }

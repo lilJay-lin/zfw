@@ -19,34 +19,28 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseREPDetail('js-rep-detail-container')">
-							<h2>楼盘详情</h2>
+						<div class="box-hd" onclick="openCloseHTDetail('js-ht-detail-container')">
+							<h2>户型详情</h2>
 						</div>
 						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseREPDetail('js-rep-ht-container')">
-							<h2>楼盘户型</h2>
-						</div>
-						<%@include file="htList.jsp" %>
-					</div>
-					<div class="box">
-						<div class="box-hd" onclick="openCloseREPDetail('js-rep-photos-container')">
-							<h2>楼盘相册</h2>
+						<div class="box-hd" onclick="openCloseHTDetail('js-ht-photos-container')">
+							<h2>户型相册</h2>
 						</div>
 						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseREPDetail('js-rep-panos-container')">
-							<h2>楼盘全景</h2>
+						<div class="box-hd" onclick="openCloseHTDetail('js-ht-panos-container')">
+							<h2>户型全景</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseREPDetail('js-rep-videos-container')">
-							<h2>楼盘视频</h2>
+						<div class="box-hd" onclick="openCloseHTDetail('js-ht-rings-container')">
+							<h2>户型三维</h2>
 						</div>
-						<%@include file="videoList.jsp" %>
+						<%@include file="ringList.jsp" %>
 					</div>
 				</div>
 			</div>
@@ -69,12 +63,11 @@
 	<%@include file="commonBottom.jsp" %>
 	<%@include file="deCommonBottom.jsp" %>
 	<script>
-		openCloseREPDetail("js-rep-detail-container");
-		$("#submit").hide();
-		$(".uploader").hide();
-		$(".js-relation-select-box").hide();
-		$(".js-edit-content").hide();
-		inDetail = true;
+	openCloseHTDetail("js-ht-detail-container");
+	$("#submit").hide();
+	$(".uploader").hide();
+	$(".js-edit-content").hide();
+	inDetail = true;
 	</script>
 	<script type="text/x-handlebars" id="pano-template">
 			{{#each this}}
@@ -87,7 +80,7 @@
 				<td>{{contentUrl}}</td>
 				<td>{{description}}</td>
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfpano/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/${htId}/hxpano/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
 				</td>
@@ -102,17 +95,16 @@
 				</td>
 				<td><img src="{{contentUrl}}" style="width:100px"></td>
 				<td>{{name}}</td>
-				<td>{{type}}</td>
 				<td>{{description}}</td>
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfphoto/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/${htId}/hxphoto/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
 				</td>
 			</tr>
 			{{/each}}
 		</script>
-		<script type="text/x-handlebars" id="video-template">
+		<script type="text/x-handlebars" id="ring-template">
 			{{#each this}}
 			<tr>
 				<td>
@@ -123,29 +115,7 @@
 				<td>{{contentUrl}}</td>
 				<td>{{description}}</td>
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/${repId}/xfvideo/{{id}}/detail">
-						<i class="icon-zoom-in "></i>                                            
-					</a>
-				</td>
-			</tr>
-			{{/each}}
-		</script>
-		<script type="text/x-handlebars" id="ht-template">
-			{{#each this}}
-			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
-				<td>{{name}}</td>
-				<td>{{description}}</td>
-				<td>{{priority}}</td>
-				<td>{{saleStatus}}</td>
-				<td>{{averagePrice}}</td>
-				{{#with updateDate}}
-					<td>{{dateformat time 3}}</td>
-				{{/with}}
-				<td>
-					<a class="btn btn-info" href="${ctx}/mi/${repId}/hx/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/${htId}/hxring/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
 				</td>

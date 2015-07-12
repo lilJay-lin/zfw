@@ -28,4 +28,6 @@ public interface IRealEstateProjectService extends
 			String addUserRelations, String delUserRelations,
 			String addInfoRelations, String delInfoRelations);
 
+	public Map<String, String> batchDel(String repIds);
+
 }

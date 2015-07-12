@@ -64,6 +64,7 @@ public class REPPanoServiceImpl extends
 			pe.setLimitStart(targetPage * pageSize);
 			pe.setLimitSize(pageSize);
 		}
+		pe.setOrderByClause("update_date desc");
 		return reppm.selectByExample(pe);
 	}
 

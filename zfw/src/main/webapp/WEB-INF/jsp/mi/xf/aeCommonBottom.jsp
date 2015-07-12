@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<script src="${ctx }/assets/tools/jquery-ui/jquery-ui.min.js"></script>
   	<link rel="stylesheet" href="${ctx }/assets/tools/jquery-ui/jquery-ui.min.css">
+		
 		<script type="text/x-handlebars-template" id="user-template">
 		{{#each this}}
 		<tr>
@@ -15,21 +16,6 @@
 		</tr>
 		{{/each}}
 		</script>
-		
-		<script type="text/x-handlebars-template" id="relation-user-template">
-			{{#this}}
-			<li>
-				<div class="relation-info">
-					<span>
-						{{name}}
-					</span>
-					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
-						<i class="icon-remove"></i>
-					</a>
-				</div>
-			</li>
-			{{/this}}
-		</script>
 		<script type="text/x-handlebars-template" id="info-template">
 		{{#each this}}
 		<tr>
@@ -43,23 +29,10 @@
 		</tr>
 		{{/each}}
 		</script>
-		
-		<script type="text/x-handlebars-template" id="relation-info-template">
-			{{#this}}
-			<li>
-				<div class="relation-info">
-					<span>
-						{{name}}
-					</span>
-					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
-						<i class="icon-remove"></i>
-					</a>
-				</div>
-			</li>
-			{{/this}}
-		</script>
 	
 		<script>
+
+
 		/*
 		 *百度地图
 		 */
@@ -103,14 +76,6 @@
 	  		infoPage.setData({"name":name});
 	  		infoPage.init();
 	  	});
-		/*
-		 * 返回
-		 */
-		$("#cancle").on("click",function(){
-			if(window.confirm("确定不保存返回？")){
-				window.location.href = "${ctx}/mi/xf";
-			}
-		});
 		
 		/*
 		 * 
@@ -175,11 +140,6 @@
 			$(this).parent().parent().remove();
 			return false;
 		});
-		
-		function template(id,data){
-			var tpl = Handlebars.compile($(id).html());
-			return tpl(data);
-		}
 		
 		function checkImgType(element){
 		   var filePath=$(element).val();
@@ -276,13 +236,64 @@
 		   }
 		   return rep;
 		}
-		
-		  $(function() {
-		    $( "#onSaleDate" ).datepicker({
-		    	dateFormat: 'yy-mm-dd' 
-		    });
-		    $( "#onReadyDate" ).datepicker({
-		    	dateFormat: "yy-mm-dd"
-		    });
-		  });
+
+		$("#submit").click(function(){
+			var btn=$(this);
+			var form = $(".form");
+			var res = form.validate();
+			if(res){
+				var url;
+				var data;
+				if(inEdit){
+					url = "${ctx}/mi/xf/"+$("#repId").val();
+					var rep = getREPData();
+					var relation = {addUserRelations:addUserRelation.join("/"),delUserRelations:delUserRelation.join("/"),addInfoRelations:addInfoRelation.join("/"),delInfoRelations:delInfoRelation.join("/")};
+				   data = $.extend(relation,rep);
+				}else{
+					url = "${ctx}/mi/xf/add";
+					var rep = getREPData();
+				   var userIds = addUserRelation.join("/");
+				   var infoIds = addInfoRelation.join("/");
+				   data = $.extend({"userIds":userIds,"infoIds":infoIds},rep);
+				}
+			btn.attr("disabled","disabled");
+			btn.addClass("disabled");
+			   $.ajax({
+			   	type:"POST",
+			   	url:url,
+			   	async:true,
+			   	data:data,
+			   	dataType:"json",
+			   	success:function(data){
+			   		if(data){
+			   			if(!data.success){
+			   				var name = data.field;
+			   				if(name){
+			   					var p = form.find("input[name='"+name+"']");
+			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   				}else{
+			   					alert(data.msg);
+			   				}
+							btn.prop("disabled","false");
+							btn.removeClass("disabled");
+			   			}else{
+			   				alert(data.msg);
+			   				window.location.href="${ctx}/mi/xf";
+			   			}
+			   		}
+			   	},
+			   	error:function(){
+					btn.prop("disabled","false");
+					btn.removeClass("disabled");
+					if(inEdit){
+				   		alert("修改楼盘失败!");
+					}else{
+				   		alert("新增楼盘失败!");
+					}
+			   	}
+			   });
+			}else{
+				$("body").scrollTop(0);
+			}
+		});
 		</script>

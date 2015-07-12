@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增楼盘</h2>
+							<h2>新增户型</h2>
 						</div>
 						<%@include file="commonBody.jsp" %>
 					</div>
@@ -45,8 +45,14 @@
 	</body>
 	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
 		inAdd = true;
-		$(".js-rep-detail-container").show();
+		  $(function() {
+				$(".js-ht-detail-container").show();
+		     	var data = new Date();
+				var str = data.getFullYear()+"-"+(data.getMonth()+1)+"-"+data.getDate();
+		    $( "#onSaleDate" ).datepicker( "setDate", str );
+		  });
 	</script>
 </html>
