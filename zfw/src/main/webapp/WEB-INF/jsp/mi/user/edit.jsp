@@ -29,6 +29,12 @@
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 									<input type="hidden" id="userid" name ="id" value="${userid}" />
 									<div class="control-group">
+										<label class="control-label">图像</label>
+										<div class="control control-img-box">
+											<img src="${headImgUrl}" class="control-user-img" />
+										</div>
+									</div>
+									<div class="control-group">
 										<label class="control-label">姓名</label>
 										<div class="control error">
 											<input type="text" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
@@ -78,8 +84,10 @@
 												<span class="filename" style="-webkit-user-select: none;">没有选择文件...</span>
 												<span class="action" style="-webkit-user-select: none;">选择</span>
 											</div>
-											<div class="control-img">
-												<img src="${headImgUrl}"/>
+										</div>
+										<div class="control uploader-loading" style="display: none;">
+											<div class="loading">
+												<img src="${ctx}/assets/img/loading.gif"  />
 											</div>
 										</div>
 									</div>
@@ -334,13 +342,18 @@
 		/*
 		 * 图片上传
 		 */
+		var uploading = !1;
 		$(":file").change(function(){
 			var errorStr = checkImgType(this);
 			if(errorStr){
 				alert(errorStr);
 				return;
 			}
+			var self = $(this);
+//			self.prop("disabled","disabled");
 			var formData = new FormData($("#uploadForm")[0]);	
+			$(".uploader-loading").show();
+			uploading = !0;
 		    $.ajax({
 		        type:'POST',
 		        url:'${ctx}/user/uploadHeadImg',
@@ -354,7 +367,7 @@
 					if(data.success){
 						var final_url = data.imgPath;
 						$("input[name='headImgUrl']").val(final_url);
-						$(".control-img").find("img").attr("src",final_url);
+						$(".control-user-img").attr("src",final_url);
 //						resetHeadImgUrl(final_url);
 					}else{
 						alert(data.msg);
@@ -363,11 +376,19 @@
 		        error: function (data) {
 					alert("上传失败");
 		        }
+		        complete:function(){
+//					self.prop("disabled","false");
+					uploading =!1;
+					$(".uploader-loading").hide();
+		        }
 		    });
 		})
 		$("#submit").click(function(){
 			var btn = $(this);
 			var form = $(".form");
+			if(uploading){
+				alert("图像正在上传，请稍后..")
+			}
 			var res = form.validate();
 			var userid = $("#userid").val();
 			if(res){
@@ -418,6 +439,7 @@
 		   				}
 						btn.prop("disabled","false");
 						btn.removeClass("disabled");
+						$("body").scrollTop(0);
 		   			}else{
 		   				alert(data.msg)
 			   		}
@@ -458,6 +480,9 @@
 					}
 					var d = form.find("textarea[name='description']");
 					d.length>0&&d.val(user['description']);
+					if(!!user.headImgUrl){
+						$(".control-user-img").attr("src",user.headImgUrl)
+					}
 					if(relationroles){
 						for(var i=0,l = relationroles.length;i<l;i++){
 							originalRelation.push(relationroles[i].id);

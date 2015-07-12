@@ -148,7 +148,7 @@ public class AliyunOSSServiceImpl implements IAliyunOSSService {
 			String suffix = path.substring(path.lastIndexOf(".")+1);
 			for(int i=0;i<Constants.ALIYUN_OSS_IMAGE_ALLOWED_SUFFIX.length;i++){
 				if(Constants.ALIYUN_OSS_IMAGE_ALLOWED_SUFFIX[i].equalsIgnoreCase(suffix)){
-					params = params.replace("{suffix}", suffix);
+					params = params.replace("{suffix}", Constants.ALIYUN_OSS_IMAGE_ALLOWED_SUFFIX[i]);
 					path = path+Constants.ALIYUN_OSS_IMAGE_PARAMS_SPLIT+params;
 					break;
 				}

@@ -28,8 +28,14 @@
 									<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 									<div class="control-group">
+										<label class="control-label">图像</label>
+										<div class="control control-img-box">
+											<img src="${headImgUrl}" class="control-user-img" />
+										</div>
+									</div>
+									<div class="control-group">
 										<label class="control-label">姓名</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
 					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$" require="require" require_msg ="用户名不能为空"  placeholder="输入用户名"  />
 											<span class="help-inline"></span>
@@ -37,7 +43,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">密码</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="pwd" id="pwd" max="32" min="6"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
 					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]*$" placeholder="输入密码"  />
 											<input type="hidden" name="password" id="password"/>
@@ -46,21 +52,21 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">邮箱</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text" name="email" require="require" requrie_msg = "邮箱不能为空" error="邮箱格式不正确" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">手机号码</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text" name="phoneNum"  require="require"  patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">状态</label>
-										<div class="control error">
+										<div class="control">
 											<select name="locked" disabled="disabled">
 												<option value="false" checked>正常</option>
 												<option value="true">锁定</option>
@@ -70,22 +76,24 @@
 									<form enctype="multipart/form-data" method="post" id="uploadForm">
 									<div class="control-group">
 										<label class="control-label">上传图像</label>
-										<div class="control error">
+										<div class="control">
 											<div class="uploader">
 												<input type="hidden" name="headImgUrl" />
 												<input type="file" name="theFile" accept="image/*"/>
 												<span class="filename" style="-webkit-user-select: none;">没有选择文件...</span>
 												<span class="action" style="-webkit-user-select: none;">选择</span>
 											</div>
-											<div class="control-img">
-												<img src="${headImgUrl}"/>
+										</div>
+										<div class="control uploader-loading" style="display: none;">
+											<div class="loading">
+												<img src="${ctx}/assets/img/loading.gif"/>
 											</div>
 										</div>
 									</div>
 									</form>
 									<div class="control-group">
 										<label class="control-label">描述</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="description"></textarea>
 										</div>
 									</div>
@@ -292,15 +300,20 @@
 		/*
 		 * 图片上传
 		 */
+		var uploading = !1;
 		$(":file").change(function(){
 			var errorStr = checkImgType(this);
 			if(errorStr){
 				alert(errorStr);
 				return;
 			}
-			var formData = new FormData($("#uploadForm")[0]);	
+			var self = $(this);
+//			self.attr("disabled","disabled");
+			var formData = new FormData($("#uploadForm")[0]);
+			$(".uploader-loading").show();
+			uploading = !0;
 		    $.ajax({
-		        type:'POST',
+		        type:'post',
 		        url:'${ctx}/user/uploadHeadImg',
 		        data: formData,
 		        async: true,
@@ -312,7 +325,7 @@
 					if(data.success){
 						var final_url = data.imgPath;
 						$("input[name='headImgUrl']").val(final_url);
-						$(".control-img").find("img").attr("src",final_url);
+						$(".control-user-img").attr("src",final_url);
 //						resetHeadImgUrl(final_url);
 					}else{
 						alert(data.msg);
@@ -320,6 +333,11 @@
 		        },
 		        error: function (data) {
 					alert("上传失败");
+		        },
+		        complete:function(){
+//					self.attr("disabled","");
+					uploading =!1;
+					$(".uploader-loading").hide();
 		        }
 		    });
 		})
@@ -332,6 +350,9 @@
 		$("#submit").click(function(){
 			var btn=$(this);
 			var form = $(".form");
+			if(uploading){
+				alert("图像正在上传，请稍后..")
+			}
 			var res = form.validate();
 			if(res){
 				var user = {
@@ -374,6 +395,7 @@
 			   				}
 							btn.prop("disabled","false");
 							btn.removeClass("disabled");
+							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg)
 			   				window.location.href="${ctx}/mi/users";

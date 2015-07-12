@@ -29,6 +29,12 @@
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 									<input type="hidden" id="userid" name ="id" value="${userid}" />
 									<div class="control-group">
+										<label class="control-label">图像</label>
+										<div class="control control-img-box">
+											<img src="${headImgUrl}" class="control-user-img" />
+										</div>
+									</div>
+									<div class="control-group">
 										<label class="control-label">姓名</label>
 										<div class="control error">
 											<input type="text" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
@@ -66,12 +72,6 @@
 												<option value="false" checked>正常</option>
 												<option value="true">锁定</option>
 											</select>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">图像</label>
-										<div class="control-img">
-											<img clas="headImgUrl" src=""/>
 										</div>
 									</div>
 									<div class="control-group">
@@ -205,8 +205,10 @@
 						form.find("input[name="+i+"]").length>0&&form.find("input[name="+i+"]").val(user[i]);
 					}
 					
+					var d = form.find("textarea[name='description']");
+					d.length>0&&d.val(user['description']);
 					if(!!user.headImgUrl){
-						$(".headImgUrl").attr("src",user.headImgUrl)
+						$(".control-user-img").attr("src",user.headImgUrl)
 					}
 					
 					if(relationroles){

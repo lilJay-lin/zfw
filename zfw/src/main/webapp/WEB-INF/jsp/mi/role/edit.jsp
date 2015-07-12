@@ -265,6 +265,7 @@
 			   				}
 							btn.prop("disabled","false");
 							btn.removeClass("disabled");
+							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg)
 			   				window.location.href="${ctx}/mi/roles";

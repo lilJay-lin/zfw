@@ -118,6 +118,14 @@
 				async:true,
 				data:self.options.data,
 				success:function(data){
+					if(data == null || data.items == null || data.items.length==0){
+						self.$container.find(".page-data-list").html("");
+  						var p = self.$container.find(".pagination");
+  						p.html("");
+  						var info = self.$container.find(".datatable-info");
+  						info.html("共0条");
+						return ;
+					}
 					var items = data.items;
 					var pageinfo = data.pageinfo;
 					self.$container.find(".page-data-list").html(self.template(self.options.template,items));
@@ -140,23 +148,20 @@
 			var curpage = parseInt(pageinfo.curpage,10);
 			var html ='<li  class="active"><a href="javascript:;"  data-page="'+curpage+'">'+curpage+' </a></li>';
 			var s=curpage-1,e=curpage+1,st  = '',a = parseInt(pageinfo.totalpage,10);;
-			for(;s>curpage-4;s--){
-				if(s>1)
+			for(;s>curpage-4&&s>1;s--){
 				html='<li><a href="javascript:;" data-page="'+s+'">'+s+'</a></li>'+html;
 			}
 			if(curpage!=1){
 				if(s==2){
-					st='<li><a href="javascript:;"  data-page="2">2</a>'+html;
+					st='<li><a href="javascript:;"  data-page="2">2</a>';
 				}else if(s>2){
-					st='<li><a  href="javascript:;" class="blank">...</a></li>'+html;
+					st='<li><a  href="javascript:;" class="blank">...</a></li>';
 				}
-				html = '<li><a href="javascript:;"  data-page="1">1</a>'+st;
+				html = '<li><a href="javascript:;"  data-page="1">1</a>'+st+html;
 			}
-			for(;e<curpage+4;e++){
-				if(e<a)
+			for(;e<curpage+4&&e<a;e++){
 				html+='<li><a href="javascript:;" data-page="'+e+'">'+e+'</a></li>';
 			}
-			
 			if(curpage!=a){
 				if(e == a-1){
 					html+='<li><a href="javascript:;"  data-page="'+(a-1)+'">'+(a-1)+'</a>'
@@ -248,7 +253,7 @@
 				require_msg = el.attr("require_msg")||"不能为空";
 				patterns = el.attr("patterns");
 				value = el.val();
-				if(value.trim().length==0)value="";
+				if($.trim(value).length==0)value="";
 				len = value.length;
 				
 				if(require !="require" && !value){
