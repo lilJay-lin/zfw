@@ -4179,7 +4179,11 @@ return /******/ (function(modules) { // webpackBootstrap
       return options.inverse(this);
     });
     hbs.registerHelper('dateformat', function(v1,type) {
-     	var data = new Date(v1);
+    	var  l = parseInt(v1);
+    	
+    	if(isNaN(l)) return "";
+    	
+     	var data = new Date(l);
      	
      	var pattern = "yyyy-MM-dd";
      	

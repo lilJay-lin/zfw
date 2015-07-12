@@ -41,8 +41,8 @@
 											<th>描述</th>
 											<!--<th>创建人</th>
 											<th>最近编辑人</th>
-											<th>创建日期</th>
-											<th>更新日期</th>-->
+											<th>创建日期</th>-->
+											<th>最后修改时间</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -109,8 +109,10 @@
 			<td>{{description}}</td>
 			<!--<td>{{creater}}</td>
 			<td>{{lastEditor}}</td>
-			<td>{{createDate}}</td>
-			<td>{{updateDate}}</td>-->
+			<td>{{createDate}}</td>-->
+			{{#with updateDate}}
+			<td>{{dateformat time 3}}</td>
+			{{/with}}
 			<td>
 				<a class="btn btn-info" href="${ctx}/mi/role/{{id}}/detail">
 					<i class="icon-zoom-in "></i>                                            

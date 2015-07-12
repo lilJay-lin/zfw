@@ -246,7 +246,6 @@
 			   }
 			var url = "${ctx}/mi/role/"+id;
 			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
@@ -263,8 +262,6 @@
 			   				}else{
 			   					alert(data.msg)
 			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg)
@@ -273,9 +270,10 @@
 			   		}
 			   	},
 			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
 			   		alert("新增用户失败!");
+			   	},
+			   	complete:function(){
+			   		btn.removeAttr("disabled");
 			   	}
 			   });
 			   
