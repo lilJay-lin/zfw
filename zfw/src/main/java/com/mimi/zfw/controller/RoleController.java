@@ -28,6 +28,7 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
+import com.mimi.zfw.mybatis.pojo.ShopImageExample;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRoleService;
@@ -99,9 +100,10 @@ public class RoleController {
 		: (String) request.getParameter("name");
 	
 	RoleExample example = new RoleExample() ;
+	RoleExample.Criteria cr = example.createCriteria();
 	if(!StringUtils.isBlank(name)){
 	    try {
-		example.or().andNameLike("%"+URLDecoder.decode(name,"utf-8")+"%");
+		cr.andNameLike("%"+URLDecoder.decode(name,"utf-8")+"%");
 	    } catch (UnsupportedEncodingException e) {
 		// TODO Auto-generated catch block
 		JSONObject jo = new JSONObject();
@@ -112,7 +114,7 @@ public class RoleController {
 		return jo.toString();
 	    }
 	}
-	
+	cr.andDelFlagEqualTo(false);
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
 	

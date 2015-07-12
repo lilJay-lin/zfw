@@ -1,6 +1,7 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.Shop;
 import com.mimi.zfw.mybatis.pojo.ShopExample;
@@ -29,5 +30,11 @@ public interface IShopService extends IBaseService<Shop, ShopExample, String> {
 	public String refreshUserShop(String id);
 
 	public String deleteUserShopByFlag(String id);
+	
+	public Map<String, String> addShop(Shop shop);
+
+	public Map<String,String> updateShop(Shop shop);
+	    
+	public int updateBatchShop(String shopids,Shop shop);
 
 }

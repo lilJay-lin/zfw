@@ -237,10 +237,10 @@ body {
   display: block;
   border-radius: 2px;
   overflow: hidden;
-  margin: 0 0 28px 0;
+  margin: 10px 0;
 }
 .box-inline {
-  padding: 50px;
+  padding: 10px;
 }
 .box-hd {
   background: #36a9e1;
@@ -390,8 +390,19 @@ body {
   width: 100px;
   height: auto;
 }
+.control-img-box {
+  width: 100px;
+  min-height: 100px;
+  border: 1px solid #E2E2E2;
+}
+.control-user-img {
+  width: 100px;
+  height: auto;
+}
 .control {
-  margin-left: 180px;
+  vertical-align: top;
+  margin-left: 20px;
+  display: inline-block;
 }
 .control.error .help-inline {
   color: #b94a48;
@@ -426,6 +437,15 @@ body {
   margin-bottom: 20px;
   background-color: #f5f5f5;
   border-top: 1px solid #e5e5e5;
+}
+.loading {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+.loading img {
+  width: 30px;
+  height: auto;
 }
 /*
  * ===========minix=================

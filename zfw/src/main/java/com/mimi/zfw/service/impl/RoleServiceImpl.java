@@ -134,8 +134,8 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	
 	if(example == null){
 	    example = new RoleExample();
+	    example.or().andDelFlagEqualTo(false);
 	}
-	example.or().andDelFlagEqualTo(false);
 
 	example.setLimitStart(curPage* pageSize);
 	example.setLimitSize(pageSize);
@@ -201,7 +201,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    res = 0;
 	} else {
 	    
-	    String[] ids = permissions.split("/");
+	    String[] ids = permissions.split(Constants.MI_IDS_SPLIT_STRING);
 
 	    for (String id : ids) {
 		RelationRoleAndPermission record = new RelationRoleAndPermission();
@@ -229,7 +229,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    res = 0;
 	} else {
 
-	    String[] ids = permissions.split("/");
+	    String[] ids = permissions.split(Constants.MI_IDS_SPLIT_STRING);
 	    List<String> pList = new ArrayList<String>();
 	    for (String id : ids) {
 		pList.add(id);
@@ -338,7 +338,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    return 0;
 	}
 
-	String[] ids = roleids.split("/");
+	String[] ids = roleids.split(Constants.MI_IDS_SPLIT_STRING);
 	List<String> rList = new ArrayList<String>();
 	for (String id : ids) {
 	    rList.add(id);
