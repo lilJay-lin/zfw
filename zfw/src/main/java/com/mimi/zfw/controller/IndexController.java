@@ -35,6 +35,7 @@ import com.baidu.ueditor.um.Uploader;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.Information;
+import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IInformationService;
@@ -201,8 +202,22 @@ public class IndexController {
 
     @RequestMapping(value = "/mi",method = RequestMethod.GET)
     public String indexMI(HttpServletRequest request, Model model) {
-	request.setAttribute("page", userService.listAll());
-	request.setAttribute("sn", request.getServerName());
+//	request.setAttribute("page", userService.listAll());
+//	request.setAttribute("sn", request.getServerName());
+	User user = userService.getCurUser();
+	if(user!=null){
+	    String hiu = Constants.HEAD_IMG_DEFAULT_URL;
+	    if (user != null && StringUtils.isNotBlank(user.getHeadImgUrl())) {
+		hiu = user.getHeadImgUrl();
+		hiu = aossService.addImgParams(hiu,
+			Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
+	    }
+	    if (hiu.indexOf("http://") == -1
+		    && hiu.indexOf(request.getContextPath()) == -1) {
+		hiu = request.getContextPath() + hiu;
+	    }
+	    request.getSession().setAttribute("headImgUrl", hiu);
+	}
 	return "mi/index";
     }
 

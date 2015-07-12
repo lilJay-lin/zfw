@@ -443,7 +443,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    return 0;
 	}
 
-	String[] ids = userids.split("/");
+	String[] ids = userids.split(Constants.MI_IDS_SPLIT_STRING);
 	List<String> userList = new ArrayList<String>();
 	for (String id : ids) {
 	    userList.add(id);
@@ -514,7 +514,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    res = 0;
 	} else {
 
-	    String[] ids = roleids.split("/");
+	    String[] ids = roleids.split(Constants.MI_IDS_SPLIT_STRING);
 
 	    for (String roleid : ids) {
 		RelationUserAndRole record = new RelationUserAndRole();
@@ -542,7 +542,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    res = 0;
 	} else {
 
-	    String[] ids = roleids.split("/");
+	    String[] ids = roleids.split(Constants.MI_IDS_SPLIT_STRING);
 	    List<String> roleList = new ArrayList<String>();
 	    for (String id : ids) {
 		roleList.add(id);

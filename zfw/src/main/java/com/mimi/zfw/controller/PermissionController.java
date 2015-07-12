@@ -73,6 +73,7 @@ public class PermissionController {
 		
 		return jo.toString();
 	}
+	crt.andDelFlagEqualTo(false);
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
 	
