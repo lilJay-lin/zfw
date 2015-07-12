@@ -6,7 +6,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,24 +25,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.mybatis.pojo.ShopImage;
-import com.mimi.zfw.mybatis.pojo.ShopImageExample;
+import com.mimi.zfw.mybatis.pojo.ShopPano;
+import com.mimi.zfw.mybatis.pojo.ShopPanoExample;
 import com.mimi.zfw.service.IAliyunOSSService;
-import com.mimi.zfw.service.IShopImageService;
+import com.mimi.zfw.service.IShopPanoService;
 
 @Controller
 @RequestMapping(value="/mi")
-public class ShopImageController {
+public class ShopPanoController {
 
     private static final Logger LOG = LoggerFactory
 	    .getLogger(SPController.class);
     
     @Resource
-    private IShopImageService siService;
+    private IShopPanoService spService;
     @Resource
     private IAliyunOSSService aossService;
 
-    @RequestMapping(value = "/spphoto/uploadImg", method = {
+    @RequestMapping(value = "/sppano/uploadImg", method = {
 	    RequestMethod.POST, RequestMethod.GET })
     public @ResponseBody Object upload(HttpServletRequest request,
 	    @RequestParam("theFile") MultipartFile theFile) {
@@ -55,7 +54,7 @@ public class ShopImageController {
 	    jo.put("imgPath", path);
 	    jo.put("success", true);
 	} catch (IOException e) {
-	    LOG.error("上传商铺图片图片出错！", e);
+	    LOG.error("上传商铺全景图片出错！", e);
 	    jo.put("success", false);
 	    jo.put("msg", "保存图片失败");
 	}
@@ -65,10 +64,10 @@ public class ShopImageController {
 //    @RequestMapping(value = "/mi/shop", method = { RequestMethod.GET })
 //    public String index(HttpServletRequest request) {
 //
-//	return "/mi/{shopId}/spphoto/index";
+//	return "/mi/{shopId}/sppano/index";
 //    }
 
-    @RequestMapping(value = "/{shopId}/spphoto/page/{curPage}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{shopId}/sppano/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String shopId,
 	    @PathVariable int curPage) {
@@ -80,8 +79,8 @@ public class ShopImageController {
 	String name = request.getParameter("name") == null ? null
 		: (String) request.getParameter("name");
 
-	ShopImageExample example = new ShopImageExample();
-	ShopImageExample.Criteria cr = example.createCriteria();
+	ShopPanoExample example = new ShopPanoExample();
+	ShopPanoExample.Criteria cr = example.createCriteria();
 	if (!StringUtils.isBlank(name)) {
 	    try {
 		cr.andNameLike("%"+URLDecoder.decode(name, "utf-8")+"%");
@@ -90,7 +89,7 @@ public class ShopImageController {
 		JSONObject jo = new JSONObject();
 		jo.put("success", false);
 		jo.put("msg", "查询条件解码出错");
-		LOG.error("查询商铺图片分页，查询条件解码出错！", e);
+		LOG.error("查询商铺全景分页，查询条件解码出错！", e);
 
 		return jo.toString();
 	    }
@@ -103,8 +102,8 @@ public class ShopImageController {
 	int rows = 0;
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
-	    rows = siService.countShopImageByExample(example);
-	    List<ShopImage> items = siService.findShopImageByExample(example, page, pageSize);
+	    rows = spService.countShopPanoByExample(example);
+	    List<ShopPano> items = spService.findShopPanoByExample(example, page, pageSize);
 	    
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
@@ -113,13 +112,13 @@ public class ShopImageController {
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
-	    LOG.error("查询商铺图片分页信息报错！", e);
+	    LOG.error("查询商铺全景分页信息报错！", e);
 	}
 	return res;
     }
 
     public Object getJsonObject(int rows, int totalpage, int curPage,
-	    int pageSize, List<ShopImage> items, boolean rescode, String msg) {
+	    int pageSize, List<ShopPano> items, boolean rescode, String msg) {
 	JSONObject jo = new JSONObject();
 
 	Map<String, Integer> map = new HashMap<String, Integer>();
@@ -137,49 +136,49 @@ public class ShopImageController {
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/spphoto/{id}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/sppano/{id}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object getShopImage( @PathVariable String id, HttpServletRequest request) {
+    public Object getShopPano( @PathVariable String id, HttpServletRequest request) {
 
 	JSONObject jo = new JSONObject();
 
 	try {
-	    ShopImage image = (ShopImage) siService.get(id);
+	    ShopPano image = (ShopPano) spService.get(id);
 	    if (image != null) {
 		jo.put("image", image);
 	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    jo.put("shop", null);
-	    LOG.error("查询商铺图片信息出错！", e);
+	    LOG.error("查询商铺全景信息出错！", e);
 	}
 
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/{shopId}/spphoto/add", method = { RequestMethod.GET })
-    public String toAddShopImage(@PathVariable String shopId,Model model, HttpServletRequest request) {
+    @RequestMapping(value = "/{shopId}/sppano/add", method = { RequestMethod.GET })
+    public String toAddShopPano(@PathVariable String shopId,Model model, HttpServletRequest request) {
 	model.addAttribute("shopId", shopId);
-	return "/mi/spphoto/add";
+	return "/mi/sppano/add";
     }
 
-    @RequestMapping(value = "/spphoto", method = { RequestMethod.POST })
+    @RequestMapping(value = "/sppano", method = { RequestMethod.POST })
     @ResponseBody
-    public Object addShopImage(HttpServletRequest request, ShopImage shopImage) {
+    public Object addShopPano(HttpServletRequest request, ShopPano shopPano) {
 
 	JSONObject jo = new JSONObject();
 
-	if (shopImage == null) {
+	if (shopPano == null) {
 	    jo.put("success", false);
-	    jo.put("msg", "新增商铺图片信息不能为空!");
+	    jo.put("msg", "新增商铺全景信息不能为空!");
 	} else {
 
 	    try {
-		Map<String, String> res = siService.addShopImage(shopImage);
+		Map<String, String> res = spService.addShopPano(shopPano);
 
 		if (StringUtils.isEmpty(res.get("msg"))) {
 		    jo.put("success", true);
-		    jo.put("msg", "新增商铺图片信息保存成功!");
+		    jo.put("msg", "新增商铺全景信息保存成功!");
 
 		} else {
 		    jo.put("success", false);
@@ -189,8 +188,8 @@ public class ShopImageController {
 
 	    } catch (Exception e) {
 		jo.put("success", false);
-		jo.put("msg", "新增商铺图片信息保存失败!");
-		LOG.error("新增商铺图片信息保存失败！", e);
+		jo.put("msg", "新增商铺全景信息保存失败!");
+		LOG.error("新增商铺全景信息保存失败！", e);
 	    }
 
 	}
@@ -198,34 +197,34 @@ public class ShopImageController {
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/{shopId}/spphoto/{id}/edit", method = { RequestMethod.GET })
-    public String toUpdateShopImage(@PathVariable String shopId,HttpServletRequest request, Model model,
+    @RequestMapping(value = "/{shopId}/sppano/{id}/edit", method = { RequestMethod.GET })
+    public String toUpdateShopPano(@PathVariable String shopId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
 	model.addAttribute("shopId", shopId);
-	model.addAttribute("imageId", id);
-	return "/mi/spphoto/edit";
+	model.addAttribute("panoId", id);
+	return "/mi/sppano/edit";
     }
 
-    @RequestMapping(value = "/{shopId}/spphoto/{id}/detail", method = { RequestMethod.GET })
-    public String toViewShopImage(@PathVariable String shopId, HttpServletRequest request, Model model,@PathVariable String id) {
+    @RequestMapping(value = "/{shopId}/sppano/{id}/detail", method = { RequestMethod.GET })
+    public String toViewShopPano(@PathVariable String shopId, HttpServletRequest request, Model model,@PathVariable String id) {
 
 	model.addAttribute("shopId", shopId);
-	model.addAttribute("imageId", id);
-	return "/mi/spphoto/detail";
+	model.addAttribute("panoId", id);
+	return "/mi/sppano/detail";
     }
 
-    @RequestMapping(value = "/spphoto/{id}", method = { RequestMethod.POST })
+    @RequestMapping(value = "/sppano/{id}", method = { RequestMethod.POST })
     @ResponseBody
-    public Object updateShopImage(HttpServletRequest request, ShopImage shopImage ,@PathVariable String id) {
+    public Object updateShopPano(HttpServletRequest request, ShopPano shopPano ,@PathVariable String id) {
 
 	JSONObject jo = new JSONObject();
 	try {
 
-		Map<String, String> res = siService.updateShopImage(shopImage);
+		Map<String, String> res = spService.updateShopPano(shopPano);
 
 		if (StringUtils.isEmpty(res.get("msg"))) {
 		    jo.put("success", true);
-		    jo.put("msg", "更新商铺图片信息保存成功!");
+		    jo.put("msg", "更新商铺全景信息保存成功!");
 
 		} else {
 		    jo.put("success", false);
@@ -235,29 +234,29 @@ public class ShopImageController {
 
 	} catch (Exception e) {
 	    jo.put("success", false);
-	    jo.put("msg", "更新商铺图片信息失败!");
-	    LOG.error("更新商铺图片信息失败！", e);
+	    jo.put("msg", "更新商铺全景信息失败!");
+	    LOG.error("更新商铺全景信息失败！", e);
 	}
 
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/spphotos", method = { RequestMethod.POST })
+    @RequestMapping(value = "/sppanos", method = { RequestMethod.POST })
     @ResponseBody
-    public Object updateBatchShopImage(HttpServletRequest request, ShopImage shopImage,
-	    String imageIds) {
+    public Object updateBatchShopPano(HttpServletRequest request, ShopPano shopPano,
+	    String panoIds) {
 	JSONObject jo = new JSONObject();
 
 	try {
-	    siService.updateBatchShopImage(imageIds, shopImage);
+	    spService.updateBatchShopPano(panoIds, shopPano);
 	    jo.put("success", true);
-	    jo.put("msg", "商铺图片更新成功");
+	    jo.put("msg", "商铺全景更新成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "商铺图片更新失败");
-	    LOG.error("更新商铺图片信息失败！", e);
+	    jo.put("msg", "商铺全景更新失败");
+	    LOG.error("更新商铺全景信息失败！", e);
 	}
 
 	return jo.toString();

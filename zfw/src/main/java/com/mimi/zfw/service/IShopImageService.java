@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
+import com.mimi.zfw.mybatis.pojo.Shop;
 import com.mimi.zfw.mybatis.pojo.ShopImage;
 import com.mimi.zfw.mybatis.pojo.ShopImageExample;
 
@@ -24,4 +25,12 @@ public interface IShopImageService extends
 	    Integer pageSize);
 
     public int countShopImageByExample(ShopImageExample example);
+
+	
+    public Map<String, String> addShopImage(ShopImage shopImage);
+
+    public Map<String,String> updateShopImage(ShopImage shopImage);
+    
+    public Map<String, String> checkShopImage(ShopImage shopImage);
+    
 }

@@ -146,6 +146,10 @@
 			var end = pageinfo.curpage*pagesize >=pageinfo.totalrows?pageinfo.totalrows:pageinfo.curpage*pagesize;
 			info.html("共"+pageinfo.totalrows+"条 当前展示第"+start+"条到第"+end+"条");
 			var curpage = parseInt(pageinfo.curpage,10);
+			if(pageinfo.totalpage == "1"){
+				p.html("");
+				return ;
+			}
 			var html ='<li  class="active"><a href="javascript:;"  data-page="'+curpage+'">'+curpage+' </a></li>';
 			var s=curpage-1,e=curpage+1,st  = '',a = parseInt(pageinfo.totalpage,10);;
 			for(;s>curpage-4&&s>1;s--){
