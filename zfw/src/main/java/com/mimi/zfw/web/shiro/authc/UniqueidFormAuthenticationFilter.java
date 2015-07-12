@@ -50,7 +50,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     	UniqueidUsernamePasswordToken token = createToken(request, response);
 	try {
 	    /* 图形验证码验证 */
-//	    doCaptchaValidate((HttpServletRequest) request, token);
+	    doCaptchaValidate((HttpServletRequest) request, token);
 	    Subject subject = getSubject(request, response);
 	    subject.login(token);// 正常验证
 	    LOG.info(token.getUsername() + "登录成功");
