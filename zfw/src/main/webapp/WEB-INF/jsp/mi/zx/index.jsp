@@ -106,7 +106,9 @@
 				<td>{{summary}}</td>
 				<td>{{type}}</td>
 				<td>{{priority}}</td>
-				<td>{{updateDate}}</td>
+				{{#with updateDate}}
+					<td>{{dateformat time 3}}</td>
+				{{/with}}
 				<td>
 					<a class="btn btn-info" href="${ctx}/mi/info/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            

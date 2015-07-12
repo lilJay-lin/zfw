@@ -197,7 +197,7 @@ public class InformationServiceImpl extends
 			ie.setLimitStart(targetPage * pageSize);
 			ie.setLimitSize(pageSize);
 		}
-		ie.setOrderByClause("priority desc");
+		ie.setOrderByClause("update_date desc,priority desc");
 		return im.selectByExample(ie);
 	}
 
