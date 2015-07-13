@@ -1,6 +1,7 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.mybatis.pojo.WarehouseExample;
@@ -30,4 +31,11 @@ public interface IWarehouseService extends
 	public String refreshUserWarehouse(String id);
 
 	public String updateCascading(Warehouse warehouse, String imgUrls);
+	
+	public Map<String, String> addWarehouse(Warehouse warehouse);
+
+	public Map<String,String> updateWarehouse(Warehouse warehouse);
+	    
+	public int updateBatchWarehouse(String warehouseids,Warehouse warehouse);
+
 }

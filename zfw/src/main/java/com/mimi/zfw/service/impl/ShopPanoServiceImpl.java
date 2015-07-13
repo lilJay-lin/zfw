@@ -15,8 +15,6 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.ShopPanoMapper;
 import com.mimi.zfw.mybatis.pojo.ShopPano;
 import com.mimi.zfw.mybatis.pojo.ShopPanoExample;
-import com.mimi.zfw.mybatis.pojo.ShopPano;
-import com.mimi.zfw.mybatis.pojo.ShopPanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IShopPanoService;
 import com.mimi.zfw.service.IUserService;

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.PermissionExample;
-import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.service.IPermissionService;
 
 @Controller

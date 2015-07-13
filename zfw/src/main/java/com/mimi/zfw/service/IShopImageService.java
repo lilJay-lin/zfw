@@ -3,9 +3,6 @@ package com.mimi.zfw.service;
 import java.util.List;
 import java.util.Map;
 
-import com.mimi.zfw.mybatis.pojo.Role;
-import com.mimi.zfw.mybatis.pojo.RoleExample;
-import com.mimi.zfw.mybatis.pojo.Shop;
 import com.mimi.zfw.mybatis.pojo.ShopImage;
 import com.mimi.zfw.mybatis.pojo.ShopImageExample;
 

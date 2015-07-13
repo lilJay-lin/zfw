@@ -6,7 +6,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -251,13 +250,13 @@ public class ShopImageController {
 	try {
 	    siService.updateBatchShopImage(imageIds, shopImage);
 	    jo.put("success", true);
-	    jo.put("msg", "商铺图片更新成功");
+	    jo.put("msg", "商铺图片删除成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "商铺图片更新失败");
-	    LOG.error("更新商铺图片信息失败！", e);
+	    jo.put("msg", "商铺图片删除失败");
+	    LOG.error("删除商铺图片信息失败！", e);
 	}
 
 	return jo.toString();

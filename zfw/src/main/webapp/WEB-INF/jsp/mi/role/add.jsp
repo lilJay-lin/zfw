@@ -35,9 +35,7 @@
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control">
-											<textarea name="description">
-												
-											</textarea>
+											<textarea name="description"></textarea>
 										</div>
 									</div>
 									<div class="box box-inline">

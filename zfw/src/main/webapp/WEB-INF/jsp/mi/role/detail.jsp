@@ -161,9 +161,7 @@
 		 * 返回
 		 */
 		$("#cancle").on("click",function(){
-			if(window.confirm("是否确定返回？")){
-				window.location.href = "${ctx}/mi/roles";
-			}
+			window.location.href = "${ctx}/mi/roles";
 		})
 	</script>
 </html>

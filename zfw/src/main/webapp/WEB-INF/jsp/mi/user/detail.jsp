@@ -31,7 +31,7 @@
 									<div class="control-group">
 										<label class="control-label">图像</label>
 										<div class="control control-img-box">
-											<img src="${headImgUrl}" class="control-user-img" />
+											<img class="control-user-img" />
 										</div>
 									</div>
 									<div class="control-group">
@@ -202,11 +202,8 @@
 					var user = data.user;
 					var relationroles = data.relationroles;
 					for(var i in user){
-						form.find("input[name="+i+"]").length>0&&form.find("input[name="+i+"]").val(user[i]);
+						form.find("[name="+i+"]").length>0&&form.find("[name="+i+"]").val(user[i]);
 					}
-					
-					var d = form.find("textarea[name='description']");
-					d.length>0&&d.val(user['description']);
 					if(!!user.headImgUrl){
 						$(".control-user-img").attr("src",user.headImgUrl)
 					}
@@ -228,9 +225,7 @@
 		 * 返回
 		 */
 		$("#cancle").on("click",function(){
-			if(window.confirm("是否确定返回？")){
 				window.location.href = "${ctx}/mi/users";
-			}
 		})
 	</script>
 </html>

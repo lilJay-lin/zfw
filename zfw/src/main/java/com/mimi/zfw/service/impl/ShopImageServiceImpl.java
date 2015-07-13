@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.ShopImageMapper;
-import com.mimi.zfw.mybatis.pojo.Role;
-import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.ShopImage;
 import com.mimi.zfw.mybatis.pojo.ShopImageExample;
 import com.mimi.zfw.plugin.IBaseDao;

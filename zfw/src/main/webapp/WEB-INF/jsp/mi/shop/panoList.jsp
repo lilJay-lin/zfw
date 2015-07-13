@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <div class="box-cnt js-shop-panos-container" style="display:none">
 	<div class="datatable" id="panoList">
-		<div class="datatabls-filter js-edit-operation">
+		<div class="datatabls-filter">
 			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
 				<input type="button" class="btn js-search-btn" value="搜索"/>
 			</label>
@@ -68,6 +68,9 @@
 	  		delPano(e,panoIds);
 	  	}
 	  	function delPano(e,panoIds){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(panoDeling){
 	  			alert("正在删除全景,请稍后再操作");
 	  			return;

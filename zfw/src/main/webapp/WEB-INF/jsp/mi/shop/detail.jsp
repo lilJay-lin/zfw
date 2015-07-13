@@ -37,7 +37,7 @@
 						<%@include file="panoList.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn" id="cancle">返回</button>
+					  <button type="reset" class="btn" id="detail-cancle">返回</button>
 					</div>
 				</div>
 			</div>
@@ -79,10 +79,11 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
+	openCloseDetail('js-shop-detail-container');
 	/*
 	 * 返回
 	 */
-	$("#cancle").on("click",function(){
+	$("#detail-cancle").on("click",function(){
 			window.location.href = "${ctx}/mi/shop";
 	});
 	$(".js-edit-operation").hide();

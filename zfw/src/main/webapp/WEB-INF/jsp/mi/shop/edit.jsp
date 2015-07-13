@@ -109,6 +109,8 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
+	   openCloseDetail('js-shop-detail-container');
+	   
 		$("#submit").click(function(){
 			var btn=$(this);
 			var form = $(".form");

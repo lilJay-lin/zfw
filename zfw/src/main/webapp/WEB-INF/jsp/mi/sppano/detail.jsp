@@ -24,6 +24,9 @@
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
+					<div class="form-actions">
+					  <button type="reset" class="btn" id="detail-cancle">返回</button>
+					</div>
 				</div>
 			</div>
 			<!-- 右边内容区域结束     -->
@@ -44,7 +47,12 @@
 		
 	</body>
 	<script>
-		
+		/*
+		 * 返回
+		 */
+		$("#detail-cancle").on("click",function(){
+				window.location.href = "${ctx}/mi/shop/${shopId}/edit";
+		});		
 		function initImageData(){
 			var id = $("#panoId").val();
 			var getImageUrl = "${ctx}/mi/sppano/"+id;
@@ -71,15 +79,12 @@
 					}
 				},
 				error:function(){
-					alert("获取楼盘全景信息失败");
+					alert("获取商铺全景信息失败");
 				}
 			});
 		}
 		initImageData();
 		$("#submit").hide();
-		$("#cancle").on("click",function(){
-			window.location.href = "${ctx}/mi/shop/${shopId}/edit";
-		});
 		$(".uploader").hide();
 	</script>
 </html>

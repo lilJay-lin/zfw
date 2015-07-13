@@ -1,6 +1,7 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.OfficeBuilding;
 import com.mimi.zfw.mybatis.pojo.OfficeBuildingExample;
@@ -30,4 +31,13 @@ public interface IOfficeBuildingService extends
 
 	public List<OfficeBuilding> getByUserId(String userId, Integer targetPage,
 			Integer pageSize);
+	
+	public Map<String, String> addOfficeBuilding(OfficeBuilding officeBuilding);
+
+	public Map<String,String> updateOfficeBuilding(OfficeBuilding officeBuilding);
+	    
+	public int updateBatchOfficeBuilding(String officeBuildingIds,OfficeBuilding officeBuilding);
+	
+	public Map<String,String> checkOfficeBuilding(OfficeBuilding officeBuilding);
+
 }

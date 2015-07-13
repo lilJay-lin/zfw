@@ -607,13 +607,13 @@ public class SPController {
 	    shopService.updateBatchShop(shopids, shop);
 
 	    jo.put("success", true);
-	    jo.put("msg", "商铺更新成功");
+	    jo.put("msg", "商铺删除成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "商铺更新失败");
-	    LOG.error("更新商铺信息失败！", e);
+	    jo.put("msg", "商铺删除失败");
+	    LOG.error("删除商铺信息失败！", e);
 	}
 
 	return jo.toString();
