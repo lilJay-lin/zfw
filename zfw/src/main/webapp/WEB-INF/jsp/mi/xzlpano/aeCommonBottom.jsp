@@ -6,7 +6,7 @@
  */
 $("#cancle").on("click",function(){
 	if(window.confirm("确定返回？")){
-		window.location.href = "${ctx}/mi/shop/${shopId}/edit";
+		window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
 	}
 });
 
@@ -38,7 +38,7 @@ $(":file").change(function(){
 	uploading =!0;
     $.ajax({
         type:'POST',
-        url:'${ctx}/mi/shop/uploadImg',
+        url:'${ctx}/mi/xzl/uploadImg',
         data: formData,
         async: true,
         cache: false,
@@ -70,7 +70,7 @@ function getImageData(){
 		description:"",
 		contentUrl:"",
 		preImageUrl:"",
-		shopId:""
+		officeBuildingId:""
 	};
    for(var i in image){
    		var value = $("[name="+i+"]").val();

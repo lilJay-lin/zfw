@@ -6,10 +6,28 @@
  */
 $("#cancle").on("click",function(){
 	if(window.confirm("确定返回？")){
-		window.location.href = "${ctx}/mi/shop/${shopId}/edit";
+		window.location.href = "${ctx}/mi/xzl";
 	}
 });
 
+function openCloseDetail(clazz){
+	var ele = $("."+clazz);
+	if(ele.is(':hidden')){
+		ele.show();
+	}else{
+		ele.hide();
+	}
+	if(!ele.attr("first")){
+		ele.attr("first",2);
+		if("js-xzl-detail-container"==clazz){
+			if(typeof initXZLData !="undefined") initXZLData();
+		}else if("js-xzl-image-container"==clazz){
+			if(typeof photoPage !="undefined") photoPage.init();
+		}else if("js-xzl-panos-container"==clazz){
+			if(typeof panoPage != "undefined") panoPage.init();
+		}
+	}
+}
 
 function checkImgType(element){
    var filePath=$(element).val();
@@ -25,7 +43,6 @@ function checkImgType(element){
    return null;
 }
 
-
 var uploading = !1;
 $(":file").change(function(){
 	var errorStr = checkImgType(this);
@@ -38,7 +55,7 @@ $(":file").change(function(){
 	uploading =!0;
     $.ajax({
         type:'POST',
-        url:'${ctx}/mi/shop/uploadImg',
+        url:'${ctx}/mi/xzl/uploadImg',
         data: formData,
         async: true,
         cache: false,
@@ -63,19 +80,42 @@ $(":file").change(function(){
         }
     });
 });
-function getImageData(){
-	var image = {
+
+function getSaveData(){
+	var shop = {
 		id:"",
 		name:"",
-		description:"",
-		contentUrl:"",
-		preImageUrl:"",
-		shopId:""
+		phoneNum:"",
+		rental:"",
+		region:"",
+		totalPrice:"",
+		grossFloorArea:"",
+		address:"",
+		introduction:"",
+		rentOrSale:"",
+		tags:"",
+		priority:"",
+		preImageUrl:""
 	};
-   for(var i in image){
+   for(var i in shop){
    		var value = $("[name="+i+"]").val();
-   		image[i]=value;
+   		shop[i]=value;
    }
-   return image;
+   return shop;
 }
+
+rentOrSale($("[name=rentOrSale]").val());
+$("[name=rentOrSale]").change(function(){
+	rentOrSale($(this).val())
+})
+function rentOrSale(val){
+	if(val == "出租"){
+		$(".js-control-group-totalPrice").hide();
+		$(".js-control-group-rental").show();
+	}else{
+		$(".js-control-group-totalPrice").show();
+		$(".js-control-group-rental").hide();
+	}
+}
+
 </script>

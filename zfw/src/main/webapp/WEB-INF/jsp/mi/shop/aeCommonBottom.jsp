@@ -107,16 +107,19 @@ function getSaveData(){
    return shop;
 }
 
-$(".js-control-group-totalPrice").hide();
-$(".js-control-group-rental").show();
+rentOrSale($("[name=rentOrSale]").val());
 $("[name=rentOrSale]").change(function(){
-	if($(this).val() == "出租"){
+	rentOrSale($(this).val())
+})
+function rentOrSale(val){
+	if(val == "出租"){
 		$(".js-control-group-totalPrice").hide();
 		$(".js-control-group-rental").show();
 	}else{
 		$(".js-control-group-totalPrice").show();
 		$(".js-control-group-rental").hide();
 	}
-})
+}
+
 
 </script>

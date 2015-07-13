@@ -51,11 +51,11 @@
 		 * 返回
 		 */
 		$("#detail-cancle").on("click",function(){
-				window.location.href = "${ctx}/mi/shop/${shopId}/edit";
+				window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
 		});		
 		function initImageData(){
 			var id = $("#panoId").val();
-			var getImageUrl = "${ctx}/mi/sppano/"+id;
+			var getImageUrl = "${ctx}/mi/xzlpano/"+id;
 			$.ajax({
 				type:"get",
 				url:getImageUrl,
@@ -85,6 +85,9 @@
 		}
 		initImageData();
 		$("#submit").hide();
+		$("#cancle").on("click",function(){
+			window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
+		});
 		$(".uploader").hide();
 	</script>
 </html>

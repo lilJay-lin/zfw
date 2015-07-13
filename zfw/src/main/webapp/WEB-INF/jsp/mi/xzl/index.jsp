@@ -20,10 +20,10 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>商铺管理</h2>
+							<h2>写字楼管理</h2>
 						</div>
 						<div class="box-cnt">
-							<div class="datatable" id="spList">
+							<div class="datatable" id="xzlList">
 								<div class="datatabls-filter">
 									<label>
 										<!--搜索：-->
@@ -52,7 +52,7 @@
 											<option value="del" selected="selected">删除</option>
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
-										<a class="btn" href="${ctx}/mi/shop/add">新增</a>
+										<a class="btn" href="${ctx}/mi/xzl/add">新增</a>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -89,7 +89,7 @@
 		<!-- 底部区域开始     -->
 		<%@include file="../inc/footer.jsp" %>
 		<!-- 底部区域结束     -->	
-		<script type="text/x-handlebars" id = "sp-template">
+		<script type="text/x-handlebars" id = "xzl-template">
 			{{#each this}}
 			<tr>
 				<td>
@@ -103,10 +103,10 @@
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
-					<a class="btn btn-info" href="${ctx}/mi/shop/{{id}}/detail">
+					<a class="btn btn-info" href="${ctx}/mi/xzl/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
-					<a class="btn btn-info" href="${ctx}/mi/shop/{{id}}/edit">
+					<a class="btn btn-info" href="${ctx}/mi/xzl/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
 					<a class="btn btn-danger" href="javascript:;" onclick="delObject(this,'{{id}}');return false;" data-id="{{id}}">
@@ -139,26 +139,28 @@
 	  			}
 	  		});
 	  		if(ids == ""){
-	  			alert("请选择需要处理的商铺");
+	  			alert("请选择需要处理的写字楼");
 	  		}
 	  		
 	  		delObject(e,ids);
 	  	}
 	  	function delObject(e,ids){
+	  		
 	  		if(!window.confirm("确认删除?")){
 	  			return ;
 	  		}
+	  		
 	  		if(deling){
-	  			alert("正在删除商铺,请稍后再操作");
+	  			alert("正在删除写字楼,请稍后再操作");
 	  			return;
 	  		}
 	  		var obj = {};
 	  		obj.delFlag = true;
 	  		deling = true;
-	  		var url = "${ctx}/mi/shops";
+	  		var url = "${ctx}/mi/xzls";
 	  		$.ajax({
 	  			type:"post",
-	  			data:$.extend({"shopids":ids},obj),
+	  			data:$.extend({"officeBuildingids":ids},obj),
 	  			url:url,
 	  			async:true,
 	  			dataType:"json",
@@ -187,9 +189,9 @@
 	  	 * 
 	  	 */
 	  	var page = new Page({
-	  			container:"#spList",
-	  			template:"#sp-template",
-	  			url:"${ctx}/mi/shop/page/",
+	  			container:"#xzlList",
+	  			template:"#xzl-template",
+	  			url:"${ctx}/mi/xzl/page/",
 	  			data:{pagesize:10}
 	  	});
 	  	page.init();
@@ -199,7 +201,5 @@
 	  		page.setData({"name":name});
 	  		page.init();
 	  	});
-	  	
-	  	
 	</script>
 </html>

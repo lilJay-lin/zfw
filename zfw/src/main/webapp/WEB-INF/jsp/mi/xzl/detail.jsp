@@ -19,20 +19,20 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-shop-detail-container')">
-							<h2>商铺信息</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-xzl-detail-container')">
+							<h2>写字楼信息</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-shop-image-container')" >
-							<h2>商铺图片信息</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-xzl-image-container')" >
+							<h2>写字楼图片信息</h2>
 						</div>
-						<%@include file="shopPhotoList.jsp" %>
+						<%@include file="xzlPhotoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-shop-panos-container')">
-							<h2>商铺全景信息</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-xzl-panos-container')">
+							<h2>写字楼全景信息</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
@@ -79,17 +79,17 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
-	openCloseDetail('js-shop-detail-container');
+	openCloseDetail('js-xzl-detail-container');
 	/*
 	 * 返回
 	 */
 	$("#detail-cancle").on("click",function(){
-			window.location.href = "${ctx}/mi/shop";
+			window.location.href = "${ctx}/mi/xzl";
 	});
 	$(".js-edit-operation").hide();
-	function initShopData(){
-		var id = $("#shopId").val();
-		var getDataUrl = "${ctx}/mi/shop/"+id;
+	function initXZLData(){
+		var id = $("#officeBuildingId").val();
+		var getDataUrl = "${ctx}/mi/xzl/"+id;
 		$.ajax({
 			type:"get",
 			url:getDataUrl,
@@ -97,26 +97,26 @@
 			dataType:"json",
 			success:function(data){
 				if(data){
-					var shop = data.shop;
-					for(var i in shop){
+					var officeBuilding = data.officeBuilding;
+					for(var i in officeBuilding){
 						var ele = $("[name="+i+"]");
 						if(ele[0]){
-							ele.val(shop[i]);
+							ele.val(officeBuilding[i]);
 							ele.attr("readonly","readonly");
 							ele.attr("disabled","disabled");
 						}
 					}
-					if(!!shop.preImageUrl){
-						$(".control-user-img").attr("src",shop.preImageUrl)
+					if(!!officeBuilding.preImageUrl){
+						$(".control-user-img").attr("src",officeBuilding.preImageUrl)
 					}
 				}
 			},
 			error:function(){
-				alert("获取商铺信息失败");
+				alert("获取写字楼信息失败");
 			}
 		});
 	}
-		//initShopData();
+		//initofficeBuildingData();
 		$("#submit").hide();
 		$(".uploader").hide();
 	</script>

@@ -19,20 +19,20 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-shop-detail-container')">
-							<h2>编辑商铺</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-xzl-detail-container')">
+							<h2>编辑写字楼</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-shop-image-container')">
-							<h2>编辑商铺图片</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-xzl-image-container')">
+							<h2>编辑写字楼图片</h2>
 						</div>
-						<%@include file="shopPhotoList.jsp" %>
+						<%@include file="xzlPhotoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-shop-panos-container')">
-							<h2>管理商铺全景</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-xzl-panos-container')">
+							<h2>管理写字楼全景</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
@@ -67,10 +67,10 @@
 			<td>{{name}}</td>
 			<td>{{description}}</td>
 			<td>
-				<a class="btn btn-info" href="${ctx}/mi/${shopId}/spphoto/{{id}}/detail">
+				<a class="btn btn-info" href="${ctx}/mi/${officeBuildingId}/xzlphoto/{{id}}/detail">
 					<i class="icon-zoom-in "></i>                                            
 				</a>
-				<a class="btn btn-info" href="${ctx}/mi/${shopId}/spphoto/{{id}}/edit">
+				<a class="btn btn-info" href="${ctx}/mi/${officeBuildingId}/xzlphoto/{{id}}/edit">
 					<i class="icon-edit "></i>                                            
 				</a>
 				<a class="btn btn-danger" href="javascript:;" onclick="delPhoto(this,'{{id}}');return false;" data-id="{{id}}">
@@ -92,10 +92,10 @@
 			<td>{{contentUrl}}</td>
 			<td>{{description}}</td>
 			<td>
-				<a class="btn btn-info" href="${ctx}/mi/${shopId}/sppano/{{id}}/detail">
+				<a class="btn btn-info" href="${ctx}/mi/${officeBuildingId}/xzlpano/{{id}}/detail">
 					<i class="icon-zoom-in "></i>                                            
 				</a>
-				<a class="btn btn-info" href="${ctx}/mi/${shopId}/sppano/{{id}}/edit">
+				<a class="btn btn-info" href="${ctx}/mi/${officeBuildingId}/xzlpano/{{id}}/edit">
 					<i class="icon-edit "></i>                                            
 				</a>
 				<a class="btn btn-danger" href="javascript:;" onclick="delPano(this,'{{id}}');return false;" data-id="{{id}}">
@@ -109,8 +109,8 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
-	   openCloseDetail('js-shop-detail-container');
-	   
+		openCloseDetail('js-xzl-detail-container');
+		
 		$("#submit").click(function(){
 			var btn=$(this);
 			var form = $(".form");
@@ -121,7 +121,7 @@
 			var res = form.validate();
 			if(res){
 				var data = getSaveData();
-			   var url = "${ctx}/mi/shop/${shopId}";
+			   var url = "${ctx}/mi/xzl/${officeBuildingId}";
 			btn.attr("disabled","disabled");
 			btn.addClass("disabled");
 			   $.ajax({
@@ -143,13 +143,13 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-//			   				window.location.href="${ctx}/mi/shop/${repId}/edit";
+//			   				window.location.href="${ctx}/mi/xzl/${repId}/edit";
 			   			}
 			   		}
 			   	},
 			   	error:function(){
 			   		btn.removeAttr("disabled");
-			   		alert("新增商铺失败!");
+			   		alert("新增写字楼失败!");
 			   	},
 			   	complete:function(){
 			   		btn.removeAttr("disabled");
@@ -159,9 +159,9 @@
 				$("body").scrollTop(0);
 			}
 		});
-		function initShopData(){
-			var id = $("#shopId").val();
-			var getDataUrl = "${ctx}/mi/shop/"+id;
+		function initXZLData(){
+			var id = $("#officeBuildingId").val();
+			var getDataUrl = "${ctx}/mi/xzl/"+id;
 			$.ajax({
 				type:"get",
 				url:getDataUrl,
@@ -169,20 +169,19 @@
 				dataType:"json",
 				success:function(data){
 					if(data){
-						var shop = data.shop;
-						for(var i in shop){
-							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(shop[i]);
+						var officeBuilding = data.officeBuilding;
+						for(var i in officeBuilding){
+							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(officeBuilding[i]);
 						}
-						if(!!shop.preImageUrl){
-							$(".control-user-img").attr("src",shop.preImageUrl)
+						if(!!officeBuilding.preImageUrl){
+							$(".control-user-img").attr("src",officeBuilding.preImageUrl)
 						}
 					}
 				},
 				error:function(){
-					alert("获取商铺信息失败");
+					alert("获取写字楼信息失败");
 				}
 			});
 		}
-	//initShopData();
 	</script>
 </html>

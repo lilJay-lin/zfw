@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>商铺全景详情</h2>
+							<h2>楼盘图片详情</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
@@ -51,11 +51,12 @@
 		 * 返回
 		 */
 		$("#detail-cancle").on("click",function(){
-				window.location.href = "${ctx}/mi/shop/${shopId}/edit";
-		});		
+				window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
+		});
+	
 		function initImageData(){
-			var id = $("#panoId").val();
-			var getImageUrl = "${ctx}/mi/sppano/"+id;
+			var id = $("#imageId").val();
+			var getImageUrl = "${ctx}/mi/xzlphoto/"+id;
 			$.ajax({
 				type:"get",
 				url:getImageUrl,
@@ -72,19 +73,22 @@
 								ele.attr("disabled","disabled");
 							}
 						}
-						var preImageUrl = image["preImageUrl"];
-						if(preImageUrl){
-							$(".control-user-img").attr("src",preImageUrl);
+						var contentUrl = image["contentUrl"];
+						if(contentUrl){
+							$(".control-user-img").attr("src",contentUrl);
 						}
 					}
 				},
 				error:function(){
-					alert("获取楼盘全景信息失败");
+					alert("获取楼盘图片信息失败");
 				}
 			});
 		}
 		initImageData();
 		$("#submit").hide();
+		$("#cancle").on("click",function(){
+			window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
+		});
 		$(".uploader").hide();
 	</script>
 </html>

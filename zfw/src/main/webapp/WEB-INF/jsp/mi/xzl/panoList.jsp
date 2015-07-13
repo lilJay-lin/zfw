@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="box-cnt js-shop-panos-container" style="display:none">
+<div class="box-cnt js-xzl-panos-container" style="display:none">
 	<div class="datatable" id="panoList">
 		<div class="datatabls-filter">
 			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
@@ -24,7 +24,7 @@
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
 				</select> <a class="btn" href="javascript:;" onclick="panoBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/${shopId }/sppano/add">新增</a>
+				<a class="btn" href="${ctx}/mi/${officeBuildingId }/xzlpano/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -77,7 +77,7 @@
 	  		}
 	  		var obj = {delFlag:true};
 	  		panoDeling = true;
-	  		var url = "${ctx}/mi/sppanos";
+	  		var url = "${ctx}/mi/xzlpanos";
 	  		$.ajax({
 	  			type:"post",
 	  			data:$.extend({"panoIds":panoIds},obj),
@@ -111,7 +111,7 @@
 	  	var panoPage = new Page({
 	  			container:"#panoList",
 	  			template:"#pano-template",
-	  			url:"${ctx}/mi/${shopId}/sppano/page/",
+	  			url:"${ctx}/mi/${officeBuildingId}/xzlpano/page/",
 	  			data:{pageSize:10}
 	  	});
 	  	

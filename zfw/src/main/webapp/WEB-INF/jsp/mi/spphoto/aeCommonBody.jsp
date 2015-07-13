@@ -39,10 +39,6 @@
 					<textarea name="description" maxlength="200"></textarea>
 				</div>
 			</div>
-			<div class="form-actions">
-			  <button type="button" class="btn btn-primary" id="submit">保存</button>
-			  <button type="reset" class="btn" id="cancle">返回</button>
-			</div>
 		</fieldset>
 	</div>
 </div>

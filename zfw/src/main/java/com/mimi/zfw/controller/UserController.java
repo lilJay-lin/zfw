@@ -469,6 +469,24 @@ public class UserController {
 	}
 	return jo.toString();
     }
+    @RequestMapping(value = "/mi/user/uploadHeadImg", method = {RequestMethod.POST })
+    public @ResponseBody Object miUpload(HttpServletRequest request,
+	    @RequestParam("theFile") MultipartFile theFile) {
+
+	JSONObject jo = new JSONObject();
+	try {
+	    String path = aossService.saveFileToServer(theFile);
+	    path = aossService.addImgParams(path,
+		    Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
+	    jo.put("imgPath", path);
+	    jo.put("success", true);
+	} catch (IOException e) {
+	    LOG.error("保存用户头像出错！", e);
+	    jo.put("success", false);
+	    jo.put("msg", "保存图片失败");
+	}
+	return jo.toString();
+    }
 
     @RequestMapping(value = "/mi/users", method = { RequestMethod.GET })
     public String miUser(HttpServletRequest request) {
@@ -669,16 +687,19 @@ public class UserController {
     public Object updateBatchUser(HttpServletRequest request, User user,
 	    String userids) {
 	JSONObject jo = new JSONObject();
-
+	boolean delflag = user.getDelFlag() == null ?false:user.getDelFlag();
+	String success = delflag==true?"用户删除成功":"用户更新成功";
+	String error = delflag==true?"用户删除失败":"用户更新失败";
+	
 	try {
 	    userService.updateBatchUser(userids, user);
-
+	    
 	    jo.put("success", true);
-	    jo.put("msg", "用户更新成功");
+	    jo.put("msg", success);
 	} catch (Exception e) {
 	    jo.put("success", false);
-	    jo.put("msg", "用户更新失败");
-	    LOG.error("更新用户信息失败！",e);
+	    jo.put("msg",error);
+	    LOG.error(error,e);
 	}
 
 	return jo.toString();

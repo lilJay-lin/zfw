@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>用户管理</h2>
+							<h2>角色管理</h2>
 						</div>
 						<div class="box-cnt">
 							<div class="datatable" id="roleinfo">
@@ -53,8 +53,8 @@
 									<div class="toolbar">
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
-											<option value="unlock">解冻</option>
-											<option value="lock">锁定</option>
+											<!--<option value="unlock">解冻</option>
+											<option value="lock">锁定</option>-->
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
 										<a class="btn" href="${ctx}/mi/role/add">新增</a>
@@ -167,10 +167,15 @@
 	  		var obj = {delFlag:true};
 	  		update(e,id,obj);
 	  	}
+	  	var deling = false;
 	  	function update(e,ids,obj){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		var $e = $(this);
 	  		if( $e.data("lazy")){
-	  			return ;
+	  			alert("正在删除角色,请稍后再操作");
+	  			return;
 	  		}
 	  		 $e.data("lazy",1);
 	  		var url = "${ctx}/mi/roles";

@@ -58,14 +58,14 @@
 			}
 			var res = form.validate();
 			if(res){
-				var shopImage = getImageData();
-			   var url = "${ctx}/mi/spphoto";
+				var xzlImage = getImageData();
+			   var url = "${ctx}/mi/xzlphoto";
 			btn.attr("disabled","disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
 			   	async:true,
-			   	data:shopImage,
+			   	data:xzlImage,
 			   	dataType:"json",
 			   	success:function(data){
 			   		if(data){
@@ -81,7 +81,7 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/shop/${shopId}/edit";
+			   				window.location.href="${ctx}/mi/xzl/${officeBuildingId}/edit";
 			   			}
 			   		}
 			   	},

@@ -20,12 +20,13 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>商铺全景详情</h2>
+							<h2>编辑商铺全景</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn" id="detail-cancle">返回</button>
+					  <button type="button" class="btn btn-primary" id="submit">保存</button>
+					  <button type="reset" class="btn" id="cancle">返回</button>
 					</div>
 				</div>
 			</div>
@@ -46,16 +47,57 @@
 		<!-- 底部区域结束     -->
 		
 	</body>
+	<%@include file="aeCommonBottom.jsp" %>
 	<script>
-		/*
-		 * 返回
-		 */
-		$("#detail-cancle").on("click",function(){
-				window.location.href = "${ctx}/mi/shop/${shopId}/edit";
-		});		
+		
+		$("#submit").click(function(){
+			var btn=$(this);
+			var form = $(".form");
+			if(!!uploading){
+				alert("图像正在上传，请稍后..");
+				return ;
+			}
+			var res = form.validate();
+			if(res){
+				var image = getImageData();
+			   var url = "${ctx}/mi/xzlpano/${panoId}";
+			btn.attr("disabled","disabled");
+			   $.ajax({
+			   	type:"POST",
+			   	url:url,
+			   	async:true,
+			   	data:image,
+			   	dataType:"json",
+			   	success:function(data){
+			   		if(data){
+			   			if(!data.success){
+			   				var name = data.field;
+			   				if(name){
+			   					var p = form.find("input[name='"+name+"']");
+			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   				}else{
+			   					alert(data.msg);
+			   				}
+			   			}else{
+			   				alert(data.msg);
+			   				window.location.href="${ctx}/mi/xzl/${officeBuildingId}/edit";
+			   			}
+			   		}
+			   	},
+			   	error:function(){
+			   		alert("更新商铺图片信息失败!");
+			   	},
+			   	complete:function(){
+			   		btn.removeAttr("disabled");
+			   	}
+			   });
+			}else{
+				$("body").scrollTop(0);
+			}
+		});
 		function initImageData(){
 			var id = $("#panoId").val();
-			var getImageUrl = "${ctx}/mi/sppano/"+id;
+			var getImageUrl = "${ctx}/mi/xzlpano/"+id;
 			$.ajax({
 				type:"get",
 				url:getImageUrl,
@@ -65,12 +107,7 @@
 					if(data){
 						var image = data.image;
 						for(var i in image){
-							var ele = $("[name="+i+"]");
-							if(ele[0]){
-								ele.val(image[i]);
-								ele.attr("readonly","readonly");
-								ele.attr("disabled","disabled");
-							}
+							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(image[i]);
 						}
 						var preImageUrl = image["preImageUrl"];
 						if(preImageUrl){
@@ -79,12 +116,10 @@
 					}
 				},
 				error:function(){
-					alert("获取楼盘全景信息失败");
+					alert("获取商铺图片信息失败");
 				}
 			});
 		}
 		initImageData();
-		$("#submit").hide();
-		$(".uploader").hide();
 	</script>
 </html>

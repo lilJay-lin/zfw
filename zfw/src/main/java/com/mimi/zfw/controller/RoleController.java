@@ -274,13 +274,13 @@ public class RoleController {
 	    roleService.updateBatchRole(roleids, role);
 
 	    jo.put("success", true);
-	    jo.put("msg", "角色更新成功");
+	    jo.put("msg", "角色删除成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "角色更新失败");
-	    LOG.error("更新角色信息失败！",e);
+	    jo.put("msg", "角色删除失败");
+	    LOG.error("删除角色信息失败！",e);
 	}
 
 	return jo.toString();

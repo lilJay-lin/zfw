@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增商铺图片</h2>
+							<h2>新增写字楼</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
@@ -48,24 +48,49 @@
 		
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
+	<script type="text/x-handlebars" id="photo-template">
+		{{#each this}}
+		<tr>
+			<td>
+				<input type="checkbox" value="{{id}}"/>
+			</td>
+			<td><img src="{{contentUrl}}" style="width:100px"></td>
+			<td>{{name}}</td>
+			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${xzlId}/xzlphoto/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+				<a class="btn btn-info" href="${ctx}/mi/${xzlId}/xzlphoto/{{id}}/edit">
+					<i class="icon-edit "></i>                                            
+				</a>
+				<a class="btn btn-danger" href="javascript:;" onclick="delPhoto(this,'{{id}}');return false;" data-id="{{id}}">
+					<i class="icon-trash "></i> 
+				</a>
+			</td>
+		</tr>
+		{{/each}}
+	
+	</script>
 	<script>
-		
+		openCloseDetail('js-xzl-detail-container');
 		$("#submit").click(function(){
 			var btn=$(this);
 			var form = $(".form");
 			if(!!uploading){
-				alert("图像正在上传，请稍后..")
+				alert("图像正在上传，请稍后..");
+				return ;
 			}
 			var res = form.validate();
 			if(res){
-				var shopImage = getImageData();
-			   var url = "${ctx}/mi/spphoto";
-			btn.attr("disabled","disabled");
+				var shop = getSaveData();
+			   var url = "${ctx}/mi/xzl";
+			  btn.attr("disabled","disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
 			   	async:true,
-			   	data:shopImage,
+			   	data:{"shop":shop},
 			   	dataType:"json",
 			   	success:function(data){
 			   		if(data){
@@ -81,13 +106,13 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/shop/${shopId}/edit";
+//			   				window.location.href="${ctx}/mi/xzl/${repId}/edit";
 			   			}
 			   		}
 			   	},
 			   	error:function(){
 			   		btn.removeAttr("disabled");
-			   		alert("新增商铺图片失败!");
+			   		alert("新增写字楼失败!");
 			   	}
 			   });
 			}else{

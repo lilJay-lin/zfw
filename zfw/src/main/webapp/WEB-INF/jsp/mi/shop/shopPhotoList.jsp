@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <div class="box-cnt js-shop-image-container" style="display:none">
 	<div class="datatable" id="photoList">
-		<div class="datatabls-filter js-edit-operation">
+		<div class="datatabls-filter">
 			<label> 
 			<!--搜索：--> 
 				<input type="text" class="js-search-text"  placeholder="名称"/>
@@ -69,6 +69,9 @@
 	  		delPhoto(e,imageIds);
 	  	}
 	  	function delPhoto(e,imageIds){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(photoDeling){
 	  			alert("正在删除图片,请稍后再操作");
 	  			return;

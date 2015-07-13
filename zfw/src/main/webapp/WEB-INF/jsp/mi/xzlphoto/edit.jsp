@@ -53,46 +53,69 @@
 		$("#submit").click(function(){
 			var btn=$(this);
 			var form = $(".form");
-			if(!!uploading){
-				alert("图像正在上传，请稍后..")
-			}
 			var res = form.validate();
 			if(res){
-				var shopImage = getImageData();
-			   var url = "${ctx}/mi/spphoto";
+				var image = getImageData();
+			   var url = "${ctx}/mi/xzlphoto/${imageId}";
 			btn.attr("disabled","disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
 			   	async:true,
-			   	data:shopImage,
+			   	data:image,
 			   	dataType:"json",
 			   	success:function(data){
 			   		if(data){
 			   			if(!data.success){
 			   				var name = data.field;
 			   				if(name){
-			   					var p = form.find("[name='"+name+"']");
+			   					var p = form.find("input[name='"+name+"']");
 			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
 			   				}else{
 			   					alert(data.msg);
 			   				}
-			   				btn.removeAttr("disabled");
-							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/shop/${shopId}/edit";
+			   				window.location.href="${ctx}/mi/xzl/${officeBuildingId}/edit";
 			   			}
 			   		}
 			   	},
 			   	error:function(){
+			   		alert("更新商铺图片信息失败!");
+			   	},
+			   	complete:function(){
 			   		btn.removeAttr("disabled");
-			   		alert("新增商铺图片失败!");
 			   	}
 			   });
 			}else{
 				$("body").scrollTop(0);
 			}
 		});
+		function initImageData(){
+			var id = $("#imageId").val();
+			var getImageUrl = "${ctx}/mi/xzlphoto/"+id;
+			$.ajax({
+				type:"get",
+				url:getImageUrl,
+				async:true,
+				dataType:"json",
+				success:function(data){
+					if(data){
+						var image = data.image;
+						for(var i in image){
+							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(image[i]);
+						}
+						var contentUrl = image["contentUrl"];
+						if(contentUrl){
+							$(".control-user-img").attr("src",contentUrl);
+						}
+					}
+				},
+				error:function(){
+					alert("获取商铺图片信息失败");
+				}
+			});
+		}
+		initImageData();
 	</script>
 </html>

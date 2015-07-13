@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增商铺图片</h2>
+							<h2>新增写字楼全景</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
@@ -58,14 +58,14 @@
 			}
 			var res = form.validate();
 			if(res){
-				var shopImage = getImageData();
-			   var url = "${ctx}/mi/spphoto";
+				var image = getImageData();
+			   var url = "${ctx}/mi/xzlpano";
 			btn.attr("disabled","disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
 			   	async:true,
-			   	data:shopImage,
+			   	data:image,
 			   	dataType:"json",
 			   	success:function(data){
 			   		if(data){
@@ -81,13 +81,13 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/shop/${shopId}/edit";
+			   				window.location.href="${ctx}/mi/xzl/${officeBuildingId}/edit";
 			   			}
 			   		}
 			   	},
 			   	error:function(){
 			   		btn.removeAttr("disabled");
-			   		alert("新增商铺图片失败!");
+			   		alert("新增写字楼全景失败!");
 			   	}
 			   });
 			}else{

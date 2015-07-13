@@ -2,7 +2,7 @@
 <div class="box-cnt js-rep-detail-container">
 	<div class="form">
 		<fieldset>
-			<input type="hidden" id="shopId" name ="shopId" value="${shopId}" />
+			<input type="hidden" id="officeBuildingId" name ="officeBuildingId" value="${officeBuildingId}" />
 			<input type="hidden" id="panoId" name ="id" value="${panoId}" />
 			<div class="control-group">
 				<label class="control-label">名称</label>
