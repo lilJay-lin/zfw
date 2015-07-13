@@ -55,34 +55,34 @@ public class RealEstateProjectServiceImpl extends
 
 	@Resource
 	private RealEstateProjectMapper repm;
-	
+
 	@Resource
 	private REPImageMapper repim;
-	
+
 	@Resource
 	private REPPanoMapper reppm;
-	
+
 	@Resource
 	private REPVideoMapper repvm;
 
 	@Resource
 	private HouseTypeMapper htm;
-	
+
 	@Resource
 	private HTImageMapper htim;
-	
+
 	@Resource
 	private HTPanoMapper htpm;
-	
+
 	@Resource
 	private HTRingMapper htrm;
-	
+
 	@Resource
 	private RelationREPAndInformationMapper rrim;
-	
+
 	@Resource
 	private RelationUserAndREPMapper rurm;
-	
+
 	@Resource
 	private REPAvgPriceHistoryMapper raphm;
 
@@ -168,17 +168,17 @@ public class RealEstateProjectServiceImpl extends
 		// "预计2015年下半年一期9栋楼交房", "预计2015年下半年一期9栋楼交房" };
 		int[] parkingSpaceNumList = { 123, 125, 521, 21, 5124, 123, 125, 521,
 				21, 5124 };
-//		String[] preImageUrlList = {
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
-//				"http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg" };
+		// String[] preImageUrlList = {
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg",
+		// "http://i3.sinaimg.cn/hs/2010/0901/S18375T1283345502659.jpg" };
 		String[] preImageUrlList = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		String[] preSalePermitList = { "京房售证字(2014)188号", "京房售证字(2014)188号",
 				"京房售证字(2014)188号", "京房售证字(2014)188号", "京房售证字(2014)188号",
@@ -191,18 +191,20 @@ public class RealEstateProjectServiceImpl extends
 				"北京首开鸿城实业有限公司" };
 		float[] propertyFeeList = { 1.2f, 2.0f, 1.5f, 1.2f, 2.0f, 1.5f, 1.2f,
 				2.0f, 1.5f, 2.5f };
-//		String[] imgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"};
-//		String[] preImgUrl = {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg"};
+		// String[] imgUrl =
+		// {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_b.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_b.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_b.jpg"};
+		// String[] preImgUrl =
+		// {"https://farm3.staticflickr.com/2567/5697107145_3c27ff3cd1_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg","https://farm6.staticflickr.com/5023/5578283926_822e5e5791_m.jpg","https://farm7.staticflickr.com/6175/6176698785_7dee72237e_m.jpg","https://farm2.staticflickr.com/1043/5186867718_06b2e9e551_m.jpg"};
 		String[] imgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
 		String[] preImgUrl = Constants.ALIYUN_OSS_TEST_IMG_URLS;
-//		Date nowDate = new Date(System.currentTimeMillis());
+		// Date nowDate = new Date(System.currentTimeMillis());
 
 		for (int j = 0; j < 5; j++) {
 			for (int i = 0; i < nameList.length; i++) {
-				//楼盘
+				// 楼盘
 				RealEstateProject rep = new RealEstateProject();
 				rep.setId(UUID.randomUUID().toString());
-//				rep.setCreateDate(nowDate);
+				// rep.setCreateDate(nowDate);
 
 				if (i == 3) {
 					repm.insertSelective(rep);
@@ -227,7 +229,7 @@ public class RealEstateProjectServiceImpl extends
 				rep.setLatitude(lat);
 				rep.setLongitude(lon);
 
-				rep.setMaxRoomGrossFloorArea((int) (Math.random() * 100)+100);
+				rep.setMaxRoomGrossFloorArea((int) (Math.random() * 100) + 100);
 				rep.setMinRoomGrossFloorArea((int) (rep
 						.getMaxRoomGrossFloorArea() - Math.random() * 100));
 
@@ -285,13 +287,13 @@ public class RealEstateProjectServiceImpl extends
 				rep.setOverFiveRoomNum((int) (Math.random() * 10));
 				repm.insertSelective(rep);
 
-				//户型
+				// 户型
 				int tempRGFA = rep.getMaxRoomGrossFloorArea()
 						- rep.getMinRoomGrossFloorArea();
 				for (int k = 0; k < 10; k++) {
 					HouseType ht = new HouseType();
 					ht.setId(UUID.randomUUID().toString());
-//					ht.setCreateDate(nowDate);
+					// ht.setCreateDate(nowDate);
 					ht.setRealEstateProjectId(rep.getId());
 					ht.setRealEstateProjectName(rep.getName());
 
@@ -313,96 +315,95 @@ public class RealEstateProjectServiceImpl extends
 					ht.setTags("标签1,标签2,标签3");
 					ht.setToiletNum((int) (Math.random() + 1));
 
-					
-					for(int ki=0;ki<imgUrl.length;ki++){
+					for (int ki = 0; ki < imgUrl.length; ki++) {
 						HTImage hi = new HTImage();
 						hi.setId(UUID.randomUUID().toString());
-//						hi.setCreateDate(nowDate);
+						// hi.setCreateDate(nowDate);
 						hi.setHouseTypeId(ht.getId());
 						hi.setContentUrl(imgUrl[ki]);
 						hi.setName("蝴蝶");
 						hi.setDescription("描述爱丽丝疯狂就阿斯兰的房间啦拉伸到卡机上了k");
-						
+
 						HTPano hp = new HTPano();
 						hp.setId(UUID.randomUUID().toString());
-//						hp.setCreateDate(nowDate);
+						// hp.setCreateDate(nowDate);
 						hp.setHouseTypeId(ht.getId());
 						hp.setContentUrl("http://www.baidu.com");
 						hp.setPreImageUrl(preImgUrl[ki]);
 						hp.setName("哇哇");
 						hp.setDescription("水电费水电费阿斯蒂芬 ");
-						
+
 						HTRing hr = new HTRing();
 						hr.setId(UUID.randomUUID().toString());
-//						hr.setCreateDate(nowDate);
+						// hr.setCreateDate(nowDate);
 						hr.setHouseTypeId(ht.getId());
 						hr.setContentUrl("http://www.baidu.com");
 						hr.setPreImageUrl(preImgUrl[ki]);
 						hr.setName("嘻嘻");
 						hr.setDescription("是打发第三方");
-						
+
 						htim.insertSelective(hi);
 						htpm.insertSelective(hp);
 						htrm.insertSelective(hr);
 					}
-					
+
 					htm.insertSelective(ht);
 				}
-				
-				for(int v=0;v<imgUrl.length;v++){
+
+				for (int v = 0; v < imgUrl.length; v++) {
 					REPVideo rv = new REPVideo();
 					rv.setId(UUID.randomUUID().toString());
 					rv.setRealEstateProjectId(rep.getId());
-//					rv.setCreateDate(nowDate);
+					// rv.setCreateDate(nowDate);
 					rv.setContentUrl("http://www.baidu.com");
 					rv.setPreImageUrl(preImgUrl[v]);
-					
+
 					repvm.insertSelective(rv);
-					
+
 					REPPano rp = new REPPano();
 					rp.setId(UUID.randomUUID().toString());
 					rp.setRealEstateProjectId(rep.getId());
-//					rp.setCreateDate(nowDate);
+					// rp.setCreateDate(nowDate);
 					rp.setContentUrl("http://www.baidu.com");
 					rp.setPreImageUrl(preImgUrl[v]);
-					
+
 					reppm.insertSelective(rp);
 
-					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+					for (int vv = 0; vv < (int) (Math.random() * 3); vv++) {
 						REPImage ri = new REPImage();
 						ri.setId(UUID.randomUUID().toString());
 						ri.setRealEstateProjectId(rep.getId());
-//						ri.setCreateDate(nowDate);
+						// ri.setCreateDate(nowDate);
 						ri.setContentUrl(imgUrl[v]);
 						ri.setType(Constants.REP_IMAGE_TYPE_JTT);
 						repim.insertSelective(ri);
 					}
 
-					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+					for (int vv = 0; vv < (int) (Math.random() * 3); vv++) {
 						REPImage ri = new REPImage();
 						ri.setId(UUID.randomUUID().toString());
 						ri.setRealEstateProjectId(rep.getId());
-//						ri.setCreateDate(nowDate);
+						// ri.setCreateDate(nowDate);
 						ri.setContentUrl(imgUrl[v]);
 						ri.setType(Constants.REP_IMAGE_TYPE_PTT);
 						repim.insertSelective(ri);
 					}
 
-					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+					for (int vv = 0; vv < (int) (Math.random() * 3); vv++) {
 						REPImage ri = new REPImage();
 						ri.setId(UUID.randomUUID().toString());
 						ri.setRealEstateProjectId(rep.getId());
-//						ri.setCreateDate(nowDate);
+						// ri.setCreateDate(nowDate);
 						ri.setContentUrl(imgUrl[v]);
 						ri.setType(Constants.REP_IMAGE_TYPE_SJT);
 						repim.insertSelective(ri);
 					}
 
-					for(int vv=0;vv<(int)(Math.random()*3);vv++){
+					for (int vv = 0; vv < (int) (Math.random() * 3); vv++) {
 						REPImage ri = new REPImage();
 						ri.setId(UUID.randomUUID().toString());
 						ri.setRealEstateProjectId(rep.getId());
-//						ri.setCreateDate(nowDate);
+						// ri.setCreateDate(nowDate);
 						ri.setContentUrl(imgUrl[v]);
 						ri.setType(Constants.REP_IMAGE_TYPE_XGT);
 						repim.insertSelective(ri);
@@ -558,18 +559,18 @@ public class RealEstateProjectServiceImpl extends
 
 	@Override
 	public List<RealEstateProject> getREPByInfoId(String id) {
-		if(StringUtils.isBlank(id)){
+		if (StringUtils.isBlank(id)) {
 			return null;
 		}
 		RelationREPAndInformationExample rrie = new RelationREPAndInformationExample();
 		rrie.or().andInformationIdEqualTo(id).andDelFlagEqualTo(false);
 		List<RelationREPAndInformation> relations = rrim.selectByExample(rrie);
-		if(relations!=null && !relations.isEmpty()){
+		if (relations != null && !relations.isEmpty()) {
 			List<String> repIds = new ArrayList<String>();
-			for(int i=0;i<relations.size();i++){
+			for (int i = 0; i < relations.size(); i++) {
 				repIds.add(relations.get(i).getRealEstateProjectId());
 			}
-			if(!repIds.isEmpty()){
+			if (!repIds.isEmpty()) {
 				RealEstateProjectExample repe = new RealEstateProjectExample();
 				repe.or().andIdIn(repIds).andDelFlagEqualTo(false);
 				List<RealEstateProject> list = repm.selectByExample(repe);
@@ -593,7 +594,7 @@ public class RealEstateProjectServiceImpl extends
 			return resMap;
 		}
 		resMap = checkInfo(rep);
-		if(!resMap.isEmpty()){
+		if (!resMap.isEmpty()) {
 			return resMap;
 		}
 		rep.setId(UUID.randomUUID().toString());
@@ -647,14 +648,15 @@ public class RealEstateProjectServiceImpl extends
 			return resMap;
 		}
 		resMap = checkInfo(rep);
-		if(!resMap.isEmpty()){
+		if (!resMap.isEmpty()) {
 			return resMap;
 		}
 		rep.setLastEditor(curUserId);
 		repm.updateByPrimaryKeySelective(rep);
 		addREPAvgPriceHistory(rep);
 		if (StringUtils.isNotBlank(addInfoRelations)) {
-			String[] ids = addInfoRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			String[] ids = addInfoRelations
+					.split(Constants.MI_IDS_SPLIT_STRING);
 			for (String infoId : ids) {
 				if (StringUtils.isNotBlank(infoId)) {
 					RelationREPAndInformation rri = new RelationREPAndInformation();
@@ -668,7 +670,8 @@ public class RealEstateProjectServiceImpl extends
 			}
 		}
 		if (StringUtils.isNotBlank(addUserRelations)) {
-			String[] ids = addUserRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			String[] ids = addUserRelations
+					.split(Constants.MI_IDS_SPLIT_STRING);
 			for (String userId : ids) {
 				if (StringUtils.isNotBlank(userId)) {
 					RelationUserAndREP rur = new RelationUserAndREP();
@@ -682,16 +685,19 @@ public class RealEstateProjectServiceImpl extends
 			}
 		}
 		if (StringUtils.isNotBlank(delInfoRelations)) {
-			String[] ids = delInfoRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			String[] ids = delInfoRelations
+					.split(Constants.MI_IDS_SPLIT_STRING);
 			List<String> idList = new ArrayList<String>();
 			for (String infoId : ids) {
 				if (StringUtils.isNotBlank(infoId)) {
 					idList.add(infoId);
 				}
 			}
-			if(!idList.isEmpty()){
+			if (!idList.isEmpty()) {
 				RelationREPAndInformationExample rrie = new RelationREPAndInformationExample();
-				rrie.or().andInformationIdIn(idList).andRealEstateProjectIdEqualTo(rep.getId()).andDelFlagEqualTo(false);
+				rrie.or().andInformationIdIn(idList)
+						.andRealEstateProjectIdEqualTo(rep.getId())
+						.andDelFlagEqualTo(false);
 				RelationREPAndInformation rri = new RelationREPAndInformation();
 				rri.setLastEditor(curUserId);
 				rri.setDelFlag(true);
@@ -699,16 +705,19 @@ public class RealEstateProjectServiceImpl extends
 			}
 		}
 		if (StringUtils.isNotBlank(delUserRelations)) {
-			String[] ids = delUserRelations.split(Constants.MI_IDS_SPLIT_STRING);
+			String[] ids = delUserRelations
+					.split(Constants.MI_IDS_SPLIT_STRING);
 			List<String> idList = new ArrayList<String>();
 			for (String userId : ids) {
 				if (StringUtils.isNotBlank(userId)) {
 					idList.add(userId);
 				}
 			}
-			if(!idList.isEmpty()){
+			if (!idList.isEmpty()) {
 				RelationUserAndREPExample rure = new RelationUserAndREPExample();
-				rure.or().andUserIdIn(idList).andRealEstateProjectIdEqualTo(rep.getId()).andDelFlagEqualTo(false);
+				rure.or().andUserIdIn(idList)
+						.andRealEstateProjectIdEqualTo(rep.getId())
+						.andDelFlagEqualTo(false);
 				RelationUserAndREP rur = new RelationUserAndREP();
 				rur.setLastEditor(curUserId);
 				rur.setDelFlag(true);
@@ -717,9 +726,9 @@ public class RealEstateProjectServiceImpl extends
 		}
 		return resMap;
 	}
-	
-	private void addREPAvgPriceHistory(RealEstateProject rep){
-		if(rep!=null && rep.getAveragePrice()!=null){
+
+	private void addREPAvgPriceHistory(RealEstateProject rep) {
+		if (rep != null && rep.getAveragePrice() != null) {
 			REPAvgPriceHistory raph = new REPAvgPriceHistory();
 			raph.setId(UUID.randomUUID().toString());
 			raph.setCreater(rep.getLastEditor());
@@ -729,7 +738,7 @@ public class RealEstateProjectServiceImpl extends
 			raphm.insertSelective(raph);
 		}
 	}
-	
+
 	private Map<String, String> checkInfo(RealEstateProject rep) {
 		Map<String, String> resMap = new HashMap<String, String>();
 		if (rep == null) {
@@ -740,13 +749,25 @@ public class RealEstateProjectServiceImpl extends
 			resMap.put("msg", "楼盘缩略图不能为空");
 			return resMap;
 		}
-		if (rep.getAveragePrice() != null) {
+		if (rep.getAveragePrice() == null) {
 			resMap.put("msg", "楼盘均价不能为空");
 			return resMap;
 		}
 		if (StringUtils.isBlank(rep.getName())) {
 			resMap.put("msg", "楼盘名称不能为空");
 			return resMap;
+		}else{
+			RealEstateProjectExample repe = new RealEstateProjectExample();
+			repe.or().andNameEqualTo(rep.getName()).andDelFlagEqualTo(false);
+			List<RealEstateProject> repList = repm.selectByExample(repe);
+			if(repList!=null && !repList.isEmpty()){
+				for(RealEstateProject tempRep : repList){
+					if(!tempRep.getId().equals(rep.getId())){
+						resMap.put("msg", "楼盘名称已存在");
+						return resMap;
+					}
+				}
+			}
 		}
 		return resMap;
 	}
@@ -771,45 +792,46 @@ public class RealEstateProjectServiceImpl extends
 				repIdList.add(repIdArr[i]);
 			}
 		}
-		
-		if(!repIdList.isEmpty()){
-			//删除楼盘
+
+		if (!repIdList.isEmpty()) {
+			// 删除楼盘
 			RealEstateProjectExample repe = new RealEstateProjectExample();
 			repe.or().andIdIn(repIdList).andDelFlagEqualTo(false);
 			RealEstateProject rep = new RealEstateProject();
 			rep.setDelFlag(true);
 			rep.setLastEditor(curUserId);
 			repm.updateByExampleSelective(rep, repe);
-			
-			//删除户型
+
+			// 删除户型
 			HouseTypeExample hte = new HouseTypeExample();
-			hte.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			hte.or().andRealEstateProjectIdIn(repIdList)
+					.andDelFlagEqualTo(false);
 			List<HouseType> htList = htm.selectByExample(hte);
 
-			if(htList!=null && !htList.isEmpty()){
+			if (htList != null && !htList.isEmpty()) {
 				List<String> htIdList = new ArrayList<String>();
-				for(int i=0;i<htList.size();i++){
+				for (int i = 0; i < htList.size(); i++) {
 					htIdList.add(htList.get(i).getId());
 				}
 				HouseType ht = new HouseType();
 				ht.setDelFlag(true);
 				ht.setLastEditor(curUserId);
 				htm.updateByExampleSelective(ht, hte);
-				
+
 				HTPanoExample pe = new HTPanoExample();
 				pe.or().andHouseTypeIdIn(htIdList).andDelFlagEqualTo(false);
 				HTPano pano = new HTPano();
 				pano.setDelFlag(true);
 				pano.setLastEditor(curUserId);
 				htpm.updateByExampleSelective(pano, pe);
-				
+
 				HTRingExample re = new HTRingExample();
 				re.or().andHouseTypeIdIn(htIdList).andDelFlagEqualTo(false);
 				HTRing ring = new HTRing();
 				ring.setDelFlag(true);
 				ring.setLastEditor(curUserId);
 				htrm.updateByExampleSelective(ring, re);
-				
+
 				HTImageExample ie = new HTImageExample();
 				ie.or().andHouseTypeIdIn(htIdList).andDelFlagEqualTo(false);
 				HTImage image = new HTImage();
@@ -817,31 +839,84 @@ public class RealEstateProjectServiceImpl extends
 				image.setLastEditor(curUserId);
 				htim.updateByExampleSelective(image, ie);
 			}
-			
-			//删除用户关联关系
+
+			// 删除用户关联关系
 			RelationUserAndREPExample rure = new RelationUserAndREPExample();
-			rure.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			rure.or().andRealEstateProjectIdIn(repIdList)
+					.andDelFlagEqualTo(false);
 			RelationUserAndREP rur = new RelationUserAndREP();
 			rur.setDelFlag(true);
 			rur.setLastEditor(curUserId);
 			rurm.updateByExampleSelective(rur, rure);
-			
-			//删除资讯关联关系
+
+			// 删除资讯关联关系
 			RelationREPAndInformationExample rrie = new RelationREPAndInformationExample();
-			rrie.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			rrie.or().andRealEstateProjectIdIn(repIdList)
+					.andDelFlagEqualTo(false);
 			RelationREPAndInformation rri = new RelationREPAndInformation();
 			rri.setDelFlag(true);
 			rri.setLastEditor(curUserId);
 			rrim.updateByExampleSelective(rri, rrie);
-			
-			//删除历史价格记录
+
+			// 删除历史价格记录
 			REPAvgPriceHistoryExample raphe = new REPAvgPriceHistoryExample();
-			raphe.or().andRealEstateProjectIdIn(repIdList).andDelFlagEqualTo(false);
+			raphe.or().andRealEstateProjectIdIn(repIdList)
+					.andDelFlagEqualTo(false);
 			REPAvgPriceHistory raph = new REPAvgPriceHistory();
 			raph.setDelFlag(true);
 			raph.setLastEditor(curUserId);
 			raphm.updateByExampleSelective(raph, raphe);
 		}
 		return resMap;
+	}
+
+	@Override
+	public List<RealEstateProject> findByParams(String name, boolean ru,
+			Integer targetPage, Integer pageSize) {
+		RealEstateProjectExample repe = bindParams(name, ru);
+		if (repe != null) {
+			if (targetPage != null && pageSize != null) {
+				repe.setLimitStart(targetPage * pageSize);
+				repe.setLimitSize(pageSize);
+			}
+			repe.setOrderByClause("update_date desc,priority desc");
+			return repm.selectByExample(repe);
+		}
+		return null;
+	}
+
+	@Override
+	public int countByParams(String name, boolean ru) {
+		RealEstateProjectExample repe = bindParams(name, ru);
+		if (repe != null) {
+			return repm.countByExample(repe);
+		}
+		return 0;
+	}
+
+	private RealEstateProjectExample bindParams(String name, boolean ru) {
+		RealEstateProjectExample repe = new RealEstateProjectExample();
+		Criteria cri = repe.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if (StringUtils.isNotBlank(name)) {
+			cri.andNameLike("%" + name + "%");
+		}
+		if (ru) {
+			String curUserId = userService.getCurUserId();
+			if (StringUtils.isBlank(curUserId)) {
+				return null;
+			}
+			RelationUserAndREPExample rure = new RelationUserAndREPExample();
+			rure.or().andUserIdEqualTo(curUserId).andDelFlagEqualTo(false);
+			List<RelationUserAndREP> rurList = rurm.selectByExample(rure);
+			if (rurList != null && !rurList.isEmpty()) {
+				List<String> repList = new ArrayList<String>();
+				for (int i = 0; i < rurList.size(); i++) {
+					repList.add(rurList.get(i).getRealEstateProjectId());
+				}
+				cri.andIdIn(repList);
+			}
+		}
+		return repe;
 	}
 }

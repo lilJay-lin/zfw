@@ -86,8 +86,6 @@ public class XFController {
 		}
 		request.setAttribute("results", list);
 		request.setAttribute("total", totalNum);
-		// request.getSession().setAttribute("results", list);
-		// request.getSession().setAttribute("total", totalNum);
 		request.setAttribute("resultType", "楼盘");
 		return "ui/xf/index";
 	}
@@ -117,8 +115,6 @@ public class XFController {
 			}
 			request.setAttribute("results", list);
 			request.setAttribute("total", totalNum);
-			// request.getSession().setAttribute("results", list);
-			// request.getSession().setAttribute("total", totalNum);
 		} else {
 			List<HouseType> list = htService.findHouseTypeByParams(keyWord,
 					region, averagePrice, roomNum, grossFloorArea, saleStatus,
@@ -134,8 +130,6 @@ public class XFController {
 							Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
 				}
 			}
-			// request.getSession().setAttribute("results", list);
-			// request.getSession().setAttribute("total", totalNum);
 			request.setAttribute("results", list);
 			request.setAttribute("total", totalNum);
 		}
@@ -430,6 +424,11 @@ public class XFController {
 		return "mi/xf/index";
 	}
 
+	@RequestMapping(value = "/mi/xfru", method = { RequestMethod.GET })
+	public String toMIREPRU(HttpServletRequest request) {
+		return "mi/xf/indexRU";
+	}
+
 	@RequestMapping(value = "/mi/xf/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPByPage(HttpServletRequest request,
@@ -446,17 +445,42 @@ public class XFController {
 				: Integer.valueOf((String) request.getParameter("pagesize"));
 
 		try {
-			List<RealEstateProject> items = repService
-					.findRealEstateProjectByParams(name, null, null, null,
-							null, null, null, null, page, pageSize);
-			int rows = repService.countRealEstateProjectByParams(name, null,
-					null, null, null, null, null);
+//			List<RealEstateProject> items = repService
+//					.findRealEstateProjectByParams(name, null, null, null,
+//							null, null, null, null, page, pageSize);
+//			int rows = repService.countRealEstateProjectByParams(name, null,
+//					null, null, null, null, null);
+			List<RealEstateProject> items = repService.findByParams(name, false,
+					page, pageSize);
+			int rows = repService.countByParams(name, false);
 			int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 					/ pageSize + 1);
 			res = getJsonObject(rows, totalpage, curPage, pageSize, items,
 					true, "");
 		} catch (Exception e) {
-			LOG.error("楼盘查询失败",e);
+			LOG.error("楼盘查询失败", e);
+			res = getJsonObject(0, 0, curPage, pageSize, null, false, "楼盘查询失败");
+		}
+		return res;
+	}
+
+	@RequestMapping(value = "/mi/xfru/page/{curPage}", method = { RequestMethod.GET })
+	@ResponseBody
+	public Object getREPRUByPage(HttpServletRequest request, String name,
+			@PathVariable int curPage, Integer pageSize) {
+		Object res = null;
+		int page = curPage - 1 > 0 ? curPage - 1 : 0;
+		pageSize = pageSize == null ? Constants.DEFAULT_PAGE_SIZE : pageSize;
+		try {
+			List<RealEstateProject> items = repService.findByParams(name, true,
+					page, pageSize);
+			int rows = repService.countByParams(name, true);
+			int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
+					/ pageSize + 1);
+			res = getJsonObject(rows, totalpage, curPage, pageSize, items,
+					true, "");
+		} catch (Exception e) {
+			LOG.error("楼盘查询失败", e);
 			res = getJsonObject(0, 0, curPage, pageSize, null, false, "楼盘查询失败");
 		}
 		return res;
@@ -466,6 +490,12 @@ public class XFController {
 	public String toREPDetail(HttpServletRequest request,
 			@PathVariable String repId) {
 		return "/mi/xf/detail";
+	}
+
+	@RequestMapping(value = "/mi/xfru/{repId}/detail", method = { RequestMethod.GET })
+	public String toREPRUDetail(HttpServletRequest request,
+			@PathVariable String repId) {
+		return "/mi/xf/detailRU";
 	}
 
 	@RequestMapping(value = "/mi/xf/add", method = { RequestMethod.GET })
@@ -491,19 +521,18 @@ public class XFController {
 			}
 
 		} catch (Exception e) {
-			LOG.error("楼盘保存失败",e);
+			LOG.error("楼盘保存失败", e);
 			jo.put("success", false);
 			jo.put("msg", "楼盘保存失败!");
 		}
 		return jo.toString();
 	}
 
-
 	@RequestMapping(value = "/mi/xf/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREP(@PathVariable String id, HttpServletRequest request) {
 		JSONObject jo = new JSONObject();
-		
+
 		try {
 			RealEstateProject rep = repService.get(id);
 			if (rep != null) {
@@ -512,7 +541,8 @@ public class XFController {
 						Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
 				jo.put("rep", rep);
 				List<User> relationUserList = userService.getUsersByREPId(id);
-				List<Information> relationInfoList = infoService.findByREPId(id, 0, Integer.MAX_VALUE);
+				List<Information> relationInfoList = infoService.findByREPId(
+						id, 0, Integer.MAX_VALUE);
 				jo.put("relationUserList", relationUserList);
 				jo.put("relationInfoList", relationInfoList);
 			}
@@ -528,17 +558,26 @@ public class XFController {
 	@RequestMapping(value = "/mi/xf/{repId}/edit", method = { RequestMethod.GET })
 	public String toUpdateREP(HttpServletRequest request,
 			@PathVariable String repId) {
-//		model.addAttribute("repId", repId);
 		return "/mi/xf/edit";
+	}
+
+	@RequestMapping(value = "/mi/xfru/{repId}/edit", method = { RequestMethod.GET })
+	public String toUpdateREPRU(HttpServletRequest request,
+			@PathVariable String repId) {
+		return "/mi/xf/editRU";
 	}
 
 	@RequestMapping(value = "/mi/xf/{repId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateREP(HttpServletRequest request, RealEstateProject rep,
-			@PathVariable String repId, String addUserRelations, String delUserRelations, String addInfoRelations, String delInfoRelations) {
+			@PathVariable String repId, String addUserRelations,
+			String delUserRelations, String addInfoRelations,
+			String delInfoRelations) {
 		JSONObject jo = new JSONObject();
 		try {
-			Map<String, String> res = repService.updateREP(rep, addUserRelations, delUserRelations, addInfoRelations, delInfoRelations);
+			Map<String, String> res = repService.updateREP(rep,
+					addUserRelations, delUserRelations, addInfoRelations,
+					delInfoRelations);
 			if (res.isEmpty()) {
 				jo.put("success", true);
 				jo.put("msg", "更新楼盘成功!");
@@ -554,7 +593,7 @@ public class XFController {
 		}
 		return jo.toString();
 	}
-	
+
 	@RequestMapping(value = "/mi/xf/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTPano(HttpServletRequest request, String repIds) {

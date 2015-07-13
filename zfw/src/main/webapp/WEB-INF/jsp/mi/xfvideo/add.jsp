@@ -71,8 +71,6 @@
 			   				}else{
 			   					alert(data.msg);
 			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
 			   			}else{
 			   				alert(data.msg);
 			   				window.location.href="${ctx}/mi/xf/${repId}/edit";
@@ -80,9 +78,11 @@
 			   		}
 			   	},
 			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
 			   		alert("新增楼盘视频失败!");
+			   	},
+			   	complete:function(){
+					btn.removeAttr("disabled");
+					btn.removeClass("disabled");
 			   	}
 			   });
 			}else{

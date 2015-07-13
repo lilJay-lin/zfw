@@ -30,4 +30,9 @@ public interface IRealEstateProjectService extends
 
 	public Map<String, String> batchDel(String repIds);
 
+	public List<RealEstateProject> findByParams(String name, boolean ru,
+			Integer targetPage, Integer pageSize);
+
+	public int countByParams(String name, boolean ru);
+
 }

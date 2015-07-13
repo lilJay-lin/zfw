@@ -200,7 +200,7 @@
 											</select>
 										</div>
 									</div>
-									<div class="control-group">
+									<div class="control-group js-not-ru">
 										<label class="control-label">优先级</label>
 										<div class="control error">
 											<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
@@ -257,7 +257,7 @@
 										</script>
 									</div>
 									
-									<div class="box box-inline js-relation-select-box">
+									<div class="box box-inline js-relation-select-box js-not-ru">
 										<div class="box-hd">
 											<h2>关联用户</h2>
 										</div>
@@ -299,7 +299,7 @@
 										</div>
 									</div>
 									
-									<div class="box box-inline">
+									<div class="box box-inline js-not-ru">
 										<div class="box-hd">
 											<h2>已选关联用户</h2>
 										</div>

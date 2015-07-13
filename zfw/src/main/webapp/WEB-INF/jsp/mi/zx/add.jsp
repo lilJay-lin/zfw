@@ -121,8 +121,6 @@
 			   				}else{
 			   					alert(data.msg);
 			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
 			   			}else{
 			   				alert(data.msg);
 			   				window.location.href="${ctx}/mi/info";
@@ -130,9 +128,11 @@
 			   		}
 			   	},
 			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
 			   		alert("新增资讯失败!");
+			   	},
+			   	complete:function(){
+					btn.removeAttr("disabled");
+					btn.removeClass("disabled");
 			   	}
 			   });
 			}else{

@@ -90,8 +90,6 @@
 			   				}else{
 			   					alert(data.msg);
 			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
 			   			}else{
 			   				alert(data.msg);
 							window.history.back(-1);
@@ -99,14 +97,15 @@
 			   		}
 			   	},
 			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
-					btn.removeAttr("disabled");
 					if(inEdit){
 				   		alert("修改户型三维失败!");
 					}else{
 				   		alert("新增户型三维失败!");
 					}
+			   	},
+			   	complete:function(){
+					btn.removeAttr("disabled");
+					btn.removeClass("disabled");
 			   	}
 			   });
 			}else{

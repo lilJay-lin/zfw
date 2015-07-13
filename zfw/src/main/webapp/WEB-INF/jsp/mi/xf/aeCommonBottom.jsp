@@ -274,8 +274,6 @@
 			   				}else{
 			   					alert(data.msg);
 			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
 			   			}else{
 			   				alert(data.msg);
 			   				window.location.href="${ctx}/mi/xf";
@@ -283,13 +281,15 @@
 			   		}
 			   	},
 			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
 					if(inEdit){
 				   		alert("修改楼盘失败!");
 					}else{
 				   		alert("新增楼盘失败!");
 					}
+			   	},
+			   	complete:function(){
+					btn.removeAttr("disabled");
+					btn.removeClass("disabled");
 			   	}
 			   });
 			}else{
