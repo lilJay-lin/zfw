@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.OBPano;
 import com.mimi.zfw.mybatis.pojo.OBPanoExample;
-import com.mimi.zfw.mybatis.pojo.OBPano;
 
 public interface IOBPanoService extends
 	IBaseService<OBPano, OBPanoExample, String> {

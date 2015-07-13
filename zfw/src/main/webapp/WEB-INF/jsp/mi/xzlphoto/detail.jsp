@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>楼盘图片详情</h2>
+							<h2>写字楼图片详情</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
@@ -80,7 +80,7 @@
 					}
 				},
 				error:function(){
-					alert("获取楼盘图片信息失败");
+					alert("获取写字楼图片信息失败");
 				}
 			});
 		}

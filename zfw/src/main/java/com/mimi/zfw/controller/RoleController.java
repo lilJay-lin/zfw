@@ -28,11 +28,8 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
-import com.mimi.zfw.mybatis.pojo.ShopImageExample;
-import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRoleService;
-import com.mimi.zfw.util.RSAUtil;
 
 @Controller
 //@RequestMapping("/role")

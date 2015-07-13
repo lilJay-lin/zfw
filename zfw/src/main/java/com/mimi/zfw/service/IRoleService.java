@@ -5,8 +5,6 @@ import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
-import com.mimi.zfw.mybatis.pojo.User;
-import com.mimi.zfw.mybatis.pojo.UserExample;
 
 public interface IRoleService extends IBaseService<Role, RoleExample, String> {
     public int getK();

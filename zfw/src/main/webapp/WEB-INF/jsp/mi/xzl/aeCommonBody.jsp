@@ -43,6 +43,29 @@
 				</div>
 			</div>
 			<div class="control-group">
+				<label class="control-label">类别</label>
+				<div class="control">
+					<select name="type">
+						<option value="纯写字楼">纯写字楼</option>
+						<option value="商住楼">商住楼</option>
+						<option value="商业综合体楼">商业综合体楼</option>
+						<option value="酒店写字楼">酒店写字楼</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">装修</label>
+				<div class="control">
+					<select name="decorationStatus">
+						<option value="毛坯">毛坯</option>
+						<option value="简单装修">简单装修</option>
+						<option value="精装修">精装修</option>
+						<option value="豪华装修">豪华装修</option>
+					</select>
+					<span class="help-inline"></span>
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label">面积</label>
 				<div class="control">
 					<input type="text" name="grossFloorArea"  />
@@ -79,6 +102,14 @@
 				<div class="control">
 					<input type="text"  name="totalPrice" id="totalPrice" max="5"  error="租金范围0.0-999.0" 
 											patterns = "^[0-9\.]*$"  placeholder="输入出售费0.0-999.0" value="0.0" />&nbsp;万元
+					<span class="help-inline"></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">物业费</label>
+				<div class="control">
+					<input type="text"  name="propertyFee" id="propertyFee" max="5"  error="物业费范围0.0-999.0" 
+					patterns = "^[0-9\.]*$"  placeholder="输入物业费0.0-999.0" value="0.0" />&nbsp;元/平方米·月
 					<span class="help-inline"></span>
 				</div>
 			</div>

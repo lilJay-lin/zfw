@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.OfficeBuilding;
 import com.mimi.zfw.mybatis.pojo.OfficeBuildingExample;
-import com.mimi.zfw.mybatis.pojo.OfficeBuilding;
 
 public interface IOfficeBuildingService extends
 		IBaseService<OfficeBuilding, OfficeBuildingExample, String> {

@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增商铺图片</h2>
+							<h2>新增写字楼图片</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
@@ -87,7 +87,7 @@
 			   	},
 			   	error:function(){
 			   		btn.removeAttr("disabled");
-			   		alert("新增商铺图片失败!");
+			   		alert("新增写字楼图片失败!");
 			   	}
 			   });
 			}else{

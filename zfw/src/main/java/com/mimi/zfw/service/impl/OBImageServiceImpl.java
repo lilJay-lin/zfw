@@ -15,8 +15,6 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.OBImageMapper;
 import com.mimi.zfw.mybatis.pojo.OBImage;
 import com.mimi.zfw.mybatis.pojo.OBImageExample;
-import com.mimi.zfw.mybatis.pojo.OBImage;
-import com.mimi.zfw.mybatis.pojo.OBImageExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IOBImageService;
 import com.mimi.zfw.service.IUserService;

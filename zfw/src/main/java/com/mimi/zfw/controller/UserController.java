@@ -37,7 +37,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Role;
-import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IRoleService;

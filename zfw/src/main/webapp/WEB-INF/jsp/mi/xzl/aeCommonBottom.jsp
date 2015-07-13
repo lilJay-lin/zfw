@@ -82,7 +82,7 @@ $(":file").change(function(){
 });
 
 function getSaveData(){
-	var shop = {
+	var xzl = {
 		id:"",
 		name:"",
 		phoneNum:"",
@@ -90,18 +90,21 @@ function getSaveData(){
 		region:"",
 		totalPrice:"",
 		grossFloorArea:"",
+		decorationStatus:"",
 		address:"",
 		introduction:"",
 		rentOrSale:"",
+		propertyFee:"",
+		type:"",
 		tags:"",
 		priority:"",
 		preImageUrl:""
 	};
-   for(var i in shop){
+   for(var i in xzl){
    		var value = $("[name="+i+"]").val();
-   		shop[i]=value;
+   		xzl[i]=value;
    }
-   return shop;
+   return xzl;
 }
 
 rentOrSale($("[name=rentOrSale]").val());

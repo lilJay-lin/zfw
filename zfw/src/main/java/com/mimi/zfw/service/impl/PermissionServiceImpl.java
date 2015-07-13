@@ -16,10 +16,6 @@ import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.PermissionExample;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermission;
 import com.mimi.zfw.mybatis.pojo.RelationRoleAndPermissionExample;
-import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
-import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
-import com.mimi.zfw.mybatis.pojo.Role;
-import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IPermissionService;
 

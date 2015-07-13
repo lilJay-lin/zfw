@@ -25,24 +25,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.mybatis.pojo.ShopImage;
-import com.mimi.zfw.mybatis.pojo.ShopImageExample;
+import com.mimi.zfw.mybatis.pojo.WarehouseImage;
+import com.mimi.zfw.mybatis.pojo.WarehouseImageExample;
 import com.mimi.zfw.service.IAliyunOSSService;
-import com.mimi.zfw.service.IShopImageService;
+import com.mimi.zfw.service.IWarehouseImageService;
 
 @Controller
 @RequestMapping(value="/mi")
-public class ShopImageController {
+public class WarehouseImageController {
 
     private static final Logger LOG = LoggerFactory
 	    .getLogger(SPController.class);
     
     @Resource
-    private IShopImageService siService;
+    private IWarehouseImageService wiService;
     @Resource
     private IAliyunOSSService aossService;
 
-    @RequestMapping(value = "/spphoto/uploadImg", method = {
+    @RequestMapping(value = "/cfckphoto/uploadImg", method = {
 	    RequestMethod.POST, RequestMethod.GET })
     public @ResponseBody Object upload(HttpServletRequest request,
 	    @RequestParam("theFile") MultipartFile theFile) {
@@ -54,7 +54,7 @@ public class ShopImageController {
 	    jo.put("imgPath", path);
 	    jo.put("success", true);
 	} catch (IOException e) {
-	    LOG.error("上传商铺图片图片出错！", e);
+	    LOG.error("上传厂房/仓库图片图片出错！", e);
 	    jo.put("success", false);
 	    jo.put("msg", "保存图片失败");
 	}
@@ -64,12 +64,12 @@ public class ShopImageController {
 //    @RequestMapping(value = "/mi/shop", method = { RequestMethod.GET })
 //    public String index(HttpServletRequest request) {
 //
-//	return "/mi/{shopId}/spphoto/index";
+//	return "/mi/{warehouseId}/cfckphoto/index";
 //    }
 
-    @RequestMapping(value = "/{shopId}/spphoto/page/{curPage}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{warehouseId}/cfckphoto/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object getShopByPage(HttpServletRequest request,@PathVariable String shopId,
+    public Object getShopByPage(HttpServletRequest request,@PathVariable String warehouseId,
 	    @PathVariable int curPage) {
 
 	Object res = null;
@@ -79,8 +79,8 @@ public class ShopImageController {
 	String name = request.getParameter("name") == null ? null
 		: (String) request.getParameter("name");
 
-	ShopImageExample example = new ShopImageExample();
-	ShopImageExample.Criteria cr = example.createCriteria();
+	WarehouseImageExample example = new WarehouseImageExample();
+	WarehouseImageExample.Criteria cr = example.createCriteria();
 	if (!StringUtils.isBlank(name)) {
 	    try {
 		cr.andNameLike("%"+URLDecoder.decode(name, "utf-8")+"%");
@@ -89,12 +89,12 @@ public class ShopImageController {
 		JSONObject jo = new JSONObject();
 		jo.put("success", false);
 		jo.put("msg", "查询条件解码出错");
-		LOG.error("查询商铺图片分页，查询条件解码出错！", e);
+		LOG.error("查询厂房/仓库图片分页，查询条件解码出错！", e);
 
 		return jo.toString();
 	    }
 	}
-	cr.andShopIdEqualTo(shopId).andDelFlagEqualTo(false);
+	cr.andWarehouseIdEqualTo(warehouseId).andDelFlagEqualTo(false);
 	
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
@@ -102,8 +102,8 @@ public class ShopImageController {
 	int rows = 0;
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
-	    rows = siService.countShopImageByExample(example);
-	    List<ShopImage> items = siService.findShopImageByExample(example, page, pageSize);
+	    rows = wiService.countWarehouseImageByExample(example);
+	    List<WarehouseImage> items = wiService.findWarehouseImageByExample(example, page, pageSize);
 	    
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
@@ -112,13 +112,13 @@ public class ShopImageController {
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
-	    LOG.error("查询商铺图片分页信息报错！", e);
+	    LOG.error("查询厂房/仓库图片分页信息报错！", e);
 	}
 	return res;
     }
 
     public Object getJsonObject(int rows, int totalpage, int curPage,
-	    int pageSize, List<ShopImage> items, boolean rescode, String msg) {
+	    int pageSize, List<WarehouseImage> items, boolean rescode, String msg) {
 	JSONObject jo = new JSONObject();
 
 	Map<String, Integer> map = new HashMap<String, Integer>();
@@ -136,49 +136,49 @@ public class ShopImageController {
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/spphoto/{id}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/cfckphoto/{id}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object getShopImage( @PathVariable String id, HttpServletRequest request) {
+    public Object getWarehouseImage( @PathVariable String id, HttpServletRequest request) {
 
 	JSONObject jo = new JSONObject();
 
 	try {
-	    ShopImage image = (ShopImage) siService.get(id);
+	    WarehouseImage image = (WarehouseImage) wiService.get(id);
 	    if (image != null) {
 		jo.put("image", image);
 	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    jo.put("shop", null);
-	    LOG.error("查询商铺图片信息出错！", e);
+	    LOG.error("查询厂房/仓库图片信息出错！", e);
 	}
 
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/{shopId}/spphoto/add", method = { RequestMethod.GET })
-    public String toAddShopImage(@PathVariable String shopId,Model model, HttpServletRequest request) {
-	model.addAttribute("shopId", shopId);
-	return "/mi/spphoto/add";
+    @RequestMapping(value = "/{warehouseId}/cfckphoto/add", method = { RequestMethod.GET })
+    public String toAddWarehouseImage(@PathVariable String warehouseId,Model model, HttpServletRequest request) {
+	model.addAttribute("warehouseId", warehouseId);
+	return "/mi/cfckphoto/add";
     }
 
-    @RequestMapping(value = "/spphoto", method = { RequestMethod.POST })
+    @RequestMapping(value = "/cfckphoto", method = { RequestMethod.POST })
     @ResponseBody
-    public Object addShopImage(HttpServletRequest request, ShopImage shopImage) {
+    public Object addWarehouseImage(HttpServletRequest request, WarehouseImage warehouseImage) {
 
 	JSONObject jo = new JSONObject();
 
-	if (shopImage == null) {
+	if (warehouseImage == null) {
 	    jo.put("success", false);
-	    jo.put("msg", "新增商铺图片信息不能为空!");
+	    jo.put("msg", "新增厂房/仓库图片信息不能为空!");
 	} else {
 
 	    try {
-		Map<String, String> res = siService.addShopImage(shopImage);
+		Map<String, String> res = wiService.addWarehouseImage(warehouseImage);
 
 		if (StringUtils.isEmpty(res.get("msg"))) {
 		    jo.put("success", true);
-		    jo.put("msg", "新增商铺图片信息保存成功!");
+		    jo.put("msg", "新增厂房/仓库图片信息保存成功!");
 
 		} else {
 		    jo.put("success", false);
@@ -188,8 +188,8 @@ public class ShopImageController {
 
 	    } catch (Exception e) {
 		jo.put("success", false);
-		jo.put("msg", "新增商铺图片信息保存失败!");
-		LOG.error("新增商铺图片信息保存失败！", e);
+		jo.put("msg", "新增厂房/仓库图片信息保存失败!");
+		LOG.error("新增厂房/仓库图片信息保存失败！", e);
 	    }
 
 	}
@@ -197,34 +197,34 @@ public class ShopImageController {
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/{shopId}/spphoto/{id}/edit", method = { RequestMethod.GET })
-    public String toUpdateShopImage(@PathVariable String shopId,HttpServletRequest request, Model model,
+    @RequestMapping(value = "/{warehouseId}/cfckphoto/{id}/edit", method = { RequestMethod.GET })
+    public String toUpdateWarehouseImage(@PathVariable String warehouseId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
-	model.addAttribute("shopId", shopId);
+	model.addAttribute("warehouseId", warehouseId);
 	model.addAttribute("imageId", id);
-	return "/mi/spphoto/edit";
+	return "/mi/cfckphoto/edit";
     }
 
-    @RequestMapping(value = "/{shopId}/spphoto/{id}/detail", method = { RequestMethod.GET })
-    public String toViewShopImage(@PathVariable String shopId, HttpServletRequest request, Model model,@PathVariable String id) {
+    @RequestMapping(value = "/{warehouseId}/cfckphoto/{id}/detail", method = { RequestMethod.GET })
+    public String toViewWarehouseImage(@PathVariable String warehouseId, HttpServletRequest request, Model model,@PathVariable String id) {
 
-	model.addAttribute("shopId", shopId);
+	model.addAttribute("warehouseId", warehouseId);
 	model.addAttribute("imageId", id);
-	return "/mi/spphoto/detail";
+	return "/mi/cfckphoto/detail";
     }
 
-    @RequestMapping(value = "/spphoto/{id}", method = { RequestMethod.POST })
+    @RequestMapping(value = "/cfckphoto/{id}", method = { RequestMethod.POST })
     @ResponseBody
-    public Object updateShopImage(HttpServletRequest request, ShopImage shopImage ,@PathVariable String id) {
+    public Object updateWarehouseImage(HttpServletRequest request, WarehouseImage warehouseImage ,@PathVariable String id) {
 
 	JSONObject jo = new JSONObject();
 	try {
 
-		Map<String, String> res = siService.updateShopImage(shopImage);
+		Map<String, String> res = wiService.updateWarehouseImage(warehouseImage);
 
 		if (StringUtils.isEmpty(res.get("msg"))) {
 		    jo.put("success", true);
-		    jo.put("msg", "更新商铺图片信息保存成功!");
+		    jo.put("msg", "更新厂房/仓库图片信息保存成功!");
 
 		} else {
 		    jo.put("success", false);
@@ -234,29 +234,29 @@ public class ShopImageController {
 
 	} catch (Exception e) {
 	    jo.put("success", false);
-	    jo.put("msg", "更新商铺图片信息失败!");
-	    LOG.error("更新商铺图片信息失败！", e);
+	    jo.put("msg", "更新厂房/仓库图片信息失败!");
+	    LOG.error("更新厂房/仓库图片信息失败！", e);
 	}
 
 	return jo.toString();
     }
 
-    @RequestMapping(value = "/spphotos", method = { RequestMethod.POST })
+    @RequestMapping(value = "/cfckphotos", method = { RequestMethod.POST })
     @ResponseBody
-    public Object updateBatchShopImage(HttpServletRequest request, ShopImage shopImage,
+    public Object updateBatchWarehouseImage(HttpServletRequest request, WarehouseImage warehouseImage,
 	    String imageIds) {
 	JSONObject jo = new JSONObject();
 
 	try {
-	    siService.updateBatchShopImage(imageIds, shopImage);
+	    wiService.updateBatchWarehouseImage(imageIds, warehouseImage);
 	    jo.put("success", true);
-	    jo.put("msg", "商铺图片删除成功");
+	    jo.put("msg", "厂房/仓库图片删除成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "商铺图片删除失败");
-	    LOG.error("删除商铺图片信息失败！", e);
+	    jo.put("msg", "厂房/仓库图片删除失败");
+	    LOG.error("删除厂房/仓库图片信息失败！", e);
 	}
 
 	return jo.toString();

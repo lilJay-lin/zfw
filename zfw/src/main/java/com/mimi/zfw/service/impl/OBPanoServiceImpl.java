@@ -15,8 +15,6 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.OBPanoMapper;
 import com.mimi.zfw.mybatis.pojo.OBPano;
 import com.mimi.zfw.mybatis.pojo.OBPanoExample;
-import com.mimi.zfw.mybatis.pojo.OBPano;
-import com.mimi.zfw.mybatis.pojo.OBPanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IOBPanoService;
 import com.mimi.zfw.service.IUserService;
