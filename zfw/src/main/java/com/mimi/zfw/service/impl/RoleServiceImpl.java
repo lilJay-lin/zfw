@@ -24,8 +24,6 @@ import com.mimi.zfw.mybatis.pojo.RelationUserAndRole;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndRoleExample;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
-import com.mimi.zfw.mybatis.pojo.User;
-import com.mimi.zfw.mybatis.pojo.UserExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;

@@ -30,7 +30,7 @@
 									<div class="control-group">
 										<label class="control-label">图像</label>
 										<div class="control control-img-box">
-											<img src="${headImgUrl}" class="control-user-img" />
+											<img class="control-user-img" />
 										</div>
 									</div>
 									<div class="control-group">

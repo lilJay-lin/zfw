@@ -162,20 +162,30 @@
 	  		}else if(option == "lock"){
 	  			user.locked = true;
 	  		}
+	  		if(!window.confirm("确认更新用户?")){
+	  			return ;
+	  		}
+	  		if(deling){
+	  			alert("正在更新用户,请稍后再操作");
+	  			return;
+	  		}
 	  		updateUser(e,userids,user);
 	  	}
 	  	function delUser(e){
 	  		var id = $(e).data("id");
 	  		var user = {delFlag:true};
-	  		updateUser(e,id,user);
-	  	}
-	  	function updateUser(e,userids,user){
-	  		console.log(user);
-	  		var $e = $(this);
-	  		if( $e.data("lazy")){
+	  		if(!window.confirm("确认删除用户?")){
 	  			return ;
 	  		}
-	  		 $e.data("lazy",1);
+	  		if(deling){
+	  			alert("正在删除用户,请稍后再操作");
+	  			return;
+	  		}
+	  		updateUser(e,id,user);
+	  	}
+	  	var deling = false;
+	  	function updateUser(e,userids,user){
+	  		var $e = $(this);
 	  		var url = "${ctx}/mi/users";
 	  		$.ajax({
 	  			type:"post",
@@ -194,10 +204,10 @@
 	  				}
 	  			},
 	  			error:function(){
-	  				alert("更新失败")
+	  				alert("操作失败")
 	  			},
 	  			complete:function(){
-	  				 $e.data("lazy",0);
+	  				 deling = false;
 	  			}
 	  		});
 	  	}

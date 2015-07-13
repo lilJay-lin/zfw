@@ -250,13 +250,13 @@ public class ShopPanoController {
 	try {
 	    spService.updateBatchShopPano(panoIds, shopPano);
 	    jo.put("success", true);
-	    jo.put("msg", "商铺全景更新成功");
+	    jo.put("msg", "商铺全景删除成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "商铺全景更新失败");
-	    LOG.error("更新商铺全景信息失败！", e);
+	    jo.put("msg", "商铺全景删除失败");
+	    LOG.error("删除商铺全景信息失败！", e);
 	}
 
 	return jo.toString();

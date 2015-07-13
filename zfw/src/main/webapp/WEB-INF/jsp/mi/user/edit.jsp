@@ -31,7 +31,7 @@
 									<div class="control-group">
 										<label class="control-label">图像</label>
 										<div class="control control-img-box">
-											<img src="${headImgUrl}" class="control-user-img" />
+											<img class="control-user-img" />
 										</div>
 									</div>
 									<div class="control-group">
@@ -74,7 +74,7 @@
 											</select>
 										</div>
 									</div>
-									<form enctype="multipart/form-data" method="post" id="uploadForm">
+									<form enctype="multipart/form-data" id="uploadForm">
 									<div class="control-group">
 										<label class="control-label">上传图像</label>
 										<div class="control error">
@@ -349,14 +349,12 @@
 				alert(errorStr);
 				return;
 			}
-			var self = $(this);
-			self.attr("disabled","disabled");
 			var formData = new FormData($("#uploadForm")[0]);	
 			$(".uploader-loading").show();
-			uploading = !0;
+			uploading =!0;
 		    $.ajax({
 		        type:'POST',
-		        url:'${ctx}/user/uploadHeadImg',
+		        url:'${ctx}/mi/user/uploadHeadImg',
 		        data: formData,
 		        async: true,
 		        cache: false,
@@ -368,21 +366,19 @@
 						var final_url = data.imgPath;
 						$("input[name='headImgUrl']").val(final_url);
 						$(".control-user-img").attr("src",final_url);
-//						resetHeadImgUrl(final_url);
 					}else{
 						alert(data.msg);
 					}
 		        },
 		        error: function (data) {
 					alert("上传失败");
-		        }
+		        },
 		        complete:function(){
-			   		btn.removeAttr("disabled");
 					uploading =!1;
 					$(".uploader-loading").hide();
 		        }
 		    });
-		})
+		});
 		$("#submit").click(function(){
 			var btn = $(this);
 			var form = $(".form");
@@ -476,11 +472,9 @@
 					
 					var form = $(".form");
 					for(var i in user){
-						var e = form.find("input[name="+i+"]");
+						var e = form.find("[name="+i+"]");
 						e.length>0&&e.val(user[i]);
 					}
-					var d = form.find("textarea[name='description']");
-					d.length>0&&d.val(user['description']);
 					if(!!user.headImgUrl){
 						$(".control-user-img").attr("src",user.headImgUrl)
 					}

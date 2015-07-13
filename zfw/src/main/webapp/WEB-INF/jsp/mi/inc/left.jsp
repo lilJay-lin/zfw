@@ -44,6 +44,18 @@
 					<span > 关联楼盘管理</span>
 				</a>
 			</li>
+			<li>
+				<a  href="${ctx }/mi/xzl">
+					<i class="icon-hdd"></i>
+					<span > 写字楼管理</span>
+				</a>
+			</li>
+			<li>
+				<a  href="${ctx }/mi/cfck">
+					<i class="icon-hdd"></i>
+					<span > 厂房仓库管理</span>
+				</a>
+			</li>
 		</ul>
 	</li>
 </ul>

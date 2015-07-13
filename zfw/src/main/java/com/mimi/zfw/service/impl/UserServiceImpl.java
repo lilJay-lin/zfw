@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ctc.wstx.util.StringUtil;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.RelationUserAndREPMapper;
 import com.mimi.zfw.mybatis.dao.RelationUserAndRoleMapper;

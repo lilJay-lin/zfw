@@ -145,6 +145,9 @@
 	  		delObject(e,ids);
 	  	}
 	  	function delObject(e,ids){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(deling){
 	  			alert("正在删除商铺,请稍后再操作");
 	  			return;
@@ -196,5 +199,7 @@
 	  		page.setData({"name":name});
 	  		page.init();
 	  	});
+	  	
+	  	
 	</script>
 </html>

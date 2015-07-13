@@ -28,11 +28,8 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.Role;
 import com.mimi.zfw.mybatis.pojo.RoleExample;
-import com.mimi.zfw.mybatis.pojo.ShopImageExample;
-import com.mimi.zfw.mybatis.pojo.User;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRoleService;
-import com.mimi.zfw.util.RSAUtil;
 
 @Controller
 //@RequestMapping("/role")
@@ -274,13 +271,13 @@ public class RoleController {
 	    roleService.updateBatchRole(roleids, role);
 
 	    jo.put("success", true);
-	    jo.put("msg", "角色更新成功");
+	    jo.put("msg", "角色删除成功");
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
-	    jo.put("msg", "角色更新失败");
-	    LOG.error("更新角色信息失败！",e);
+	    jo.put("msg", "角色删除失败");
+	    LOG.error("删除角色信息失败！",e);
 	}
 
 	return jo.toString();
