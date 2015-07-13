@@ -36,7 +36,6 @@
 										<th>名称</th>
 										<th>地址</th>
 										<th>描述</th>
-										<th>优先级</th>
 										<th>最后修改时间</th>
 										<th>操作</th>
 									</thead>
@@ -83,7 +82,6 @@
 				<td>{{name}}</td>
 				<td>{{address}}</td>
 				<td>{{description}}</td>
-				<td>{{priority}}</td>
 				{{#with updateDate}}
 				<td>{{dateformat time 3}}</td>
 				{{/with}}

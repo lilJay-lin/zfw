@@ -1,38 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script>
-						<div class="box-cnt js-rep-detail-container" style="display:none">
+						<div class="box-cnt js-rc-detail-container" style="display:none">
 							<div class="form">
 								<fieldset>
-									<input type="hidden" id="repId" name ="id" value="${repId}" />
+									<input type="hidden" id="rcId" name ="id" value="${rcId}" />
 									<input type="hidden" id="longitude" name ="longitude" />
 									<input type="hidden" id="latitude" name ="latitude" />
 									<div class="control-group">
 										<label class="control-label">名称</label>
 										<div class="control error">
-											<input type="text" name="name" max="16" maxlength="16" error="楼盘名长度少于16个字" 
-											require="require" require_msg ="楼盘名不能为空"  placeholder="输入楼盘名称"  />
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">楼盘均价</label>
-										<div class="control error">
-											<input type="text"  name="averagePrice" id="averagePrice" max="6"  error="楼盘均价范围0-999999" 
-											patterns = "^[0-9]*$"  placeholder="输入楼盘均价 0-999999" value="0" />
+											<input type="text" name="name" max="16" maxlength="16" error="小区名长度少于16个字" 
+											require="require" require_msg ="小区名不能为空"  placeholder="输入小区名称"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">地址</label>
 										<div class="control error">
-											<textarea name="address" maxlength="200"></textarea>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">热线电话</label>
-										<div class="control error">
-											<input type="text"  name="tel" id="tel" max="32" error="热线电话不能超长" placeholder="输入热线电话"/>
-											<span class="help-inline"></span>
+											<textarea name="address" maxlength="100"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
@@ -40,14 +25,6 @@
 										<div class="control error">
 											<input type="text"  name="onSaleDate" id="onSaleDate" 
 											require="require" require_msg ="开盘时间不能为空"  placeholder="选择开盘时间" />
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">入住时间</label>
-										<div class="control error">
-											<input type="text"  name="onReadyDate" id="onReadyDate" 
-											require="require" require_msg ="入住时间不能为空"  placeholder="入住时间时间" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -83,17 +60,6 @@
 											<label><input name="buildingType" type="checkbox" value="板塔结合" />板塔结合 </label> 
 											<label><input name="buildingType" type="checkbox" value="板楼" />板楼 </label> 
 											<label><input name="buildingType" type="checkbox" value="塔楼" />塔楼 </label> 
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">装修状况</label>
-										<div class="control error">
-											<select name="decorationStatus">
-												<option value="毛坯">毛坯</option>
-												<option value="简单装修">简单装修</option>
-												<option value="精装修">精装修</option>
-												<option value="豪华装修">豪华装修</option>
-											</select>
 										</div>
 									</div>
 									<div class="control-group">
@@ -137,20 +103,6 @@
 										</div>
 									</div>
 									<div class="control-group">
-										<label class="control-label">开发商</label>
-										<div class="control error">
-											<input type="text"  name="developer" id="developer" max="32" error="开发商不能超长" placeholder="输入开发商"/>
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">预售许可证</label>
-										<div class="control error">
-											<input type="text"  name="preSalePermit" id="preSalePermit" max="32" error="预售许可证不能超长" placeholder="输入预售许可证"/>
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
 										<label class="control-label">物业公司</label>
 										<div class="control error">
 											<input type="text"  name="propertyCompany" id="propertyCompany" max="32" error="物业公司不能超长" placeholder="输入物业公司"/>
@@ -166,7 +118,7 @@
 										</div>
 									</div>
 									<div class="control-group">
-										<label class="control-label">楼盘介绍</label>
+										<label class="control-label">小区介绍</label>
 										<div class="control error">
 											<textarea name="introduction" maxlength="1000"></textarea>
 										</div>
@@ -197,6 +149,15 @@
 												<option value="封开"> 封开 </option>
 												<option value="德庆"> 德庆 </option>
 												<option value="鼎湖"> 鼎湖 </option>
+											</select>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">完善程度</label>
+										<div class="control error">
+											<select name="active" id="active">
+												<option value="true">已完善</option>
+												<option value="false">待完善</option>
 											</select>
 										</div>
 									</div>
@@ -255,114 +216,6 @@
 												map.centerAndZoom(point, 15);
 											},500);
 										</script>
-									</div>
-									
-									<div class="box box-inline js-relation-select-box js-not-ru">
-										<div class="box-hd">
-											<h2>关联用户</h2>
-										</div>
-										<div class="box-cnt">
-											<div class="datatable" id="userInfo">
-												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="search-user-text"/>
-														<input type="button" class="btn" value="搜索" id="search-user-btn"/>
-													</label>
-												</div>
-												<table class="datatable-table">
-													<thead>
-														<tr>
-															<th>用户名</th>
-															<th>手机号码</th>
-															<th>描述</th>
-															<th>操作</th>
-														</tr>
-													</thead>
-													<tbody class="page-data-list">
-														
-													</tbody>
-												</table>
-												<div class="datatable-footer">
-													<div class="datatable-info">
-														<div>共0条</div>
-													</div>
-													<div class="center">
-														<div class="datatable-pagination">
-															<ul class="pagination">
-																
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div class="box box-inline js-not-ru">
-										<div class="box-hd">
-											<h2>已选关联用户</h2>
-										</div>
-										<div class="box-cnt">
-											<ul class="relation" id="user-relation">
-												
-											</ul>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-									
-									
-									<div class="box box-inline js-relation-select-box">
-										<div class="box-hd">
-											<h2>关联资讯</h2>
-										</div>
-										<div class="box-cnt">
-											<div class="datatable" id="zxInfo">
-												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="search-info-text"/>
-														<input type="button" class="btn" value="搜索" id="search-info-btn"/>
-													</label>
-												</div>
-												<table class="datatable-table">
-													<thead>
-														<tr>
-															<th>标题</th>
-															<th>描述</th>
-															<th>操作</th>
-														</tr>
-													</thead>
-													<tbody class="page-data-list">
-														
-													</tbody>
-												</table>
-												<div class="datatable-footer">
-													<div class="datatable-info">
-														<div>共0条</div>
-													</div>
-													<div class="center">
-														<div class="datatable-pagination">
-															<ul class="pagination">
-																
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div class="box box-inline">
-										<div class="box-hd">
-											<h2>已选关联资讯</h2>
-										</div>
-										<div class="box-cnt">
-											<ul class="relation" id="info-relation">
-												
-											</ul>
-											<div class="clearfix"></div>
-										</div>
 									</div>
 									
 									<div class="form-actions">
