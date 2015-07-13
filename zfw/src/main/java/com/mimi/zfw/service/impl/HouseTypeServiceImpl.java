@@ -1,17 +1,32 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.mimi.zfw.Constants;
+import com.mimi.zfw.mybatis.dao.HTImageMapper;
+import com.mimi.zfw.mybatis.dao.HTPanoMapper;
+import com.mimi.zfw.mybatis.dao.HTRingMapper;
 import com.mimi.zfw.mybatis.dao.HouseTypeMapper;
+import com.mimi.zfw.mybatis.pojo.HTImage;
+import com.mimi.zfw.mybatis.pojo.HTImageExample;
+import com.mimi.zfw.mybatis.pojo.HTPano;
+import com.mimi.zfw.mybatis.pojo.HTPanoExample;
+import com.mimi.zfw.mybatis.pojo.HTRing;
+import com.mimi.zfw.mybatis.pojo.HTRingExample;
 import com.mimi.zfw.mybatis.pojo.HouseType;
 import com.mimi.zfw.mybatis.pojo.HouseTypeExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IHouseTypeService;
+import com.mimi.zfw.service.IUserService;
 
 @Service
 public class HouseTypeServiceImpl extends
@@ -20,6 +35,18 @@ public class HouseTypeServiceImpl extends
 
 	@Resource
 	private HouseTypeMapper htm;
+
+	@Resource
+	private HTPanoMapper htpm;
+
+	@Resource
+	private HTRingMapper htrm;
+
+	@Resource
+	private HTImageMapper htim;
+
+	@Resource
+	private IUserService userService;
 
 	@Resource
 	@Override
@@ -167,6 +194,127 @@ public class HouseTypeServiceImpl extends
 			cri.andNameLike("%" + name + "%");
 		}
 		return hte;
+	}
+
+	@Override
+	public Map<String, String> addHT(HouseType ht) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (ht == null) {
+			resMap.put("msg", "户型内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(ht);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		ht.setId(UUID.randomUUID().toString());
+		ht.setCreater(curUserId);
+		ht.setLastEditor(curUserId);
+		htm.insertSelective(ht);
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> updateHT(HouseType ht) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (ht == null) {
+			resMap.put("msg", "户型内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(ht);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		ht.setLastEditor(curUserId);
+		htm.updateByPrimaryKeySelective(ht);
+		return resMap;
+	}
+
+
+	@Override
+	public Map<String, String> batchDel(String htIds) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (StringUtils.isBlank(htIds)) {
+			resMap.put("msg", "删除内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		String[] ids = htIds.split(Constants.MI_IDS_SPLIT_STRING);
+		List<String> idList = new ArrayList<String>();
+		for (int i = 0; i < ids.length; i++) {
+			if (StringUtils.isNotBlank(ids[i])) {
+				idList.add(ids[i]);
+			}
+		}
+		if (!idList.isEmpty()) {
+			HouseTypeExample hte = new HouseTypeExample();
+			hte.or().andIdIn(idList).andDelFlagEqualTo(false);
+			HouseType ht = new HouseType();
+			ht.setDelFlag(true);
+			ht.setLastEditor(curUserId);
+			htm.updateByExampleSelective(ht, hte);
+			
+			HTPanoExample pe = new HTPanoExample();
+			pe.or().andHouseTypeIdIn(idList).andDelFlagEqualTo(false);
+			HTPano pano = new HTPano();
+			pano.setDelFlag(true);
+			pano.setLastEditor(curUserId);
+			htpm.updateByExampleSelective(pano, pe);
+			
+			HTRingExample re = new HTRingExample();
+			re.or().andHouseTypeIdIn(idList).andDelFlagEqualTo(false);
+			HTRing ring = new HTRing();
+			ring.setDelFlag(true);
+			ring.setLastEditor(curUserId);
+			htrm.updateByExampleSelective(ring, re);
+			
+			HTImageExample ie = new HTImageExample();
+			ie.or().andHouseTypeIdIn(idList).andDelFlagEqualTo(false);
+			HTImage image = new HTImage();
+			image.setDelFlag(true);
+			image.setLastEditor(curUserId);
+			htim.updateByExampleSelective(image, ie);
+		}
+		return resMap;
+	}
+	
+	private Map<String, String> checkInfo(HouseType ht) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (ht == null) {
+			resMap.put("msg", "户型内容不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ht.getRealEstateProjectId())) {
+			resMap.put("msg", "户型所属楼盘不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ht.getPreImageUrl())) {
+			resMap.put("msg", "户型缩略图不能为空");
+			return resMap;
+		}
+		if (ht.getAveragePrice() == null) {
+			resMap.put("msg", "户型均价不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ht.getName())) {
+			resMap.put("msg", "户型名称不能为空");
+			return resMap;
+		}
+		return resMap;
 	}
 
 }

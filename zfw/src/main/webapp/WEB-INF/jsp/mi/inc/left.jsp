@@ -38,6 +38,12 @@
 					<span > 商铺管理</span>
 				</a>
 			</li>
+			<li>
+				<a  href="${ctx }/mi/xfru">
+					<i class="icon-hdd"></i>
+					<span > 关联楼盘管理</span>
+				</a>
+			</li>
 		</ul>
 	</li>
 </ul>

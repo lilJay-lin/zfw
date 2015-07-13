@@ -71,6 +71,7 @@ public class REPImageServiceImpl extends
 			ie.setLimitStart(targetPage * pageSize);
 			ie.setLimitSize(pageSize);
 		}
+		ie.setOrderByClause("update_date desc");
 		return repim.selectByExample(ie);
 	}
 

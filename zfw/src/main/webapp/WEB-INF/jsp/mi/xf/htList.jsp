@@ -26,7 +26,7 @@
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
 				</select> <a class="btn" href="javascript:;" onclick="htBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/hx/add">新增</a>
+				<a class="btn" href="${ctx}/mi/${repId}/hx/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">

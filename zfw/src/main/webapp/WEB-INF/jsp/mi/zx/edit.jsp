@@ -139,8 +139,6 @@
 		   				}else{
 		   					alert(data.msg);
 		   				}
-						btn.prop("disabled","false");
-						btn.removeClass("disabled");
 		   			}else{
 		   				alert(data.msg);
 		   				window.location.href="${ctx}/mi/info";
@@ -150,7 +148,7 @@
 			   		alert("修改资讯失败!");
 			   	},
 			   	complete:function(){
-					btn.prop("disabled","");
+					btn.removeAttr("disabled");
 					btn.removeClass("disabled");
 			   	}
 			   });

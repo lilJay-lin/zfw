@@ -38,14 +38,16 @@
 									<div class="control-group">
 										<label class="control-label">开盘时间</label>
 										<div class="control error">
-											<input type="text"  name="onSaleDate" id="onSaleDate" />
+											<input type="text"  name="onSaleDate" id="onSaleDate" 
+											require="require" require_msg ="开盘时间不能为空"  placeholder="选择开盘时间" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">入住时间</label>
 										<div class="control error">
-											<input type="text"  name="onReadyDate" id="onReadyDate" />
+											<input type="text"  name="onReadyDate" id="onReadyDate" 
+											require="require" require_msg ="入住时间不能为空"  placeholder="入住时间时间" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -198,7 +200,7 @@
 											</select>
 										</div>
 									</div>
-									<div class="control-group">
+									<div class="control-group js-not-ru">
 										<label class="control-label">优先级</label>
 										<div class="control error">
 											<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
@@ -243,17 +245,19 @@
 											// 百度地图API功能
 											var map = new BMap.Map("l-map");
 											var point = new BMap.Point(112.475916,23.06011);
-											map.centerAndZoom(point, 15);
 											var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
 											var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
 											map.addControl(top_left_control);        
 											map.addControl(top_left_navigation);  
 											var marker = new BMap.Marker(point);// 创建标注
 											map.addOverlay(marker);             // 将标注添加到地图中
+											setTimeout(function(){
+												map.centerAndZoom(point, 15);
+											},500);
 										</script>
 									</div>
 									
-									<div class="box box-inline js-relation-select-box">
+									<div class="box box-inline js-relation-select-box js-not-ru">
 										<div class="box-hd">
 											<h2>关联用户</h2>
 										</div>
@@ -295,7 +299,7 @@
 										</div>
 									</div>
 									
-									<div class="box box-inline">
+									<div class="box box-inline js-not-ru">
 										<div class="box-hd">
 											<h2>已选关联用户</h2>
 										</div>

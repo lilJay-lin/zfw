@@ -236,7 +236,7 @@ public class InformationController {
 					delREPs);
 			if (res.isEmpty()) {
 				jo.put("success", true);
-				jo.put("msg", "更新用户成功!");
+				jo.put("msg", "更新资讯成功!");
 			} else {
 				jo.put("success", false);
 				jo.put("msg", res.get("msg"));
@@ -245,7 +245,7 @@ public class InformationController {
 		} catch (Exception e) {
 			LOG.error("更新资讯失败", e);
 			jo.put("success", false);
-			jo.put("msg", "更新用户失败!");
+			jo.put("msg", "更新资讯失败!");
 		}
 		return jo.toString();
 	}

@@ -22,7 +22,7 @@
 						<div class="box-hd">
 							<h2>新增楼盘</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 				</div>
 			</div>
@@ -43,54 +43,10 @@
 		<!-- 底部区域结束     -->
 		
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
-		
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			var res = form.validate();
-			if(res){
-				var rep = getREPData();
-			   var userIds = addUserRelation.join("/");
-			   var infoIds = addInfoRelation.join("/");
-			   var data = {"userIds":userIds,"infoIds":infoIds};
-			   var url = "${ctx}/mi/xf/add";
-			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:$.extend(data,rep),
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-							btn.prop("disabled","false");
-							btn.removeClass("disabled");
-			   			}else{
-			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/xf";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
-			   		alert("新增楼盘失败!");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
+		inAdd = true;
+		$(".js-rep-detail-container").show();
 	</script>
 </html>
