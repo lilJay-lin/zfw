@@ -68,6 +68,12 @@
 					<span > 广告管理</span>
 				</a>
 			</li>
+			<li>
+				<a  href="${ctx }/mi/pgitem">
+					<i class="icon-hdd"></i>
+					<span > 评估项管理</span>
+				</a>
+			</li>
 		</ul>
 	</li>
 </ul>

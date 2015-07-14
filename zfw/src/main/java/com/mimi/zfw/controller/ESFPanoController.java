@@ -164,7 +164,7 @@ public class ESFPanoController {
 			Map<String, String> res = shhpService.batchDel(panoIds);
 			if (StringUtils.isEmpty(res.get("msg"))) {
 				jo.put("success", true);
-				jo.put("msg", "二手房删除成功!");
+				jo.put("msg", "二手房全景删除成功!");
 			} else {
 				jo.put("success", false);
 				jo.put("msg", res.get("msg"));
@@ -172,7 +172,7 @@ public class ESFPanoController {
 			}
 		} catch (Exception e) {
 			jo.put("success", false);
-			jo.put("msg", "二手房删除失败!");
+			jo.put("msg", "二手房全景删除失败!");
 		}
 		return jo.toString();
 	}
