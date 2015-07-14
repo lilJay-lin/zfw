@@ -25,18 +25,24 @@ import com.mimi.zfw.mybatis.dao.SHHPanoMapper;
 import com.mimi.zfw.mybatis.dao.SecondHandHouseMapper;
 import com.mimi.zfw.mybatis.pojo.RCImage;
 import com.mimi.zfw.mybatis.pojo.RHImage;
+import com.mimi.zfw.mybatis.pojo.RHImageExample;
 import com.mimi.zfw.mybatis.pojo.RHPano;
+import com.mimi.zfw.mybatis.pojo.RHPanoExample;
 import com.mimi.zfw.mybatis.pojo.RentalHousing;
 import com.mimi.zfw.mybatis.pojo.RentalHousingExample;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample.Criteria;
 import com.mimi.zfw.mybatis.pojo.SHHImage;
+import com.mimi.zfw.mybatis.pojo.SHHImageExample;
 import com.mimi.zfw.mybatis.pojo.SHHPano;
+import com.mimi.zfw.mybatis.pojo.SHHPanoExample;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouse;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouseExample;
 import com.mimi.zfw.plugin.IBaseDao;
+import com.mimi.zfw.service.IRentalHousingService;
 import com.mimi.zfw.service.IResidenceCommunityService;
+import com.mimi.zfw.service.ISecondHandHouseService;
 import com.mimi.zfw.service.IUserService;
 
 @Service
@@ -70,6 +76,12 @@ public class ResidenceCommunityServiceImpl extends
 
 	@Resource
 	private IUserService userService;
+
+	@Resource
+	private ISecondHandHouseService shhService;
+
+	@Resource
+	private IRentalHousingService rhService;
 
 	@Resource
 	@Override
@@ -759,6 +771,8 @@ public class ResidenceCommunityServiceImpl extends
 		}
 		rc.setLastEditor(curUserId);
 		rcm.updateByPrimaryKeySelective(rc);
+		shhService.refreshByRC(rc);
+		rhService.refreshByRC(rc);
 		return resMap;
 	}
 
@@ -790,23 +804,67 @@ public class ResidenceCommunityServiceImpl extends
 			rc.setLastEditor(curUserId);
 			rcm.updateByExampleSelective(rc, rce);
 
-			// 删除二手房
+
+			// 删除二手房及其下图片、全景
 			SecondHandHouseExample shhe = new SecondHandHouseExample();
 			shhe.or().andResidenceCommunityIdIn(rcIdList)
 					.andDelFlagEqualTo(false);
-			SecondHandHouse shh = new SecondHandHouse();
-			shh.setDelFlag(true);
-			shh.setLastEditor(curUserId);
-			shhm.updateByExampleSelective(shh, shhe);
+			List<SecondHandHouse> shhList = shhm.selectByExample(shhe);
+			if(shhList!=null && !shhList.isEmpty()){
+				List<String> shhIdList = new ArrayList<String>();
+				for (int i = 0; i < shhList.size(); i++) {
+					shhIdList.add(shhList.get(i).getId());
+				}
+				SecondHandHouse shh = new SecondHandHouse();
+				shh.setDelFlag(true);
+				shh.setLastEditor(curUserId);
+				shhm.updateByExampleSelective(shh, shhe);
 
-			// 删除租房
+				SHHPanoExample pe = new SHHPanoExample();
+				pe.or().andSecondHandHouseIdIn(shhIdList).andDelFlagEqualTo(false);
+				SHHPano pano = new SHHPano();
+				pano.setDelFlag(true);
+				pano.setLastEditor(curUserId);
+				shhpm.updateByExampleSelective(pano, pe);
+
+				SHHImageExample ie = new SHHImageExample();
+				ie.or().andSecondHandHouseIdIn(shhIdList).andDelFlagEqualTo(false);
+				SHHImage image = new SHHImage();
+				image.setDelFlag(true);
+				image.setLastEditor(curUserId);
+				shhim.updateByExampleSelective(image, ie);
+			}
+			
+
+			// 删除租房及其下图片、全景
 			RentalHousingExample rhe = new RentalHousingExample();
 			rhe.or().andResidenceCommunityIdIn(rcIdList)
 					.andDelFlagEqualTo(false);
-			RentalHousing rh = new RentalHousing();
-			rh.setDelFlag(true);
-			rh.setLastEditor(curUserId);
-			rhm.updateByExampleSelective(rh, rhe);
+			List<RentalHousing> rhList = rhm.selectByExample(rhe);
+			if(rhList!=null && !rhList.isEmpty()){
+				List<String> rhIdList = new ArrayList<String>();
+				for (int i = 0; i < rhList.size(); i++) {
+					rhIdList.add(rhList.get(i).getId());
+				}
+				RentalHousing rh = new RentalHousing();
+				rh.setDelFlag(true);
+				rh.setLastEditor(curUserId);
+				rhm.updateByExampleSelective(rh, rhe);
+
+				RHPanoExample pe = new RHPanoExample();
+				pe.or().andRentalHousingIdIn(rhIdList).andDelFlagEqualTo(false);
+				RHPano pano = new RHPano();
+				pano.setDelFlag(true);
+				pano.setLastEditor(curUserId);
+				rhpm.updateByExampleSelective(pano, pe);
+
+				RHImageExample ie = new RHImageExample();
+				ie.or().andRentalHousingIdIn(rhIdList).andDelFlagEqualTo(false);
+				RHImage image = new RHImage();
+				image.setDelFlag(true);
+				image.setLastEditor(curUserId);
+				rhim.updateByExampleSelective(image, ie);
+			}
 		}
 		return resMap;
 	}

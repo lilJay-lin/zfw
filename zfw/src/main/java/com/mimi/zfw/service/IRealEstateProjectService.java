@@ -34,5 +34,7 @@ public interface IRealEstateProjectService extends
 			Integer targetPage, Integer pageSize);
 
 	public int countByParams(String name, boolean ru);
+	
+	public RealEstateProject refreshRealEstateProject(String id);
 
 }

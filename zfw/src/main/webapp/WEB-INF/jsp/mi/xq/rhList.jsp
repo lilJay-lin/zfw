@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="box-cnt js-rep-ht-container" style="display:none">
-	<div class="datatable" id="htList">
+<div class="box-cnt js-rc-rh-container" style="display:none">
+	<div class="datatable" id="rhList">
 		<div class="datatabls-filter">
 			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
 				<input type="button" class="btn js-search-btn" value="搜索"/>
@@ -13,7 +13,6 @@
 				<th>名称</th>
 				<th>描述</th>
 				<th>优先级</th>
-				<th>销售</th>
 				<th>价格</th>
 				<th>最后修改时间</th>
 				<th>操作</th>
@@ -25,8 +24,8 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="htBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/${repId}/hx/add">新增</a>
+				</select> <a class="btn" href="javascript:;" onclick="rhBatchOperation(this);">批量操作</a>
+				<a class="btn" href="${ctx}/mi/${rcId}/zf/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -42,43 +41,43 @@
 	</div>
 </div>
 		<script>
-		var htList = $("#htList");
-		var htCheckList = htList.find(".page-data-list");
-		var htDeling = false;
+		var rhList = $("#rhList");
+		var rhCheckList = rhList.find(".page-data-list");
+		var rhDeling = false;
 	  	//checkbox 全选
-	  	htList.find("#selectAll").on("change",function(){
+	  	rhList.find("#selectAll").on("change",function(){
 	  		if($(this).is(":checked")){
-	  			htCheckList.find("input[type='checkbox']").prop("checked","checked");
+	  			rhCheckList.find("input[type='checkbox']").prop("checked","checked");
 	  		}else{
-	  			htCheckList.find("input[type='checkbox']").prop("checked",false);
+	  			rhCheckList.find("input[type='checkbox']").prop("checked",false);
 	  		}
 	  	});
 	  	
 	  	/*
 	  	 * 批量操作
 	  	 */
-	  	function htBatchOperation(e){
-	  		var htIds = "";
-	  		htCheckList.find("input[type='checkbox']").each(function(idx,item){
+	  	function rhBatchOperation(e){
+	  		var rhIds = "";
+	  		rhCheckList.find("input[type='checkbox']").each(function(idx,item){
 	  			if($(item).is(":checked")){
-	  			htIds==""?htIds=$(item).val():htIds+="/"+$(item).val();
+	  			rhIds==""?rhIds=$(item).val():rhIds+="/"+$(item).val();
 	  			}
 	  		});
-	  		if(htIds == ""){
-	  			alert("请选择需要处理的户型");
+	  		if(rhIds == ""){
+	  			alert("请选择需要处理的租房");
 	  		}
-	  		delHt(e,htIds);
+	  		delRh(e,rhIds);
 	  	}
-	  	function delHt(e,htIds){
-	  		if(htDeling){
-	  			alert("正在删除户型,请稍后再操作");
+	  	function delRh(e,rhIds){
+	  		if(rhDeling){
+	  			alert("正在删除租房,请稍后再操作");
 	  			return;
 	  		}
-	  		htDeling = true;
-	  		var url = "${ctx}/mi/hx/batchDel";
+	  		rhDeling = true;
+	  		var url = "${ctx}/mi/zf/batchDel";
 	  		$.ajax({
 	  			type:"post",
-	  			data:{"htIds":htIds,"repId":"${repId}"},
+	  			data:{"rhIds":rhIds,"rcId":"${rcId}"},
 	  			url:url,
 	  			async:true,
 	  			dataType:"json",
@@ -86,7 +85,7 @@
 	  				if(data){
 	  					if(data.success){
 	  						alert(data.msg);
-	  						htPage.reloadPage();
+	  						rhPage.reloadPage();
 	  					}else{
 	  						alert(data.msg);
 	  					}
@@ -96,7 +95,7 @@
 	  				alert("删除失败");
 	  			},
 	  			complete:function(){
-	  				htDeling = false;
+	  				rhDeling = false;
 	  			}
 	  		});
 	  	}
@@ -106,16 +105,16 @@
 	  	 * 分页
 	  	 * 
 	  	 */
-	  	var htPage = new Page({
-	  			container:"#htList",
-	  			template:"#ht-template",
-	  			url:"${ctx}/mi/${repId}/hx/page/",
+	  	var rhPage = new Page({
+	  			container:"#rhList",
+	  			template:"#rh-template",
+	  			url:"${ctx}/mi/${rcId}/zf/page/",
 	  			data:{pagesize:10}
 	  	});
 	  	
-	  	htList.find(".js-search-btn").click(function(){
-	  		var name = htList.find(".js-search-text").val();
-	  		htPage.setData({"name":name});
-	  		htPage.init();
+	  	rhList.find(".js-search-btn").click(function(){
+	  		var name = rhList.find(".js-search-text").val();
+	  		rhPage.setData({"name":name});
+	  		rhPage.init();
 	  	});
 	</script>

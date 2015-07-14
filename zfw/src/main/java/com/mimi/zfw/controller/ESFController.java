@@ -523,10 +523,10 @@ public class ESFController {
 	
 	@RequestMapping(value = "/mi/esf/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object batchDelSHHPano(HttpServletRequest request, String shhIds) {
+	public Object batchDelSHHPano(HttpServletRequest request, String rcId, String shhIds) {
 		JSONObject jo = new JSONObject();
 		try {
-			Map<String, String> res = shhService.batchDel(shhIds);
+			Map<String, String> res = shhService.batchDel(rcId,shhIds);
 			if (StringUtils.isEmpty(res.get("msg"))) {
 				jo.put("success", true);
 				jo.put("msg", "二手房全景删除成功!");

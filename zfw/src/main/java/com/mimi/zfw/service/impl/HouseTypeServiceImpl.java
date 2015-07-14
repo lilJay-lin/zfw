@@ -24,8 +24,10 @@ import com.mimi.zfw.mybatis.pojo.HTRing;
 import com.mimi.zfw.mybatis.pojo.HTRingExample;
 import com.mimi.zfw.mybatis.pojo.HouseType;
 import com.mimi.zfw.mybatis.pojo.HouseTypeExample;
+import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IHouseTypeService;
+import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IUserService;
 
 @Service
@@ -47,6 +49,9 @@ public class HouseTypeServiceImpl extends
 
 	@Resource
 	private IUserService userService;
+
+	@Resource
+	private IRealEstateProjectService repService;
 
 	@Resource
 	@Override
@@ -216,6 +221,7 @@ public class HouseTypeServiceImpl extends
 		ht.setCreater(curUserId);
 		ht.setLastEditor(curUserId);
 		htm.insertSelective(ht);
+		repService.refreshRealEstateProject(ht.getRealEstateProjectId());
 		return resMap;
 	}
 
@@ -237,12 +243,13 @@ public class HouseTypeServiceImpl extends
 		}
 		ht.setLastEditor(curUserId);
 		htm.updateByPrimaryKeySelective(ht);
+		repService.refreshRealEstateProject(ht.getRealEstateProjectId());
 		return resMap;
 	}
 
 
 	@Override
-	public Map<String, String> batchDel(String htIds) {
+	public Map<String, String> batchDel(String repId, String htIds) {
 		Map<String, String> resMap = new HashMap<String, String>();
 		if (StringUtils.isBlank(htIds)) {
 			resMap.put("msg", "删除内容不能为空");
@@ -288,6 +295,7 @@ public class HouseTypeServiceImpl extends
 			image.setDelFlag(true);
 			image.setLastEditor(curUserId);
 			htim.updateByExampleSelective(image, ie);
+			repService.refreshRealEstateProject(repId);
 		}
 		return resMap;
 	}
@@ -315,6 +323,16 @@ public class HouseTypeServiceImpl extends
 			return resMap;
 		}
 		return resMap;
+	}
+
+	@Override
+	public void refreshByREP(RealEstateProject rep) {
+		HouseTypeExample hte = new HouseTypeExample();
+		hte.or().andRealEstateProjectIdEqualTo(rep.getId()).andDelFlagEqualTo(false);
+		HouseType ht = new HouseType();
+		ht.setRegion(rep.getRegion());
+		ht.setRealEstateProjectName(rep.getName());
+		htm.updateByExampleSelective(ht, hte);
 	}
 
 }

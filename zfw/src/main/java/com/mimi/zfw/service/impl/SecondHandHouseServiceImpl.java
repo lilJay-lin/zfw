@@ -512,6 +512,7 @@ public class SecondHandHouseServiceImpl extends
 			shhe.setLimitStart(targetPage * pageSize);
 			shhe.setLimitSize(pageSize);
 		}
+		shhe.setOrderByClause("update_date desc,priority desc");
 		return shhm.selectByExample(shhe);
 	}
 
@@ -557,6 +558,7 @@ public class SecondHandHouseServiceImpl extends
 		shh.setCreater(curUserId);
 		shh.setLastEditor(curUserId);
 		shhm.insertSelective(shh);
+		rcService.refreshResidenceCommunity(shh.getResidenceCommunityId(), true, false);
 		return resMap;
 	}
 
@@ -578,12 +580,13 @@ public class SecondHandHouseServiceImpl extends
 		}
 		shh.setLastEditor(curUserId);
 		shhm.updateByPrimaryKeySelective(shh);
+		rcService.refreshResidenceCommunity(shh.getResidenceCommunityId(), true, false);
 		return resMap;
 	}
 
 
 	@Override
-	public Map<String, String> batchDel(String shhIds) {
+	public Map<String, String> batchDel(String rcId, String shhIds) {
 		Map<String, String> resMap = new HashMap<String, String>();
 		if (StringUtils.isBlank(shhIds)) {
 			resMap.put("msg", "删除内容不能为空");
@@ -622,6 +625,8 @@ public class SecondHandHouseServiceImpl extends
 			image.setDelFlag(true);
 			image.setLastEditor(curUserId);
 			shhim.updateByExampleSelective(image, ie);
+
+			rcService.refreshResidenceCommunity(rcId, true, false);
 		}
 		return resMap;
 	}
@@ -645,5 +650,15 @@ public class SecondHandHouseServiceImpl extends
 			return resMap;
 		}
 		return resMap;
+	}
+
+	@Override
+	public void refreshByRC(ResidenceCommunity rc) {
+		SecondHandHouseExample shhe = new SecondHandHouseExample();
+		shhe.or().andResidenceCommunityIdEqualTo(rc.getId()).andDelFlagEqualTo(false);
+		SecondHandHouse shh = new SecondHandHouse();
+		shh.setRegion(rc.getRegion());
+		shh.setResidenceCommunityName(rc.getName());
+		shhm.updateByExampleSelective(shh, shhe);
 	}
 }

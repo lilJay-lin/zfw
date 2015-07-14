@@ -77,7 +77,7 @@
 	  		var url = "${ctx}/mi/esf/batchDel";
 	  		$.ajax({
 	  			type:"post",
-	  			data:{"shhIds":shhIds},
+	  			data:{"shhIds":shhIds,"rcId":"${rcId}"},
 	  			url:url,
 	  			async:true,
 	  			dataType:"json",

@@ -39,12 +39,13 @@ import com.mimi.zfw.mybatis.pojo.REPPano;
 import com.mimi.zfw.mybatis.pojo.REPVideo;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample;
-import com.mimi.zfw.mybatis.pojo.RelationUserAndREP;
 import com.mimi.zfw.mybatis.pojo.RealEstateProjectExample.Criteria;
 import com.mimi.zfw.mybatis.pojo.RelationREPAndInformation;
 import com.mimi.zfw.mybatis.pojo.RelationREPAndInformationExample;
+import com.mimi.zfw.mybatis.pojo.RelationUserAndREP;
 import com.mimi.zfw.mybatis.pojo.RelationUserAndREPExample;
 import com.mimi.zfw.plugin.IBaseDao;
+import com.mimi.zfw.service.IHouseTypeService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IUserService;
 
@@ -88,6 +89,9 @@ public class RealEstateProjectServiceImpl extends
 
 	@Resource
 	private IUserService userService;
+	
+	@Resource
+	private IHouseTypeService htService;
 
 	@Resource
 	@Override
@@ -653,6 +657,7 @@ public class RealEstateProjectServiceImpl extends
 		}
 		rep.setLastEditor(curUserId);
 		repm.updateByPrimaryKeySelective(rep);
+		htService.refreshByREP(rep);
 		addREPAvgPriceHistory(rep);
 		if (StringUtils.isNotBlank(addInfoRelations)) {
 			String[] ids = addInfoRelations
@@ -756,13 +761,13 @@ public class RealEstateProjectServiceImpl extends
 		if (StringUtils.isBlank(rep.getName())) {
 			resMap.put("msg", "楼盘名称不能为空");
 			return resMap;
-		}else{
+		} else {
 			RealEstateProjectExample repe = new RealEstateProjectExample();
 			repe.or().andNameEqualTo(rep.getName()).andDelFlagEqualTo(false);
 			List<RealEstateProject> repList = repm.selectByExample(repe);
-			if(repList!=null && !repList.isEmpty()){
-				for(RealEstateProject tempRep : repList){
-					if(!tempRep.getId().equals(rep.getId())){
+			if (repList != null && !repList.isEmpty()) {
+				for (RealEstateProject tempRep : repList) {
+					if (!tempRep.getId().equals(rep.getId())) {
 						resMap.put("msg", "楼盘名称已存在");
 						return resMap;
 					}
@@ -918,5 +923,82 @@ public class RealEstateProjectServiceImpl extends
 			}
 		}
 		return repe;
+	}
+
+	@Override
+	public RealEstateProject refreshRealEstateProject(String id) {
+		RealEstateProject rep = repm.selectByPrimaryKey(id);
+		if (rep == null) {
+			return null;
+		}
+		HouseTypeExample hte = new HouseTypeExample();
+		hte.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		List<HouseType> htList = htm.selectByExample(hte);
+		int oneRoomNum = 0;
+		int twoRoomNum = 0;
+		int threeRoomNum = 0;
+		int fourRoomNum = 0;
+		int fiveRoomNum = 0;
+		int overFiveRoomNum = 0;
+		int maxRoomGrossFloorArea = 0;
+		int minRoomGrossFloorArea = 0;
+		String saleStatus = Constants.SALE_STATUS_SW;
+		if (htList != null && !htList.isEmpty()) {
+			for (int i = 0; i < htList.size(); i++) {
+				HouseType ht = htList.get(i);
+				if (ht.getRoomNum() != null) {
+					switch (ht.getRoomNum()) {
+					case 0:
+						break;
+					case 1:
+						oneRoomNum++;
+						break;
+					case 2:
+						twoRoomNum++;
+						break;
+					case 3:
+						threeRoomNum++;
+						break;
+					case 4:
+						fourRoomNum++;
+						break;
+					case 5:
+						fiveRoomNum++;
+						break;
+					default:
+						overFiveRoomNum++;
+					}
+				}
+				if (ht.getGrossFloorArea() != null) {
+					if (ht.getGrossFloorArea() > maxRoomGrossFloorArea) {
+						maxRoomGrossFloorArea = (int) ht.getGrossFloorArea()
+								.floatValue();
+					}
+					if (ht.getGrossFloorArea() < minRoomGrossFloorArea) {
+						minRoomGrossFloorArea = (int) ht.getGrossFloorArea()
+								.floatValue();
+					}
+				}
+				String htss = ht.getSaleStatus();
+				if (StringUtils.isNotBlank(htss)) {
+					if (Constants.SALE_STATUS_SW.equals(saleStatus)
+							|| (Constants.SALE_STATUS_DS.equals(saleStatus) && Constants.SALE_STATUS_ZS
+									.equals(htss))) {
+						saleStatus = htss;
+					}
+				}
+			}
+		}
+		rep.setOneRoomNum(oneRoomNum);
+		rep.setTwoRoomNum(twoRoomNum);
+		rep.setThreeRoomNum(threeRoomNum);
+		rep.setFourRoomNum(fourRoomNum);
+		rep.setFiveRoomNum(fiveRoomNum);
+		rep.setOverFiveRoomNum(overFiveRoomNum);
+		rep.setMaxRoomGrossFloorArea(maxRoomGrossFloorArea);
+		rep.setMinRoomGrossFloorArea(minRoomGrossFloorArea);
+		rep.setSaleStatus(saleStatus);
+		repm.updateByPrimaryKeySelective(rep);
+		return rep;
 	}
 }
