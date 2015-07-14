@@ -53,7 +53,7 @@
 </body>
 <script>
 	function search(){
-		top.location = "${ctx}/"+$("#keyWord").val()+"/search";
+		top.location = "${ctx}/"+$("#keyWord").val()+"-/search";
 	}
 </script>
 </html>
