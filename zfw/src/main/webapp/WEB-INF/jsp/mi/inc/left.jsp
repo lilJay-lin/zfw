@@ -33,6 +33,12 @@
 				</a>
 			</li>
 			<li>
+				<a  href="${ctx }/mi/xq">
+					<i class="icon-hdd"></i>
+					<span > 小区管理</span>
+				</a>
+			</li>
+			<li>
 				<a  href="${ctx }/mi/shop">
 					<i class="icon-hdd"></i>
 					<span > 商铺管理</span>

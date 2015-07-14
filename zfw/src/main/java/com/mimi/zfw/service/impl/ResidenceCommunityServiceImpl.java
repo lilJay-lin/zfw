@@ -1,8 +1,11 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -22,17 +25,25 @@ import com.mimi.zfw.mybatis.dao.SHHPanoMapper;
 import com.mimi.zfw.mybatis.dao.SecondHandHouseMapper;
 import com.mimi.zfw.mybatis.pojo.RCImage;
 import com.mimi.zfw.mybatis.pojo.RHImage;
+import com.mimi.zfw.mybatis.pojo.RHImageExample;
 import com.mimi.zfw.mybatis.pojo.RHPano;
+import com.mimi.zfw.mybatis.pojo.RHPanoExample;
 import com.mimi.zfw.mybatis.pojo.RentalHousing;
 import com.mimi.zfw.mybatis.pojo.RentalHousingExample;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample;
+import com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample.Criteria;
 import com.mimi.zfw.mybatis.pojo.SHHImage;
+import com.mimi.zfw.mybatis.pojo.SHHImageExample;
 import com.mimi.zfw.mybatis.pojo.SHHPano;
+import com.mimi.zfw.mybatis.pojo.SHHPanoExample;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouse;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouseExample;
 import com.mimi.zfw.plugin.IBaseDao;
+import com.mimi.zfw.service.IRentalHousingService;
 import com.mimi.zfw.service.IResidenceCommunityService;
+import com.mimi.zfw.service.ISecondHandHouseService;
+import com.mimi.zfw.service.IUserService;
 
 @Service
 public class ResidenceCommunityServiceImpl extends
@@ -62,6 +73,15 @@ public class ResidenceCommunityServiceImpl extends
 
 	@Resource
 	private RHPanoMapper rhpm;
+
+	@Resource
+	private IUserService userService;
+
+	@Resource
+	private ISecondHandHouseService shhService;
+
+	@Resource
+	private IRentalHousingService rhService;
 
 	@Resource
 	@Override
@@ -214,13 +234,13 @@ public class ResidenceCommunityServiceImpl extends
 					shh.setId(UUID.randomUUID().toString());
 					shh.setResidenceCommunityId(rc.getId());
 					shh.setResidenceCommunityName(rc.getName());
-					
+
 					Calendar cal = Calendar.getInstance();
 					int tempDay = RandomUtils.nextInt(300);
 					cal.add(Calendar.DAY_OF_YEAR, -tempDay);
 					shh.setCreateDate(cal.getTime());
 					shh.setUpdateDate(cal.getTime());
-					shh.setOutOfDate(tempDay>=90);
+					shh.setOutOfDate(tempDay >= 90);
 
 					shh.setName("户型名_" + z + "_" + i + "_" + k);
 					shh.setRegion(region);
@@ -302,8 +322,8 @@ public class ResidenceCommunityServiceImpl extends
 					cal.add(Calendar.DAY_OF_YEAR, -tempDay);
 					rh.setCreateDate(cal.getTime());
 					rh.setUpdateDate(cal.getTime());
-					rh.setOutOfDate(tempDay>=90);
-					
+					rh.setOutOfDate(tempDay >= 90);
+
 					rh.setName("户型名_" + z + "_" + i + "_" + k);
 					rh.setRegion(region);
 					rh.setPhoneNum("1" + (int) (Math.random() * 99999)
@@ -484,19 +504,21 @@ public class ResidenceCommunityServiceImpl extends
 	@Override
 	public List<ResidenceCommunity> findByName(String name) {
 		ResidenceCommunityExample rce = new ResidenceCommunityExample();
-		rce.or().andNameLike("%"+name+"%").andDelFlagEqualTo(false);
+		rce.or().andNameLike("%" + name + "%").andDelFlagEqualTo(false);
 		return rcm.selectByExample(rce);
 	}
 
 	@Override
-	public ResidenceCommunity refreshResidenceCommunity(String id,boolean onShh,boolean onRh){
+	public ResidenceCommunity refreshResidenceCommunity(String id,
+			boolean onShh, boolean onRh) {
 		ResidenceCommunity rc = rcm.selectByPrimaryKey(id);
-		if(rc==null){
+		if (rc == null) {
 			return null;
 		}
-		if(onShh){
+		if (onShh) {
 			SecondHandHouseExample shhe = new SecondHandHouseExample();
-			shhe.or().andResidenceCommunityIdEqualTo(id).andDelFlagEqualTo(false);
+			shhe.or().andResidenceCommunityIdEqualTo(id)
+					.andDelFlagEqualTo(false);
 			List<SecondHandHouse> shhList = shhm.selectByExample(shhe);
 			int shhAveragePrice = 0;
 			int shhNum = 0;
@@ -510,46 +532,62 @@ public class ResidenceCommunityServiceImpl extends
 			int shhMinRoomGrossFloorArea = 0;
 			int shhMaxTotalPrice = 0;
 			int shhMinTotalPrice = 0;
-			if(shhList!=null && !shhList.isEmpty()){
+			if (shhList != null && !shhList.isEmpty()) {
 				shhNum = shhList.size();
 				int tempShhTotalPrice = 0;
 				int tempShhTotalArea = 0;
-				for(int i=0;i<shhList.size();i++){
+				for (int i = 0; i < shhList.size(); i++) {
 					SecondHandHouse shh = shhList.get(i);
-					if(shh.getRoomNum()!=null){
-						switch(shh.getRoomNum()){
-							case 0:break;
-							case 1:shhOneRoomNum++;break;
-							case 2:shhTwoRoomNum++;break;
-							case 3:shhThreeRoomNum++;break;
-							case 4:shhFourRoomNum++;break;
-							case 5:shhFiveRoomNum++;break;
-							default:shhOverFiveRoomNum++;
+					if (shh.getRoomNum() != null) {
+						switch (shh.getRoomNum()) {
+						case 0:
+							break;
+						case 1:
+							shhOneRoomNum++;
+							break;
+						case 2:
+							shhTwoRoomNum++;
+							break;
+						case 3:
+							shhThreeRoomNum++;
+							break;
+						case 4:
+							shhFourRoomNum++;
+							break;
+						case 5:
+							shhFiveRoomNum++;
+							break;
+						default:
+							shhOverFiveRoomNum++;
 						}
 					}
-					if(shh.getGrossFloorArea()!=null){
-						if(shh.getGrossFloorArea()>shhMaxRoomGrossFloorArea){
-							shhMaxRoomGrossFloorArea = (int) shh.getGrossFloorArea().floatValue();
+					if (shh.getGrossFloorArea() != null) {
+						if (shh.getGrossFloorArea() > shhMaxRoomGrossFloorArea) {
+							shhMaxRoomGrossFloorArea = (int) shh
+									.getGrossFloorArea().floatValue();
 						}
-						if(shh.getGrossFloorArea()<shhMinRoomGrossFloorArea){
-							shhMinRoomGrossFloorArea = (int) shh.getGrossFloorArea().floatValue();
+						if (shh.getGrossFloorArea() < shhMinRoomGrossFloorArea) {
+							shhMinRoomGrossFloorArea = (int) shh
+									.getGrossFloorArea().floatValue();
 						}
 					}
-					if(shh.getTotalPrice()!=null){
-						if(shh.getTotalPrice()>shhMaxTotalPrice){
+					if (shh.getTotalPrice() != null) {
+						if (shh.getTotalPrice() > shhMaxTotalPrice) {
 							shhMaxTotalPrice = shh.getTotalPrice();
 						}
-						if(shh.getTotalPrice()<shhMinTotalPrice){
+						if (shh.getTotalPrice() < shhMinTotalPrice) {
 							shhMinTotalPrice = shh.getTotalPrice();
 						}
 					}
-					if(shh.getGrossFloorArea()!=null && shh.getTotalPrice()!=null){
-						tempShhTotalArea+=shh.getGrossFloorArea();
-						tempShhTotalPrice+=shh.getTotalPrice();
+					if (shh.getGrossFloorArea() != null
+							&& shh.getTotalPrice() != null) {
+						tempShhTotalArea += shh.getGrossFloorArea();
+						tempShhTotalPrice += shh.getTotalPrice();
 					}
 				}
-				if(tempShhTotalArea!=0){
-					shhAveragePrice = tempShhTotalPrice*10000/tempShhTotalArea;
+				if (tempShhTotalArea != 0) {
+					shhAveragePrice = tempShhTotalPrice * 10000
+							/ tempShhTotalArea;
 				}
 			}
 			rc.setShhAveragePrice(shhAveragePrice);
@@ -565,9 +603,10 @@ public class ResidenceCommunityServiceImpl extends
 			rc.setShhMinTotalPrice(shhMinTotalPrice);
 			rc.setShhMaxTotalPrice(shhMaxTotalPrice);
 		}
-		if(onRh){
+		if (onRh) {
 			RentalHousingExample rhe = new RentalHousingExample();
-			rhe.or().andResidenceCommunityIdEqualTo(id).andDelFlagEqualTo(false);
+			rhe.or().andResidenceCommunityIdEqualTo(id)
+					.andDelFlagEqualTo(false);
 			List<RentalHousing> rhList = rhm.selectByExample(rhe);
 			int rhAveragePrice = 0;
 			int rhNum = 0;
@@ -583,44 +622,58 @@ public class ResidenceCommunityServiceImpl extends
 			int rhMinRental = 0;
 			int rhEntireRentNum = 0;
 			int rhFlatShareNum = 0;
-			if(rhList!=null && !rhList.isEmpty()){
+			if (rhList != null && !rhList.isEmpty()) {
 				rhNum = rhList.size();
 				int tempRhTotalPrice = 0;
 				int tempRhNum = 0;
-				for(int i=0;i<rhList.size();i++){
+				for (int i = 0; i < rhList.size(); i++) {
 					RentalHousing rh = rhList.get(i);
-					if(rh.getRoomNum()!=null){
-						switch(rh.getRoomNum()){
-							case 0:break;
-							case 1:rhOneRoomNum++;break;
-							case 2:rhTwoRoomNum++;break;
-							case 3:rhThreeRoomNum++;break;
-							case 4:rhFourRoomNum++;break;
-							case 5:rhFiveRoomNum++;break;
-							default:rhOverFiveRoomNum++;
+					if (rh.getRoomNum() != null) {
+						switch (rh.getRoomNum()) {
+						case 0:
+							break;
+						case 1:
+							rhOneRoomNum++;
+							break;
+						case 2:
+							rhTwoRoomNum++;
+							break;
+						case 3:
+							rhThreeRoomNum++;
+							break;
+						case 4:
+							rhFourRoomNum++;
+							break;
+						case 5:
+							rhFiveRoomNum++;
+							break;
+						default:
+							rhOverFiveRoomNum++;
 						}
 					}
-					if(rh.getGrossFloorArea()!=null){
-						if(rh.getGrossFloorArea()>rhMaxRoomGrossFloorArea){
-							rhMaxRoomGrossFloorArea = (int) rh.getGrossFloorArea().floatValue();
+					if (rh.getGrossFloorArea() != null) {
+						if (rh.getGrossFloorArea() > rhMaxRoomGrossFloorArea) {
+							rhMaxRoomGrossFloorArea = (int) rh
+									.getGrossFloorArea().floatValue();
 						}
-						if(rh.getGrossFloorArea()<rhMinRoomGrossFloorArea){
-							rhMinRoomGrossFloorArea = (int) rh.getGrossFloorArea().floatValue();
+						if (rh.getGrossFloorArea() < rhMinRoomGrossFloorArea) {
+							rhMinRoomGrossFloorArea = (int) rh
+									.getGrossFloorArea().floatValue();
 						}
 					}
-					if(rh.getRental()!=null){
-						if(rh.getRental()>rhMaxRental){
+					if (rh.getRental() != null) {
+						if (rh.getRental() > rhMaxRental) {
 							rhMaxRental = rh.getRental();
 						}
-						if(rh.getRental()<rhMinRental){
+						if (rh.getRental() < rhMinRental) {
 							rhMinRental = rh.getRental();
 						}
-						tempRhTotalPrice+=rh.getRental();
+						tempRhTotalPrice += rh.getRental();
 						tempRhNum++;
 					}
 				}
-				if(tempRhNum!=0){
-					rhAveragePrice = tempRhTotalPrice/tempRhNum;
+				if (tempRhNum != 0) {
+					rhAveragePrice = tempRhTotalPrice / tempRhNum;
 				}
 			}
 			rc.setRhAveragePrice(rhAveragePrice);
@@ -647,10 +700,211 @@ public class ResidenceCommunityServiceImpl extends
 		ResidenceCommunityExample rce = new ResidenceCommunityExample();
 		rce.or().andNameEqualTo(name).andDelFlagEqualTo(false);
 		List<ResidenceCommunity> list = rcm.selectByExample(rce);
-		if(list!=null && !list.isEmpty()){
+		if (list != null && !list.isEmpty()) {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<ResidenceCommunity> findByParams(String name, Boolean active,
+			Integer targetPage, Integer pageSize) {
+		ResidenceCommunityExample rce = bindParams(name, active);
+		if (rce != null) {
+			if (targetPage != null && pageSize != null) {
+				rce.setLimitStart(targetPage * pageSize);
+				rce.setLimitSize(pageSize);
+			}
+			rce.setOrderByClause("update_date desc,priority desc");
+			return rcm.selectByExample(rce);
+		}
+		return null;
+	}
+
+	@Override
+	public int countByParams(String name, Boolean active) {
+		ResidenceCommunityExample rce = bindParams(name, active);
+		if (rce != null) {
+			return rcm.countByExample(rce);
+		}
+		return 0;
+	}
+
+	@Override
+	public Map<String, String> addRC(ResidenceCommunity rc) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rc == null) {
+			resMap.put("msg", "小区内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(rc);
+		if (!resMap.isEmpty()) {
+			return resMap;
+		}
+		rc.setId(UUID.randomUUID().toString());
+		rc.setCreater(curUserId);
+		rc.setLastEditor(curUserId);
+		rcm.insertSelective(rc);
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> updateRC(ResidenceCommunity rc) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rc == null) {
+			resMap.put("msg", "小区内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(rc);
+		if (!resMap.isEmpty()) {
+			return resMap;
+		}
+		rc.setLastEditor(curUserId);
+		rcm.updateByPrimaryKeySelective(rc);
+		shhService.refreshByRC(rc);
+		rhService.refreshByRC(rc);
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> batchDel(String rcIds) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (StringUtils.isBlank(rcIds)) {
+			resMap.put("msg", "删除内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		String[] rcIdArr = rcIds.split(Constants.MI_IDS_SPLIT_STRING);
+		List<String> rcIdList = new ArrayList<String>();
+		for (int i = 0; i < rcIdArr.length; i++) {
+			if (StringUtils.isNotBlank(rcIdArr[i])) {
+				rcIdList.add(rcIdArr[i]);
+			}
+		}
+		if (!rcIdList.isEmpty()) {
+			// 删除小区
+			ResidenceCommunityExample rce = new ResidenceCommunityExample();
+			rce.or().andIdIn(rcIdList).andDelFlagEqualTo(false);
+			ResidenceCommunity rc = new ResidenceCommunity();
+			rc.setDelFlag(true);
+			rc.setLastEditor(curUserId);
+			rcm.updateByExampleSelective(rc, rce);
+
+
+			// 删除二手房及其下图片、全景
+			SecondHandHouseExample shhe = new SecondHandHouseExample();
+			shhe.or().andResidenceCommunityIdIn(rcIdList)
+					.andDelFlagEqualTo(false);
+			List<SecondHandHouse> shhList = shhm.selectByExample(shhe);
+			if(shhList!=null && !shhList.isEmpty()){
+				List<String> shhIdList = new ArrayList<String>();
+				for (int i = 0; i < shhList.size(); i++) {
+					shhIdList.add(shhList.get(i).getId());
+				}
+				SecondHandHouse shh = new SecondHandHouse();
+				shh.setDelFlag(true);
+				shh.setLastEditor(curUserId);
+				shhm.updateByExampleSelective(shh, shhe);
+
+				SHHPanoExample pe = new SHHPanoExample();
+				pe.or().andSecondHandHouseIdIn(shhIdList).andDelFlagEqualTo(false);
+				SHHPano pano = new SHHPano();
+				pano.setDelFlag(true);
+				pano.setLastEditor(curUserId);
+				shhpm.updateByExampleSelective(pano, pe);
+
+				SHHImageExample ie = new SHHImageExample();
+				ie.or().andSecondHandHouseIdIn(shhIdList).andDelFlagEqualTo(false);
+				SHHImage image = new SHHImage();
+				image.setDelFlag(true);
+				image.setLastEditor(curUserId);
+				shhim.updateByExampleSelective(image, ie);
+			}
+			
+
+			// 删除租房及其下图片、全景
+			RentalHousingExample rhe = new RentalHousingExample();
+			rhe.or().andResidenceCommunityIdIn(rcIdList)
+					.andDelFlagEqualTo(false);
+			List<RentalHousing> rhList = rhm.selectByExample(rhe);
+			if(rhList!=null && !rhList.isEmpty()){
+				List<String> rhIdList = new ArrayList<String>();
+				for (int i = 0; i < rhList.size(); i++) {
+					rhIdList.add(rhList.get(i).getId());
+				}
+				RentalHousing rh = new RentalHousing();
+				rh.setDelFlag(true);
+				rh.setLastEditor(curUserId);
+				rhm.updateByExampleSelective(rh, rhe);
+
+				RHPanoExample pe = new RHPanoExample();
+				pe.or().andRentalHousingIdIn(rhIdList).andDelFlagEqualTo(false);
+				RHPano pano = new RHPano();
+				pano.setDelFlag(true);
+				pano.setLastEditor(curUserId);
+				rhpm.updateByExampleSelective(pano, pe);
+
+				RHImageExample ie = new RHImageExample();
+				ie.or().andRentalHousingIdIn(rhIdList).andDelFlagEqualTo(false);
+				RHImage image = new RHImage();
+				image.setDelFlag(true);
+				image.setLastEditor(curUserId);
+				rhim.updateByExampleSelective(image, ie);
+			}
+		}
+		return resMap;
+	}
+
+	private ResidenceCommunityExample bindParams(String name, Boolean active) {
+		ResidenceCommunityExample rce = new ResidenceCommunityExample();
+		Criteria cri = rce.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if (StringUtils.isNotBlank(name)) {
+			cri.andNameLike("%" + name + "%");
+		}
+		if (active != null) {
+			cri.andActiveEqualTo(active);
+		}
+		return rce;
+	}
+
+	private Map<String, String> checkInfo(ResidenceCommunity rc) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rc == null) {
+			resMap.put("msg", "小区内容不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(rc.getName())) {
+			resMap.put("msg", "小区名称不能为空");
+			return resMap;
+		} else {
+			ResidenceCommunityExample rce = new ResidenceCommunityExample();
+			rce.or().andNameEqualTo(rc.getName()).andDelFlagEqualTo(false);
+			List<ResidenceCommunity> rcList = rcm.selectByExample(rce);
+			if (rcList != null && !rcList.isEmpty()) {
+				for (ResidenceCommunity tempRep : rcList) {
+					if (!tempRep.getId().equals(rc.getId())) {
+						resMap.put("msg", "小区名称已存在");
+						return resMap;
+					}
+				}
+			}
+		}
+		return resMap;
 	}
 
 }

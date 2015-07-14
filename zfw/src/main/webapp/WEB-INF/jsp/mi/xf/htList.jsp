@@ -78,7 +78,7 @@
 	  		var url = "${ctx}/mi/hx/batchDel";
 	  		$.ajax({
 	  			type:"post",
-	  			data:{"htIds":htIds},
+	  			data:{"htIds":htIds,"repId":"${repId}"},
 	  			url:url,
 	  			async:true,
 	  			dataType:"json",

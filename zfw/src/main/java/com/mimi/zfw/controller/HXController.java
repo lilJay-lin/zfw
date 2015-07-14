@@ -292,10 +292,10 @@ public class HXController {
 	
 	@RequestMapping(value = "/mi/hx/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
-	public Object batchDelHTPano(HttpServletRequest request, String htIds) {
+	public Object batchDelHTPano(HttpServletRequest request, String repId, String htIds) {
 		JSONObject jo = new JSONObject();
 		try {
-			Map<String, String> res = htService.batchDel(htIds);
+			Map<String, String> res = htService.batchDel(repId,htIds);
 			if (StringUtils.isEmpty(res.get("msg"))) {
 				jo.put("success", true);
 				jo.put("msg", "户型全景删除成功!");

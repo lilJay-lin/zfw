@@ -178,7 +178,7 @@ public class IndexController {
 		return jo.toString();
     }
 
-    @RequestMapping(value = "/{keyWord}/search",method = RequestMethod.GET)
+    @RequestMapping(value = "/{keyWord}-/search",method = RequestMethod.GET)
     public String search(HttpServletRequest request ,@PathVariable String keyWord) {
     	int xfNum = repService.countRealEstateProjectByParams(keyWord, null, null, null, null, null, null);
     	int esfNum = shhService.countSecondHandHouseByParams(null, keyWord, null, null, null, null);
@@ -194,7 +194,7 @@ public class IndexController {
     	request.setAttribute("xzlNum", xzlNum);
     	request.setAttribute("cfckNum", cfckNum);
     	request.setAttribute("totalNum", totalNum);
-	return "ui/searchResult";
+    	return "ui/searchResult";
     }
     
     

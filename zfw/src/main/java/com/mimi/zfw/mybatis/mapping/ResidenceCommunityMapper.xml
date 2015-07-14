@@ -56,6 +56,7 @@
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -125,7 +126,7 @@
     rh_three_room_num, rh_four_room_num, rh_five_room_num, rh_over_five_room_num, rh_min_room_gross_floor_area, 
     rh_max_room_gross_floor_area, rh_min_rental, rh_max_rental, rh_entire_rent_num, rh_flat_share_num, 
     tags, priority, active, pre_image_url, creater, last_editor, create_date, update_date, 
-    del_flag
+    del_flag, description
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample" >
     select
@@ -179,7 +180,8 @@
       rh_entire_rent_num, rh_flat_share_num, tags, 
       priority, active, pre_image_url, 
       creater, last_editor, create_date, 
-      update_date, del_flag)
+      update_date, del_flag, description
+      )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{onSaleDate,jdbcType=DATE}, #{propertyType,jdbcType=VARCHAR}, #{buildingType,jdbcType=VARCHAR}, 
       #{householdNum,jdbcType=INTEGER}, #{floorAreaRatio,jdbcType=REAL}, #{greenRate,jdbcType=REAL}, 
@@ -198,7 +200,8 @@
       #{rhEntireRentNum,jdbcType=INTEGER}, #{rhFlatShareNum,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, 
       #{priority,jdbcType=INTEGER}, #{active,jdbcType=BIT}, #{preImageUrl,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT})
+      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT}, #{description,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.ResidenceCommunity" >
     insert into tbl_residence_community
@@ -365,6 +368,9 @@
       <if test="delFlag != null" >
         del_flag,
       </if>
+      <if test="description != null" >
+        description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -528,6 +534,9 @@
       </if>
       <if test="delFlag != null" >
         #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -702,6 +711,9 @@
       <if test="record.delFlag != null" >
         del_flag = #{record.delFlag,jdbcType=BIT},
       </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -762,7 +774,8 @@
       last_editor = #{record.lastEditor,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
-      del_flag = #{record.delFlag,jdbcType=BIT}
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      description = #{record.description,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -929,6 +942,9 @@
       <if test="delFlag != null" >
         del_flag = #{delFlag,jdbcType=BIT},
       </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -986,7 +1002,8 @@
       last_editor = #{lastEditor,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=BIT}
+      del_flag = #{delFlag,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.EhcacheCache" />

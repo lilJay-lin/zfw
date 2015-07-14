@@ -25,7 +25,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${adts != null and fn:length(adts) > 1 }">
+						<c:if test="${adts != null and fn:length(adts) != 0 }">
 				       		<c:forEach items="${adts}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>
@@ -335,7 +335,7 @@
 	}
 	
 	function search(){
-		top.location = "${ctx}/"+$("#keyWord").val()+"/search";
+		top.location = "${ctx}/"+$("#keyWord").val()+"-/search";
 	}
 </script>
 </html>

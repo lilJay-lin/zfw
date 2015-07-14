@@ -2,7 +2,9 @@ package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -13,11 +15,14 @@ import org.springframework.stereotype.Service;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.ResidenceCommunityMapper;
 import com.mimi.zfw.mybatis.dao.SHHImageMapper;
+import com.mimi.zfw.mybatis.dao.SHHPanoMapper;
 import com.mimi.zfw.mybatis.dao.SecondHandHouseMapper;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunityExample;
 import com.mimi.zfw.mybatis.pojo.SHHImage;
 import com.mimi.zfw.mybatis.pojo.SHHImageExample;
+import com.mimi.zfw.mybatis.pojo.SHHPano;
+import com.mimi.zfw.mybatis.pojo.SHHPanoExample;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouse;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouseExample;
 import com.mimi.zfw.plugin.IBaseDao;
@@ -36,6 +41,9 @@ public class SecondHandHouseServiceImpl extends
 
 	@Resource
 	private SHHImageMapper shhim;
+
+	@Resource
+	private SHHPanoMapper shhpm;
 
 	@Resource
 	private ResidenceCommunityMapper rcm;
@@ -483,7 +491,7 @@ public class SecondHandHouseServiceImpl extends
 		SecondHandHouseExample shhe = new SecondHandHouseExample();
 		shhe.or().andIdEqualTo(id).andCreaterEqualTo(userId).andDelFlagEqualTo(false);
 		if(shhm.countByExample(shhe)==0){
-			return "要删除的数据不存在";
+			return "要刷新的数据不存在";
 		}
 		SecondHandHouse shh = new SecondHandHouse();
 		shh.setId(id);
@@ -491,5 +499,166 @@ public class SecondHandHouseServiceImpl extends
 		shh.setLastEditor(userId);
 		shhm.updateByPrimaryKeySelective(shh);
 		return null;
+	}
+	
+	@Override
+	public List<SecondHandHouse> findByParams(String name, String rcId,
+			Integer targetPage, Integer pageSize) {
+		if (StringUtils.isBlank(rcId)) {
+			return null;
+		}
+		SecondHandHouseExample shhe = bindSecondHandHouseParams(rcId, name);
+		if (targetPage != null && pageSize != null) {
+			shhe.setLimitStart(targetPage * pageSize);
+			shhe.setLimitSize(pageSize);
+		}
+		shhe.setOrderByClause("update_date desc,priority desc");
+		return shhm.selectByExample(shhe);
+	}
+
+	@Override
+	public int countByParams(String name, String rcId) {
+		if (StringUtils.isBlank(rcId)) {
+			return 0;
+		}
+		SecondHandHouseExample shhe = bindSecondHandHouseParams(rcId, name);
+		return shhm.countByExample(shhe);
+	}
+
+	private SecondHandHouseExample bindSecondHandHouseParams(String rcId, String name) {
+		SecondHandHouseExample shhe = new SecondHandHouseExample();
+		SecondHandHouseExample.Criteria cri = shhe.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if (StringUtils.isNotBlank(rcId)) {
+			cri.andResidenceCommunityIdEqualTo(rcId);
+		}
+		if (StringUtils.isNotBlank(name)) {
+			cri.andNameLike("%" + name + "%");
+		}
+		return shhe;
+	}
+
+	@Override
+	public Map<String, String> addSHH(SecondHandHouse shh) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (shh == null) {
+			resMap.put("msg", "二手房内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(shh);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		shh.setId(UUID.randomUUID().toString());
+		shh.setCreater(curUserId);
+		shh.setLastEditor(curUserId);
+		shhm.insertSelective(shh);
+		rcService.refreshResidenceCommunity(shh.getResidenceCommunityId(), true, false);
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> updateSHH(SecondHandHouse shh) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (shh == null) {
+			resMap.put("msg", "二手房内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(shh);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		shh.setLastEditor(curUserId);
+		shhm.updateByPrimaryKeySelective(shh);
+		rcService.refreshResidenceCommunity(shh.getResidenceCommunityId(), true, false);
+		return resMap;
+	}
+
+
+	@Override
+	public Map<String, String> batchDel(String rcId, String shhIds) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (StringUtils.isBlank(shhIds)) {
+			resMap.put("msg", "删除内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		String[] ids = shhIds.split(Constants.MI_IDS_SPLIT_STRING);
+		List<String> idList = new ArrayList<String>();
+		for (int i = 0; i < ids.length; i++) {
+			if (StringUtils.isNotBlank(ids[i])) {
+				idList.add(ids[i]);
+			}
+		}
+		if (!idList.isEmpty()) {
+			SecondHandHouseExample shhe = new SecondHandHouseExample();
+			shhe.or().andIdIn(idList).andDelFlagEqualTo(false);
+			SecondHandHouse shh = new SecondHandHouse();
+			shh.setDelFlag(true);
+			shh.setLastEditor(curUserId);
+			shhm.updateByExampleSelective(shh, shhe);
+			
+			SHHPanoExample pe = new SHHPanoExample();
+			pe.or().andSecondHandHouseIdIn(idList).andDelFlagEqualTo(false);
+			SHHPano pano = new SHHPano();
+			pano.setDelFlag(true);
+			pano.setLastEditor(curUserId);
+			shhpm.updateByExampleSelective(pano, pe);
+			
+			SHHImageExample ie = new SHHImageExample();
+			ie.or().andSecondHandHouseIdIn(idList).andDelFlagEqualTo(false);
+			SHHImage image = new SHHImage();
+			image.setDelFlag(true);
+			image.setLastEditor(curUserId);
+			shhim.updateByExampleSelective(image, ie);
+
+			rcService.refreshResidenceCommunity(rcId, true, false);
+		}
+		return resMap;
+	}
+	
+	private Map<String, String> checkInfo(SecondHandHouse shh) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (shh == null) {
+			resMap.put("msg", "二手房内容不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(shh.getResidenceCommunityId()) || StringUtils.isBlank(shh.getResidenceCommunityName())) {
+			resMap.put("msg", "二手房所属小区不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(shh.getPreImageUrl())) {
+			resMap.put("msg", "二手房缩略图不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(shh.getName())) {
+			resMap.put("msg", "二手房名称不能为空");
+			return resMap;
+		}
+		return resMap;
+	}
+
+	@Override
+	public void refreshByRC(ResidenceCommunity rc) {
+		SecondHandHouseExample shhe = new SecondHandHouseExample();
+		shhe.or().andResidenceCommunityIdEqualTo(rc.getId()).andDelFlagEqualTo(false);
+		SecondHandHouse shh = new SecondHandHouse();
+		shh.setRegion(rc.getRegion());
+		shh.setResidenceCommunityName(rc.getName());
+		shhm.updateByExampleSelective(shh, shhe);
 	}
 }
