@@ -52,9 +52,7 @@ function initRCData(){
 						continue;
 					}
 					if(i=="active"){
-						if(rc[i]==false){
-							$("[name="+i+"]").val("false");
-						}
+						$("[name="+i+"]").val(String(rc[i]));
 						continue;
 					}
 					if(i=="greenRate" || i=="floorAreaRatio" || i=="propertyFee"){

@@ -62,6 +62,12 @@
 					<span > 厂房仓库管理</span>
 				</a>
 			</li>
+			<li>
+				<a  href="${ctx }/mi/ad">
+					<i class="icon-hdd"></i>
+					<span > 广告管理</span>
+				</a>
+			</li>
 		</ul>
 	</li>
 </ul>
