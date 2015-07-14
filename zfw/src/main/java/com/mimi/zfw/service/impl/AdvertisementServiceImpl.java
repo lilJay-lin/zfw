@@ -1,11 +1,14 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.mimi.zfw.Constants;
@@ -14,6 +17,7 @@ import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.AdvertisementExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IAdvertisementService;
+import com.mimi.zfw.service.IUserService;
 
 @Service
 public class AdvertisementServiceImpl extends
@@ -22,6 +26,9 @@ public class AdvertisementServiceImpl extends
 
 	@Resource
 	private AdvertisementMapper am;
+
+	@Resource
+	private IUserService userService;
 
 	@Resource
 	@Override
@@ -92,8 +99,84 @@ public class AdvertisementServiceImpl extends
 	@Override
 	public List<Advertisement> getActiveByLocation(String location) {
 		AdvertisementExample ae = new AdvertisementExample();
-		ae.or().andLocationEqualTo(location).andActiveEqualTo(true).andDelFlagEqualTo(false);
+		ae.or().andLocationEqualTo(location).andActiveEqualTo(true)
+				.andDelFlagEqualTo(false);
+		ae.setOrderByClause("priority desc,update_date desc");
 		return am.selectByExample(ae);
+	}
+
+	@Override
+	public List<Advertisement> findByParams(String name, String location,
+			Integer targetPage, Integer pageSize) {
+		AdvertisementExample ae = bindAdvertisementParams(name, location);
+		if (targetPage != null && pageSize != null) {
+			ae.setLimitStart(targetPage * pageSize);
+			ae.setLimitSize(pageSize);
+		}
+		ae.setOrderByClause("update_date desc,priority desc");
+		return am.selectByExample(ae);
+	}
+
+	private AdvertisementExample bindAdvertisementParams(String name,
+			String location) {
+		AdvertisementExample ae = new AdvertisementExample();
+		AdvertisementExample.Criteria cri = ae.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if (StringUtils.isNotBlank(name)) {
+			cri.andNameLike("%" + name + "%");
+		}
+		if (StringUtils.isNotBlank(location)) {
+			cri.andLocationEqualTo(location);
+		}
+		return ae;
+	}
+
+	@Override
+	public int countByParams(String name, String location) {
+		AdvertisementExample ae = bindAdvertisementParams(name, location);
+		return am.countByExample(ae);
+	}
+
+	@Override
+	public Map<String, String> modify(Advertisement ad) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(ad);
+		if (!resMap.isEmpty()) {
+			return resMap;
+		}
+		ad.setLastEditor(curUserId);
+		am.updateByPrimaryKeySelective(ad);
+		return resMap;
+	}
+
+	private Map<String, String> checkInfo(Advertisement ad) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (ad == null) {
+			resMap.put("msg", "广告内容不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ad.getLocation())) {
+			resMap.put("msg", "广告位置不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ad.getPreImageUrl())) {
+			resMap.put("msg", "广告缩略图不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ad.getContentUrl())) {
+			resMap.put("msg", "广告内容路径不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(ad.getName())) {
+			resMap.put("msg", "广告名称不能为空");
+			return resMap;
+		}
+		return resMap;
 	}
 
 }

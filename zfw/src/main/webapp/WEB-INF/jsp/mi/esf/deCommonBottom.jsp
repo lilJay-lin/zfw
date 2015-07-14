@@ -44,9 +44,7 @@ function initSHHData(){
 						continue;
 					}
 					if(i=="outOfDate"){
-						if(shh[i]==true){
-							$("[name="+i+"]").val("true");
-						}
+						$("[name="+i+"]").val(String(shh[i]));
 						continue;
 					}
 					if(ele[0]){

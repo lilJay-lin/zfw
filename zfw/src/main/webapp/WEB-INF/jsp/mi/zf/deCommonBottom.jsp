@@ -44,9 +44,7 @@ function initRHData(){
 						continue;
 					}
 					if(i=="outOfDate"){
-						if(rh[i]==true){
-							$("[name="+i+"]").val("true");
-						}
+						$("[name="+i+"]").val(String(rh[i]));
 						continue;
 					}
 					if(i.indexOf("facility")>-1){
