@@ -39,6 +39,7 @@
 				</a>
 			</li>
 			<li>
+			<li>
 				<a  href="${ctx }/mi/shop">
 					<i class="icon-hdd"></i>
 					<span > 商铺管理</span>
@@ -72,6 +73,12 @@
 				<a  href="${ctx }/mi/pgitem">
 					<i class="icon-hdd"></i>
 					<span > 评估项管理</span>
+				</a>
+			</li>
+			<li>
+				<a  href="${ctx }/mi/nl">
+					<i class="icon-hdd"></i>
+					<span > 电商团购管理</span>
 				</a>
 			</li>
 		</ul>

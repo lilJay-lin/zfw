@@ -216,7 +216,8 @@ public class IndexController {
 		    && hiu.indexOf(request.getContextPath()) == -1) {
 		hiu = request.getContextPath() + hiu;
 	    }
-	    request.getSession().setAttribute("headImgUrl", hiu);
+	    request.getSession().setAttribute("miCurrentHeadImgUrl", hiu);
+	    request.getSession().setAttribute("miCurrentUserId", user.getId());
 	}
 	return "mi/index";
     }
