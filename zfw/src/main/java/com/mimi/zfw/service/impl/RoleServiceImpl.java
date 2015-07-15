@@ -259,7 +259,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
 	resMap = this.checkRole(role);
 	
-	if(!StringUtils.isBlank(resMap.get("msg"))){
+	if(StringUtils.isNotBlank(resMap.get("msg"))){
 	    return resMap;
 	}
 	role.setDelFlag(false);
@@ -268,7 +268,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	
 	this.save(role);
 
-	if (!StringUtils.isBlank(permissions)) {
+	if (StringUtils.isNotBlank(permissions)) {
 	    String roleid = role.getId();
 	    this.saveRelationRoleAndPermission(roleid, permissions);
 
@@ -292,7 +292,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
 	resMap = this.checkRole(role);
 
-	if(!StringUtils.isBlank(resMap.get("msg"))){
+	if(StringUtils.isNotBlank(resMap.get("msg"))){
 	    return resMap;
 	}
 	role.setLastEditor(userService.getCurUserId());

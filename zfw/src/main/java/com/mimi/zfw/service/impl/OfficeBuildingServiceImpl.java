@@ -20,6 +20,7 @@ import com.mimi.zfw.mybatis.dao.OfficeBuildingMapper;
 import com.mimi.zfw.mybatis.pojo.OBImage;
 import com.mimi.zfw.mybatis.pojo.OBImageExample;
 import com.mimi.zfw.mybatis.pojo.OBPano;
+import com.mimi.zfw.mybatis.pojo.OBPanoExample;
 import com.mimi.zfw.mybatis.pojo.OfficeBuilding;
 import com.mimi.zfw.mybatis.pojo.OfficeBuildingExample;
 import com.mimi.zfw.plugin.IBaseDao;
@@ -633,6 +634,25 @@ public class OfficeBuildingServiceImpl extends
 
 	int row = obm.updateByExampleSelective(officeBuilding, example);
 
+	Boolean delFlag = officeBuilding.getDelFlag();
+	
+	if(delFlag!=null && delFlag == true){
+	    OBImageExample oie = new OBImageExample();
+	    oie.or().andOfficeBuildingIdIn(list).andDelFlagEqualTo(false);
+	    OBImage oi = new OBImage();
+	    oi.setDelFlag(true);
+	    oi.setLastEditor(userService.getCurUserId());
+	    obim.updateByExampleSelective(oi, oie);
+	    
+
+	    OBPanoExample ope = new OBPanoExample();
+	    ope.or().andOfficeBuildingIdIn(list).andDelFlagEqualTo(false);
+	    OBPano op = new OBPano();
+	    op.setDelFlag(true);
+	    op.setLastEditor(userService.getCurUserId());
+	    obpm.updateByExampleSelective(op,ope);
+	}
+	
 	return row;
     }
 

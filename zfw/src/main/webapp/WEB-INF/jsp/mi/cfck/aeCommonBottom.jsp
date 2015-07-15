@@ -6,7 +6,7 @@
  */
 $("#cancle").on("click",function(){
 	if(window.confirm("确定返回？")){
-		window.location.href = "${ctx}/mi/xzl";
+		window.location.href = "${ctx}/mi/cfck";
 	}
 });
 
@@ -19,11 +19,11 @@ function openCloseDetail(clazz){
 	}
 	if(!ele.attr("first")){
 		ele.attr("first",2);
-		if("js-xzl-detail-container"==clazz){
-			if(typeof initXZLData !="undefined") initXZLData();
-		}else if("js-xzl-image-container"==clazz){
+		if("js-cfck-detail-container"==clazz){
+			if(typeof initcfckData !="undefined") initcfckData();
+		}else if("js-cfck-image-container"==clazz){
 			if(typeof photoPage !="undefined") photoPage.init();
-		}else if("js-xzl-panos-container"==clazz){
+		}else if("js-cfck-panos-container"==clazz){
 			if(typeof panoPage != "undefined") panoPage.init();
 		}
 	}
@@ -54,13 +54,12 @@ $(":file").change(function(){
 		alert(errorStr);
 		return;
 	}
-	
 	var formData = new FormData($("#uploadForm")[0]);	
 	$(".uploader-loading").show();
 	uploading =!0;
     $.ajax({
         type:'POST',
-        url:'${ctx}/mi/xzl/uploadImg',
+        url:'${ctx}/mi/cfck/uploadImg',
         data: formData,
         async: true,
         cache: false,
@@ -87,7 +86,7 @@ $(":file").change(function(){
 });
 
 function getSaveData(){
-	var xzl = {
+	var cfck = {
 		id:"",
 		name:"",
 		phoneNum:"",
@@ -95,21 +94,19 @@ function getSaveData(){
 		region:"",
 		totalPrice:"",
 		grossFloorArea:"",
-		decorationStatus:"",
 		address:"",
 		introduction:"",
 		rentOrSale:"",
-		propertyFee:"",
-		type:"",
 		tags:"",
 		priority:"",
+		type:"",
 		preImageUrl:""
 	};
-   for(var i in xzl){
+   for(var i in cfck){
    		var value = $("[name="+i+"]").val();
-   		xzl[i]=value;
+   		cfck[i]=value;
    }
-   return xzl;
+   return cfck;
 }
 
 rentOrSale($("[name=rentOrSale]").val());

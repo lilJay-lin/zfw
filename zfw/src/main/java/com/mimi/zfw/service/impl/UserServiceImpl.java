@@ -386,6 +386,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	if (StringUtils.isNotBlank(name)) {
 	    cri.andNameLike("%" + name + "%");
 	}
+	cri.andIdNotEqualTo(this.getCurUserId());
+	cri.andNameNotEqualTo(Constants.USER_DEFAULT_ADMIN_NAME);
 	cri.andDelFlagEqualTo(false);
 	userExample.setLimitStart(curPage * pageSize);
 	userExample.setLimitSize(pageSize);
@@ -400,7 +402,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	
 	UserExample userExample = new UserExample();
 	UserExample.Criteria cri = userExample.createCriteria();
-	if (!StringUtils.isBlank(name)) {
+	if (StringUtils.isNotBlank(name)) {
 	    cri.andNameLike("%" + name + "%");
 	}
 	cri.andDelFlagEqualTo(false);
@@ -573,7 +575,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	resMap = this.checkUser(user);
 	
-	if(!StringUtils.isBlank(resMap.get("msg"))){
+	if(StringUtils.isNotBlank(resMap.get("msg"))){
 	    return resMap;
 	}
 
@@ -584,7 +586,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	user.setLastEditor(this.getCurUserId());
 	this.save(user);
 
-	if (!StringUtils.isBlank(roleids)) {
+	if (StringUtils.isNotBlank(roleids)) {
 	    String userId = user.getId();
 	    this.saveRelationUserAndRole(userId, roleids);
 
@@ -603,43 +605,53 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	String email = user.getEmail();
 	String password = user.getPassword();
 
-	if (StringUtils.isEmpty(name)) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "名字不能为空");
+	if(StringUtils.isEmpty(name)&&StringUtils.isEmpty(email)&&StringUtils.isEmpty(phoneNum)){
+	    resMap.put("msg", "名字、邮箱和号码不能同时为空");
 	    return resMap;
 	}
+	
+//	if (StringUtils.isEmpty(name)) {
+//	    resMap.put("field", "name");
+//	    resMap.put("msg", "名字不能为空");
+//	    return resMap;
+//	}
 
 	if (StringUtils.isEmpty(password)) {
 	    resMap.put("field", "password");
 	    resMap.put("msg", "密码不能空");
 	    return resMap;
 	}
-
-	if (StringUtils.isEmpty(email)) {
-	    resMap.put("field", "email");
-	    resMap.put("msg", "邮箱不能为空");
-	    return resMap;
-	}
 	
-	if(StringUtils.isEmpty(phoneNum)){
-	    resMap.put("field", "phoneNum");
-	    resMap.put("msg", "手机号码不能为空");
-	    return resMap;
-	}
-
-	if (!this.checkNameFormat(name)) {
+//	if (StringUtils.isEmpty(email)) {
+//	    resMap.put("field", "email");
+//	    resMap.put("msg", "邮箱不能为空");
+//	    return resMap;
+//	}
+//	
+//	if(StringUtils.isEmpty(phoneNum)){
+//	    resMap.put("field", "phoneNum");
+//	    resMap.put("msg", "手机号码不能为空");
+//	    return resMap;
+//	}
+	if(StringUtils.isBlank(name)){
+	    user.setName(null);
+	}else if (!this.checkNameFormat(name)) {
 	    resMap.put("field", "name");
 	    resMap.put("msg", "用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头");
 	    return resMap;
 	}
 
-	if (!this.checkEamilFormat(email)) {
+	if(StringUtils.isBlank(email)){
+	    user.setEmail(null);
+	}else if (!this.checkEamilFormat(email)) {
 	    resMap.put("field", "email");
 	    resMap.put("msg", "邮箱格式不正确");
 	    return resMap;
 	}
 
-	if ( !this.checkPhoneNumFormat(phoneNum)) {
+	if(StringUtils.isBlank(phoneNum)){
+	    user.setPhoneNum(null);
+	}else if (!this.checkPhoneNumFormat(phoneNum)) {
 	    resMap.put("field", "phoneNum");
 	    resMap.put("msg", "手机号码格式不正确");
 	    return resMap;
@@ -664,7 +676,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	resMap = this.checkUser(user);
 	
-	if(!StringUtils.isBlank(resMap.get("msg"))){
+	if(StringUtils.isNotBlank(resMap.get("msg"))){
 	    return resMap;
 	}
 

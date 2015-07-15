@@ -4,13 +4,12 @@
 	<a class="navbar-brand skin">后台管理</a>
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li ><a href="#" class="btn"><i class="icon-tasks"></i></a></li>
-			<li><a href="#" class="btn"><i class="icon-envelope"></i></a></li>
-			<li><a href="#" class="btn"><i class="icon-wrench"></i></a></li>
+			<li><a href="${ctx}/mi/user/${miCurrentUserId}/person"class="btn"><i class="icon-wrench"></i></a></li>
+			<li ><a href="${ctx}/mi/user/logout" onclick="logout()" class="btn"><i class="icon-unlock"></i></a></li>
 			<li>
 				<a href="#">
 					<div class="nav-avatar">
-						<img src="${headImgUrl}" alt="Avatar">
+						<img src="${miCurrentHeadImgUrl}" id="mi-cur-headImageUrl" alt="Avatar">
 					</div>
 					<div class="nav-user">
 						<p>Welcome!</p>
@@ -21,3 +20,8 @@
 		</ul>
 	</div>
 </div>
+<script type="text/javascript">
+	function logout(){
+		util.cookie("miPassword",null,-1);
+	}
+</script>

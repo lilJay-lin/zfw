@@ -435,6 +435,9 @@ public class UserController {
 
     @RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
     public String toMILogin(HttpServletRequest request, Model model) {
+	if (userService.isLogined()) {
+	    return  "mi/index";
+	}
 	setRSAParams(model);
 	setGeetestId(model);
 	return "mi/user/login";
@@ -629,6 +632,15 @@ public class UserController {
 	return "/mi/user/edit";
     }
     
+    @RequestMapping(value = "/mi/user/{userid}/person", method = { RequestMethod.GET })
+    public String toEidtLoginUser(HttpServletRequest request,Model model, @PathVariable String userid) {
+	addHeadImgUrl(request);
+	model.addAttribute("userid", userid);
+	setRSAParams(model);
+
+	return "/mi/user/person";
+    }
+    
     @RequestMapping(value = "/mi/user/{userid}/detail", method = { RequestMethod.GET })
     public String toViewUser(Model model, @PathVariable String userid) {
 
@@ -663,6 +675,10 @@ public class UserController {
 		    delroles);
 
 	    if (StringUtils.isEmpty(res.get("msg"))) {
+		if(StringUtils.equals(user.getId(), userService.getCurUserId())){
+		    request.getSession().setAttribute("miCurrentHeadImgUrl", user.getHeadImgUrl());
+		    request.getSession().setAttribute("miCurrentUserId", user.getId());
+		}
 		jo.put("success", true);
 		jo.put("msg", "更新用户成功!");
 
