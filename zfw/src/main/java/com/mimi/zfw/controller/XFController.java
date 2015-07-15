@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -419,16 +420,19 @@ public class XFController {
 		return "ui/photo/photoList";
 	}
 
+    @RequiresPermissions("rep:query")
 	@RequestMapping(value = "/mi/xf", method = { RequestMethod.GET })
 	public String toMIREP(HttpServletRequest request) {
 		return "mi/xf/index";
 	}
 
+    @RequiresPermissions("rep:queryru")
 	@RequestMapping(value = "/mi/xfru", method = { RequestMethod.GET })
 	public String toMIREPRU(HttpServletRequest request) {
 		return "mi/xf/indexRU";
 	}
 
+    @RequiresPermissions("rep:query")
 	@RequestMapping(value = "/mi/xf/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPByPage(HttpServletRequest request,
@@ -464,6 +468,7 @@ public class XFController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:queryru")
 	@RequestMapping(value = "/mi/xfru/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPRUByPage(HttpServletRequest request, String name,
@@ -486,23 +491,27 @@ public class XFController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/xf/{repId}/detail", method = { RequestMethod.GET })
 	public String toREPDetail(HttpServletRequest request,
 			@PathVariable String repId) {
 		return "/mi/xf/detail";
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/xfru/{repId}/detail", method = { RequestMethod.GET })
 	public String toREPRUDetail(HttpServletRequest request,
 			@PathVariable String repId) {
 		return "/mi/xf/detailRU";
 	}
 
+    @RequiresPermissions("rep:add")
 	@RequestMapping(value = "/mi/xf/add", method = { RequestMethod.GET })
 	public String toAddREP(Model model, HttpServletRequest request) {
 		return "mi/xf/add";
 	}
 
+    @RequiresPermissions("rep:add")
 	@RequestMapping(value = "/mi/xf/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addREP(HttpServletRequest request, RealEstateProject rep,
@@ -528,6 +537,7 @@ public class XFController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/xf/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREP(@PathVariable String id, HttpServletRequest request) {
@@ -555,18 +565,21 @@ public class XFController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xf/{repId}/edit", method = { RequestMethod.GET })
 	public String toUpdateREP(HttpServletRequest request,
 			@PathVariable String repId) {
 		return "/mi/xf/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfru/{repId}/edit", method = { RequestMethod.GET })
 	public String toUpdateREPRU(HttpServletRequest request,
 			@PathVariable String repId) {
 		return "/mi/xf/editRU";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xf/{repId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateREP(HttpServletRequest request, RealEstateProject rep,
@@ -594,6 +607,7 @@ public class XFController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:del")
 	@RequestMapping(value = "/mi/xf/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTPano(HttpServletRequest request, String repIds) {

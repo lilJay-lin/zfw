@@ -123,7 +123,8 @@
 			   				}
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/xq/${rcId}/edit";
+// 			   				window.location.href="${ctx}/mi/xq/${rcId}/edit";
+							window.history.back(-1);
 			   			}
 			   		}
 			   	},

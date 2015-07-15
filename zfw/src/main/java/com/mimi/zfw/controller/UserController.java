@@ -428,6 +428,7 @@ public class UserController {
 	return "user/success";
     }
 
+    @RequiresPermissions("user:query")
     @RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
     public String indexMI() {
 	return "mi/user/index";
@@ -490,22 +491,24 @@ public class UserController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("user:query")
     @RequestMapping(value = "/mi/users", method = { RequestMethod.GET })
     public String miUser(HttpServletRequest request) {
 	addHeadImgUrl(request);
 	return "mi/user/index";
     }
 
+    @RequiresPermissions("user:query")
     @RequestMapping(value = "/mi/users/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object miIndex(HttpServletRequest request, @PathVariable int curPage) {
+    public Object miIndex(HttpServletRequest request, @PathVariable int curPage,String name) {
 
 	Object res = null;
 
 	int page = curPage - 1 > 0 ? curPage - 1 : 0;
 
-	String name = request.getParameter("name") == null ? null
-		: (String) request.getParameter("name");
+//	String name = request.getParameter("name") == null ? null
+//		: (String) request.getParameter("name");
 	if(!StringUtils.isBlank(name)){
 	    try {
 		name = URLDecoder.decode(name,"utf-8");
@@ -631,7 +634,8 @@ public class UserController {
 
 	return "/mi/user/edit";
     }
-    
+
+    @RequiresPermissions("user:view")
     @RequestMapping(value = "/mi/user/{userid}/person", method = { RequestMethod.GET })
     public String toEidtLoginUser(HttpServletRequest request,Model model, @PathVariable String userid) {
 	addHeadImgUrl(request);

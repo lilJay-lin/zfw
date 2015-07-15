@@ -1,6 +1,7 @@
 package com.mimi.zfw.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class PGController {
 		return "ui/pg/index";
 	}
 
-	@RequestMapping(value = "pg/analyse", method = { RequestMethod.GET })
+	@RequestMapping(value = "/pg/analyse", method = { RequestMethod.GET })
 	public @ResponseBody
 	Object analyse(HttpServletRequest request, String residenceCommunityName,
 			String residenceCommunityId, Float grossFloorArea, String forward,
@@ -120,7 +121,7 @@ public class PGController {
 		return jo.toString();
 	}
 
-	@RequestMapping(value = "pg/miniAnalyse", method = { RequestMethod.GET })
+	@RequestMapping(value = "/pg/miniAnalyse", method = { RequestMethod.GET })
 	public @ResponseBody
 	Object miniAnalyse(HttpServletRequest request,
 			String residenceCommunityName, String residenceCommunityId,
@@ -148,6 +149,38 @@ public class PGController {
 			jo.put("success", false);
 			jo.put("msg", "评估出错!");
 		}
+		return jo.toString();
+	}
+
+	@RequestMapping(value = "/mi/pg", method = { RequestMethod.GET })
+	public String toMIIndex(HttpServletRequest request) {
+		request.setAttribute("lastStart", shhfplfService.getLastStart());
+		request.setAttribute("lastEnd", shhfplfService.getLastEnd());
+		request.setAttribute("computing", shhfplfService.isComputing());
+		request.setAttribute("lastSuccess", shhfplfService.isLastSuccess());
+		return "mi/pg/index";
+	}
+
+	@RequestMapping(value = "/mi/pg/compute", method = { RequestMethod.POST })
+	public @ResponseBody
+	Object compute(HttpServletRequest request){
+		JSONObject jo = new JSONObject();
+		try{
+        	String errorStr = shhfplfService.resetFunction();
+        	if(StringUtils.isNotBlank(errorStr)){
+        		jo.put("success", false);
+        		jo.put("msg", errorStr);
+        	}else{
+        		jo.put("success", true);
+        		shhfplfService.setLastSuccess(true);
+        		shhfplfService.setLastEnd(new Date(System.currentTimeMillis()));
+        	}
+    	}catch(Exception e){
+    		jo.put("success", false);
+    		LOG.error("------二手房评估线性回归方程计算失败------",e);
+    		shhfplfService.setLastSuccess(false);
+    		shhfplfService.setLastEnd(new Date(System.currentTimeMillis()));
+    	}
 		return jo.toString();
 	}
 }

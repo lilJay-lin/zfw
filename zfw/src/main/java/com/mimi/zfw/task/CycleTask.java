@@ -1,7 +1,10 @@
 package com.mimi.zfw.task;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,10 +23,18 @@ public class CycleTask {
     public void computeFunction(){  
     	try{
     		LOG.info("------开始计算二手房评估线性回归方程------");
-        	shhfplfService.resetFunction();
-    		LOG.info("------二手房评估线性回归方程计算完成------");
+        	String errorStr = shhfplfService.resetFunction();
+        	if(StringUtils.isNotBlank(errorStr)){
+        		LOG.info("二手房评估线性回归方程计算请求中止-"+errorStr);
+        	}else{
+        		LOG.info("------二手房评估线性回归方程计算完成------");
+        		shhfplfService.setLastSuccess(true);
+        		shhfplfService.setLastEnd(new Date(System.currentTimeMillis()));
+        	}
     	}catch(Exception e){
-    		LOG.info("------二手房评估线性回归方程计算失败------");
+    		LOG.error("------二手房评估线性回归方程计算失败------",e);
+    		shhfplfService.setLastSuccess(false);
+    		shhfplfService.setLastEnd(new Date(System.currentTimeMillis()));
     	}
     }  
 
