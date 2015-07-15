@@ -112,6 +112,10 @@ public class RoleController {
 	    }
 	}
 	cr.andDelFlagEqualTo(false);
+	List<String> names = new ArrayList<String>();
+	names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
+	names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
+	cr.andNameNotIn(names);
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
 	

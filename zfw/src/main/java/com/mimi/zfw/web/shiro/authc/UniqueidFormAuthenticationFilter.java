@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mimi.zfw.Constants;
+import com.mimi.zfw.mybatis.pojo.User;
+import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.util.RSAUtil;
 import com.mimi.zfw.web.captcha.GeetestLib;
@@ -26,6 +29,8 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private IAliyunOSSService aossService;
 
     public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
     public static final String DEFAULT_LOGIN_TYPE_PARAM = "loginType";
@@ -121,6 +126,7 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     protected void issueSuccessRedirect(ServletRequest request,
 	    ServletResponse response) throws Exception {
 	if (pathsMatch(getLoginMIUrl(), request)) {
+	    addMiHeadImg(request);
 	    WebUtils.redirectToSavedRequest(request, response,
 		    getSuccessMIUrl());
 	} else {
@@ -200,4 +206,24 @@ public class UniqueidFormAuthenticationFilter extends FormAuthenticationFilter {
     // AuthenticationException ae) {
     // request.setAttribute(getFailureKeyAttribute(), ae);
     // }
+    
+    
+    private void addMiHeadImg(ServletRequest req){
+	HttpServletRequest request = (HttpServletRequest)req;
+	User user = userService.getCurUser();
+	if(user!=null){
+	    String hiu = Constants.HEAD_IMG_DEFAULT_URL;
+	    if (user != null && StringUtils.isNotBlank(user.getHeadImgUrl())) {
+		hiu = user.getHeadImgUrl();
+		hiu = aossService.addImgParams(hiu,
+			Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
+	    }
+	    if (hiu.indexOf("http://") == -1
+		    && hiu.indexOf(request.getContextPath()) == -1) {
+		hiu = request.getContextPath() + hiu;
+	    }
+	    request.getSession().setAttribute("miCurrentHeadImgUrl", hiu);
+	    request.getSession().setAttribute("miCurrentUserId", user.getId());
+	}
+    }
 }

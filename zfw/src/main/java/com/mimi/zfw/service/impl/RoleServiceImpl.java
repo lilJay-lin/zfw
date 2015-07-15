@@ -132,9 +132,13 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	
 	if(example == null){
 	    example = new RoleExample();
-	    example.or().andDelFlagEqualTo(false);
+	    RoleExample.Criteria cr = example.createCriteria();
+	    cr.andDelFlagEqualTo(false);
+	    List<String> names = new ArrayList<String>();
+	    names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
+	    names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
+	    cr.andNameNotIn(names);
 	}
-
 	example.setLimitStart(curPage* pageSize);
 	example.setLimitSize(pageSize);
 	
@@ -148,8 +152,14 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	
 	if(example == null){
 	    example = new RoleExample();
-	    example.or().andDelFlagEqualTo(false);
+	    RoleExample.Criteria cr = example.createCriteria();
+	    cr.andDelFlagEqualTo(false);
+	    List<String> names = new ArrayList<String>();
+	    names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
+	    names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
+	    cr.andNameNotIn(names);
 	}
+	
 	List<Role> roles = rm.selectByExample(example);
 	
 	return roles==null?0: roles.size();

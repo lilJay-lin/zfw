@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mimi.zfw.Constants;
@@ -47,15 +46,14 @@ public class NameListController {
 
     @RequestMapping(value = "/nl/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object getNameListsByPage(HttpServletRequest request,
-	    @PathVariable int curPage) {
+    public Object getNameListsByPage(HttpServletRequest request, @PathVariable int curPage ,String name) {
 
 	Object res = null;
 
 	int page = curPage - 1 > 0 ? curPage - 1 : 0;
 
-	String name = request.getParameter("name") == null ? null
-		: (String) request.getParameter("name");
+//	String name = request.getParameter("name") == null ? null
+//		: (String) request.getParameter("name");
 
 	// String phoneNum = request.getParameter("type") == null ? null
 	// : (String) request.getParameter("type");

@@ -21,6 +21,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -658,15 +659,21 @@ public class UserController {
     @ResponseBody
     public Object updateUser(HttpServletRequest request, User user,
 	    @PathVariable String userid, String addroles, String delroles,
-	    String publicExponent, String modulus) {
+	    String publicExponent, String modulus,boolean resetPwd) {
 
 	JSONObject jo = new JSONObject();
 	try {
 
 	    try {
-		String password = RSAUtil.getResult(publicExponent, modulus,
-			user.getPassword());
-		user.setPassword(password);
+		if(resetPwd){
+		    Object salt = user.getId()+user.getSalt();
+		    String password = RSAUtil.getResult(publicExponent, modulus,
+				user.getPassword());
+		    SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
+			    password, salt, Constants.SHIRO_HASH_ITERATIONS);
+		    user.setPassword(sh.toString());
+		}
+		
 	    } catch (Exception e) {
 		jo.put("success", false);
 		jo.put("msg", "密码解析出错，请稍后重试!");
