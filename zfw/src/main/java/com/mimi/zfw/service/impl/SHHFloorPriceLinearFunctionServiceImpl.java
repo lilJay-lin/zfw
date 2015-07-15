@@ -1,5 +1,7 @@
 package com.mimi.zfw.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,42 @@ public class SHHFloorPriceLinearFunctionServiceImpl
 
 	@Resource
 	private SecondHandHouseMapper shhm;
+	
+	private Date lastStart = null;
+	
+	private Date lastEnd = null;
+	
+	private boolean lastSuccess = true;
+
+	@Override
+	public Date getLastStart() {
+		return lastStart;
+	}
+
+	@Override
+	public void setLastStart(Date lastStart) {
+		this.lastStart = lastStart;
+	}
+
+	@Override
+	public Date getLastEnd() {
+		return lastEnd;
+	}
+
+	@Override
+	public void setLastEnd(Date lastEnd) {
+		this.lastEnd = lastEnd;
+	}
+
+	@Override
+	public boolean isLastSuccess() {
+		return lastSuccess;
+	}
+
+	@Override
+	public void setLastSuccess(boolean lastSuccess) {
+		this.lastSuccess = lastSuccess;
+	}
 
 	@Resource
 	@Override
@@ -48,7 +86,12 @@ public class SHHFloorPriceLinearFunctionServiceImpl
 	}
 
 	@Override
-	public void resetFunction() {
+	public String resetFunction() {
+		if(isComputing()){
+			return "计算正在进行中";
+		}
+		setLastStart(new Date(System.currentTimeMillis()));
+		setLastEnd(null);
 		// 删除所有旧公式
 		SHHFloorPriceLinearFunctionExample fe = new SHHFloorPriceLinearFunctionExample();
 		fe.or().andDelFlagEqualTo(false);
@@ -96,6 +139,13 @@ public class SHHFloorPriceLinearFunctionServiceImpl
 						double tempTotal = 0;
 						for (int j = 0; j < shhList.size(); j++) {
 							SecondHandHouse shh = shhList.get(j);
+							if(shh.getGrossFloorArea()<1){
+								x[j] = shh.getCurFloor();
+								y[j] = shh.getTotalPrice()*10000
+										/ 100;
+								tempTotal+=y[j];
+								continue;
+							}
 							x[j] = shh.getCurFloor();
 							y[j] = shh.getTotalPrice()*10000
 									/ shh.getGrossFloorArea();
@@ -121,6 +171,21 @@ public class SHHFloorPriceLinearFunctionServiceImpl
 				}
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public boolean isComputing(){
+		if(getLastStart()!=null && getLastEnd()==null){
+			Calendar oc = Calendar.getInstance();
+			oc.setTime(getLastStart());
+			oc.add(Calendar.HOUR_OF_DAY, 20);
+			Calendar c = Calendar.getInstance();
+			if(c.before(oc)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -10,27 +10,7 @@
 	<body>
 		
 		<!-- 头部导航条开始     -->
-		<div class="navbar skin">
-			<a class="navbar-brand skin">后台管理</a>
-			<div class="navbar-inner">
-				<ul class="nav">
-					<li ><a href="#" class="btn"><i class="icon-tasks"></i></a></li>
-					<li><a href="#" class="btn"><i class="icon-envelope"></i></a></li>
-					<li><a href="#" class="btn"><i class="icon-wrench"></i></a></li>
-					<li>
-						<a href="#">
-							<div class="nav-avatar">
-								<img src="${headImgUrl }" alt="Avatar">
-							</div>
-							<div class="nav-user">
-								<p>Welcome!</p>
-								<p> <shiro:principal/></p>
-							</div>
-						</a> 
-					</li>
-				</ul>
-			</div>
-		</div>
+		<%@include file="inc/nav.jsp" %>
 		<!-- 头部导航条结束     -->
 		<div class="clearfix"></div>
 		

@@ -104,7 +104,8 @@
 			   				}
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/xf/${repId}/edit";
+// 			   				window.location.href="${ctx}/mi/xf/${repId}/edit";
+							window.history.back(-1);
 			   			}
 			   		}
 			   	},

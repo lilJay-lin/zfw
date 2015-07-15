@@ -92,7 +92,8 @@
 			   				}
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/pgitem/${aiId}/edit";
+// 			   				window.location.href="${ctx}/mi/pgitem/${aiId}/edit";
+							window.history.back(-1);
 			   			}
 			   		}
 			   	},

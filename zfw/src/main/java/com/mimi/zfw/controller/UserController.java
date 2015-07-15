@@ -428,6 +428,7 @@ public class UserController {
 	return "user/success";
     }
 
+    @RequiresPermissions("user:query")
     @RequestMapping(value = "/mi/user", method = { RequestMethod.GET })
     public String indexMI() {
 	return "mi/user/index";
@@ -435,6 +436,9 @@ public class UserController {
 
     @RequestMapping(value = "/mi/user/login", method = { RequestMethod.GET })
     public String toMILogin(HttpServletRequest request, Model model) {
+	if (userService.isLogined()) {
+	    return  "mi/index";
+	}
 	setRSAParams(model);
 	setGeetestId(model);
 	return "mi/user/login";
@@ -487,22 +491,24 @@ public class UserController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("user:query")
     @RequestMapping(value = "/mi/users", method = { RequestMethod.GET })
     public String miUser(HttpServletRequest request) {
 	addHeadImgUrl(request);
 	return "mi/user/index";
     }
 
+    @RequiresPermissions("user:query")
     @RequestMapping(value = "/mi/users/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object miIndex(HttpServletRequest request, @PathVariable int curPage) {
+    public Object miIndex(HttpServletRequest request, @PathVariable int curPage,String name) {
 
 	Object res = null;
 
 	int page = curPage - 1 > 0 ? curPage - 1 : 0;
 
-	String name = request.getParameter("name") == null ? null
-		: (String) request.getParameter("name");
+//	String name = request.getParameter("name") == null ? null
+//		: (String) request.getParameter("name");
 	if(!StringUtils.isBlank(name)){
 	    try {
 		name = URLDecoder.decode(name,"utf-8");
@@ -628,6 +634,16 @@ public class UserController {
 
 	return "/mi/user/edit";
     }
+
+    @RequiresPermissions("user:view")
+    @RequestMapping(value = "/mi/user/{userid}/person", method = { RequestMethod.GET })
+    public String toEidtLoginUser(HttpServletRequest request,Model model, @PathVariable String userid) {
+	addHeadImgUrl(request);
+	model.addAttribute("userid", userid);
+	setRSAParams(model);
+
+	return "/mi/user/person";
+    }
     
     @RequestMapping(value = "/mi/user/{userid}/detail", method = { RequestMethod.GET })
     public String toViewUser(Model model, @PathVariable String userid) {
@@ -663,6 +679,10 @@ public class UserController {
 		    delroles);
 
 	    if (StringUtils.isEmpty(res.get("msg"))) {
+		if(StringUtils.equals(user.getId(), userService.getCurUserId())){
+		    request.getSession().setAttribute("miCurrentHeadImgUrl", user.getHeadImgUrl());
+		    request.getSession().setAttribute("miCurrentUserId", user.getId());
+		}
 		jo.put("success", true);
 		jo.put("msg", "更新用户成功!");
 

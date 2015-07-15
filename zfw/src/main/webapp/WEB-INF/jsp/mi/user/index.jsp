@@ -155,14 +155,16 @@
 	  			alert("请选择需要更新的用户")
 	  		}
 			var user = {};
+			var msg = "确认更新用户?";
 	  		if(option =="del"){
 	  			user.delFlag = true;
+	  			msg = "确认删除用户?";
 	  		}else if(option == "unlock"){
 	  			user.locked = false;
 	  		}else if(option == "lock"){
 	  			user.locked = true;
 	  		}
-	  		if(!window.confirm("确认更新用户?")){
+	  		if(!window.confirm(msg)){
 	  			return ;
 	  		}
 	  		if(deling){

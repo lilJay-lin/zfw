@@ -45,11 +45,16 @@ function checkImgType(element){
 
 var uploading = !1;
 $(":file").change(function(){
+	if(!!uploading){
+		alert("图像正在上传，请稍后..");
+		return ;
+	}
 	var errorStr = checkImgType(this);
 	if(errorStr){
 		alert(errorStr);
 		return;
 	}
+	
 	var formData = new FormData($("#uploadForm")[0]);	
 	$(".uploader-loading").show();
 	uploading =!0;

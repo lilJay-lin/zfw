@@ -98,11 +98,11 @@ public class RoleController {
 	
 	RoleExample example = new RoleExample() ;
 	RoleExample.Criteria cr = example.createCriteria();
-	if(!StringUtils.isBlank(name)){
+	if(StringUtils.isNotBlank(name)){
 	    try {
 		cr.andNameLike("%"+URLDecoder.decode(name,"utf-8")+"%");
 	    } catch (UnsupportedEncodingException e) {
-		// TODO Auto-generated catch block
+		
 		JSONObject jo = new JSONObject();
 		jo.put("success", false);
 		jo.put("msg", "查询条件解码出错");
@@ -123,7 +123,7 @@ public class RoleController {
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows / pageSize + 1);
 	    res = getJsonObject(rows, totalpage, curPage, pageSize, items, true, "");
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+	    
 	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
 	    LOG.error("查询角色分页信息报错！",e);
 	}
@@ -164,7 +164,7 @@ public class RoleController {
 		jo.put("relations", relations);
 	    }
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+	    
 	    jo.put("user", null);
 	    jo.put("relations", null);
 	    LOG.error("查询角色信息出错！",e);
@@ -273,7 +273,7 @@ public class RoleController {
 	    jo.put("success", true);
 	    jo.put("msg", "角色删除成功");
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+	    
 
 	    jo.put("success", false);
 	    jo.put("msg", "角色删除失败");

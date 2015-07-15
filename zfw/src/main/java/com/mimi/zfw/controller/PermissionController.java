@@ -60,7 +60,7 @@ public class PermissionController {
 		}
 
 		if(!StringUtils.isBlank(code)){
-		    crt.andCodeEqualTo(URLDecoder.decode(code,"utf-8"));
+		    crt.andCodeEqualTo("%"+URLDecoder.decode(code,"utf-8")+"%");
 		}
 		
 	} catch (UnsupportedEncodingException e) {

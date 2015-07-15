@@ -435,7 +435,7 @@ public class SPController {
 	String name = request.getParameter("name") == null ? null
 		: (String) request.getParameter("name");
 
-	if (!StringUtils.isBlank(name)) {
+	if (StringUtils.isNotBlank(name)) {
 	    try {
 		name = URLDecoder.decode(name, "utf-8");
 	    } catch (UnsupportedEncodingException e) {

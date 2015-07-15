@@ -121,6 +121,12 @@
     </bean>
 
     <bean id="sysUserFilter" class="com.mimi.zfw.web.shiro.filter.SysUserFilter"/>
+<!--     <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter"> -->
+    <bean id="logoutFilter" class="com.mimi.zfw.web.shiro.filter.ZFWLogoutFilter">
+<!-- 		<property name="redirectUrl" value="/admin" /> -->
+        <property name="redirectUrl" value="/"/>
+        <property name="redirectMIUrl" value="/mi"/>
+	</bean>
 
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -131,6 +137,7 @@
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
                 <entry key="sysUser" value-ref="sysUserFilter"/>
+        		<entry key="logout" value-ref="logoutFilter" />
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -159,6 +166,7 @@
 				/mi/user/login = authc
                 /mi/** = authc,perms["user:mi"]
                 /mi = authc,perms["user:mi"]
+                /mi/user/logout = logout
 <!--                 /mi/** = perms["user:mi"] -->
 <!--                 /mi = perms["user:mi"] -->
                 /** = anon
@@ -174,11 +182,11 @@
 			<props>
 				<prop key="org.apache.shiro.authz.UnauthorizedException">
 <!-- 					/unauthorized -->
-					index
+					/error/unauthorized
 				</prop>
 				<prop key="org.apache.shiro.authz.UnauthenticatedException">
 <!-- 					/unauthenticated -->
-					index
+					/error/unauthenticated
 				</prop>
 				<prop key="java.lang.Exception">error_all</prop>
 			</props>

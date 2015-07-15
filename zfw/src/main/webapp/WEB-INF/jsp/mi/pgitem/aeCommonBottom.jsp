@@ -91,7 +91,8 @@
 			   				}
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/pgitem";
+// 			   				window.location.href="${ctx}/mi/pgitem";
+							window.history.back(-1);
 			   			}
 			   		}
 			   	},

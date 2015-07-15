@@ -54,21 +54,21 @@
 									<div class="control-group">
 										<label class="control-label">邮箱</label>
 										<div class="control error">
-											<input type="text" name="email" require="require" requrie_msg = "邮箱不能为空" error="邮箱格式不正确" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$" />
+											<input type="text" name="email"  error="邮箱格式不正确" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">手机号码</label>
 										<div class="control error">
-											<input type="text" name="phoneNum"  require="require"  patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
+											<input type="text" name="phoneNum"   patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">状态</label>
 										<div class="control error">
-											<select name="locked" disabled="disabled">
+											<select name="locked">
 												<option value="false" checked>正常</option>
 												<option value="true">锁定</option>
 											</select>
@@ -344,6 +344,10 @@
 		 */
 		var uploading = !1;
 		$(":file").change(function(){
+			if(!!uploading){
+				alert("图像正在上传，请稍后..");
+				return ;
+			}
 			var errorStr = checkImgType(this);
 			if(errorStr){
 				alert(errorStr);
@@ -450,6 +454,8 @@
 			   	}
 			   });
 			   
+			}else{
+				$("body").scrollTop(0);
 			}
 		})
 		
@@ -475,6 +481,7 @@
 						var e = form.find("[name="+i+"]");
 						e.length>0&&e.val(user[i]);
 					}
+					console.log(user)
 					if(!!user.headImgUrl){
 						$(".control-user-img").attr("src",user.headImgUrl)
 					}

@@ -53,14 +53,14 @@
 									<div class="control-group">
 										<label class="control-label">邮箱</label>
 										<div class="control">
-											<input type="text" name="email" require="require" requrie_msg = "邮箱不能为空" error="邮箱格式不正确" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$" />
+											<input type="text" name="email"  pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">手机号码</label>
 										<div class="control">
-											<input type="text" name="phoneNum"  require="require"  patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
+											<input type="text" name="phoneNum"   patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -367,9 +367,8 @@
 					delFlag:false
 				}
 			   for(var i in user){
-			   		form.find("input[name="+i+"]").length>0&&(user[i]=form.find("input[name="+i+"]").val());
+			   		form.find("[name="+i+"]").length>0&&(user[i]=form.find("[name="+i+"]").val());
 			   }
-			   user['description']  = form.find("textarea[name='description']").val();
 			   
 			   var roles = addRelation.join("/");
 				var publicExponent = document.getElementById("publicExponent").value;
@@ -408,6 +407,8 @@
 			   	}
 			   });
 			   
+			}else{
+				$("body").scrollTop(0);
 			}
 		})
 		
