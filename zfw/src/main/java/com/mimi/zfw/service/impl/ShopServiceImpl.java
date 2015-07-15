@@ -22,6 +22,7 @@ import com.mimi.zfw.mybatis.pojo.ShopExample;
 import com.mimi.zfw.mybatis.pojo.ShopImage;
 import com.mimi.zfw.mybatis.pojo.ShopImageExample;
 import com.mimi.zfw.mybatis.pojo.ShopPano;
+import com.mimi.zfw.mybatis.pojo.ShopPanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IShopService;
 import com.mimi.zfw.service.IUserService;
@@ -565,6 +566,24 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 	
 	int row = sm.updateByExampleSelective(shop, example);
 	
+	Boolean delFlag = shop.getDelFlag();
+	
+	if(delFlag!=null && delFlag == true){
+	    ShopImageExample sie = new ShopImageExample();
+	    sie.or().andShopIdIn(list).andDelFlagEqualTo(false);
+	    ShopImage si = new ShopImage();
+	    si.setDelFlag(true);
+	    si.setLastEditor(userService.getCurUserId());
+	    sim.updateByExampleSelective(si, sie);
+	    
+
+	    ShopPanoExample spe = new ShopPanoExample();
+	    spe.or().andShopIdIn(list).andDelFlagEqualTo(false);
+	    ShopPano sp = new ShopPano();
+	    sp.setDelFlag(true);
+	    sp.setLastEditor(userService.getCurUserId());
+	    spm.updateByExampleSelective(sp, spe);
+	}
 	return row;
     }
 }

@@ -64,6 +64,7 @@
 		if(storePwd){
 // 			$("#password").val(storePwd);
 			$("#txtpsw").val("111111");
+			$("#rememberMe").prop("checked","true");
 		}
 		$("#txtpsw").on("change",function(){
 			storePwd = null;

@@ -6,28 +6,10 @@
  */
 $("#cancle").on("click",function(){
 	if(window.confirm("确定返回？")){
-		window.location.href = "${ctx}/mi/xzl";
+		window.location.href = "${ctx}/mi/cfck/${warehouseId}/edit";
 	}
 });
 
-function openCloseDetail(clazz){
-	var ele = $("."+clazz);
-	if(ele.is(':hidden')){
-		ele.show();
-	}else{
-		ele.hide();
-	}
-	if(!ele.attr("first")){
-		ele.attr("first",2);
-		if("js-xzl-detail-container"==clazz){
-			if(typeof initXZLData !="undefined") initXZLData();
-		}else if("js-xzl-image-container"==clazz){
-			if(typeof photoPage !="undefined") photoPage.init();
-		}else if("js-xzl-panos-container"==clazz){
-			if(typeof panoPage != "undefined") panoPage.init();
-		}
-	}
-}
 
 function checkImgType(element){
    var filePath=$(element).val();
@@ -43,6 +25,7 @@ function checkImgType(element){
    return null;
 }
 
+
 var uploading = !1;
 $(":file").change(function(){
 	if(!!uploading){
@@ -54,13 +37,12 @@ $(":file").change(function(){
 		alert(errorStr);
 		return;
 	}
-	
 	var formData = new FormData($("#uploadForm")[0]);	
 	$(".uploader-loading").show();
 	uploading =!0;
     $.ajax({
         type:'POST',
-        url:'${ctx}/mi/xzl/uploadImg',
+        url:'${ctx}/mi/cfck/uploadImg',
         data: formData,
         async: true,
         cache: false,
@@ -70,7 +52,7 @@ $(":file").change(function(){
         success: function (data) {
 			if(data.success){
 				var final_url = data.imgPath;
-				$("input[name='preImageUrl']").val(final_url);
+				$("input[name='contentUrl']").val(final_url);
 				$(".control-user-img").attr("src",final_url);
 			}else{
 				alert(data.msg);
@@ -85,45 +67,18 @@ $(":file").change(function(){
         }
     });
 });
-
-function getSaveData(){
-	var xzl = {
+function getImageData(){
+	var image = {
 		id:"",
 		name:"",
-		phoneNum:"",
-		rental:"",
-		region:"",
-		totalPrice:"",
-		grossFloorArea:"",
-		decorationStatus:"",
-		address:"",
-		introduction:"",
-		rentOrSale:"",
-		propertyFee:"",
-		type:"",
-		tags:"",
-		priority:"",
-		preImageUrl:""
+		description:"",
+		contentUrl:"",
+		warehouseId:""
 	};
-   for(var i in xzl){
+   for(var i in image){
    		var value = $("[name="+i+"]").val();
-   		xzl[i]=value;
+   		image[i]=value;
    }
-   return xzl;
+   return image;
 }
-
-rentOrSale($("[name=rentOrSale]").val());
-$("[name=rentOrSale]").change(function(){
-	rentOrSale($(this).val())
-})
-function rentOrSale(val){
-	if(val == "出租"){
-		$(".js-control-group-totalPrice").hide();
-		$(".js-control-group-rental").show();
-	}else{
-		$(".js-control-group-totalPrice").show();
-		$(".js-control-group-rental").hide();
-	}
-}
-
 </script>

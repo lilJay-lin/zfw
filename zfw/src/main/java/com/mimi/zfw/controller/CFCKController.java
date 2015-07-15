@@ -457,20 +457,26 @@ public class CFCKController {
 	String name = request.getParameter("name") == null ? null
 		: (String) request.getParameter("name");
 
-	if (!StringUtils.isBlank(name)) {
-	    try {
+	String type = request.getParameter("type") == null ? null
+		: (String) request.getParameter("type");
+
+	try {
+	    if (StringUtils.isNotBlank(name)) {
 		name = URLDecoder.decode(name, "utf-8");
-	    } catch (UnsupportedEncodingException e) {
-		// TODO Auto-generated catch block
-		JSONObject jo = new JSONObject();
-		jo.put("success", false);
-		jo.put("msg", "查询条件解码出错");
-		LOG.error("查询厂房/仓库分页，查询条件解码出错！", e);
-
-		return jo.toString();
 	    }
-	}
 
+	    if (StringUtils.isNotBlank(type)) {
+		name = URLDecoder.decode(type, "utf-8");
+	    }
+	} catch (UnsupportedEncodingException e) {
+
+	    JSONObject jo = new JSONObject();
+	    jo.put("success", false);
+	    jo.put("msg", "查询条件解码出错");
+	    LOG.error("查询厂房/仓库分页，查询条件解码出错！", e);
+
+	    return jo.toString();
+	}
 	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
 		: Integer.valueOf((String) request.getParameter("pagesize"));
 
@@ -478,15 +484,15 @@ public class CFCKController {
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<Warehouse> items = wService.findWarehousesByParams(name, null,
-		    null, null, null, null, null, null, page, pageSize);
-	    rows = wService.countWarehouseByParams(name, null, null, null,
+		    null, type, null, null, null, null, page, pageSize);
+	    rows = wService.countWarehouseByParams(name, null, null, type,
 		    null, null, null);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
 	    res = getJsonObject(rows, totalpage, curPage, pageSize, items,
 		    true, "");
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+
 	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
 	    LOG.error("查询厂房/仓库分页信息报错！", e);
 	}
@@ -525,7 +531,7 @@ public class CFCKController {
 		jo.put("warehouse", warehouse);
 	    }
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+
 	    jo.put("warehouse", null);
 	    LOG.error("查询厂房/仓库信息出错！", e);
 	}
@@ -633,7 +639,6 @@ public class CFCKController {
 	    jo.put("success", true);
 	    jo.put("msg", "厂房/仓库删除成功");
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
 
 	    jo.put("success", false);
 	    jo.put("msg", "厂房/仓库删除失败");

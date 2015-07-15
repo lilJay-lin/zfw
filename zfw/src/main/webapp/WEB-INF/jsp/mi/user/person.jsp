@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>编辑用户</h2>
+							<h2>修改个人信息</h2>
 						</div>
 						<div class="box-cnt">
 							<div class="form" >
@@ -68,7 +68,7 @@
 									<div class="control-group">
 										<label class="control-label">状态</label>
 										<div class="control error">
-											<select name="locked">
+											<select name="locked" disabled="disabled">
 												<option value="false" checked>正常</option>
 												<option value="true">锁定</option>
 											</select>
@@ -98,60 +98,6 @@
 											<textarea name="description"></textarea>
 										</div>
 									</div>
-									
-									<div class="box box-inline">
-										<div class="box-hd">
-											<h2>添加关联关系</h2>
-										</div>
-										<div class="box-cnt">
-											<div class="datatable" id="roleinfo">
-												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="searchbyname"/>
-														<input type="button" class="btn" value="搜索" id="search-role" />
-													</label>
-												</div>
-												<table class="datatable-table">
-													<thead>
-														<tr>
-															<th>角色</th>
-															<th>描述</th>
-															<th>操作</th>
-														</tr>
-													</thead>
-													<tbody class="page-data-list">
-														
-													</tbody>
-												</table>
-												<div class="datatable-footer">
-													<div class="datatable-info">
-														<div>共32条 当前展示第1条到第10条</div>
-													</div>
-													<div class="center">
-														<div class="datatable-pagination">
-															<ul class="pagination">
-																
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div class="box box-inline">
-										<div class="box-hd">
-											<h2>已选关联关系</h2>
-										</div>
-										<div class="box-cnt">
-											<ul class="relation">
-												
-											</ul>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-									
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="submit">保存</button>
 									  <button type="reset" class="btn" id="cancle">返回</button>
@@ -442,7 +388,8 @@
 						btn.removeClass("disabled");
 						$("body").scrollTop(0);
 		   			}else{
-		   				alert(data.msg)
+		   				$("#mi-cur-headImageUrl").attr("src",user.headImgUrl);
+		   				alert(data.msg);
 			   		}
 			   	},
 			   	error:function(){
@@ -481,9 +428,8 @@
 						var e = form.find("[name="+i+"]");
 						e.length>0&&e.val(user[i]);
 					}
-					console.log(user)
 					if(!!user.headImgUrl){
-						$(".control-user-img").attr("src",user.headImgUrl)
+						$(".control-user-img").attr("src",user.headImgUrl);
 					}
 					if(relationroles){
 						for(var i=0,l = relationroles.length;i<l;i++){

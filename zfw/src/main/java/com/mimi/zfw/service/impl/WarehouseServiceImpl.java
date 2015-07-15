@@ -22,6 +22,7 @@ import com.mimi.zfw.mybatis.pojo.WarehouseExample;
 import com.mimi.zfw.mybatis.pojo.WarehouseImage;
 import com.mimi.zfw.mybatis.pojo.WarehouseImageExample;
 import com.mimi.zfw.mybatis.pojo.WarehousePano;
+import com.mimi.zfw.mybatis.pojo.WarehousePanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.service.IWarehouseService;
@@ -526,7 +527,25 @@ public class WarehouseServiceImpl extends
 	warehouse.setLastEditor(curUserId);
 
 	int row = wm.updateByExampleSelective(warehouse, example);
+	
+	Boolean delFlag = warehouse.getDelFlag();
+	
+	if(delFlag!=null && delFlag == true){
+	    WarehouseImageExample wie = new WarehouseImageExample();
+	    wie.or().andWarehouseIdIn(list).andDelFlagEqualTo(false);
+	    WarehouseImage wi = new WarehouseImage();
+	    wi.setDelFlag(true);
+	    wi.setLastEditor(userService.getCurUserId());
+	    wim.updateByExampleSelective(wi, wie);
+	    
 
+	    WarehousePanoExample wpe = new WarehousePanoExample();
+	    wpe.or().andWarehouseIdIn(list).andDelFlagEqualTo(false);
+	    WarehousePano wp = new WarehousePano();
+	    wp.setDelFlag(true);
+	    wp.setLastEditor(userService.getCurUserId());
+	    wpm.updateByExampleSelective(wp,wpe);
+	}
 	return row;
     }
 }

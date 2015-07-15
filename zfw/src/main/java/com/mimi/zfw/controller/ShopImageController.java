@@ -81,7 +81,7 @@ public class ShopImageController {
 
 	ShopImageExample example = new ShopImageExample();
 	ShopImageExample.Criteria cr = example.createCriteria();
-	if (!StringUtils.isBlank(name)) {
+	if (StringUtils.isNotBlank(name)) {
 	    try {
 		cr.andNameLike("%"+URLDecoder.decode(name, "utf-8")+"%");
 	    } catch (UnsupportedEncodingException e) {
