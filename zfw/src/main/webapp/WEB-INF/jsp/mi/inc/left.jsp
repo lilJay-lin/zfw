@@ -33,12 +33,6 @@
 				</a>
 			</li>
 			<li>
-				<a  href="${ctx }/mi/xq">
-					<i class="icon-hdd"></i>
-					<span > 小区管理</span>
-				</a>
-			</li>
-			<li>
 				<a  href="${ctx }/mi/shop">
 					<i class="icon-hdd"></i>
 					<span > 商铺管理</span>
@@ -60,18 +54,6 @@
 				<a  href="${ctx }/mi/cfck">
 					<i class="icon-hdd"></i>
 					<span > 厂房仓库管理</span>
-				</a>
-			</li>
-			<li>
-				<a  href="${ctx }/mi/ad">
-					<i class="icon-hdd"></i>
-					<span > 广告管理</span>
-				</a>
-			</li>
-			<li>
-				<a  href="${ctx }/mi/pgitem">
-					<i class="icon-hdd"></i>
-					<span > 评估项管理</span>
 				</a>
 			</li>
 		</ul>
