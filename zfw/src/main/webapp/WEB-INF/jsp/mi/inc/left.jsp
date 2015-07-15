@@ -115,7 +115,6 @@
 			</ct:hasAnyPermissions>
 			<ct:hasAnyPermissions name="shop,shop:query">
 			<li>
-			<li>
 				<a  href="${ctx }/mi/shop">
 					<i class="icon-hdd"></i>
 					<span > 商铺管理</span>
