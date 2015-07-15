@@ -113,10 +113,10 @@ public class Constants {
 	public static final String REP_IMAGE_TYPE_JTT = "交通图";
 	public static final String REP_IMAGE_TYPE_PTT = "配套图";
 
-	public static final String AD_LOCATION_HOME_TOP = "homeTop";
-	public static final String AD_LOCATION_HOME_MIDDLE_FOUR = "homeMiddleFour";
-	public static final String AD_LOCATION_HOME_MIDDLE_ONE = "homeMiddleOne";
-	public static final String AD_LOCATION_INFO_TOP = "infoTop";
+	public static final String AD_LOCATION_HOME_TOP = "首页顶端";
+	public static final String AD_LOCATION_HOME_MIDDLE_FOUR = "首页中间小型";
+	public static final String AD_LOCATION_HOME_MIDDLE_ONE = "首页中间大型";
+	public static final String AD_LOCATION_INFO_TOP = "资讯页";
 
 	public static final String INFORMATION_TYPE_ZH = "综合";
 	public static final String INFORMATION_TYPE_FC = "房产";

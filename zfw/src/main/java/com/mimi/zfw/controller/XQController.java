@@ -1,5 +1,6 @@
 package com.mimi.zfw.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,13 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.RCImage;
@@ -171,4 +176,178 @@ public class XQController {
 	}
 	
 
+	@RequestMapping(value = "/mi/xq", method = { RequestMethod.GET })
+	public String toMIRC(HttpServletRequest request) {
+		return "mi/xq/index";
+	}
+
+	@RequestMapping(value = "/mi/xq/page/{curPage}", method = { RequestMethod.GET })
+	@ResponseBody
+	public Object getRCByPage(HttpServletRequest request,String name,Boolean active,
+			@PathVariable int curPage) {
+
+		Object res = null;
+
+		int page = curPage - 1 > 0 ? curPage - 1 : 0;
+
+		Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
+				: Integer.valueOf((String) request.getParameter("pagesize"));
+
+		try {
+			List<ResidenceCommunity> items = rcService.findByParams(name,active,page,pageSize);
+			int rows = rcService.countByParams(name,active);
+			int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
+					/ pageSize + 1);
+			res = getJsonObject(rows, totalpage, curPage, pageSize, items,
+					true, "");
+		} catch (Exception e) {
+			LOG.error("小区查询失败", e);
+			res = getJsonObject(0, 0, curPage, pageSize, null, false, "小区查询失败");
+		}
+		return res;
+	}
+
+	@RequestMapping(value = "/mi/xq/{rcId}/detail", method = { RequestMethod.GET })
+	public String toRCDetail(HttpServletRequest request,
+			@PathVariable String rcId) {
+		return "/mi/xq/detail";
+	}
+
+	@RequestMapping(value = "/mi/xq/add", method = { RequestMethod.GET })
+	public String toAddRC(Model model, HttpServletRequest request) {
+		return "mi/xq/add";
+	}
+
+	@RequestMapping(value = "/mi/xq/add", method = { RequestMethod.POST })
+	@ResponseBody
+	public Object addRC(HttpServletRequest request, ResidenceCommunity rc) {
+		JSONObject jo = new JSONObject();
+		try {
+			Map<String, String> res = rcService.addRC(rc);
+			if (StringUtils.isEmpty(res.get("msg"))) {
+				jo.put("success", true);
+				jo.put("msg", "小区保存成功!");
+
+			} else {
+				jo.put("success", false);
+				jo.put("msg", res.get("msg"));
+				jo.put("field", res.get("field"));
+			}
+
+		} catch (Exception e) {
+			LOG.error("小区保存失败", e);
+			jo.put("success", false);
+			jo.put("msg", "小区保存失败!");
+		}
+		return jo.toString();
+	}
+
+	@RequestMapping(value = "/mi/xq/{id}", method = { RequestMethod.GET })
+	@ResponseBody
+	public Object getRC(@PathVariable String id, HttpServletRequest request) {
+		JSONObject jo = new JSONObject();
+
+		try {
+			ResidenceCommunity rc = rcService.get(id);
+			if (rc != null) {
+				rc.setPreImageUrl(aossService.addImgParams(
+						rc.getPreImageUrl(),
+						Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG));
+				jo.put("rc", rc);
+			}
+		} catch (Exception e) {
+			LOG.error("获取小区失败", e);
+			jo.put("rc", null);
+		}
+		return jo.toString();
+	}
+
+	@RequestMapping(value = "/mi/xq/{rcId}/edit", method = { RequestMethod.GET })
+	public String toUpdateRC(HttpServletRequest request,
+			@PathVariable String rcId) {
+		return "/mi/xq/edit";
+	}
+
+	@RequestMapping(value = "/mi/xq/{rcId}", method = { RequestMethod.POST })
+	@ResponseBody
+	public Object updateRC(HttpServletRequest request, ResidenceCommunity rc,
+			@PathVariable String rcId) {
+		JSONObject jo = new JSONObject();
+		try {
+			Map<String, String> res = rcService.updateRC(rc);
+			if (res.isEmpty()) {
+				jo.put("success", true);
+				jo.put("msg", "更新小区成功!");
+			} else {
+				jo.put("success", false);
+				jo.put("msg", res.get("msg"));
+				jo.put("field", res.get("field"));
+			}
+		} catch (Exception e) {
+			LOG.error("更新小区失败", e);
+			jo.put("success", false);
+			jo.put("msg", "更新小区失败!");
+		}
+		return jo.toString();
+	}
+
+	@RequestMapping(value = "/mi/xq/batchDel", method = { RequestMethod.POST })
+	@ResponseBody
+	public Object batchDelHTPano(HttpServletRequest request, String rcIds) {
+		JSONObject jo = new JSONObject();
+		try {
+			Map<String, String> res = rcService.batchDel(rcIds);
+			if (StringUtils.isEmpty(res.get("msg"))) {
+				jo.put("success", true);
+				jo.put("msg", "小区删除成功!");
+			} else {
+				jo.put("success", false);
+				jo.put("msg", res.get("msg"));
+				jo.put("field", res.get("field"));
+			}
+		} catch (Exception e) {
+			jo.put("success", false);
+			jo.put("msg", "小区删除失败!");
+		}
+		return jo.toString();
+	}
+
+	@RequestMapping(value = "/mi/xq/uploadImg", method = { RequestMethod.POST })
+	public @ResponseBody
+	Object upload(HttpServletRequest request,
+			@RequestParam("theFile") MultipartFile theFile) {
+		JSONObject jo = new JSONObject();
+		try {
+			String path = aossService.saveFileToServer(theFile);
+			path = aossService.addImgParams(path,
+					Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_NORMAL_PRE_IMG);
+			jo.put("imgPath", path);
+			jo.put("success", true);
+		} catch (IOException e) {
+			LOG.error("上传小区缩略图出错！", e);
+			jo.put("success", false);
+			jo.put("msg", "保存图片失败");
+		}
+		return jo.toString();
+	}
+
+	public Object getJsonObject(int rows, int totalpage, int curPage,
+			int pageSize, List<ResidenceCommunity> items, boolean rescode,
+			String msg) {
+		JSONObject jo = new JSONObject();
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("totalrows", rows);
+		map.put("curpage", curPage);
+		map.put("totalpage", totalpage);
+		map.put("pagesize", pageSize);
+
+		jo.put("pageinfo", map);
+		jo.put("items", items);
+
+		jo.put("success", rescode);
+		jo.put("msg", msg);
+
+		return jo.toString();
+	}
 }

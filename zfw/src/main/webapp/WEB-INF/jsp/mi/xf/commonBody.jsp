@@ -25,7 +25,7 @@
 									<div class="control-group">
 										<label class="control-label">地址</label>
 										<div class="control error">
-											<textarea name="address" maxlength="100"></textarea>
+											<textarea name="address" maxlength="200"></textarea>
 										</div>
 									</div>
 									<div class="control-group">

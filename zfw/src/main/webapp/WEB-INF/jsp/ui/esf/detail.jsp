@@ -42,7 +42,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${topImgs != null and fn:length(topImgs) > 1 }">
+						<c:if test="${topImgs != null and fn:length(topImgs) != 0 }">
 				       		<c:forEach items="${topImgs}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>
@@ -141,7 +141,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${panos != null and fn:length(panos) > 1 }">
+						<c:if test="${panos != null and fn:length(panos) != 0 }">
 				       		<c:forEach items="${panos}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>

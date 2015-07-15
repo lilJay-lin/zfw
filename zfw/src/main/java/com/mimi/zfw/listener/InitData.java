@@ -75,6 +75,13 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 	}
 
 	private void init() {
+		initRSA();
+		initYTX();
+		initData();
+//		initTestData();
+	}
+	
+	private void initRSA(){
 		try {
 			LOG.info("开始生产密匙");
 			RSAUtil.generateKeyPair();
@@ -82,20 +89,25 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 		} catch (Exception e) {
 			LOG.error("生成密钥出错！", e);
 		}
+	}
+	
+	private void initYTX(){
 		ytxAPI.init("sandboxapp.cloopen.com", "8883");
 		ytxAPI.setAccount("8a48b5514d32a2a8014d95626ee147c3",
 				"ce3126c41d6a4181b13fb9399db922b2");
 		ytxAPI.setAppId("8a48b5514d32a2a8014d9562b2ca47c6");
-//		initTestData();
 	}
 	
-	private void initTestData(){
+	private void initData(){
 		permissionService.initPermission();
 		roleService.initRole();
 		userService.initUser();
+		adService.initAdvertisement();
+	}
+	
+	private void initTestData(){
 		repService.initRealEstateProject();
 		infoService.initInformation();
-		adService.initAdvertisement();
 		rcService.initResidenceCommunicity();
 		aiServcie.initAssessItem();
 		shopService.initShop();

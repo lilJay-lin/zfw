@@ -39,7 +39,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${ads != null and fn:length(ads) > 1 }">
+						<c:if test="${ads != null and fn:length(ads) != 0 }">
 				       		<c:forEach items="${ads}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>

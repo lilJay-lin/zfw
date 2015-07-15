@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.mimi.zfw.mybatis.pojo.HouseType;
 import com.mimi.zfw.mybatis.pojo.HouseTypeExample;
+import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 
 public interface IHouseTypeService extends
 		IBaseService<HouseType, HouseTypeExample, String> {
@@ -29,5 +30,7 @@ public interface IHouseTypeService extends
 
 	public Map<String, String> updateHT(HouseType ht);
 
-	public Map<String, String> batchDel(String htIds);
+	public Map<String, String> batchDel(String repId, String htIds);
+
+	public void refreshByREP(RealEstateProject rep);
 }

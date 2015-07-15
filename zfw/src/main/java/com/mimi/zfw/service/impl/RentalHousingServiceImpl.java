@@ -2,7 +2,9 @@ package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -12,10 +14,13 @@ import org.springframework.stereotype.Service;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.RHImageMapper;
+import com.mimi.zfw.mybatis.dao.RHPanoMapper;
 import com.mimi.zfw.mybatis.dao.RentalHousingMapper;
 import com.mimi.zfw.mybatis.dao.ResidenceCommunityMapper;
 import com.mimi.zfw.mybatis.pojo.RHImage;
 import com.mimi.zfw.mybatis.pojo.RHImageExample;
+import com.mimi.zfw.mybatis.pojo.RHPano;
+import com.mimi.zfw.mybatis.pojo.RHPanoExample;
 import com.mimi.zfw.mybatis.pojo.RentalHousing;
 import com.mimi.zfw.mybatis.pojo.RentalHousingExample;
 import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
@@ -36,6 +41,9 @@ public class RentalHousingServiceImpl extends
 
 	@Resource
 	private RHImageMapper rhim;
+
+	@Resource
+	private RHPanoMapper rhpm;
 
 	@Resource
 	private ResidenceCommunityMapper rcm;
@@ -539,6 +547,166 @@ public class RentalHousingServiceImpl extends
 			rcService.refreshResidenceCommunity(rc.getId(), false, true);
 		}
 		return null;
+	}
+	@Override
+	public List<RentalHousing> findByParams(String name, String rcId,
+			Integer targetPage, Integer pageSize) {
+		if (StringUtils.isBlank(rcId)) {
+			return null;
+		}
+		RentalHousingExample rhe = bindRentalHousingParams(rcId, name);
+		if (targetPage != null && pageSize != null) {
+			rhe.setLimitStart(targetPage * pageSize);
+			rhe.setLimitSize(pageSize);
+		}
+		rhe.setOrderByClause("update_date desc,priority desc");
+		return rhm.selectByExample(rhe);
+	}
+
+	@Override
+	public int countByParams(String name, String rcId) {
+		if (StringUtils.isBlank(rcId)) {
+			return 0;
+		}
+		RentalHousingExample rhe = bindRentalHousingParams(rcId, name);
+		return rhm.countByExample(rhe);
+	}
+
+	private RentalHousingExample bindRentalHousingParams(String rcId, String name) {
+		RentalHousingExample rhe = new RentalHousingExample();
+		RentalHousingExample.Criteria cri = rhe.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if (StringUtils.isNotBlank(rcId)) {
+			cri.andResidenceCommunityIdEqualTo(rcId);
+		}
+		if (StringUtils.isNotBlank(name)) {
+			cri.andNameLike("%" + name + "%");
+		}
+		return rhe;
+	}
+
+	@Override
+	public Map<String, String> addRH(RentalHousing rh) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rh == null) {
+			resMap.put("msg", "租房内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(rh);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		rh.setId(UUID.randomUUID().toString());
+		rh.setCreater(curUserId);
+		rh.setLastEditor(curUserId);
+		rhm.insertSelective(rh);
+		rcService.refreshResidenceCommunity(rh.getResidenceCommunityId(), false, true);
+		return resMap;
+	}
+
+	@Override
+	public Map<String, String> updateRH(RentalHousing rh) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rh == null) {
+			resMap.put("msg", "租房内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		resMap = checkInfo(rh);
+		if(!resMap.isEmpty()){
+			return resMap;
+		}
+		rh.setLastEditor(curUserId);
+		rhm.updateByPrimaryKeySelective(rh);
+		rcService.refreshResidenceCommunity(rh.getResidenceCommunityId(), false, true);
+		return resMap;
+	}
+
+
+	@Override
+	public Map<String, String> batchDel(String rcId, String rhIds) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (StringUtils.isBlank(rhIds)) {
+			resMap.put("msg", "删除内容不能为空");
+			return resMap;
+		}
+		String curUserId = userService.getCurUserId();
+		if (StringUtils.isBlank(curUserId)) {
+			resMap.put("msg", "请先登录");
+			return resMap;
+		}
+		String[] ids = rhIds.split(Constants.MI_IDS_SPLIT_STRING);
+		List<String> idList = new ArrayList<String>();
+		for (int i = 0; i < ids.length; i++) {
+			if (StringUtils.isNotBlank(ids[i])) {
+				idList.add(ids[i]);
+			}
+		}
+		if (!idList.isEmpty()) {
+			RentalHousingExample rhe = new RentalHousingExample();
+			rhe.or().andIdIn(idList).andDelFlagEqualTo(false);
+			RentalHousing rh = new RentalHousing();
+			rh.setDelFlag(true);
+			rh.setLastEditor(curUserId);
+			rhm.updateByExampleSelective(rh, rhe);
+			
+			RHPanoExample pe = new RHPanoExample();
+			pe.or().andRentalHousingIdIn(idList).andDelFlagEqualTo(false);
+			RHPano pano = new RHPano();
+			pano.setDelFlag(true);
+			pano.setLastEditor(curUserId);
+			rhpm.updateByExampleSelective(pano, pe);
+			
+			RHImageExample ie = new RHImageExample();
+			ie.or().andRentalHousingIdIn(idList).andDelFlagEqualTo(false);
+			RHImage image = new RHImage();
+			image.setDelFlag(true);
+			image.setLastEditor(curUserId);
+			rhim.updateByExampleSelective(image, ie);
+			
+			rcService.refreshResidenceCommunity(rcId, false, true);
+		}
+		return resMap;
+	}
+	
+	private Map<String, String> checkInfo(RentalHousing rh) {
+		Map<String, String> resMap = new HashMap<String, String>();
+		if (rh == null) {
+			resMap.put("msg", "租房内容不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(rh.getResidenceCommunityId()) || StringUtils.isBlank(rh.getResidenceCommunityName())) {
+			resMap.put("msg", "租房所属小区不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(rh.getPreImageUrl())) {
+			resMap.put("msg", "租房缩略图不能为空");
+			return resMap;
+		}
+		if (StringUtils.isBlank(rh.getName())) {
+			resMap.put("msg", "租房名称不能为空");
+			return resMap;
+		}
+		return resMap;
+	}
+
+	@Override
+	public void refreshByRC(ResidenceCommunity rc) {
+		RentalHousingExample rhe = new RentalHousingExample();
+		rhe.or().andResidenceCommunityIdEqualTo(rc.getId()).andDelFlagEqualTo(false);
+		RentalHousing rh = new RentalHousing();
+		rh.setRegion(rc.getRegion());
+		rh.setResidenceCommunityName(rc.getName());
+		rhm.updateByExampleSelective(rh, rhe);
 	}
 
 }

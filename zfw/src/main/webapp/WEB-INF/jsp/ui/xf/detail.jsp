@@ -45,7 +45,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${topImgs != null and fn:length(topImgs) > 1 }">
+						<c:if test="${topImgs != null and fn:length(topImgs) != 0 }">
 				       		<c:forEach items="${topImgs}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>
@@ -132,10 +132,10 @@
 			</div>
 		</section>
 		
-		<c:if test="${hxs != null and fn:length(hxs) > 1 }">
+		<c:if test="${hxs != null and fn:length(hxs) != 0 }">
 		<section class="mt10 homeList bdb">
 			<ul>
-				<c:if test="${oneRoomHTs != null and fn:length(oneRoomHTs) > 1 }">
+				<c:if test="${oneRoomHTs != null and fn:length(oneRoomHTs) != 0 }">
 				<h3 class="f999 f16 pdY5">一居</h3>
 		       		<c:forEach items="${oneRoomHTs}" var="t" varStatus="status">
 						<li><a href="${ctx }/hx/${t.id}/detail">
@@ -162,7 +162,7 @@
 						</a></li>
 		       		</c:forEach>
 				</c:if>
-				<c:if test="${twoRoomHTs != null and fn:length(twoRoomHTs) > 1 }">
+				<c:if test="${twoRoomHTs != null and fn:length(twoRoomHTs) != 0 }">
 				<h3 class="f999 f16 pdY5">二居</h3>
 		       		<c:forEach items="${twoRoomHTs}" var="t" varStatus="status">
 						<li><a href="${ctx }/hx/${t.id}/detail">
@@ -189,7 +189,7 @@
 						</a></li>
 		       		</c:forEach>
 				</c:if>
-				<c:if test="${threeRoomHTs != null and fn:length(threeRoomHTs) > 1 }">
+				<c:if test="${threeRoomHTs != null and fn:length(threeRoomHTs) != 0 }">
 				<h3 class="f999 f16 pdY5">三居</h3>
 		       		<c:forEach items="${threeRoomHTs}" var="t" varStatus="status">
 						<li><a href="${ctx }/hx/${t.id}/detail">
@@ -216,7 +216,7 @@
 						</a></li>
 		       		</c:forEach>
 				</c:if>
-				<c:if test="${fourRoomHTs != null and fn:length(fourRoomHTs) > 1 }">
+				<c:if test="${fourRoomHTs != null and fn:length(fourRoomHTs) != 0 }">
 				<h3 class="f999 f16 pdY5">四居</h3>
 		       		<c:forEach items="${fourRoomHTs}" var="t" varStatus="status">
 						<li><a href="${ctx }/hx/${t.id}/detail">
@@ -243,7 +243,7 @@
 						</a></li>
 		       		</c:forEach>
 				</c:if>
-				<c:if test="${fiveRoomHTs != null and fn:length(fiveRoomHTs) > 1 }">
+				<c:if test="${fiveRoomHTs != null and fn:length(fiveRoomHTs) != 0 }">
 				<h3 class="f999 f16 pdY5">五居</h3>
 		       		<c:forEach items="${fiveRoomHTs}" var="t" varStatus="status">
 						<li><a href="${ctx }/hx/${t.id}/detail">
@@ -270,7 +270,7 @@
 						</a></li>
 		       		</c:forEach>
 				</c:if>
-				<c:if test="${overFiveRoomHTs != null and fn:length(overFiveRoomHTs) > 1 }">
+				<c:if test="${overFiveRoomHTs != null and fn:length(overFiveRoomHTs) != 0 }">
 				<h3 class="f999 f16 pdY5">五居以上</h3>
 		       		<c:forEach items="${overFiveRoomHTs}" var="t" varStatus="status">
 						<li><a href="${ctx }/hx/${t.id}/detail">
@@ -334,7 +334,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${videos != null and fn:length(videos) > 1 }">
+						<c:if test="${videos != null and fn:length(videos) != 0 }">
 				       		<c:forEach items="${videos}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>
@@ -363,7 +363,7 @@
 				</div>
 				<div class="flicking_con">
 					<div class="flicking_inner">
-						<c:if test="${panos != null and fn:length(panos) > 1 }">
+						<c:if test="${panos != null and fn:length(panos) != 0 }">
 				       		<c:forEach items="${panos}" var="t" varStatus="status">
 				       			<a href=""></a>
 				       		</c:forEach>

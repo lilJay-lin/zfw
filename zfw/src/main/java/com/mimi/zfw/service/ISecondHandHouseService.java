@@ -1,7 +1,9 @@
 package com.mimi.zfw.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.mimi.zfw.mybatis.pojo.ResidenceCommunity;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouse;
 import com.mimi.zfw.mybatis.pojo.SecondHandHouseExample;
 
@@ -29,4 +31,17 @@ public interface ISecondHandHouseService extends
 	String refreshUserSHH(String id);
 
 	String updateCascading(SecondHandHouse shh, String imgUrls);
+
+	public List<SecondHandHouse> findByParams(String name, String rcId,
+			Integer targetPage, Integer pageSize);
+
+	public int countByParams(String name, String rcId);
+
+	public Map<String, String> addSHH(SecondHandHouse shh);
+
+	public Map<String, String> updateSHH(SecondHandHouse shh);
+
+	public Map<String, String> batchDel(String rcId, String shhIds);
+	
+	public void refreshByRC(ResidenceCommunity rc);
 }

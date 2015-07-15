@@ -21,24 +21,20 @@ import com.mimi.zfw.service.IUserService;
 
 @Service
 public class HTImageServiceImpl extends
-	BaseService<HTImage, HTImageExample, String> implements
-	IHTImageService {
+		BaseService<HTImage, HTImageExample, String> implements IHTImageService {
 
-    @Resource
-    private HTImageMapper htim;
+	@Resource
+	private HTImageMapper htim;
 
 	@Resource
 	private IUserService userService;
 
-
-    @Resource
-    @Override
-    public void setBaseDao(
-	    IBaseDao<HTImage, HTImageExample, String> baseDao) {
-	this.baseDao = baseDao;
-	this.htim = (HTImageMapper) baseDao;
-    }
-
+	@Resource
+	@Override
+	public void setBaseDao(IBaseDao<HTImage, HTImageExample, String> baseDao) {
+		this.baseDao = baseDao;
+		this.htim = (HTImageMapper) baseDao;
+	}
 
 	@Override
 	public List<HTImage> getImagesByHTId(String id) {
@@ -47,17 +43,17 @@ public class HTImageServiceImpl extends
 		return htim.selectByExample(hie);
 	}
 
-
 	@Override
 	public List<HTImage> getImagesByParams(String id, int targetPage,
 			int pageSize) {
 		HTImageExample hie = new HTImageExample();
 		hie.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
-		hie.setLimitStart(targetPage*pageSize);
+		hie.setLimitStart(targetPage * pageSize);
 		hie.setLimitSize(pageSize);
 		hie.setOrderByClause("update_date asc");
 		return htim.selectByExample(hie);
 	}
+
 	@Override
 	public List<HTImage> findByParams(String htId, String name,
 			Integer targetPage, Integer pageSize) {
