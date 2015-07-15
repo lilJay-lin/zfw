@@ -46,7 +46,8 @@ public class PermissionServiceImpl extends
 	    		{"自管理", "user:self"},{"进入后台","user:mi"},
 	    		{"管理角色","role"},{"查询角色","role:query"},{"浏览角色", "role:view"},{"添加角色","role:add"},{ "删除角色","role:del"},{"修改角色","role:update" },
 	    		
-	    		{"查询关联楼盘","rep:queryru"},{"查询楼盘","rep:query"},{"浏览楼盘","rep:view"},{"添加楼盘","rep:add"},{"删除楼盘","rep:del"},{"修改楼盘","rep:update"},
+	    		{"查询关联楼盘","rep:queryru"},
+	    		{"查询楼盘","rep:query"},{"浏览楼盘","rep:view"},{"添加楼盘","rep:add"},{"删除楼盘","rep:del"},{"修改楼盘","rep:update"},
 	    		{"查询小区","rc:query"},{"浏览小区","rc:view"},{"添加小区","rc:add"},{"删除小区","rc:del"},{"修改小区","rc:update"},
 	    		
 	    		{"查询资讯","info:query"},{"浏览资讯","info:view"},{"添加资讯","info:add"},{"删除资讯","info:del"},{"修改资讯","info:update"},
