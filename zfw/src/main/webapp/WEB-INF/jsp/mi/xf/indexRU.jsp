@@ -25,11 +25,9 @@
 						<div class="box-cnt">
 							<div class="datatable" id="repList">
 								<div class="datatabls-filter">
-									<label>
-										<!--搜索：-->
-										<input type="text" id="searchbyname" />
-										<input type="button" class="btn" id="search-rep" value="搜索" />
-									</label>
+									<!--搜索：-->
+									<input type="text" id="searchbyname" />
+									<input type="button" class="btn" id="search-rep" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -86,12 +84,16 @@
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
+					<shiro:hasPermission name="rep:view">
 					<a class="btn btn-info" href="${ctx}/mi/xfru/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="rep:update">
 					<a class="btn btn-info" href="${ctx}/mi/xfru/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
+					</shiro:hasPermission>
 				</td>
 			</tr>
 			{{/each}}

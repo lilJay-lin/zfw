@@ -25,18 +25,16 @@
 						<div class="box-cnt">
 							<div class="datatable" id="adList">
 								<div class="datatabls-filter">
-									<label>
-										<!--搜索：-->
-										<input type="text" id="searchbyname" />
-										<input type="button" class="btn" id="search-ad" value="搜索" />
-										<select id="location">
-											<option value="">位置不限</option>
-											<option value="首页顶端">首页顶端</option>
-											<option value="首页中间小型">首页中间小型</option>
-											<option value="首页中间大型">首页中间大型</option>
-											<option value="资讯页">资讯页</option>
-										</select>
-									</label>
+									<!--搜索：-->
+									<input type="text" id="searchbyname" />
+									<select id="location">
+										<option value="">位置不限</option>
+										<option value="首页顶端">首页顶端</option>
+										<option value="首页中间小型">首页中间小型</option>
+										<option value="首页中间大型">首页中间大型</option>
+										<option value="资讯页">资讯页</option>
+									</select>
+									<input type="button" class="btn" id="search-ad" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -97,12 +95,16 @@
 					<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
+					<shiro:hasPermission name="ad:view">
 					<a class="btn btn-info" href="${ctx}/mi/ad/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ad:update">
 					<a class="btn btn-info" href="${ctx}/mi/ad/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
+					</shiro:hasPermission>
 				</td>
 			</tr>
 			{{/each}}

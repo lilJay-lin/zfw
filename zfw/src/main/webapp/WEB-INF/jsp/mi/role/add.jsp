@@ -45,12 +45,10 @@
 										<div class="box-cnt">
 											<div class="datatable" id="permission">
 												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														权限名称：<input type="text" id="searchbyname"/>
-														权限编码：<input type="text" id="searchbycode"/>
-														<input type="button" class="btn" value="搜索" id="search-btn"/>
-													</label>
+													<!--搜索：-->
+													权限名称：<input type="text" id="searchbyname"/>
+													权限编码：<input type="text" id="searchbycode"/>
+													<input type="button" class="btn" value="搜索" id="search-btn"/>
 												</div>
 												<table class="datatable-table">
 													<thead>

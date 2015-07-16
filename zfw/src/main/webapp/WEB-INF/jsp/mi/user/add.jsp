@@ -105,11 +105,9 @@
 										<div class="box-cnt">
 											<div class="datatable" id="roleinfo">
 												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="searchbyname"/>
-														<input type="button" class="btn" value="搜索" id="search-role"/>
-													</label>
+													<!--搜索：-->
+													<input type="text" id="searchbyname"/>
+													<input type="button" class="btn" value="搜索" id="search-role"/>
 												</div>
 												<table class="datatable-table">
 													<thead>

@@ -154,10 +154,7 @@ public class PGController {
 
 	@RequestMapping(value = "/mi/pg", method = { RequestMethod.GET })
 	public String toMIIndex(HttpServletRequest request) {
-		request.setAttribute("lastStart", shhfplfService.getLastStart());
-		request.setAttribute("lastEnd", shhfplfService.getLastEnd());
-		request.setAttribute("computing", shhfplfService.isComputing());
-		request.setAttribute("lastSuccess", shhfplfService.isLastSuccess());
+		addResponseData(request);
 		return "mi/pg/index";
 	}
 
@@ -171,6 +168,7 @@ public class PGController {
         		jo.put("success", false);
         		jo.put("msg", errorStr);
         	}else{
+        		addResponseData(request);
         		jo.put("success", true);
         		shhfplfService.setLastSuccess(true);
         		shhfplfService.setLastEnd(new Date(System.currentTimeMillis()));
@@ -182,5 +180,12 @@ public class PGController {
     		shhfplfService.setLastEnd(new Date(System.currentTimeMillis()));
     	}
 		return jo.toString();
+	}
+	
+	private void addResponseData(HttpServletRequest request){
+		request.setAttribute("lastStart", shhfplfService.getLastStart());
+		request.setAttribute("lastEnd", shhfplfService.getLastEnd());
+		request.setAttribute("computing", shhfplfService.isComputing());
+		request.setAttribute("lastSuccess", shhfplfService.isLastSuccess());
 	}
 }

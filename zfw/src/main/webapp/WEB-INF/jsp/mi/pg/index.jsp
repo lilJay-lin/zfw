@@ -58,6 +58,7 @@
 												</c:otherwise>
 											</c:choose>
 									</div>
+									<shiro:hasPermission name="am:compute">
 									<c:choose>
 										<c:when test="${computing}">
 											<div class="form-actions">
@@ -70,6 +71,7 @@
 											</div>
 										</c:otherwise>
 									</c:choose>
+									</shiro:hasPermission>
 								</fieldset>
 							</div>
 						</div>
@@ -95,14 +97,15 @@
 	<script>
 		function toCompute(){
 			$("#cBtn").attr("disabled","disabled");
-			$("#cBtn").html("正在执行。。。");
+			$("#cBtn").html("正在执行...");
 			$.ajax({
 				url : "${ctx}/mi/pg/compute",
 				type : "POST",
 				dataType:'json',
 				success: function(json){
 					if(json.success){
-						
+						alert("完成统计！");
+						window.location.href = "${ctx}/mi/pg";
 					}else if(json.msg){
 						alert(json.msg);
 					}

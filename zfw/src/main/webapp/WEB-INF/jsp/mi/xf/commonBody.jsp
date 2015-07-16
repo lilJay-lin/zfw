@@ -264,11 +264,9 @@
 										<div class="box-cnt">
 											<div class="datatable" id="userInfo">
 												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="search-user-text"/>
-														<input type="button" class="btn" value="搜索" id="search-user-btn"/>
-													</label>
+													<!--搜索：-->
+													<input type="text" id="search-user-text"/>
+													<input type="button" class="btn" value="搜索" id="search-user-btn"/>
 												</div>
 												<table class="datatable-table">
 													<thead>
@@ -319,11 +317,9 @@
 										<div class="box-cnt">
 											<div class="datatable" id="zxInfo">
 												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="search-info-text"/>
-														<input type="button" class="btn" value="搜索" id="search-info-btn"/>
-													</label>
+													<!--搜索：-->
+													<input type="text" id="search-info-text"/>
+													<input type="button" class="btn" value="搜索" id="search-info-btn"/>
 												</div>
 												<table class="datatable-table">
 													<thead>

@@ -33,9 +33,11 @@
 								</div>
 								<table class="datatable-table">
 									<thead>
+										<shiro:hasPermission name="shop:del">
 										<th>
 											<input type="checkbox"  id="selectAll"/>
 										</th>
+										</shiro:hasPermission>
 										<th>名称</th>
 										<th>地址</th>
 										<th>描述</th>
@@ -48,11 +50,15 @@
 								</table>
 								<div class="datatable-toolbar disabled">
 									<div class="toolbar">
+										<shiro:hasPermission name="shop:del">
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="shop:add">
 										<a class="btn" href="${ctx}/mi/shop/add">新增</a>
+										</shiro:hasPermission>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -92,9 +98,11 @@
 		<script type="text/x-handlebars" id = "sp-template">
 			{{#each this}}
 			<tr>
+				<shiro:hasPermission name="shop:del">
 				<td>
 					<input type="checkbox" value="{{id}}"/>
 				</td>
+				</shiro:hasPermission>
 				<td>{{name}}</td>
 				<td>{{address}}</td>
 				<td>{{description}}</td>
@@ -103,15 +111,21 @@
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
+					<shiro:hasPermission name="shop:view">
 					<a class="btn btn-info" href="${ctx}/mi/shop/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="shop:update">
 					<a class="btn btn-info" href="${ctx}/mi/shop/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="shop:del">
 					<a class="btn btn-danger" href="javascript:;" onclick="delObject(this,'{{id}}');return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
 					</a>
+					</shiro:hasPermission>
 				</td>
 			</tr>
 			{{/each}}

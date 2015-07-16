@@ -25,22 +25,22 @@
 						<div class="box-cnt">
 							<div class="datatable" id="rcList">
 								<div class="datatabls-filter">
-									<label>
-										<!--搜索：-->
-										<input type="text" id="searchbyname" />
-										<input type="button" class="btn" id="search-rc" value="搜索" />
-										<select id="active">
-											<option value="">完善程度不限</option>
-											<option value="true">已完善</option>
-											<option value="false">待完善</option>
-										</select>
-									</label>
+									<!--搜索：-->
+									<input type="text" id="searchbyname" />
+									<select id="active">
+										<option value="">完善程度不限</option>
+										<option value="true">已完善</option>
+										<option value="false">待完善</option>
+									</select>
+									<input type="button" class="btn" id="search-rc" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
+										<shiro:hasPermission name="rc:del">
 										<th>
 											<input type="checkbox"  id="selectAll"/>
 										</th>
+										</shiro:hasPermission>
 										<th>名称</th>
 										<th>地址</th>
 										<th>描述</th>
@@ -53,11 +53,15 @@
 								</table>
 								<div class="datatable-toolbar disabled">
 									<div class="toolbar">
+										<shiro:hasPermission name="rc:del">
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="rc:add">
 										<a class="btn" href="${ctx}/mi/xq/add">新增</a>
+										</shiro:hasPermission>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -97,9 +101,11 @@
 		<script type="text/x-handlebars" id = "rc-template">
 			{{#each this}}
 			<tr>
+				<shiro:hasPermission name="rc:del">
 				<td>
 					<input type="checkbox" value="{{id}}"/>
 				</td>
+				</shiro:hasPermission>
 				<td>{{name}}</td>
 				<td>{{address}}</td>
 				<td>{{description}}</td>
@@ -108,15 +114,21 @@
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
+					<shiro:hasPermission name="rc:view">
 					<a class="btn btn-info" href="${ctx}/mi/xq/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="rc:update">
 					<a class="btn btn-info" href="${ctx}/mi/xq/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="rc:del">
 					<a class="btn btn-danger" href="javascript:;" onclick="delRc(this,'{{id}}');return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
 					</a>
+					</shiro:hasPermission>
 				</td>
 			</tr>
 			{{/each}}

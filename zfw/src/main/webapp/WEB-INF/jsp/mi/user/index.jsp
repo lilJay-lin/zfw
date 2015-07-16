@@ -25,17 +25,17 @@
 						<div class="box-cnt">
 							<div class="datatable" id="userinfo">
 								<div class="datatabls-filter">
-									<label>
-										<!--搜索：-->
-										<input type="text" id="searchbyname" />
-										<input type="button" class="btn" id="search-user" value="搜索" />
-									</label>
+									<!--搜索：-->
+									<input type="text" id="searchbyname" />
+									<input type="button" class="btn" id="search-user" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
+										<ct:hasAnyPermissions name="user:del,user:update">
 										<th>
 											<input type="checkbox"  id="selectAll"/>
 										</th>
+										</ct:hasAnyPermissions>
 										<th>名称</th>
 										<th>邮箱</th>
 										<th>手机号码</th>
@@ -52,13 +52,21 @@
 								</table>
 								<div class="datatable-toolbar disabled">
 									<div class="toolbar">
+										<ct:hasAnyPermissions name="user:del,user:update">
 										<select id="batch_option">
+											<shiro:hasPermission name="user:del">
 											<option value="del" selected="selected">删除</option>
+											</shiro:hasPermission>
+											<shiro:hasPermission name="user:update">
 											<option value="unlock">解冻</option>
 											<option value="lock">锁定</option>
+											</shiro:hasPermission>
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										</ct:hasAnyPermissions>
+										<shiro:hasPermission name="user:add">
 										<a class="btn" href="${ctx}/mi/user/add">新增</a>
+										</shiro:hasPermission>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -100,9 +108,11 @@
 		<script type="text/x-handlebars" id = "user-info-template">
 			{{#each this}}
 			<tr>
+				<ct:hasAnyPermissions name="user:del,user:update">
 				<td>
 					<input type="checkbox" value="{{id}}"/>
 				</td>
+				</ct:hasAnyPermissions>
 				<td>{{name}}</td>
 				<td>{{email}}</td>
 				<td>{{phoneNum}}</td>
@@ -116,15 +126,21 @@
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
+					<shiro:hasPermission name="user:view">
 					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="user:update">
 					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="user:del">
 					<a class="btn btn-danger" href="javascript:;" onclick="delUser(this);return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
 					</a>
+					</shiro:hasPermission>
 				</td>
 			</tr>
 			{{/each}}
