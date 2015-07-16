@@ -84,6 +84,10 @@ function initRCData(){
 						marker.setPosition(tp);
 						map.centerAndZoom(tp, 15);
 					}, 1000);
+				}else{
+					setTimeout(function(){
+						map.centerAndZoom(point, 15);
+					},500);
 				}
 			}
 		},

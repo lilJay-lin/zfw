@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增角色</h2>
+							<h2>编辑角色</h2>
 						</div>
 						<div class="box-cnt">
 							<form class="form">
@@ -46,12 +46,10 @@
 										<div class="box-cnt">
 											<div class="datatable" id="permission">
 												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														权限名称：<input type="text" id="searchbyname"/>
-														权限编码：<input type="text" id="searchbycode"/>
-														<input type="button" class="btn" value="搜索" id="search-btn"/>
-													</label>
+													<!--搜索：-->
+													权限名称：<input type="text" id="searchbyname"/>
+													权限编码：<input type="text" id="searchbycode"/>
+													<input type="button" class="btn" value="搜索" id="search-btn"/>
 												</div>
 												<table class="datatable-table">
 													<thead>
@@ -59,6 +57,7 @@
 															<th>权限名称</th>
 															<th>权限编码</th>
 															<th>描述</th>
+															<th>操作</th>
 														</tr>
 													</thead>
 													<tbody class="page-data-list">

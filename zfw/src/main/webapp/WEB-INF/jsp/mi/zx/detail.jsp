@@ -138,9 +138,6 @@
 					<span>
 						{{name}}
 					</span>
-					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
-						<i class="icon-remove"></i>
-					</a>
 				</div>
 			</li>
 			{{/this}}

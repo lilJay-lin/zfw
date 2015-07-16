@@ -462,11 +462,11 @@ public class CFCKController {
 
 	try {
 	    if (StringUtils.isNotBlank(name)) {
-		name = URLDecoder.decode(name, "utf-8");
+	    	name = URLDecoder.decode(name, "utf-8");
 	    }
 
 	    if (StringUtils.isNotBlank(type)) {
-		name = URLDecoder.decode(type, "utf-8");
+	    	type = URLDecoder.decode(type, "utf-8");
 	    }
 	} catch (UnsupportedEncodingException e) {
 

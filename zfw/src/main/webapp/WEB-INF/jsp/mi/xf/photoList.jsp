@@ -3,9 +3,7 @@
 <div class="box-cnt js-rep-photos-container" style="display:none">
 	<div class="datatable" id="photoList">
 		<div class="datatabls-filter">
-			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
-				<input type="button" class="btn js-search-btn" value="搜索"/>
-			</label>
+			<!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
 			<select class="js-photo-type">
 				<option value="">类型不限</option>
 				<option value="效果图">效果图</option>
@@ -13,6 +11,7 @@
 				<option value="交通图">交通图</option>
 				<option value="配套图">配套图</option>
 			</select>
+			<input type="button" class="btn js-search-btn" value="搜索"/>
 		</div>
 		<table class="datatable-table">
 			<thead>

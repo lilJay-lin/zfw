@@ -25,23 +25,20 @@
 						<div class="box-cnt">
 							<div class="datatable" id="roleinfo">
 								<div class="datatabls-filter">
-									<label>
 									<!--搜索：-->
-										<input type="text" id="searchbyname"/>
-										<input type="button" class="btn" value="搜索" id="search-role"/>
-									</label>
+									<input type="text" id="searchbyname"/>
+									<input type="button" class="btn" value="搜索" id="search-role"/>
 								</div>
 								<table class="datatable-table">
 									<thead>
 										<tr>
+											<shiro:hasPermission name="role:del">
 											<th>
 												<input type="checkbox"  id="selectAll"/>
 											</th>
+											</shiro:hasPermission>
 											<th>角色名称</th>
 											<th>描述</th>
-											<!--<th>创建人</th>
-											<th>最近编辑人</th>
-											<th>创建日期</th>-->
 											<th>最后修改时间</th>
 											<th>操作</th>
 										</tr>
@@ -51,13 +48,17 @@
 								</table>
 								<div class="datatable-toolbar">
 									<div class="toolbar">
+										<shiro:hasPermission name="role:del">
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 											<!--<option value="unlock">解冻</option>
 											<option value="lock">锁定</option>-->
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="role:add">
 										<a class="btn" href="${ctx}/mi/role/add">新增</a>
+										</shiro:hasPermission>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -102,9 +103,11 @@
 	<script type="text/x-handlebars" id = "role-template">
 		{{#each this}}
 		<tr>
+			<shiro:hasPermission name="role:del">
 			<td>
 				<input type="checkbox" value="{{id}}"/>
 			</td>
+			</shiro:hasPermission>
 			<td>{{name}}</td>
 			<td>{{description}}</td>
 			<!--<td>{{creater}}</td>
@@ -114,15 +117,21 @@
 			<td>{{dateformat time 3}}</td>
 			{{/with}}
 			<td>
+				<shiro:hasPermission name="role:view">
 				<a class="btn btn-info" href="${ctx}/mi/role/{{id}}/detail">
 					<i class="icon-zoom-in "></i>                                            
 				</a>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="role:update">
 				<a class="btn btn-info" href="${ctx}/mi/role/{{id}}/edit">
 					<i class="icon-edit "></i>                                            
 				</a>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="role:del">
 				<a class="btn btn-danger" href="javascript:;" onclick="del(this);return false;" data-id="{{id}}">
 					<i class="icon-trash "></i> 
 				</a>
+				</shiro:hasPermission>
 			</td>
 		</tr>
 		{{/each}}

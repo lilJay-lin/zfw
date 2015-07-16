@@ -3,9 +3,8 @@
 <div class="box-cnt js-xzl-panos-container" style="display:none">
 	<div class="datatable" id="panoList">
 		<div class="datatabls-filter">
-			<label> <!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
-				<input type="button" class="btn js-search-btn" value="搜索"/>
-			</label>
+			<!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
+			<input type="button" class="btn js-search-btn" value="搜索"/>
 		</div>
 		<table class="datatable-table">
 			<thead>

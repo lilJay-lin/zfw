@@ -41,10 +41,12 @@
 											</select>
 										</div>
 									</div>
+									<shiro:hasPermission name="su:update">
 									<div class="form-actions">
 									  <button type="button" class="btn" id="rBtn" onclick="toRefresh()">重置</button>
 									  <button type="reset" class="btn btn-primary" id="eBtn" onClick="toSave()">修改</button>
 									</div>
+									</shiro:hasPermission>
 								</fieldset>
 							</div>
 						</div>
@@ -68,6 +70,7 @@
 		<!-- 底部区域结束     -->
 	</body>
 	<script>
+
 		function toSave(){
 			var btn = $("#eBtn");
 			btn.attr("disabled","disabled");
@@ -129,5 +132,11 @@
 			}); 
 		}
 		toRefresh();
+	<shiro:lacksPermission name="su:update">
+		$("[name=singUpFormTitle]").attr("disabled","disabled");
+		$("[name=singUpFormTitle]").attr("readonly","readonly");
+		$("[name=showSignUpForm]").attr("disabled","disabled");
+		$("[name=showSignUpForm]").attr("readonly","readonly");
+	</shiro:lacksPermission>
 	</script>
 </html>

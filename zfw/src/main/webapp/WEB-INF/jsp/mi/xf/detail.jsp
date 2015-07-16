@@ -152,4 +152,27 @@
 			</tr>
 			{{/each}}
 		</script>
+  		<script type="text/x-handlebars-template" id="relation-user-template">
+			{{#this}}
+			<li>
+				<div class="relation-info">
+					<span>
+						{{name}}
+					</span>
+				</div>
+			</li>
+			{{/this}}
+		</script>
+		
+		<script type="text/x-handlebars-template" id="relation-info-template">
+			{{#this}}
+			<li>
+				<div class="relation-info">
+					<span>
+						{{name}}
+					</span>
+				</div>
+			</li>
+			{{/this}}
+		</script>
 </html>

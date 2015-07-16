@@ -360,6 +360,7 @@ var curp = 1;
 			residenceCommunityId = $("#residenceCommunityId").val();
 		}
 		var keyWord = $("#keyWord").val();
+		keyWord = keyWord.replace(/([^A-Za-z0-9\u4e00-\u9fa5\(\)_])+/g,"");
 		var region = $("[data-name='region']").attr("data-condition");
 		var rental = $("[data-name='rental']").attr("data-condition");
 		var roomNum = $("[data-name='roomNum']").attr("data-condition");

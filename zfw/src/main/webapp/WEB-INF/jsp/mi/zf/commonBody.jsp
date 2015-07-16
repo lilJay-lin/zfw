@@ -200,11 +200,9 @@
 										<div class="box-cnt">
 											<div class="datatable" id="rcInfo">
 												<div class="datatabls-filter">
-													<label>
-														<!--搜索：-->
-														<input type="text" id="search-rc-text"/>
-														<input type="button" class="btn" value="搜索" id="search-rc-btn"/>
-													</label>
+													<!--搜索：-->
+													<input type="text" id="search-rc-text"/>
+													<input type="button" class="btn" value="搜索" id="search-rc-btn"/>
 												</div>
 												<table class="datatable-table">
 													<thead>

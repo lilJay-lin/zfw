@@ -25,24 +25,25 @@
 						<div class="box-cnt">
 							<div class="datatable" id="cfckList">
 								<div class="datatabls-filter">
-									<label>
-										<!--搜索：-->
-										名称：<input type="text" id="searchbyname" />
-										厂房/仓库：<select id="searchbytype">
-													<option value="厂房">厂房</option>
-													<option value="仓库">仓库</option>
-												</select>
-										<input type="button" class="btn" id="search" value="搜索" />
-									</label>
+									<!--搜索：-->
+									<input type="text" id="searchbyname" />
+									<select id="searchbytype">
+										<option value="">类型不限</option>
+										<option value="厂房">厂房</option>
+										<option value="仓库">仓库</option>
+									</select>
+									<input type="button" class="btn" id="search" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
+										<shiro:hasPermission name="warehouse:del">
 										<th>
 											<input type="checkbox"  id="selectAll"/>
 										</th>
+										</shiro:hasPermission>
 										<th>名称</th>
+										<th>类别</th>
 										<th>地址</th>
-										<th>描述</th>
 										<th>优先级</th>
 										<th>最后修改时间</th>
 										<th>操作</th>
@@ -52,11 +53,15 @@
 								</table>
 								<div class="datatable-toolbar disabled">
 									<div class="toolbar">
+										<shiro:hasPermission name="warehouse:del">
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
 										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="warehouse:add">
 										<a class="btn" href="${ctx}/mi/cfck/add">新增</a>
+										</shiro:hasPermission>
 									</div>
 								</div>
 								<div class="datatable-footer">
@@ -96,25 +101,33 @@
 		<script type="text/x-handlebars" id = "cfck-template">
 			{{#each this}}
 			<tr>
+				<shiro:hasPermission name="warehouse:del">
 				<td>
 					<input type="checkbox" value="{{id}}"/>
 				</td>
+				</shiro:hasPermission>
 				<td>{{name}}</td>
+				<td>{{type}}</td>
 				<td>{{address}}</td>
-				<td>{{description}}</td>
 				<td>{{priority}}</td>
 				{{#with updateDate}}
 				<td>{{dateformat time 3}}</td>
 				{{/with}}
 				<td>
+					<shiro:hasPermission name="warehouse:view">
 					<a class="btn btn-info" href="${ctx}/mi/cfck/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="warehouse:update">
 					<a class="btn btn-info" href="${ctx}/mi/cfck/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="warehouse:del">
 					<a class="btn btn-danger" href="javascript:;" onclick="delObject(this,'{{id}}');return false;" data-id="{{id}}">
 						<i class="icon-trash "></i> 
+					</shiro:hasPermission>
 					</a>
 				</td>
 			</tr>

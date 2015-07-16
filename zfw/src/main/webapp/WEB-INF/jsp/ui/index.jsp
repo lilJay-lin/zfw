@@ -335,7 +335,9 @@
 	}
 	
 	function search(){
-		top.location = "${ctx}/"+$("#keyWord").val()+"-/search";
+		var keyWord = $("#keyWord").val();
+		keyWord = keyWord.replace(/([^A-Za-z0-9\u4e00-\u9fa5\(\)_])+/g,"");
+		top.location = "${ctx}/"+keyWord+"-/search";
 	}
 </script>
 </html>

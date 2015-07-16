@@ -427,6 +427,9 @@
 					for(var i in user){
 						var e = form.find("[name="+i+"]");
 						e.length>0&&e.val(user[i]);
+						if(i=="name" && e.val()=="admin"){
+							e.attr("readonly","readonly");
+						}
 					}
 					if(!!user.headImgUrl){
 						$(".control-user-img").attr("src",user.headImgUrl);

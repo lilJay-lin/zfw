@@ -4,10 +4,10 @@
 	<a class="navbar-brand skin">后台管理</a>
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li><a href="${ctx}/mi/user/${miCurrentUserId}/person"class="btn"><i class="icon-wrench"></i></a></li>
+<%-- 			<li><a href="${ctx}/mi/user/${miCurrentUserId}/person"class="btn"><i class="icon-wrench"></i></a></li> --%>
 			<li ><a href="${ctx}/mi/user/logout" onclick="logout()" class="btn"><i class="icon-unlock"></i></a></li>
 			<li>
-				<a href="#">
+				<a href="${ctx}/mi/user/${miCurrentUserId}/person">
 					<div class="nav-avatar">
 						<img src="${miCurrentHeadImgUrl}" id="mi-cur-headImageUrl" alt="Avatar">
 					</div>

@@ -1,7 +1,7 @@
 drop table if exists tbl_role;
 CREATE TABLE tbl_role(
 id varchar(50) PRIMARY KEY,
-name varchar(50) unique,
+name varchar(50),
 description varchar(200),
 creater varchar(50),
 last_editor varchar(50),
@@ -13,9 +13,9 @@ del_flag tinyint(1) default false NOT NULL
 drop table if exists tbl_user;
 CREATE TABLE tbl_user(
 id varchar(50) PRIMARY KEY,
-name varchar(50) unique,
-email varchar(100) unique,
-phone_num varchar(50) unique,
+name varchar(50),
+email varchar(100),
+phone_num varchar(50),
 head_img_url varchar(200),
 password varchar(50),
 salt varchar(50),
@@ -31,8 +31,8 @@ del_flag tinyint(1) default false
 drop table if exists tbl_permission;
 CREATE TABLE tbl_permission(
 id varchar(50) PRIMARY KEY,
-name varchar(50) unique,
-code varchar(50) unique,
+name varchar(50),
+code varchar(50),
 description varchar(200),
 creater varchar(50),
 last_editor varchar(50),

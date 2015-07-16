@@ -1,35 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<script src="${ctx }/assets/tools/jquery-ui/jquery-ui.min.js"></script>
   	<link rel="stylesheet" href="${ctx }/assets/tools/jquery-ui/jquery-ui.min.css">
-  	<script type="text/x-handlebars-template" id="relation-user-template">
-			{{#this}}
-			<li>
-				<div class="relation-info">
-					<span>
-						{{name}}
-					</span>
-					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
-						<i class="icon-remove"></i>
-					</a>
-				</div>
-			</li>
-			{{/this}}
-		</script>
-		
-		<script type="text/x-handlebars-template" id="relation-info-template">
-			{{#this}}
-			<li>
-				<div class="relation-info">
-					<span>
-						{{name}}
-					</span>
-					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
-						<i class="icon-remove"></i>
-					</a>
-				</div>
-			</li>
-			{{/this}}
-		</script>
 	
 		<script>
 		var inDetail = false;
@@ -54,4 +25,6 @@
 				window.history.back(-1);
 			}
 		});
+		var originalUserRelation = [];
+		var originalInfoRelation = [];
 		 </script>
