@@ -56,6 +56,7 @@
 															<th>权限名称</th>
 															<th>权限编码</th>
 															<th>描述</th>
+															<th>操作</th>
 														</tr>
 													</thead>
 													<tbody class="page-data-list">

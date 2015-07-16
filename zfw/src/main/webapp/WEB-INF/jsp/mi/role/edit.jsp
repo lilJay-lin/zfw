@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>新增角色</h2>
+							<h2>编辑角色</h2>
 						</div>
 						<div class="box-cnt">
 							<form class="form">

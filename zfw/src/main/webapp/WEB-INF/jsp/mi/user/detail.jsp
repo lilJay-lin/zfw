@@ -96,7 +96,7 @@
 									</div>
 									
 									<div class="form-actions">
-										<a href="${ctx}/mi/user/${userid}/edit" class="btn btn-primary" id="submit">编辑</a>
+<%-- 										<a href="${ctx}/mi/user/${userid}/edit" class="btn btn-primary" id="submit">编辑</a> --%>
 									  <button type="reset" class="btn" id="cancle">返回</button>
 									</div>
 								</fieldset>
