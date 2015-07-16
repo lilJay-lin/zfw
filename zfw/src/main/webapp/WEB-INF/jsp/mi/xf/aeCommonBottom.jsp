@@ -2,14 +2,44 @@
 	<script src="${ctx }/assets/tools/jquery-ui/jquery-ui.min.js"></script>
   	<link rel="stylesheet" href="${ctx }/assets/tools/jquery-ui/jquery-ui.min.css">
 		
+  		<script type="text/x-handlebars-template" id="relation-user-template">
+			{{#this}}
+			<li>
+				<div class="relation-info">
+					<span>
+						{{name}}
+					</span>
+					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
+						<i class="icon-remove"></i>
+					</a>
+				</div>
+			</li>
+			{{/this}}
+		</script>
+		
+		<script type="text/x-handlebars-template" id="relation-info-template">
+			{{#this}}
+			<li>
+				<div class="relation-info">
+					<span>
+						{{name}}
+					</span>
+					<a class="btn btn-rel btn-remove-relation"  data-id="{{id}}">
+						<i class="icon-remove"></i>
+					</a>
+				</div>
+			</li>
+			{{/this}}
+		</script>
 		<script type="text/x-handlebars-template" id="user-template">
 		{{#each this}}
 		<tr>
 			<td>{{name}}</td>
+			<td>{{email}}</td>
 			<td>{{phoneNum}}</td>
 			<td>{{desciption}}</td>
 			<td>
-				<a class="btn btn-info btn-add-relation" href="javascript:;" data-id="{{id}}" data-name="{{name}}">
+				<a class="btn btn-info btn-add-relation" href="javascript:;" data-id="{{id}}" data-name="{{name}}" data-email="{{email}}" data-phoneNum="{{phoneNum}}">
 					<i class="icon-plus "></i>                                            
 				</a>
 			</td>
@@ -82,12 +112,17 @@
 		 * 新增关联
 		 * 
 		 */
-		var originalUserRelation = [];
 		var addUserRelation = [];
 		var delUserRelation = [];
 		$("#userInfo").find(".datatable-table").on("click",".btn-add-relation",function(){
 			var id = $(this).data("id");
 			var name = $(this).data("name");
+			if(!name){
+				name = $(this).data("eamil");
+			}
+			if(!name){
+				name = $(this).data("phonenum");
+			}
 			var didx = $.inArray(id,delUserRelation);//不在已删除
 			var oidx = $.inArray(id,originalUserRelation);
 			didx>-1&&delUserRelation.splice(didx,1);
@@ -99,7 +134,6 @@
 			return false;
 		});
 
-		var originalInfoRelation = [];
 		var addInfoRelation = [];
 		var delInfoRelation = [];
 		$("#zxInfo").find(".datatable-table").on("click",".btn-add-relation",function(){

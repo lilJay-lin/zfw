@@ -89,9 +89,23 @@ function initREPData(){
 					},500);
 				}
 				if(relationUserList){
+					for(var i=0;i<relationUserList.length;i++){
+						originalUserRelation.push(relationUserList[i].id);
+						var user = relationUserList[i];
+						if(!user.name){
+							if(!user.email){
+								user.name = user.phoneNum;
+							}else{
+								user.name = user.email;
+							}
+						}
+					}
 					$("#user-relation").append(template("#relation-user-template",relationUserList));
 				}
 				if(relationInfoList){
+					for(var i=0,l = relationInfoList.length;i<l;i++){
+						originalInfoRelation.push(relationInfoList[i].id);
+					}
 					$("#info-relation").append(template("#relation-info-template",relationInfoList));
 				}
 			}

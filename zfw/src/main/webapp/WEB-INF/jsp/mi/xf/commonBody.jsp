@@ -272,6 +272,7 @@
 													<thead>
 														<tr>
 															<th>用户名</th>
+															<th>邮箱</th>
 															<th>手机号码</th>
 															<th>描述</th>
 															<th>操作</th>
