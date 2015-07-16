@@ -379,39 +379,57 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     @Override
     public List<User> findUserByParams(String name, Integer curPage,
 	    Integer pageSize) {
-	
-
-	UserExample userExample = new UserExample();
-	UserExample.Criteria cri = userExample.createCriteria();
-	if (StringUtils.isNotBlank(name)) {
-	    cri.andNameLike("%" + name + "%");
-	}
-	cri.andIdNotEqualTo(this.getCurUserId());
-	cri.andNameNotEqualTo(Constants.USER_DEFAULT_ADMIN_NAME);
-	cri.andDelFlagEqualTo(false);
+	UserExample userExample = bindParams(name);
 	userExample.setLimitStart(curPage * pageSize);
 	userExample.setLimitSize(pageSize);
-
 	List<User> users = um.selectByExample(userExample);
-
 	return users;
     }
 
     @Override
     public int countUserByParams(String name) {
-	
-	UserExample userExample = new UserExample();
-	UserExample.Criteria cri = userExample.createCriteria();
-	if (StringUtils.isNotBlank(name)) {
-	    cri.andNameLike("%" + name + "%");
-	}
-	cri.andIdNotEqualTo(this.getCurUserId());
-	cri.andNameNotEqualTo(Constants.USER_DEFAULT_ADMIN_NAME);
-	cri.andDelFlagEqualTo(false);
-
+	UserExample userExample = bindParams(name);
 	int len = um.countByExample(userExample);
-
 	return len;
+    }
+    
+    private UserExample bindParams(String name){
+    	UserExample ue = new UserExample();
+	    if(StringUtils.isNotBlank(name)){
+	    	addLoginNameOrCri(ue,name,"name",false);
+	    	addLoginNameOrCri(ue,name,"phoneNum",false);
+	    	addLoginNameOrCri(ue,name,"phoneNum",true);
+	    	addLoginNameOrCri(ue,name,"email",false);
+	    	addLoginNameOrCri(ue,name,"email",true);
+	    }else{
+	    	addLoginNameOrCri(ue,null,null,true);
+	    	addLoginNameOrCri(ue,null,null,false);
+	    }
+    	return ue;
+    }
+    
+    private void addLoginNameOrCri(UserExample ue,String name,String type,boolean n){
+    	UserExample.Criteria cri = ue.createCriteria();
+    	if(StringUtils.isNotBlank(name)){
+        	if("name".equals(type)){
+        	    cri.andNameLike("%" + name + "%");
+        	}else if("phoneNum".equals(type)){
+        	    cri.andPhoneNumLike("%" + name + "%");
+        	}else if("email".equals(type)){
+        	    cri.andEmailLike("%" + name + "%");
+        	}
+    	}
+    	if(n){
+        	cri.andNameIsNull();
+    	}else{
+        	cri.andNameIsNotNull();
+        	cri.andNameNotEqualTo(Constants.USER_DEFAULT_ADMIN_NAME);
+    	}
+    	cri.andDelFlagEqualTo(false);
+    	cri.andIdNotEqualTo(this.getCurUserId());
+    	if(!ue.getOredCriteria().contains(cri)){
+    		ue.or(cri);
+    	}
     }
 
 //    @Override
