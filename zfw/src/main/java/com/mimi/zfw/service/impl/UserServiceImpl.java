@@ -405,6 +405,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	if (StringUtils.isNotBlank(name)) {
 	    cri.andNameLike("%" + name + "%");
 	}
+	cri.andIdNotEqualTo(this.getCurUserId());
+	cri.andNameNotEqualTo(Constants.USER_DEFAULT_ADMIN_NAME);
 	cri.andDelFlagEqualTo(false);
 
 	int len = um.countByExample(userExample);
@@ -584,6 +586,11 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 //	user.setCreater(curUser.getName());
 	user.setCreater(this.getCurUserId());
 	user.setLastEditor(this.getCurUserId());
+	
+	String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+	user.setPassword(getFinalPwd(user.getId(), salt, user.getPassword()));
+	user.setSalt(salt);
+	    
 	this.save(user);
 
 	if (StringUtils.isNotBlank(roleids)) {
@@ -687,9 +694,6 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	String headImgUrl = user.getHeadImgUrl();
 	if(StringUtils.isEmpty(headImgUrl)){
 	    headImgUrl = Constants.HEAD_IMG_DEFAULT_URL;
-	}else{
-//	    String path = aossService.saveFileToServer(headImgUrl);
-//	    path = aossService.addImgParams(path,Constants.ALIYUN_OSS_IMAGE_PARAMS_TYPE_HEAD_IMG);
 	}
 	
 	um.updateByPrimaryKeySelective(user);

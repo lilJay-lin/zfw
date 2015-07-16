@@ -28,6 +28,7 @@
 									<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 									<input type="hidden" id="userid" name ="id" value="${userid}" />
+									<input type="hidden" id="salt" name ="salt" value="${salt}" />
 									<div class="control-group">
 										<label class="control-label">图像</label>
 										<div class="control control-img-box">
@@ -335,8 +336,13 @@
 		/*
 		 * 处理密码，密码加密，设置到password
 		 */
+		var resetPwd= false;
+		$("#pwd").focus(function(){
+			$(this).val("");
+		})
 		$("#pwd").change(function(){
-			$("#password").val(RSAEncrypt($(this).val()))
+			$("#password").val(RSAEncrypt($(this).val()));
+			resetPwd = true;
 		})
 		
 		/*
@@ -402,7 +408,8 @@
 					headImgUrl:"",
 					password:"",
 					locked:false,
-					description:""
+					description:"",
+					salt:""
 				}
 				
 			   for(var i in user){
@@ -427,7 +434,7 @@
 			   	url:url,
 			   	async:true,
 			   	dataType:"json",
-			   	data:$.extend(relation,user,{"publicExponent":publicExponent,"modulus":modulus}),
+			   	data:$.extend(relation,user,{"publicExponent":publicExponent,"modulus":modulus,"resetPwd":resetPwd}),
 			   	success:function(data){
 		   			var name = data.field;
 		   			if(!data.success){

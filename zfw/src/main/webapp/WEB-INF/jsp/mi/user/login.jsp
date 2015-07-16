@@ -22,8 +22,8 @@
 					<input type="hidden" name="geetest_challenge"> 
 					<input type="hidden" name="geetest_validate"> 
 					<input type="hidden" name="geetest_seccode"> 
-					<input type="text" id="txtname" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
-					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$" require="require" require_msg ="用户名不能为空"  placeholder="输入用户名" value=""/>
+					<input type="text" id="txtname" name="name"  error="只能输入用户名、邮箱或手机号码" 
+					patterns = "^([a-z]([a-zA-Z0-9_]){3,15})|(([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+)|(1[0-9]{10})$" require="require" require_msg ="请输入用户名、邮箱或手机号码"  placeholder="请输入用户名、邮箱或手机号码" value=""/>
 					<input type="password" id="txtpsw" name="pwd" max="32" min="6"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
 					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]*$" placeholder="输入密码" />
 					<input type="hidden" name="password" id="password"/>
@@ -121,6 +121,7 @@
 					}
 					$("#password").val(RSAEncrypt(md5_pwd));
 					$("#txtpsw").val("");
+					$("#error").length>0&&$("#error").html("");
 					$(".login-form").submit();
 				}else{
 					$("#captchaerror").css("display","block").html("请输入验证码");
