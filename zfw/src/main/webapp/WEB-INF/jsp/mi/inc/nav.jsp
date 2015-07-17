@@ -4,8 +4,8 @@
 	<a class="navbar-brand skin">后台管理</a>
 	<div class="navbar-inner">
 		<ul class="nav">
-<%-- 			<li><a href="${ctx}/mi/user/${miCurrentUserId}/person"class="btn"><i class="icon-wrench"></i></a></li> --%>
-			<li ><a href="${ctx}/mi/user/logout" onclick="logout()" class="btn"><i class="icon-unlock"></i></a></li>
+<%-- 			<li><a href="${ctx}/mi/user/${miCurrentUserId}/person"class="btn btn-primary"><i class="icon-wrench"></i></a></li> --%>
+			<li ><a href="${ctx}/mi/user/logout" onclick="logout()" class="btn btn-primary"><i class="icon-unlock"></i></a></li>
 			<li>
 				<a href="${ctx}/mi/user/${miCurrentUserId}/person">
 					<div class="nav-avatar">

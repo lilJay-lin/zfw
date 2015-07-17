@@ -15,7 +15,7 @@
 				<th>优先级</th>
 				<th>价格</th>
 				<th>最后修改时间</th>
-				<th>操作</th>
+				<th class="operation">操作</th>
 			</thead>
 			<tbody class="page-data-list">
 			</tbody>
@@ -24,8 +24,8 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="rhBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/${rcId}/zf/add">新增</a>
+				</select> <a class="btn btn-primary" href="javascript:;" onclick="rhBatchOperation(this);">批量操作</a>
+				<a class="btn btn-primary" href="${ctx}/mi/${rcId}/zf/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -65,10 +65,14 @@
 	  		});
 	  		if(rhIds == ""){
 	  			alert("请选择需要处理的租房");
+				return ;
 	  		}
 	  		delRh(e,rhIds);
 	  	}
 	  	function delRh(e,rhIds){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(rhDeling){
 	  			alert("正在删除租房,请稍后再操作");
 	  			return;

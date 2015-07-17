@@ -27,7 +27,7 @@
 								<div class="datatabls-filter">
 									<!--搜索：-->
 									<input type="text" id="searchbyname"/>
-									<input type="button" class="btn" value="搜索" id="search-role"/>
+									<input type="button" class="btn btn-primary" value="搜索" id="search-role"/>
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -40,7 +40,7 @@
 											<th>角色名称</th>
 											<th>描述</th>
 											<th>最后修改时间</th>
-											<th>操作</th>
+											<th class="operation">操作</th>
 										</tr>
 									</thead>
 									<tbody class="page-data-list">
@@ -54,10 +54,10 @@
 											<!--<option value="unlock">解冻</option>
 											<option value="lock">锁定</option>-->
 										</select>
-										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										<a class="btn btn-primary" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
 										</shiro:hasPermission>
 										<shiro:hasPermission name="role:add">
-										<a class="btn" href="${ctx}/mi/role/add">新增</a>
+										<a class="btn btn-primary" href="${ctx}/mi/role/add">新增</a>
 										</shiro:hasPermission>
 									</div>
 								</div>
@@ -158,7 +158,8 @@
 	  			}
 	  		})
 	  		if(ids == ""){
-	  			alert("请选择需要批量更新的角色")
+	  			alert("请选择需要批量更新的角色");
+				return ;
 	  		}
 			var obj = {};
 	  		if(option =="del"){

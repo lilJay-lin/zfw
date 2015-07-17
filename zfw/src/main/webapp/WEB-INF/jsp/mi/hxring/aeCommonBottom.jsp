@@ -14,8 +14,7 @@
 		   return null;
 		}
 
-		$(":file").change(function(){
-			var errorStr = checkImgType(this);
+		var uploading = !1;
 			if(errorStr){
 				alert(errorStr);
 				return;
@@ -61,6 +60,10 @@
 		   return ring;
 		}
 		$("#submit").click(function(){
+			if(!!uploading){
+				alert("图像正在上传，请稍后..");
+				return ;
+			}
 			var btn=$(this);
 			var form = $(".form");
 			var res = form.validate();

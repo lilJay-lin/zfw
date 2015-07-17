@@ -41,7 +41,7 @@
 						记住密码?
 					</label>
 
-					<button id="submitBtn" type="button" class="btn" onclick="submitForm()">登录</button>
+					<button id="submitBtn" type="button" class="btn btn-primary" onclick="submitForm()">登录</button>
 				</fieldset>
 			</form>
 		</div>

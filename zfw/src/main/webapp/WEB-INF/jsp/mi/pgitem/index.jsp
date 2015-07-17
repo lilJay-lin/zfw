@@ -27,7 +27,7 @@
 								<div class="datatabls-filter">
 									<!--搜索：-->
 									<input type="text" id="searchbyname" />
-									<input type="button" class="btn" id="search-ai" value="搜索" />
+									<input type="button" class="btn btn-primary" id="search-ai" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -40,7 +40,7 @@
 										<th>类型</th>
 										<th>描述</th>
 										<th>最后修改时间</th>
-										<th>操作</th>
+										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
 									</tbody>
@@ -51,10 +51,10 @@
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
-										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										<a class="btn btn-primary" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
 										</shiro:hasPermission>
 										<shiro:hasPermission name="ai:add">
-										<a class="btn" href="${ctx}/mi/pgitem/add">新增</a>
+										<a class="btn btn-primary" href="${ctx}/mi/pgitem/add">新增</a>
 										</shiro:hasPermission>
 									</div>
 								</div>
@@ -150,10 +150,14 @@
 	  		});
 	  		if(aiIds == ""){
 	  			alert("请选择需要处理的评估项");
+				return;
 	  		}
 	  		delPgitem(e,aiIds);
 	  	}
-	  	function delPgitem(e,aiIds){
+	  	function delPgitem(e,aiIds){	  		
+			if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(deling){
 	  			alert("正在删除评估项,请稍后再操作");
 	  			return;

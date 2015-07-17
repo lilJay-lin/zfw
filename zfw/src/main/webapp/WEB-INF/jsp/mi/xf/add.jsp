@@ -47,6 +47,8 @@
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
 		inAdd = true;
+		$(".form-actions").show();
+		$("#cancle").show();
 		$(".js-rep-detail-container").show();
 	</script>
 </html>

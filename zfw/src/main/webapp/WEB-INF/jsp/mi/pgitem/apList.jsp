@@ -13,7 +13,7 @@
 				<th>名称</th>
 				<th>值</th>
 				<th>描述</th>
-				<th>操作</th>
+				<th class="operation">操作</th>
 			</thead>
 			<tbody class="page-data-list">
 			</tbody>
@@ -22,8 +22,8 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="apBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/${aiId }/pgparam/add">新增</a>
+				</select> <a class="btn btn-primary" href="javascript:;" onclick="apBatchOperation(this);">批量操作</a>
+				<a class="btn btn-primary" href="${ctx}/mi/${aiId }/pgparam/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -63,10 +63,14 @@
 	  		});
 	  		if(apIds == ""){
 	  			alert("请选择需要处理的评估参数");
+				return;
 	  		}
 	  		delPano(e,apIds);
 	  	}
 	  	function delPano(e,apIds){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(apDeling){
 	  			alert("正在删除评估参数,请稍后再操作");
 	  			return;

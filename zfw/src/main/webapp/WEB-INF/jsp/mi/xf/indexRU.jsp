@@ -27,7 +27,7 @@
 								<div class="datatabls-filter">
 									<!--搜索：-->
 									<input type="text" id="searchbyname" />
-									<input type="button" class="btn" id="search-rep" value="搜索" />
+									<input type="button" class="btn btn-primary" id="search-rep" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -35,7 +35,7 @@
 										<th>地址</th>
 										<th>描述</th>
 										<th>最后修改时间</th>
-										<th>操作</th>
+										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
 									</tbody>

@@ -48,6 +48,9 @@
 						</div>
 						<%@include file="videoList.jsp" %>
 					</div>
+					<div class="form-actions">
+					  <button type="reset" class="btn" id="cancle">返回</button>
+					</div>
 				</div>
 			</div>
 			<!-- 右边内容区域结束     -->
@@ -71,6 +74,7 @@
 	<%@include file="deCommonBottom.jsp" %>
 	<script>
 		inEdit = true;
+		$(".form-actions").show();
 	</script>
 		<script type="text/x-handlebars" id="pano-template">
 			{{#each this}}

@@ -49,7 +49,7 @@
 													<!--搜索：-->
 													权限名称：<input type="text" id="searchbyname"/>
 													权限编码：<input type="text" id="searchbycode"/>
-													<input type="button" class="btn" value="搜索" id="search-btn"/>
+													<input type="button" class="btn btn-primary" value="搜索" id="search-btn"/>
 												</div>
 												<table class="datatable-table">
 													<thead>
@@ -57,7 +57,7 @@
 															<th>权限名称</th>
 															<th>权限编码</th>
 															<th>描述</th>
-															<th>操作</th>
+															<th class="operation">操作</th>
 														</tr>
 													</thead>
 													<tbody class="page-data-list">
@@ -320,9 +320,7 @@
 		 * 返回
 		 */
 		$("#cancle").on("click",function(){
-			if(window.confirm("是否确定返回？")){
 				window.location.href = "${ctx}/mi/roles";
-			}
 		})
 	</script>
 </html>

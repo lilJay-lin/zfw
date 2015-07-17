@@ -6,7 +6,7 @@
 			<input type="hidden" id="panoId" name ="id" value="${panoId}" />
 			<div class="control-group">
 				<label class="control-label">名称</label>
-				<div class="control error">
+				<div class="control">
 					<input type="text" name="name" max="16" maxlength="16" error="全景名长度少于16个字" 
 					require="require" require_msg ="全景名不能为空"  placeholder="输入全景名称"  />
 					<span class="help-inline"></span>
@@ -45,6 +45,10 @@
 					<textarea name="description" maxlength="200"></textarea>
 				</div>
 			</div>
+					<div class="form-actions">
+					  <button type="button" class="btn btn-primary" id="submit">保存</button>
+					  <button type="reset" class="btn" id="cancle">返回</button>
+					</div>
 		</fieldset>
 	</div>
 </div>

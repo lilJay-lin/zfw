@@ -30,6 +30,9 @@
 						</div>
 						<%@include file="apList.jsp" %>
 					</div>
+					<div class="form-actions">
+					  <button type="reset" class="btn" id="cancle">返回</button>
+					</div>
 				</div>
 			</div>
 			<!-- 右边内容区域结束     -->
@@ -52,7 +55,7 @@
 	<%@include file="deCommonBottom.jsp" %>
 	<script>
 	openCloseAIDetail("js-ai-detail-container");
-	$("#submit").hide();
+	$("#submit").parent().hide();
 	$(".uploader").hide();
 	$(".js-edit-content").hide();
 	inDetail = true;

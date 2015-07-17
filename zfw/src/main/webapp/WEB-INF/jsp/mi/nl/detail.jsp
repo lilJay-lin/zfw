@@ -24,9 +24,6 @@
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
-					<div class="form-actions">
-					  <button type="reset" class="btn" id="detail-cancle">返回</button>
-					</div>
 				</div>
 			</div>
 			<!-- 右边内容区域结束     -->

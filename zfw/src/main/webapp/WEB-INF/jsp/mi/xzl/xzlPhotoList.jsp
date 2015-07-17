@@ -22,8 +22,8 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="photoBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/${officeBuildingId}/xzlphoto/add">新增</a>
+				</select> <a class="btn btn-primary" href="javascript:;" onclick="photoBatchOperation(this);">批量操作</a>
+				<a class="btn btn-primary" href="${ctx}/mi/${officeBuildingId}/xzlphoto/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -63,6 +63,7 @@
 	  		});
 	  		if(imageIds == ""){
 	  			alert("请选择需要处理的图片");
+				return ;
 	  		}	
 	  		delPhoto(e,imageIds);
 	  	}

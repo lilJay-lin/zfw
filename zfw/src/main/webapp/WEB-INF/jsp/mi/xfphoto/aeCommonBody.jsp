@@ -6,7 +6,7 @@
 									<input type="hidden" id="imageId" name ="id" value="${imageId}" />
 									<div class="control-group">
 										<label class="control-label">名称</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text" name="name" max="16" maxlength="16" error="图片名长度少于16个字" 
 											require="require" require_msg ="图片名不能为空"  placeholder="输入图片名称"  />
 											<span class="help-inline"></span>
@@ -14,7 +14,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">图片类型</label>
-										<div class="control error">
+										<div class="control">
 											<select name="type">
 												<option value="效果图">效果图</option>
 												<option value="实景图">实景图</option>
@@ -26,7 +26,7 @@
 									<form enctype="multipart/form-data" method="post" id="uploadForm">
 										<div class="control-group">
 											<label class="control-label">上传图像</label>
-											<div class="control error">
+											<div class="control">
 												<div class="uploader">
 													<input type="hidden" name="contentUrl" />
 													<input type="file" name="theFile" accept="image/*"/>
@@ -41,7 +41,7 @@
 									</form>
 									<div class="control-group">
 										<label class="control-label">描述</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="description" maxlength="200"></textarea>
 										</div>
 									</div>

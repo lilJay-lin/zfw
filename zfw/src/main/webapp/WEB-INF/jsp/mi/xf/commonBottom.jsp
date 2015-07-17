@@ -20,10 +20,8 @@
 		}
 
 		$("#cancle").on("click",function(){
-			if(inDetail || window.confirm("确定不保存返回？")){
 // 				window.location.href = "${ctx}/mi/xf";
 				window.history.back(-1);
-			}
 		});
 		var originalUserRelation = [];
 		var originalInfoRelation = [];

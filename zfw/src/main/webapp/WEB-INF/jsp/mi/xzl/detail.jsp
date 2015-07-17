@@ -37,7 +37,7 @@
 						<%@include file="panoList.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn" id="detail-cancle">返回</button>
+					  <button type="reset" class="btn cancle">返回</button>
 					</div>
 				</div>
 			</div>
@@ -79,13 +79,8 @@
 	</body>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
+	$("#submit").hide();
 	openCloseDetail('js-xzl-detail-container');
-	/*
-	 * 返回
-	 */
-	$("#detail-cancle").on("click",function(){
-			window.location.href = "${ctx}/mi/xzl";
-	});
 	$(".js-edit-operation").hide();
 	function initXZLData(){
 		var id = $("#officeBuildingId").val();

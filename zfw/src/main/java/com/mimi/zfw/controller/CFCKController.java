@@ -544,7 +544,7 @@ public class CFCKController {
 
 	// return new ModelAndView("mi/users/add","user",new User());
 
-	return "mi/warehouse/add";
+	return "mi/cfck/add";
     }
 
     @RequestMapping(value = "/mi/cfck", method = { RequestMethod.POST })

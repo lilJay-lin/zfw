@@ -107,14 +107,14 @@
 												<div class="datatabls-filter">
 													<!--搜索：-->
 													<input type="text" id="searchbyname"/>
-													<input type="button" class="btn" value="搜索" id="search-role"/>
+													<input type="button" class="btn btn-primary" value="搜索" id="search-role"/>
 												</div>
 												<table class="datatable-table">
 													<thead>
 														<tr>
 															<th>角色</th>
 															<th>描述</th>
-															<th>操作</th>
+															<th class="operation">操作</th>
 														</tr>
 													</thead>
 													<tbody class="page-data-list">
@@ -418,9 +418,7 @@
 		 * 返回
 		 */
 		$("#cancle").on("click",function(){
-			if(window.confirm("是否确定返回？")){
 				window.location.href = "${ctx}/mi/users";
-			}
 		})
 	</script>
 </html>
