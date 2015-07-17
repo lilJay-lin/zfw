@@ -77,7 +77,7 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-//			   				window.location.href="${ctx}/mi/nl/${repId}/edit";
+			   				window.location.href="${ctx}/mi/nl";
 			   			}
 			   		}
 			   	},
