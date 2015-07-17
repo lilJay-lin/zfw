@@ -226,7 +226,7 @@
 	  	})
 	  	page.init();
 	  	
-	  	$("#search-user").click(function(){
+	  	$("#search-role").click(function(){
 	  		var name = encodeURIComponent($("#searchbyname").val());
 	  		page.setData({"name":name})
 	  		page.init();
