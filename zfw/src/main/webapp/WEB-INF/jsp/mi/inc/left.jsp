@@ -163,8 +163,9 @@
 <script>
 localData = {
     hname:location.hostname?location.hostname:'localStatus',
-    isLocalStorage:window.localStorage?true:false,
+    isLocalStorage:false,
     dataDom:null,
+    cookie:navigator.cookieEnabled,
 	
     initDom:function(){ //初始化userData
         if(!this.dataDom){
@@ -186,6 +187,8 @@ localData = {
     set:function(key,value){
         if(this.isLocalStorage){
             window.localStorage.setItem(key,value);
+        }else if(this.cookie){
+			addCookie(key,value);
         }else{
             if(this.initDom()){
                 this.dataDom.load(this.hname);
@@ -197,6 +200,8 @@ localData = {
     get:function(key){
         if(this.isLocalStorage){
             return window.localStorage.getItem(key);
+        }else if(this.cookie){
+			return getCookie(key)
         }else{
             if(this.initDom()){
                 this.dataDom.load(this.hname);
@@ -207,6 +212,8 @@ localData = {
     remove:function(key){
         if(this.isLocalStorage){
             localStorage.removeItem(key);
+        }else if(this.cookie){
+			deleteCookie(key)
         }else{
             if(this.initDom()){
                 this.dataDom.load(this.hname);
@@ -242,9 +249,25 @@ localData = {
 		var curUrl = window.location.href;
 		var check = !1;
 		
+		$(".submenu").each(function(){
+			var ele = $(this);
+			var len = ele.children(".subNav").children().length;
+			if(len>0){
+				ele.find(".label").html(len);
+			}else{
+				ele.hide();
+			}
+		})
+
 		$(".slider-nav .subNav").on("click",function(e){
 			e.stopPropagation();
 		})
+		
+		var host = window.location.pathname.replace("/zfw/mi/","");
+		if(host.length==0){
+			check = true;
+			return ;
+		}
 		
 		function checkNav(url){
 			$(".slider-nav").find("a").each(function(i,e){
@@ -267,38 +290,35 @@ localData = {
 			})
 		}
 		checkNav(curUrl);
-//		//使用存储的上级目录
-		if(!check){
-			var lastUrl = localData.get(key);
-			checkNav(lastUrl);
-		}
 		
 		//使用路径截取，没有上级目录，如下场景：直接打开页面http://localhost:8080/zfw/mi/d256ca42-a8f1-4471-a4ab-5877aea3b0ef/xfpano/2d61dd24-0825-40f6-9d39-21cb0dcae517/edit
 		//如未登陆，会调到登陆页面再登陆，此时无路径判断，直接截取部分路径进行判断
+//		if(!check){
+//			var m = host.match(/\/[a-zA-Z]*\//g);
+//			for(var i =0,l=m.length;i<l;i++){
+//				var k = m[i].substr(0,m[i].length-1);
+//				$(".slider-nav").find("a").each(function(i,e){
+//					var $e = $(e);
+//					var href = $e.attr("href");
+//					if(!!href){
+//						href = href.substr(href.lastIndexOf("/"));
+//						if(k.indexOf(href)>-1){
+//							$e.parent().addClass("active");
+//							var $emp = $e.parentsUntil(".submenu");
+//							$emp.css("display","block");
+//							$emp.parent().addClass("open");
+//							localData.set(key,href);
+//							check = !0;
+//						};
+//					}
+//				
+//				})
+//			}
+//		}
+		//		//使用存储的上级目录
 		if(!check){
-			var host =window.location.hostname+":"+window.location.port+"/"+window.location.host;
-			var host = window.location.pathname.replace("/zfw/mi","");
-			var m = host.match(/\/[a-zA-Z]*\//g);
-			for(var i =0,l=m.length;i<l;i++){
-				var k = m[i].substr(0,m[i].length-1);
-				$(".slider-nav").find("a").each(function(i,e){
-					var $e = $(e);
-					var href = $e.attr("href");
-					if(!!href){
-						href = href.substr(href.lastIndexOf("/"));
-						console.log(href);
-						if(k.indexOf(href)>-1){
-							$e.parent().addClass("active");
-							var $emp = $e.parentsUntil(".submenu");
-							$emp.css("display","block");
-							$emp.parent().addClass("open");
-							localData.set(key,href);
-							check = !0;
-						};
-					}
-				
-				})
-			}
+			var lastUrl = localData.get(key);
+			checkNav(lastUrl);
 		}
 	})
 </script>

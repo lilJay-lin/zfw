@@ -22,6 +22,6 @@
 </div>
 <script type="text/javascript">
 	function logout(){
-		util.cookie("miPassword",null,-1);
+		deleteCookie("miPassword");
 	}
 </script>

@@ -224,6 +224,39 @@
 		}
   	}
   	r.Page = Page;
+  	
+  	
+  	
+  	
+  	r.addCookie =function(name, value, expiresHours) {
+		var cookieString = name + "=" + escape(value);
+		//判断是否设置过期时间 
+		if (expiresHours > 0) {
+			var date = new Date();
+			date.setTime(date.getTime() + expiresHours *24 * 3600 * 1000);
+			cookieString = cookieString + "; expires=" + date.toGMTString();
+		}
+	//	cookieString += ";domain=.sanga321.com;path=/";
+		cookieString += ";path=/";
+		document.cookie = cookieString;
+	}
+	
+	r.getCookie =function(name) {
+		var strCookie = document.cookie;
+		var arrCookie = strCookie.split("; ");
+		for (var i = 0; i < arrCookie.length; i++) {
+			var arr = arrCookie[i].split("=");
+			if (arr[0] == name) return unescape(arr[1]);
+		}
+		return "";
+	}
+	
+	r.deleteCookie =function(name) {
+		var date = new Date();
+		date.setTime(date.getTime() - 10000);
+	//	document.cookie = name + "=; expires=" + date.toGMTString() + ";domain=.sanga321.com;path=/";
+		document.cookie = name + "=v; expires=" + date.toGMTString() + ";path=/";
+	}
 })(window);
 /*
 *jquery fn

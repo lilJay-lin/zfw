@@ -168,7 +168,8 @@
 	  			}
 	  		})
 	  		if(userids == ""){
-	  			alert("请选择需要更新的用户")
+	  			alert("请选择需要更新的用户");
+	  			retur ;
 	  		}
 			var user = {};
 			var msg = "确认更新用户?";
@@ -239,7 +240,7 @@
 	  			container:"#userinfo",
 	  			template:"#user-info-template",
 	  			url:"${ctx}/mi/users/page/",
-	  			data:{pagesize:4}
+	  			data:{pagesize:10}
 	  	})
 	  	page.init();
 	  	
