@@ -32,7 +32,7 @@
 										<option value="厂房">厂房</option>
 										<option value="仓库">仓库</option>
 									</select>
-									<input type="button" class="btn" id="search" value="搜索" />
+									<input type="button" class="btn btn-primary" id="search" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -46,7 +46,7 @@
 										<th>地址</th>
 										<th>优先级</th>
 										<th>最后修改时间</th>
-										<th>操作</th>
+										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
 									</tbody>
@@ -57,10 +57,10 @@
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
-										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										<a class="btn btn-primary" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
 										</shiro:hasPermission>
 										<shiro:hasPermission name="warehouse:add">
-										<a class="btn" href="${ctx}/mi/cfck/add">新增</a>
+										<a class="btn btn-primary" href="${ctx}/mi/cfck/add">新增</a>
 										</shiro:hasPermission>
 									</div>
 								</div>
@@ -157,6 +157,7 @@
 	  		});
 	  		if(ids == ""){
 	  			alert("请选择需要处理的厂房/仓库");
+				return ;
 	  		}
 	  		
 	  		delObject(e,ids);

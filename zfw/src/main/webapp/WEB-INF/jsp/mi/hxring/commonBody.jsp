@@ -6,7 +6,7 @@
 			<input type="hidden" id="ringId" name ="id" value="${ringId}" />
 			<div class="control-group">
 				<label class="control-label">名称</label>
-				<div class="control error">
+				<div class="control">
 					<input type="text" name="name" max="16" maxlength="16" error="三维名长度少于16个字" 
 					require="require" require_msg ="三维名不能为空"  placeholder="输入三维名称"  />
 					<span class="help-inline"></span>
@@ -14,14 +14,14 @@
 			</div>
 			<div class="control-group">
 				<label class="control-label">内容路径</label>
-				<div class="control error">
+				<div class="control">
 					<textarea name="contentUrl" maxlength="200" style="height:60px"></textarea>
 				</div>
 			</div>
 			<form enctype="multipart/form-data" method="post" id="uploadForm">
 				<div class="control-group">
 					<label class="control-label">上传缩放图像</label>
-					<div class="control error">
+					<div class="control">
 						<div class="uploader">
 							<input type="hidden" name="preImageUrl" />
 							<input type="file" name="theFile" accept="image/*"/>
@@ -36,7 +36,7 @@
 			</form>
 			<div class="control-group">
 				<label class="control-label">描述</label>
-				<div class="control error">
+				<div class="control">
 					<textarea name="description" maxlength="200" style="height:100px"></textarea>
 				</div>
 			</div>

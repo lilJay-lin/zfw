@@ -28,7 +28,7 @@
 									<input type="hidden" id="infoId" name ="id" value="${infoId}" />
 									<div class="control-group">
 										<label class="control-label">标题</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text" name="name" max="16" maxlength="16" error="资讯名长度少于16个字" 
 											require="require" require_msg ="资讯名不能为空"  placeholder="输入资讯标题"  />
 											<span class="help-inline"></span>
@@ -36,7 +36,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">作者</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="author" id="author" max="32" error="作者不能为空" 
 									require="require" require_msg ="作者不能为空" placeholder="输入作者"/>
 											<span class="help-inline"></span>
@@ -44,7 +44,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">类型</label>
-										<div class="control error">
+										<div class="control">
 											<select name="type">
 												<option value="房产">房产</option>
 												<option value="综合">综合</option>
@@ -53,7 +53,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">优先级</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
 							patterns = "^[0-9]*$"  placeholder="输入优先级 0-9999" value="0" />
 											<span class="help-inline"></span>
@@ -61,7 +61,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">标签</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="tags" id="tags" max="24" maxlength="24" 
 								 placeholder="输入标签"  />
 											<span class="help-inline"></span>
@@ -70,7 +70,7 @@
 									<form enctype="multipart/form-data" method="post" id="uploadForm">
 									<div class="control-group">
 										<label class="control-label">上传预览图像</label>
-										<div class="control error">
+										<div class="control">
 											<div class="control-img">
 												<img src=""/>
 											</div>
@@ -79,19 +79,19 @@
 									</form>
 									<div class="control-group">
 										<label class="control-label">提要</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="summary" style="height:100px"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">内容</label>
-										<div class="control error">
+										<div class="control" style="width:700px">
 											<div name="UEContent"></div>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">描述</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="description"></textarea>
 										</div>
 									</div>

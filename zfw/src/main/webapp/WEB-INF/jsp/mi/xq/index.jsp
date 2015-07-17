@@ -32,7 +32,7 @@
 										<option value="true">已完善</option>
 										<option value="false">待完善</option>
 									</select>
-									<input type="button" class="btn" id="search-rc" value="搜索" />
+									<input type="button" class="btn btn-primary" id="search-rc" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -46,7 +46,7 @@
 										<th>描述</th>
 										<th>优先级</th>
 										<th>最后修改时间</th>
-										<th>操作</th>
+										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
 									</tbody>
@@ -57,10 +57,10 @@
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
-										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										<a class="btn btn-primary" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
 										</shiro:hasPermission>
 										<shiro:hasPermission name="rc:add">
-										<a class="btn" href="${ctx}/mi/xq/add">新增</a>
+										<a class="btn btn-primary" href="${ctx}/mi/xq/add">新增</a>
 										</shiro:hasPermission>
 									</div>
 								</div>
@@ -157,10 +157,14 @@
 	  		});
 	  		if(rcIds == ""){
 	  			alert("请选择需要处理的小区");
+				return ;
 	  		}
 	  		delRc(e,rcIds);
 	  	}
-	  	function delRc(e,rcIds){
+	  	function delRc(e,rcIds){	  		
+			if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(deling){
 	  			alert("正在删除小区,请稍后再操作");
 	  			return;

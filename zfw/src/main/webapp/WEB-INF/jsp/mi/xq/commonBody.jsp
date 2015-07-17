@@ -8,7 +8,7 @@
 									<input type="hidden" id="latitude" name ="latitude" />
 									<div class="control-group">
 										<label class="control-label">名称</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text" name="name" max="16" maxlength="16" error="小区名长度少于16个字" 
 											require="require" require_msg ="小区名不能为空"  placeholder="输入小区名称"  />
 											<span class="help-inline"></span>
@@ -16,13 +16,13 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">地址</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="address" maxlength="100"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">开盘时间</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="onSaleDate" id="onSaleDate" 
 											require="require" require_msg ="开盘时间不能为空"  placeholder="选择开盘时间" />
 											<span class="help-inline"></span>
@@ -30,7 +30,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">物业类型</label>
-										<div class="control error">
+										<div class="control">
 											<select name="propertyType">
 												<option value="自住型商品房">自住型商品房</option>
 												<option value="建筑综合体">建筑综合体</option>
@@ -45,26 +45,28 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">建筑类别</label>
-										<div class="control error">
-											<label><input name="buildingType" type="checkbox" value="类独栋别墅" />类独栋别墅 </label> 
-											<label><input name="buildingType" type="checkbox" value="建筑综合体" />建筑综合体 </label> 
-											<label><input name="buildingType" type="checkbox" value="超高层" />超高层 </label> 
-											<label><input name="buildingType" type="checkbox" value="高层" />高层 </label> 
-											<label><input name="buildingType" type="checkbox" value="小高层" />小高层 </label> 
-											<label><input name="buildingType" type="checkbox" value="多层" />多层 </label> 
-											<label><input name="buildingType" type="checkbox" value="底层" />底层 </label> 
-											<label><input name="buildingType" type="checkbox" value="叠排别墅" />叠排别墅 </label> 
-											<label><input name="buildingType" type="checkbox" value="联排别墅" />联排别墅 </label> 
-											<label><input name="buildingType" type="checkbox" value="双拼别墅" />双拼别墅 </label> 
-											<label><input name="buildingType" type="checkbox" value="独栋别墅" />独栋别墅 </label> 
-											<label><input name="buildingType" type="checkbox" value="板塔结合" />板塔结合 </label> 
-											<label><input name="buildingType" type="checkbox" value="板楼" />板楼 </label> 
-											<label><input name="buildingType" type="checkbox" value="塔楼" />塔楼 </label> 
+										<div class="control control-large">
+											<ul class="avg-5">
+												<li><label><input name="buildingType" type="checkbox" value="类独栋别墅" />类独栋别墅 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="建筑综合体" />建筑综合体 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="超高层" />超高层 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="高层" />高层 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="小高层" />小高层 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="多层" />多层 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="底层" />底层 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="叠排别墅" />叠排别墅 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="联排别墅" />联排别墅 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="双拼别墅" />双拼别墅 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="独栋别墅" />独栋别墅 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="板塔结合" />板塔结合 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="板楼" />板楼 </label> </li>
+												<li><label><input name="buildingType" type="checkbox" value="塔楼" />塔楼 </label> </li>
+											</ul>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">住户数</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="householdNum" id="householdNum" max="6"  error="住户数范围0-999999" 
 											patterns = "^[0-9]*$"  placeholder="输入住户数 0-999999" value="0" />&nbsp;户
 											<span class="help-inline"></span>
@@ -72,7 +74,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">容积率</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="floorAreaRatio" id="floorAreaRatio" max="6"  error="容积率范围0.0-99.0" 
 											patterns = "^[0-9\.]*$"  placeholder="输入容积率0.0-99.0" value="0.0" />
 											<span class="help-inline"></span>
@@ -80,7 +82,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">绿化率</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="greenRate" id="greenRate" max="6"  error="绿化率范围0.0-1.0" 
 											patterns = "^[0-9\.]*$"  placeholder="输入绿化率 0.0-1.0" value="0.0" />
 											<span class="help-inline"></span>
@@ -88,7 +90,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">停车位</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="parkingSpaceNum" id="parkingSpaceNum" max="6"  error="停车位范围0-999999" 
 											patterns = "^[0-9]*$"  placeholder="输入停车位 0-999999" value="0" />&nbsp;个
 											<span class="help-inline"></span>
@@ -96,7 +98,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">产权年限</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="propertyYears" id="propertyYears" max="2"  error="产权年限范围0-99" 
 											patterns = "^[0-9]*$"  placeholder="输入产权年限 0-99" value="70" />&nbsp;年
 											<span class="help-inline"></span>
@@ -104,14 +106,14 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">物业公司</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="propertyCompany" id="propertyCompany" max="32" error="物业公司不能超长" placeholder="输入物业公司"/>
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">物业费</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="propertyFee" id="propertyFee" max="6"  error="物业费范围0.0-999.0" 
 											patterns = "^[0-9\.]*$"  placeholder="输入物业费0.0-999.0" value="0.0" />&nbsp;元/平方米·月
 											<span class="help-inline"></span>
@@ -119,25 +121,25 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">小区介绍</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="introduction" maxlength="1000"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">周边配套</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="surrounding" maxlength="1000"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">交通配套</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="traffic" maxlength="1000"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">区域</label>
-										<div class="control error">
+										<div class="control">
 											<select name="region">
 												<option value="城东"> 城东 </option>
 												<option value="城西"> 城西 </option>
@@ -154,7 +156,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">完善程度</label>
-										<div class="control error">
+										<div class="control">
 											<select name="active" id="active">
 												<option value="true">已完善</option>
 												<option value="false">待完善</option>
@@ -163,7 +165,7 @@
 									</div>
 									<div class="control-group js-not-ru">
 										<label class="control-label">优先级</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
 											patterns = "^[0-9]*$"  placeholder="输入优先级 0-9999" value="0" />
 											<span class="help-inline"></span>
@@ -171,7 +173,7 @@
 									</div>
 									<div class="control-group">
 										<label class="control-label">标签</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="tags" id="tags" max="24" maxlength="24" 
 								 placeholder="输入标签"  />
 											<span class="help-inline"></span>
@@ -180,7 +182,7 @@
 									<form enctype="multipart/form-data" method="post" id="uploadForm">
 										<div class="control-group">
 											<label class="control-label">上传预览图像</label>
-											<div class="control error">
+											<div class="control">
 												<div class="uploader">
 													<input type="hidden" name="preImageUrl" />
 													<input type="file" name="theFile" accept="image/*"/>
@@ -195,7 +197,7 @@
 									</form>
 									<div class="control-group">
 										<label class="control-label">描述</label>
-										<div class="control error">
+										<div class="control">
 											<textarea name="description" maxlength="200"></textarea>
 										</div>
 									</div>
