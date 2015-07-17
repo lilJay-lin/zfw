@@ -318,7 +318,8 @@
 	  	var page = new Page({
 	  			container:"#roleinfo",
 	  			template:"#role-template",
-	  			url:"${ctx}/mi/roles/page/"
+	  			url:"${ctx}/mi/roles/page/",
+	  			data:{"all":true}
 	  	})
 	  	page.init();	  	
 	  	$("#search-role").click(function(){
@@ -447,7 +448,8 @@
 						btn.removeClass("disabled");
 						$("body").scrollTop(0);
 		   			}else{
-		   				alert(data.msg)
+		   				alert(data.msg);
+		   				window.location.href="${ctx}/mi/users";
 			   		}
 			   	},
 			   	error:function(){

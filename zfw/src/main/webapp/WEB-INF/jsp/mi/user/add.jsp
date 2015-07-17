@@ -37,7 +37,7 @@
 										<label class="control-label">姓名</label>
 										<div class="control">
 											<input type="text" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
-					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$" require="require" require_msg ="用户名不能为空"  placeholder="输入用户名"  />
+					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$"  placeholder="输入用户名"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -282,9 +282,9 @@
 	  			container:"#roleinfo",
 	  			template:"#role-template",
 	  			url:"${ctx}/mi/roles/page/",
+	  			data:{"all":true}
 	  	})
-	  	page.init();
-	  	
+	  	page.init();	  	
 	  	$("#search-role").click(function(){
 	  		var name = encodeURIComponent($("#searchbyname").val());
 	  		page.setData({"name":name})

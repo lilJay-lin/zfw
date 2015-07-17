@@ -179,7 +179,7 @@
 	  	page.init();	  	
 	  	$("#search-role").click(function(){
 	  		var name = encodeURIComponent($("#searchbyname").val());
-	  		page.setData({"name":name})
+	  		page.setData({"name":name,"all":true})
 	  		page.init();
 	  	})
 		
