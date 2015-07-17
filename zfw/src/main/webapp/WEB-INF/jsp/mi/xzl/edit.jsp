@@ -19,23 +19,23 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-xzl-detail-container')">
+						<div class="box-hd" onclick="openCloseDetail('js-ob-detail-container')">
 							<h2>编辑写字楼</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-xzl-image-container')">
+						<div class="box-hd" onclick="openCloseDetail('js-ob-image-container')">
 							<h2>编辑写字楼图片</h2>
 						</div>
-						<%@include file="xzlPhotoList.jsp" %>
+						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-xzl-panos-container')">
+						<div class="box-hd" onclick="openCloseDetail('js-ob-panos-container')">
 							<h2>管理写字楼全景</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
-					</div>						
+					</div>
 					<div class="form-actions">
 					  <button type="reset" class="btn cancle">返回</button>
 					</div>
@@ -106,92 +106,15 @@
 	
 	</script>
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-		$(".form-actions").show();
-		openCloseDetail('js-xzl-detail-container');
-		
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			if(!!uploading){
-				alert("图像正在上传，请稍后..");
-				return ;
-			}
-			var res = form.validate();
-			if(res){
-				var data = getSaveData();
-			   var url = "${ctx}/mi/xzl/${officeBuildingId}";
-			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:data,
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-							$("body").scrollTop(0);
-			   			}else{
-			   				alert(data.msg);
-//			   				window.location.href="${ctx}/mi/xzl/${repId}/edit";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-			   		btn.removeAttr("disabled");
-			   		alert("新增写字楼失败!");
-			   	},
-			   	complete:function(){
-			   		btn.removeAttr("disabled");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
-		function initXZLData(){
-			var id = $("#officeBuildingId").val();
-			var getDataUrl = "${ctx}/mi/xzl/"+id;
-			$.ajax({
-				type:"get",
-				url:getDataUrl,
-				async:true,
-				dataType:"json",
-				success:function(data){
-					if(data){
-						var officeBuilding = data.officeBuilding;
-						for(var i in officeBuilding){
-							var ele = $("[name="+i+"]");
-							if(ele[0]){
-								if(i=="grossFloorArea" || i=="propertyFee"){
-									var num = Number(officeBuilding[i]);
-									if(num){
-										ele.val(Math.round(num*100)/100);
-									}
-								}else{
-									ele.val(officeBuilding[i]);
-								}
-							}
-						}
-						if(!!officeBuilding.preImageUrl){
-							$(".control-user-img").attr("src",officeBuilding.preImageUrl)
-						}
-					}
-				},
-				error:function(){
-					alert("获取写字楼信息失败");
-				}
-			});
-		}
+		inEdit = true;
+	   openCloseDetail('js-ob-detail-container');
+		$(".js-not-edit").hide();
+		$(".js-edit-only").show();
+	   
+	//initShopData();
 	</script>
 </html>

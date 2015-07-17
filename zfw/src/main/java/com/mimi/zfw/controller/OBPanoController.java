@@ -140,9 +140,9 @@ public class OBPanoController {
 	JSONObject jo = new JSONObject();
 
 	try {
-	    OBPano image = (OBPano) obpService.get(id);
-	    if (image != null) {
-		jo.put("image", image);
+	    OBPano pano = obpService.get(id);
+	    if (pano != null) {
+		jo.put("pano", pano);
 	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block

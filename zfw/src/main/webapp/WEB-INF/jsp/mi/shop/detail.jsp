@@ -28,7 +28,7 @@
 						<div class="box-hd" onclick="openCloseDetail('js-shop-image-container')" >
 							<h2>商铺图片信息</h2>
 						</div>
-						<%@include file="shopPhotoList.jsp" %>
+						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
 						<div class="box-hd" onclick="openCloseDetail('js-shop-panos-container')">
