@@ -34,7 +34,7 @@
 										<option value="首页中间大型">首页中间大型</option>
 										<option value="资讯页">资讯页</option>
 									</select>
-									<input type="button" class="btn" id="search-ad" value="搜索" />
+									<input type="button" class="btn btn-primary" id="search-ad" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -44,7 +44,7 @@
 										<th>显示</th>
 										<th>优先级</th>
 										<th>最后修改时间</th>
-										<th>操作</th>
+										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
 									</tbody>

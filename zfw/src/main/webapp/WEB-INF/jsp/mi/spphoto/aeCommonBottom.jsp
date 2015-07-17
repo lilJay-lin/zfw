@@ -5,9 +5,7 @@
  * 返回
  */
 $("#cancle").on("click",function(){
-	if(window.confirm("确定返回？")){
 		window.location.href = "${ctx}/mi/shop/${shopId}/edit";
-	}
 });
 
 

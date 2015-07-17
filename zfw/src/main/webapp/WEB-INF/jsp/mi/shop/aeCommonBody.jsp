@@ -150,6 +150,10 @@
 					<textarea name="introduction" maxlength="200" style="height:100px"></textarea>
 				</div>
 			</div>
+			<div class="form-actions" style="display: none;">
+			  <button type="button" class="btn btn-primary" id="submit">保存</button>
+			  <button type="reset" class="btn cancle" style="display: none;">返回</button>
+			</div>
 		</fieldset>
 	</div>
 </div>

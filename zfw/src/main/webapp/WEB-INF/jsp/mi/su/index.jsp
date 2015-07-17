@@ -27,14 +27,14 @@
 								<fieldset>
 									<div class="control-group">
 										<label class="control-label">报名栏标题</label>
-										<div class="control error">
+										<div class="control">
 											<input type="text"  name="singUpFormTitle" id="singUpFormTitle" max="32" require="require" require_msg ="户型名不能为空" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">是否显示</label>
-										<div class="control error">
+										<div class="control">
 											<select name="showSignUpForm">
 												<option value="true">true</option>
 												<option value="false">false</option>
@@ -43,8 +43,8 @@
 									</div>
 									<shiro:hasPermission name="su:update">
 									<div class="form-actions">
-									  <button type="button" class="btn" id="rBtn" onclick="toRefresh()">重置</button>
-									  <button type="reset" class="btn btn-primary" id="eBtn" onClick="toSave()">修改</button>
+									  <button type="button" class="btn btn-primary" id="rBtn" onclick="toRefresh()">重置</button>
+									  <button type="reset" class="btn" id="eBtn" onClick="toSave()">修改</button>
 									</div>
 									</shiro:hasPermission>
 								</fieldset>

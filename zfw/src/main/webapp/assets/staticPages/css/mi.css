@@ -312,6 +312,9 @@ body {
   border-bottom: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
 }
+.datatable-table th.operation {
+  width: 120px;
+}
 .datatable-table tr:last-of-type > td:last-of-type {
   border-bottom-right-radius: 4px;
 }
@@ -393,7 +396,6 @@ body {
 .control-img-box {
   width: 100px;
   min-height: 100px;
-  border: 1px solid #E2E2E2;
 }
 .control-user-img {
   width: 100px;
@@ -423,6 +425,9 @@ body {
   margin-right: -5px;
   margin-bottom: 0;
   vertical-align: middle;
+}
+.control-large {
+  width: 600px;
 }
 .help-inline {
   display: inline-block;
@@ -691,4 +696,71 @@ body {
   text-align: center;
   margin: 0;
   line-height: 1;
+}
+/*
+ * 平分布局
+ */
+[class*="avg-"] {
+  display: block;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+[class*="avg-"]:before,
+[class*="avg-"]:after {
+  content: " ";
+  display: table;
+}
+[class*="avg-"]:after {
+  clear: both;
+}
+[class*="avg-"] > li {
+  display: block;
+  height: auto;
+  float: left;
+}
+.avg-1 > li {
+  width: 100%;
+}
+.avg-1 > li:nth-of-type(n) {
+  clear: none;
+}
+.avg-1 > li:nth-of-type(1n+1) {
+  clear: both;
+}
+.avg-2 > li {
+  width: 50%;
+}
+.avg-2 > li:nth-of-type(n) {
+  clear: none;
+}
+.avg-2 > li:nth-of-type(2n+1) {
+  clear: both;
+}
+.avg-3 > li {
+  width: 33.33333333%;
+}
+.avg-3 > li:nth-of-type(n) {
+  clear: none;
+}
+.avg-3 > li:nth-of-type(3n+1) {
+  clear: both;
+}
+.avg-4 > li {
+  width: 25%;
+}
+.avg-4 > li:nth-of-type(n) {
+  clear: none;
+}
+.avg-4 > li:nth-of-type(4n+1) {
+  clear: both;
+}
+.avg-5 > li {
+  width: 20%;
+}
+.avg-5 > li:nth-of-type(n) {
+  clear: none;
+}
+.avg-5 > li:nth-of-type(5n+1) {
+  clear: both;
 }

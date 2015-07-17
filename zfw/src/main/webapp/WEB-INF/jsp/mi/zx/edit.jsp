@@ -90,6 +90,10 @@
 		 * 处理密码，密码加密，设置到password
 		 */
 		$("#submit").click(function(){
+			if(!!uploading){
+				alert("图像正在上传，请稍后..");
+				return ;
+			}
 			var btn = $(this);
 			var form = $(".form");
 			var res = form.validate();

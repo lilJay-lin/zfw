@@ -24,10 +24,6 @@
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
-					<div class="form-actions">
-					  <button type="button" class="btn btn-primary" id="submit">保存</button>
-					  <button type="reset" class="btn" id="cancle">返回</button>
-					</div>
 				</div>
 			</div>
 			<!-- 右边内容区域结束     -->
@@ -72,7 +68,9 @@
 		{{/each}}
 	
 	</script>
-	<script>
+	<script>		
+		$(".form-actions").show();
+		$(".cancle").show();
 		openCloseDetail('js-shop-detail-container');
 		$("#submit").click(function(){
 			var btn=$(this);

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%request.setAttribute("ctx", request.getContextPath());%>
 <ul class="slider-nav skin">
-	<li class="submenu active">
+	<li class="submenu">
 		<a href="javascript:void(0)">
 			<i class="icon-key"></i>
 			<span class="hidden-tablet"> 系统管理</span>
@@ -26,7 +26,7 @@
 			</shiro:hasPermission>
 		</ul>
 	</li>
-	<li class="submenu active">
+	<li class="submenu">
 		<a href="javascript:void(0)">
 			<i class="icon-key"></i>
 			<span class="hidden-tablet"> 评估管理</span>
@@ -51,7 +51,7 @@
 			</shiro:hasPermission>
 		</ul>
 	</li>
-	<li class="submenu active">
+	<li class="submenu">
 		<a href="javascript:void(0)">
 			<i class="icon-key"></i>
 			<span class="hidden-tablet"> 报名管理</span>
@@ -76,7 +76,7 @@
 			</shiro:hasPermission>
 		</ul>
 	</li>
-	<li class="submenu active">
+	<li class="submenu">
 		<a href="javascript:void(0)">
 			<i class="icon-key"></i>
 			<span class="hidden-tablet"> 物业管理</span>
@@ -133,7 +133,7 @@
 			</shiro:hasPermission>
 		</ul>
 	</li>
-	<li class="submenu active">
+	<li class="submenu">
 		<a href="javascript:void(0)">
 			<i class="icon-key"></i>
 			<span class="hidden-tablet"> 其他管理</span>
@@ -174,10 +174,12 @@
 		ele.find("a").each(function(){
 			if(curUrl.indexOf($(this).attr("href")+"/")>-1){
 // 				ele.addClass("open");
+				ele.addClass("active");
 				ele.click();
 			}
 			if(curUrl.substring(curUrl.indexOf($(this).attr("href")))==$(this).attr("href")){
 				ele.click();
+				ele.addClass("active");
 			}
 		});
 	});

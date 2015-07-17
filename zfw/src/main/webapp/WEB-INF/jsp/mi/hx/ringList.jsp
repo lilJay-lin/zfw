@@ -14,7 +14,7 @@
 				<th>名称</th>
 				<th>内容路径</th>
 				<th>描述</th>
-				<th>操作</th>
+				<th class="operation">操作</th>
 			</thead>
 			<tbody class="page-data-list">
 			</tbody>
@@ -23,8 +23,8 @@
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
-				</select> <a class="btn" href="javascript:;" onclick="ringBatchOperation(this);">批量操作</a>
-				<a class="btn" href="${ctx}/mi/${htId }/hxring/add">新增</a>
+				</select> <a class="btn btn-primary" href="javascript:;" onclick="ringBatchOperation(this);">批量操作</a>
+				<a class="btn btn-primary" href="${ctx}/mi/${htId }/hxring/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -68,6 +68,9 @@
 	  		delRing(e,ringIds);
 	  	}
 	  	function delRing(e,ringIds){
+	  		if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(ringDeling){
 	  			alert("正在删除三维,请稍后再操作");
 	  			return;

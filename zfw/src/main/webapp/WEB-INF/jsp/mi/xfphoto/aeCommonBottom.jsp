@@ -5,10 +5,8 @@
 		 * 返回
 		 */
 		$("#cancle").on("click",function(){
-			if(window.confirm("确定不保存返回？")){
 // 				window.location.href = "${ctx}/mi/xf/${repId}/edit";
 				window.history.back(-1);
-			}
 		});
 		
 		
@@ -26,13 +24,20 @@
 		   return null;
 		}
 
+		var uploading = !1;
 		$(":file").change(function(){
+			if(!!uploading){
+				alert("图像正在上传，请稍后..");
+				return ;
+			}
 			var errorStr = checkImgType(this);
 			if(errorStr){
 				alert(errorStr);
 				return;
 			}
 			var formData = new FormData($("#uploadForm")[0]);	
+			$(".uploader-loading").show();
+			uploading =!0;		
 		    $.ajax({
 		        type:'POST',
 		        url:'${ctx}/mi/xfphoto/uploadImg',
@@ -53,7 +58,11 @@
 		        },
 		        error: function (data) {
 					alert("上传失败");
-		        }
+		        },
+				complete:function(){
+					uploading =!1;
+					$(".uploader-loading").hide();
+				}
 		    });
 		});
 		

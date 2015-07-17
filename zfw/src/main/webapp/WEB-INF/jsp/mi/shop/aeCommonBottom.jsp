@@ -4,10 +4,8 @@
 /*
  * 返回
  */
-$("#cancle").on("click",function(){
-	if(window.confirm("确定返回？")){
+$(".cancle").on("click",function(){
 		window.location.href = "${ctx}/mi/shop";
-	}
 });
 
 function openCloseDetail(clazz){

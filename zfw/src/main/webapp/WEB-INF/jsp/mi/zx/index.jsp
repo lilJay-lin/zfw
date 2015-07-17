@@ -32,7 +32,7 @@
 										<option value="房产">房产</option>
 										<option value="综合">综合</option>
 									</select>
-									<input type="button" class="btn" id="search-info" value="搜索" />
+									<input type="button" class="btn btn-primary" id="search-info" value="搜索" />
 								</div>
 								<table class="datatable-table">
 									<thead>
@@ -47,7 +47,7 @@
 										<th>类型</th>
 										<th>优先级</th>
 										<th>最后修改时间</th>
-										<th>操作</th>
+										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
 									</tbody>
@@ -58,10 +58,10 @@
 										<select id="batch_option">
 											<option value="del" selected="selected">删除</option>
 										</select>
-										<a class="btn" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
+										<a class="btn btn-primary" href="javascript:;" onclick="batchOperation(this);">批量操作</a>
 										</shiro:hasPermission>
 										<shiro:hasPermission name="info:add">
-										<a class="btn" href="${ctx}/mi/info/add">新增</a>
+										<a class="btn btn-primary" href="${ctx}/mi/info/add">新增</a>
 										</shiro:hasPermission>
 									</div>
 								</div>
@@ -162,7 +162,10 @@
 	  		}
 	  		delInfo(e,infoIds);
 	  	}
-	  	function delInfo(e,infoIds){
+	  	function delInfo(e,infoIds){	  		
+			if(!window.confirm("确认删除?")){
+	  			return ;
+	  		}
 	  		if(deling){
 	  			alert("正在删除资讯,请稍后再操作");
 	  			return;
