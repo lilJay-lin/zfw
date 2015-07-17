@@ -70,7 +70,7 @@
 	</script>
 	<script>
 			$(".form-actions").show();
-		$(".cancle").show();
+		$(".js-add-only").show();
 		openCloseDetail('js-cfck-detail-container');
 		$("#submit").click(function(){
 			var btn=$(this);

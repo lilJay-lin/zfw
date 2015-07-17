@@ -31,7 +31,7 @@
 						<%@include file="apList.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn" id="cancle">返回</button>
+					  <button type="reset" class="btn cancle">返回</button>
 					</div>
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 					<a class="btn btn-info" href="${ctx}/mi/${aiId}/pgparam/{{id}}/detail">
 						<i class="icon-zoom-in "></i>                                            
 					</a>
-					<a class="btn btn-info" href="${ctx}/mi/${aiId}apram/{{id}}/edit">
+					<a class="btn btn-info" href="${ctx}/mi/${aiId}/pgparam/{{id}}/edit">
 						<i class="icon-edit "></i>                                            
 					</a>
 					<a class="btn btn-danger" href="javascript:;" onclick="delPano(this,'{{id}}');return false;" data-id="{{id}}">

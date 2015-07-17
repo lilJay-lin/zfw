@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:set var="headKeywords" value="${hx.tags}"/>
+<c:set var="headTitle" value="${hx.name}"/>
 <%@include file="../inc/header.jsp" %>
 <script type="text/javascript"
 	src="${ctx }/assets/js/jquery.event.drag-1.5.min.js"></script>

@@ -82,6 +82,7 @@
 	openCloseDetail('js-cfck-detail-container');
 	
 	$(".js-edit-operation").hide();
+	$(".js-not-detail").hide();
 	function initcfckData(){
 		var id = $("#warehouseId").val();
 		var getDataUrl = "${ctx}/mi/cfck/"+id;

@@ -77,7 +77,7 @@
 		}
 		initImageData();
 		$("#submit").hide();
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 			window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
 		});
 		$(".uploader").hide();

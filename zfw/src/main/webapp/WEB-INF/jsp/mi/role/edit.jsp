@@ -41,7 +41,7 @@
 									</div>
 									<div class="box box-inline">
 										<div class="box-hd">
-											<h2>添加关联关系</h2>
+											<h2>添加权限</h2>
 										</div>
 										<div class="box-cnt">
 											<div class="datatable" id="permission">
@@ -82,7 +82,7 @@
 									
 									<div class="box box-inline">
 										<div class="box-hd">
-											<h2>已选关联关系</h2>
+											<h2>已拥有权限</h2>
 										</div>
 										<div class="box-cnt">
 											<ul class="relation">
@@ -94,7 +94,7 @@
 									
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="submit">保存</button>
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle">返回</button>
 									</div>
 								</fieldset>
 							</form>
@@ -319,7 +319,7 @@
 		/*
 		 * 返回
 		 */
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 				window.location.href = "${ctx}/mi/roles";
 		})
 	</script>

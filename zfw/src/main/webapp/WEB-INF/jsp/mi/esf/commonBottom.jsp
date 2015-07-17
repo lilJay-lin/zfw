@@ -15,7 +15,7 @@
 			return tpl(data);
 		}
 
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 // 			if(inDetail){
 				window.history.back(-1);
 // 			}else if(window.confirm("确定不保存返回？")){

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:set var="headTitle" value="二手房评估"/>
 <%@include file="../inc/header.jsp" %>
 </head>
 <body>

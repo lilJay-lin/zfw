@@ -100,7 +100,7 @@
 									</div>
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="submit">保存</button>
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle">返回</button>
 									</div>
 								</fieldset>
 							</div>
@@ -452,7 +452,7 @@
 		/*
 		 * 返回
 		 */
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 				window.location.href = "${ctx}/mi/users";
 		})
 	</script>

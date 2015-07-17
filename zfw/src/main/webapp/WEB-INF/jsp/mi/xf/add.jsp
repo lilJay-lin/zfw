@@ -48,7 +48,7 @@
 	<script>
 		inAdd = true;
 		$(".form-actions").show();
-		$("#cancle").show();
+		$(".js-add-only").show();
 		$(".js-rep-detail-container").show();
 	</script>
 </html>

@@ -78,7 +78,7 @@
 		}
 		initImageData();
 		$("#submit").hide();
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 			window.location.href = "${ctx}/mi/cfck/${warehouseId}/edit";
 		});
 		$(".uploader").hide();

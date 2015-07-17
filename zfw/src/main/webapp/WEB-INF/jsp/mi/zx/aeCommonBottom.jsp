@@ -46,7 +46,7 @@
 		/*
 		 * 返回
 		 */
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 				window.location.href = "${ctx}/mi/info";
 		});
 		

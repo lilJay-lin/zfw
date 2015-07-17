@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:set var="headKeywords" value="资讯"/>
+<c:set var="headTitle" value="资讯"/>
 <%@include file="../inc/header.jsp" %>
 <script type="text/javascript"
 	src="${ctx }/assets/js/jquery.event.drag-1.5.min.js"></script>

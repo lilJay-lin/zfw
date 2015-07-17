@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:set var="headTitle" value="图册"/>
 <%@include file="../inc/header.jsp" %>
 <link rel="stylesheet" href="${ctx }/assets/tools/photoswipe/photoswipe.css">
 <link rel="stylesheet" href="${ctx }/assets/tools/photoswipe/default-skin/default-skin.css">

@@ -85,7 +85,7 @@
 									
 									<div class="box box-inline">
 										<div class="box-hd">
-											<h2>已选关联关系</h2>
+											<h2>已担当角色</h2>
 										</div>
 										<div class="box-cnt">
 											<ul class="relation">
@@ -97,7 +97,7 @@
 									
 									<div class="form-actions">
 <%-- 										<a href="${ctx}/mi/user/${userid}/edit" class="btn btn-primary" id="submit">编辑</a> --%>
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle">返回</button>
 									</div>
 								</fieldset>
 							</form>
@@ -224,7 +224,7 @@
 		/*
 		 * 返回
 		 */
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 				window.location.href = "${ctx}/mi/users";
 		})
 	</script>
