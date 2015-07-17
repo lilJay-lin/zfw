@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="box-cnt js-cfck-image-container" style="display:none">
+<div class="box-cnt js-ob-image-container" style="display:none">
 	<div class="datatable" id="photoList">
 		<div class="datatabls-filter">
 			<!--搜索：--> 
@@ -9,21 +9,21 @@
 		</div>
 		<table class="datatable-table">
 			<thead>
-				<th class="js-edit-operation"><input type="checkbox" id="selectAll" /></th>
+				<th class="js-edit-only" style="display:none"><input type="checkbox" id="selectAll" /></th>
 				<th>预览</th>
 				<th>名称</th>
 				<th>描述</th>
-				<th class="js-edit-operation">操作</th>
+				<th>操作</th>
 			</thead>
 			<tbody class="page-data-list">
 			</tbody>
 		</table>
-		<div class="datatable-toolbar js-edit-operation">
+		<div class="datatable-toolbar js-edit-only" style="display:none">
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
 				</select> <a class="btn btn-primary" href="javascript:;" onclick="photoBatchOperation(this);">批量操作</a>
-				<a class="btn btn-primary" href="${ctx}/mi/${warehouseId}/cfckphoto/add">新增</a>
+				<a class="btn btn-primary" href="${ctx}/mi/${officeBuildingId}/xzlphoto/add">新增</a>
 			</div>
 		</div>
 		<div class="datatable-footer">
@@ -78,7 +78,7 @@
 	  		var obj = {};
 	  		obj.delFlag = true;
 	  		photoDeling = true;
-	  		var url = "${ctx}/mi/cfckphotos";
+	  		var url = "${ctx}/mi/xzlphotos";
 	  		$.ajax({
 	  			type:"post",
 	  			data:$.extend({"imageIds":imageIds},obj),
@@ -112,7 +112,7 @@
 	  	var photoPage = new Page({
 	  			container:"#photoList",
 	  			template:"#photo-template",
-	  			url:"${ctx}/mi/${warehouseId}/cfckphoto/page/",
+	  			url:"${ctx}/mi/${officeBuildingId}/xzlphoto/page/",
 	  			data:{pagesize:10}
 	  	});
 	  	

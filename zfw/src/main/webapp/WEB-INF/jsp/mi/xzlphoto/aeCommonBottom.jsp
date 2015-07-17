@@ -1,16 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	
 <script>
-/*
- * 返回
- */
-$(".cancle").on("click",function(){
-	
-		window.location.href = "${ctx}/mi/xzl/${officeBuildingId}/edit";
-	
-});
-
-
 function checkImgType(element){
    var filePath=$(element).val();
    var extStart=filePath.lastIndexOf(".");
@@ -81,4 +70,59 @@ function getImageData(){
    }
    return image;
 }
+
+$("#submit").click(function(){
+	var btn=$(this);
+	var form = $(".form");
+	if(!!uploading){
+		alert("图像正在上传，请稍后..");
+		return ;
+	}
+	var res = form.validate();
+	if(res){
+		var image = getImageData();
+
+		if(inEdit){
+			url = "${ctx}/mi/xzlphoto/${imageId}";
+		}else{
+			url = "${ctx}/mi/xzlphoto";
+		}
+	btn.attr("disabled","disabled");
+	   $.ajax({
+	   	type:"POST",
+	   	url:url,
+	   	async:true,
+	   	data:image,
+	   	dataType:"json",
+	   	success:function(data){
+	   		if(data){
+	   			if(!data.success){
+	   				var name = data.field;
+	   				if(name){
+	   					var p = form.find("input[name='"+name+"']");
+	   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+	   				}else{
+	   					alert(data.msg);
+	   				}
+	   			}else{
+	   				alert(data.msg);
+	   				window.location.href="${ctx}/mi/xzl/${officeBuildingId}/edit";
+	   			}
+	   		}
+	   	},
+	   	error:function(){
+			if(inEdit){
+		   		alert("更新写字楼图片信息失败!");
+			}else{
+		   		alert("新增写字楼图片信息失败!");
+			}
+	   	},
+	   	complete:function(){
+	   		btn.removeAttr("disabled");
+	   	}
+	   });
+	}else{
+		$("body").scrollTop(0);
+	}
+});
 </script>

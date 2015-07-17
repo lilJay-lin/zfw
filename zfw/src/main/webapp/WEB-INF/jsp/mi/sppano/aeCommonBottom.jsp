@@ -86,9 +86,8 @@ $("#submit").click(function(){
 		if(inEdit){
 			url = "${ctx}/mi/sppano/${panoId}";
 		}else{
-			url = "${ctx}/mi/sppano/${panoId}";
+			url = "${ctx}/mi/sppano";
 		}
-	   var url = "${ctx}/mi/sppano/${panoId}";
 	btn.attr("disabled","disabled");
 	   $.ajax({
 	   	type:"POST",

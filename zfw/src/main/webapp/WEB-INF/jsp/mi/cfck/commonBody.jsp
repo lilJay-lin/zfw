@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div class="box-cnt js-cfck-detail-container" style="display: none">
+<div class="box-cnt js-warehouse-detail-container js-add-only" style="display: none">
 	<div class="form">
 		<fieldset>
-			<!--<input type="hidden" id="repId" name ="realEstateProjectId" value="${repId}" />-->
 			<input type="hidden" id="warehouseId" name ="id" value="${warehouseId}" />
 			<form enctype="multipart/form-data" method="post" id="uploadForm">
 				<div class="control-group">
@@ -10,7 +9,7 @@
 					<div class="control control-img-box">
 						<img class="control-user-img" />
 					</div>
-					<div class="control">
+					<div class="control js-not-detail">
 						<div class="uploader">
 							<input type="hidden" name="preImageUrl" />
 							<input type="file" name="theFile" accept="image/*"/>
@@ -28,34 +27,8 @@
 			<div class="control-group">
 				<label class="control-label">名称</label>
 				<div class="control">
-					<input type="text" name="name" max="16" maxlength="16" error="全写字楼名长度少于16个字" 
-					require="require" require_msg ="全写字楼名不能为空"  placeholder="输入全写字楼名称"  />
-					<span class="help-inline"></span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">销售类型</label>
-				<div class="control">
-					<select name="rentOrSale">
-						<option value="出售">出售</option>
-						<option value="出租">出租</option>
-					</select>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">类别</label>
-				<div class="control">
-					<select name="type">
-						<option value="厂房">厂房</option>
-						<option value="仓库">仓库</option>
-					</select>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">面积</label>
-				<div class="control">
-					<input type="text" name="grossFloorArea" max="8"  error="建筑面积范围0.0-99999.0" 
-											patterns = "^[0-9\.]*$"  placeholder="输入建筑面积0.0-99999.0" value="0.0"   />&nbsp;平方米
+					<input type="text" name="name" max="16" maxlength="16" error="厂房仓库名长度少于16个字" 
+					require="require" require_msg ="厂房仓库名不能为空"  placeholder="输入厂房仓库名称"  />
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -76,6 +49,13 @@
 					</select>
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-label">热线电话</label>
+				<div class="control">
+					<input type="text"  name="phoneNum" id="phoneNum" max="32" error="热线电话不能超长" placeholder="输入热线电话"/>
+					<span class="help-inline"></span>
+				</div>
+			</div>
 			<div class="control-group js-control-group-rental">
 				<label class="control-label">出租</label>
 				<div class="control">
@@ -92,18 +72,59 @@
 					<span class="help-inline"></span>
 				</div>
 			</div>
+			
 			<div class="control-group">
-				<label class="control-label">地址</label>
+				<label class="control-label">销售类型</label>
 				<div class="control">
-					<textarea name="address" maxlength="100" error="地址内容长度不能超过100"></textarea>
+					<select name="rentOrSale">
+						<option value="不限">租售</option>
+						<option value="出售">出售</option>
+						<option value="出租">出租</option>
+					</select>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">优先级</label>
+				<label class="control-label">面积</label>
 				<div class="control">
-					<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
-					patterns = "^[0-9]*$" error="最多只能输入4个字符" placeholder="输入优先级 0-9999" value="0" />
+					<input type="text" name="grossFloorArea" max="8"  error="建筑面积范围0.0-99999.0" 
+											patterns = "^[0-9\.]*$"  placeholder="输入建筑面积0.0-99999.0" value="0.0"   />&nbsp;平方米
 					<span class="help-inline"></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">地址</label>
+				<div class="control">
+					<textarea name="address" maxlength="200" style="height:50px" error="地址内容长度不能超过200"></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">介绍</label>
+				<div class="control">
+					<textarea name="introduction" maxlength="2000" error="地址内容长度不能超过2000"></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">类别</label>
+				<div class="control">
+					<select name="type">
+						<option value="厂房"> 厂房 </option>
+						<option value="仓库"> 仓库 </option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">信息时效</label>
+				<div class="control">
+					<select name="outOfDate" id="outOfDate">
+						<option value="false">未过期</option>
+						<option value="true">已过期</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">描述</label>
+				<div class="control">
+					<textarea name="description" maxlength="200" style="height:100px"></textarea>
 				</div>
 			</div>
 			<div class="control-group">
@@ -114,23 +135,17 @@
 					<span class="help-inline"></span>
 				</div>
 			</div>
-			
 			<div class="control-group">
-				<label class="control-label">热线电话</label>
+				<label class="control-label">优先级</label>
 				<div class="control">
-					<input type="text"  name="phoneNum" id="phoneNum" max="32" error="热线电话不能超长" placeholder="输入热线电话"/>
+					<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
+					patterns = "^[0-9]*$" error="最多只能输入4个字符" placeholder="输入优先级 0-9999" value="0" />
 					<span class="help-inline"></span>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label">描述</label>
-				<div class="control">
-					<textarea name="introduction" maxlength="200" style="height:100px"></textarea>
-				</div>
-			</div>		
 			<div class="form-actions">
 			  <button type="button" class="btn btn-primary js-not-detail" id="submit">保存</button>
-			  <button type="reset" class="btn cancle js-add-only" style="display:none">返回</button>
+			  <button type="reset" class="btn cancle js-add-only" style="display: none;">返回</button>
 			</div>
 		</fieldset>
 	</div>

@@ -9,7 +9,7 @@
 		</div>
 		<table class="datatable-table">
 			<thead>
-				<th><input type="checkbox" id="selectAll" /></th>
+				<th class="js-not-detail"><input type="checkbox" id="selectAll" /></th>
 				<th>名称</th>
 				<th>描述</th>
 				<th>优先级</th>
@@ -20,7 +20,7 @@
 			<tbody class="page-data-list">
 			</tbody>
 		</table>
-		<div class="datatable-toolbar js-edit-content">
+		<div class="datatable-toolbar js-not-detail">
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>

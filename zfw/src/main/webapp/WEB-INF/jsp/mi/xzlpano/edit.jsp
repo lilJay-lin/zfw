@@ -22,7 +22,7 @@
 						<div class="box-hd">
 							<h2>编辑写字楼全景</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 				</div>
 			</div>
@@ -43,79 +43,12 @@
 		<!-- 底部区域结束     -->
 		
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-		
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			if(!!uploading){
-				alert("图像正在上传，请稍后..");
-				return ;
-			}
-			var res = form.validate();
-			if(res){
-				var image = getImageData();
-			   var url = "${ctx}/mi/xzlpano/${panoId}";
-			btn.attr("disabled","disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:image,
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-			   			}else{
-			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/xzl/${officeBuildingId}/edit";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-			   		alert("更新写字楼图片信息失败!");
-			   	},
-			   	complete:function(){
-			   		btn.removeAttr("disabled");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
-		function initImageData(){
-			var id = $("#panoId").val();
-			var getImageUrl = "${ctx}/mi/xzlpano/"+id;
-			$.ajax({
-				type:"get",
-				url:getImageUrl,
-				async:true,
-				dataType:"json",
-				success:function(data){
-					if(data){
-						var image = data.image;
-						for(var i in image){
-							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(image[i]);
-						}
-						var preImageUrl = image["preImageUrl"];
-						if(preImageUrl){
-							$(".control-user-img").attr("src",preImageUrl);
-						}
-					}
-				},
-				error:function(){
-					alert("获取写字楼图片信息失败");
-				}
-			});
-		}
-		initImageData();
+		inEdit = true;
+		$(".js-not-edit").hide();
+		$(".js-edit-only").show();
 	</script>
 </html>

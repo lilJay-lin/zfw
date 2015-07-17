@@ -19,25 +19,25 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-xzl-detail-container')">
+						<div class="box-hd" onclick="openCloseDetail('js-ob-detail-container')">
 							<h2>写字楼信息</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-xzl-image-container')" >
+						<div class="box-hd" onclick="openCloseDetail('js-ob-image-container')" >
 							<h2>写字楼图片信息</h2>
 						</div>
-						<%@include file="xzlPhotoList.jsp" %>
+						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-xzl-panos-container')">
+						<div class="box-hd" onclick="openCloseDetail('js-ob-panos-container')">
 							<h2>写字楼全景信息</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn cancle">返回</button>
+			  			<button type="reset" class="btn cancle" >返回</button>
 					</div>
 				</div>
 			</div>
@@ -62,6 +62,11 @@
 			<td><img src="{{contentUrl}}" style="width:100px"></td>
 			<td>{{name}}</td>
 			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${officeBuildingId}/xzlphoto/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+			</td>
 		</tr>
 		{{/each}}
 	</script>
@@ -72,54 +77,23 @@
 			<td>{{name}}</td>
 			<td>{{contentUrl}}</td>
 			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${officeBuildingId}/xzlpano/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+			</td>
 		</tr>
 		{{/each}}
 	
 	</script>		
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-	$("#submit").hide();
-	openCloseDetail('js-xzl-detail-container');
-	$(".js-edit-operation").hide();
-	function initXZLData(){
-		var id = $("#officeBuildingId").val();
-		var getDataUrl = "${ctx}/mi/xzl/"+id;
-		$.ajax({
-			type:"get",
-			url:getDataUrl,
-			async:true,
-			dataType:"json",
-			success:function(data){
-				if(data){
-					var officeBuilding = data.officeBuilding;
-					for(var i in officeBuilding){
-						var ele = $("[name="+i+"]");
-						if(ele[0]){
-							if(i=="grossFloorArea" || i=="propertyFee"){
-								var num = Number(officeBuilding[i]);
-								if(num){
-									ele.val(Math.round(num*100)/100);
-								}
-							}else{
-								ele.val(officeBuilding[i]);
-							}
-							ele.attr("readonly","readonly");
-							ele.attr("disabled","disabled");
-						}
-					}
-					if(!!officeBuilding.preImageUrl){
-						$(".control-user-img").attr("src",officeBuilding.preImageUrl)
-					}
-				}
-			},
-			error:function(){
-				alert("获取写字楼信息失败");
-			}
-		});
-	}
-		//initofficeBuildingData();
-		$("#submit").hide();
-		$(".uploader").hide();
+	inDetail = true;
+	openCloseDetail('js-ob-detail-container');
+	$(".js-not-detail").hide();
+	$(".js-detail-only").show();
 	</script>
 </html>

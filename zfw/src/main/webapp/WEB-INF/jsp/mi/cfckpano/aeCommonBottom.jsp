@@ -1,14 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	
 <script>
-/*
- * 返回
- */
-$(".cancle").on("click",function(){
-		window.location.href = "${ctx}/mi/cfck/${warehouseId}/edit";
-});
-
-
 function checkImgType(element){
    var filePath=$(element).val();
    var extStart=filePath.lastIndexOf(".");
@@ -65,8 +56,8 @@ $(":file").change(function(){
         }
     });
 });
-function getImageData(){
-	var image = {
+function getPanoData(){
+	var pano = {
 		id:"",
 		name:"",
 		description:"",
@@ -74,10 +65,65 @@ function getImageData(){
 		preImageUrl:"",
 		warehouseId:""
 	};
-   for(var i in image){
+   for(var i in pano){
    		var value = $("[name="+i+"]").val();
-   		image[i]=value;
+   		pano[i]=value;
    }
-   return image;
+   return pano;
 }
+
+$("#submit").click(function(){
+	var btn=$(this);
+	var form = $(".form");
+	if(!!uploading){
+		alert("图像正在上传，请稍后..");
+		return ;
+	}
+	var res = form.validate();
+	if(res){
+		var pano = getPanoData();
+
+		if(inEdit){
+			url = "${ctx}/mi/cfckpano/${panoId}";
+		}else{
+			url = "${ctx}/mi/cfckpano";
+		}
+	btn.attr("disabled","disabled");
+	   $.ajax({
+	   	type:"POST",
+	   	url:url,
+	   	async:true,
+	   	data:pano,
+	   	dataType:"json",
+	   	success:function(data){
+	   		if(data){
+	   			if(!data.success){
+	   				var name = data.field;
+	   				if(name){
+	   					var p = form.find("input[name='"+name+"']");
+	   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+	   				}else{
+	   					alert(data.msg);
+	   				}
+	   			}else{
+	   				alert(data.msg);
+	   				window.location.href="${ctx}/mi/cfck/${warehouseId}/edit";
+	   			}
+	   		}
+	   	},
+	   	error:function(){
+			if(inEdit){
+		   		alert("更新厂房仓库全景信息失败!");
+			}else{
+		   		alert("新增厂房仓库全景信息失败!");
+			}
+	   	},
+	   	complete:function(){
+	   		btn.removeAttr("disabled");
+	   	}
+	   });
+	}else{
+		$("body").scrollTop(0);
+	}
+});
 </script>

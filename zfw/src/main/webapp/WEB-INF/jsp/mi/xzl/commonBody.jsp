@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div class="box-cnt js-shop-detail-container js-add-only" style="display: none">
+<div class="box-cnt js-ob-detail-container js-add-only" style="display: none">
 	<div class="form">
 		<fieldset>
-			<input type="hidden" id="shopId" name ="id" value="${shopId}" />
+			<input type="hidden" id="officeBuildingId" name ="id" value="${officeBuildingId}" />
 			<form enctype="multipart/form-data" method="post" id="uploadForm">
 				<div class="control-group">
 					<label class="control-label">上传缩略图</label>
@@ -27,8 +27,8 @@
 			<div class="control-group">
 				<label class="control-label">名称</label>
 				<div class="control">
-					<input type="text" name="name" max="16" maxlength="16" error="商铺名长度少于16个字" 
-					require="require" require_msg ="商铺名不能为空"  placeholder="输入商铺名称"  />
+					<input type="text" name="name" max="16" maxlength="16" error="写字楼名长度少于16个字" 
+					require="require" require_msg ="写字楼名不能为空"  placeholder="输入写字楼名称"  />
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -127,11 +127,10 @@
 				<label class="control-label">类别</label>
 				<div class="control">
 					<select name="type">
-						<option value="住宅底商">住宅底商</option>
-						<option value="商业街商铺">商业街商铺</option>
-						<option value="临街门面">临街门面</option>
-						<option value="写字楼配套底铺">写字楼配套底铺</option>
-						<option value="购物中心/百货">购物中心/百货</option>
+						<option value="纯写字楼"> 纯写字楼 </option>
+						<option value="商住楼"> 商住楼 </option>
+						<option value="商业综合体楼"> 商业综合体楼</option>
+						<option value="酒店写字楼"> 酒店写字楼</option>
 					</select>
 				</div>
 			</div>

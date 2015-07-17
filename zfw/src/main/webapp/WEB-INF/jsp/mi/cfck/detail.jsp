@@ -19,25 +19,25 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-cfck-detail-container')">
-							<h2>厂房/仓库信息</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-warehouse-detail-container')">
+							<h2>厂房仓库信息</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-cfck-image-container')" >
-							<h2>厂房/仓库图片信息</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-warehouse-image-container')" >
+							<h2>厂房仓库图片信息</h2>
 						</div>
-						<%@include file="cfckPhotoList.jsp" %>
+						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-cfck-panos-container')">
-							<h2>厂房/仓库全景信息</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-warehouse-panos-container')">
+							<h2>厂房仓库全景信息</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn cancle">返回</button>
+			  			<button type="reset" class="btn cancle" >返回</button>
 					</div>
 				</div>
 			</div>
@@ -62,6 +62,11 @@
 			<td><img src="{{contentUrl}}" style="width:100px"></td>
 			<td>{{name}}</td>
 			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${warehouseId}/cfckphoto/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+			</td>
 		</tr>
 		{{/each}}
 	</script>
@@ -72,56 +77,23 @@
 			<td>{{name}}</td>
 			<td>{{contentUrl}}</td>
 			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${warehouseId}/cfckpano/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+			</td>
 		</tr>
 		{{/each}}
 	
 	</script>		
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-	openCloseDetail('js-cfck-detail-container');
-	
-	$(".js-edit-operation").hide();
+	inDetail = true;
+	openCloseDetail('js-warehouse-detail-container');
 	$(".js-not-detail").hide();
-	function initcfckData(){
-		var id = $("#warehouseId").val();
-		var getDataUrl = "${ctx}/mi/cfck/"+id;
-		$.ajax({
-			type:"get",
-			url:getDataUrl,
-			async:true,
-			dataType:"json",
-			success:function(data){
-				if(data){
-					var warehouse = data.warehouse;
-					for(var i in warehouse){
-						var ele = $("[name="+i+"]");
-						if(ele[0]){
-							if(i=="grossFloorArea"){
-								var num = Number(warehouse[i]);
-								if(num){
-									ele.val(Math.round(num*100)/100);
-								}
-							}else{
-								ele.val(warehouse[i]);
-							}
-							ele.attr("readonly","readonly");
-							ele.attr("disabled","disabled");
-						}
-					}
-					if(!!warehouse.preImageUrl){
-						$(".control-user-img").attr("src",warehouse.preImageUrl)
-					}
-					rentOrSale($("[name=rentOrSale]").val());
-				}
-			},
-			error:function(){
-				alert("获取厂房/仓库信息失败");
-			}
-		});
-	}
-		//initwarehouseData();
-		$("#submit").hide();
-		$(".uploader").hide();
+	$(".js-detail-only").show();
 	</script>
 </html>

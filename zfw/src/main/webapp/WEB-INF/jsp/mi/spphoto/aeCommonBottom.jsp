@@ -85,9 +85,8 @@ $("#submit").click(function(){
 		if(inEdit){
 			url = "${ctx}/mi/spphoto/${imageId}";
 		}else{
-			url = "${ctx}/mi/spphoto/${imageId}";
+			url = "${ctx}/mi/spphoto";
 		}
-	   var url = "${ctx}/mi/spphoto/${imageId}";
 	btn.attr("disabled","disabled");
 	   $.ajax({
 	   	type:"POST",

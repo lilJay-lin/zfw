@@ -146,9 +146,9 @@ public class WarehousePanoController {
 	JSONObject jo = new JSONObject();
 
 	try {
-	    WarehousePano image = (WarehousePano) whpService.get(id);
-	    if (image != null) {
-		jo.put("image", image);
+	    WarehousePano pano = whpService.get(id);
+	    if (pano != null) {
+		jo.put("pano", pano);
 	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block

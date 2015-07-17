@@ -1,24 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="box-cnt js-xzl-panos-container" style="display:none">
+<div class="box-cnt js-ob-panos-container" style="display:none">
 	<div class="datatable" id="panoList">
 		<div class="datatabls-filter">
-			<!--搜索：--> <input type="text" class="js-search-text"  placeholder="名称"/>
+			<!--搜索：--> 
+			<input type="text" class="js-search-text"  placeholder="名称"/>
 			<input type="button" class="btn js-search-btn" value="搜索"/>
 		</div>
 		<table class="datatable-table">
 			<thead>
-				<th class="js-edit-operation"><input type="checkbox" id="selectAll" /></th>
+				<th class="js-edit-only" style="display:none"><input type="checkbox" id="selectAll" /></th>
 				<th>预览</th>
 				<th>名称</th>
 				<th>内容路径</th>
 				<th>描述</th>
-				<th class="js-edit-operation">操作</th>
+				<th>操作</th>
 			</thead>
 			<tbody class="page-data-list">
 			</tbody>
 		</table>
-		<div class="datatable-toolbar js-edit-operation">
+		<div class="datatable-toolbar js-edit-only" style="display:none">
 			<div class="toolbar">
 				<select id="batch_option">
 					<option value="del" selected="selected">删除</option>
