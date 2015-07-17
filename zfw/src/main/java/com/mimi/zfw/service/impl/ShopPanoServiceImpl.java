@@ -40,6 +40,7 @@ public class ShopPanoServiceImpl extends
     public List<ShopPano> getPanosByShopId(String id) {
 	ShopPanoExample pe = new ShopPanoExample();
 	pe.or().andShopIdEqualTo(id).andDelFlagEqualTo(false);
+	pe.setOrderByClause("update_date desc");
 	return spm.selectByExample(pe);
     }
 
@@ -53,6 +54,7 @@ public class ShopPanoServiceImpl extends
 	example.or().andShopIdEqualTo(shopId).andDelFlagEqualTo(false);
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
+	example.setOrderByClause("update_date desc");
 	List<ShopPano> shopPanos = spm.selectByExample(example);
 
 	return shopPanos;
@@ -65,9 +67,7 @@ public class ShopPanoServiceImpl extends
 	}
 	ShopPanoExample example = new ShopPanoExample();
 	example.or().andShopIdEqualTo(shopId).andDelFlagEqualTo(false);
-	List<ShopPano> shopPanos = spm.selectByExample(example);
-
-	return shopPanos.size();
+	return spm.countByExample(example);
     }
 
     @Override
@@ -104,6 +104,7 @@ public class ShopPanoServiceImpl extends
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
 
+	example.setOrderByClause("update_date desc");
 	List<ShopPano> list = spm.selectByExample(example);
 
 	return list;
@@ -116,9 +117,7 @@ public class ShopPanoServiceImpl extends
 	    example = new ShopPanoExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
-	List<ShopPano> list = spm.selectByExample(example);
-
-	return list == null ? 0 : list.size();
+	return spm.countByExample(example);
     }
 
     @Override

@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:set var="headKeywords" value="个人中心"/>
+<c:set var="headTitle" value="个人中心"/>
 <%@include file="../inc/header.jsp" %>
 </head>
 <body>

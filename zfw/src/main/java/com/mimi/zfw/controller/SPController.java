@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -417,12 +418,14 @@ public class SPController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:query")
     @RequestMapping(value = "/mi/shop", method = { RequestMethod.GET })
     public String index(HttpServletRequest request) {
 
 	return "/mi/shop/index";
     }
 
+    @RequiresPermissions("shop:query")
     @RequestMapping(value = "/mi/shop/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,
@@ -456,7 +459,7 @@ public class SPController {
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<Shop> items = shopService.findShopsByParams(name, null, null,
-		    null, null, null, null, null, page, pageSize);
+		    null, null, null, null, "onUpdateFromNear", page, pageSize);
 	    rows = shopService.countShopByParams(name, null, null, null, null,
 		    null, null);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
@@ -490,6 +493,7 @@ public class SPController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/mi/shop/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShop(@PathVariable String id, HttpServletRequest request) {
@@ -510,6 +514,7 @@ public class SPController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:add")
     @RequestMapping(value = "/mi/shop/add", method = { RequestMethod.GET })
     public String toAddShop(Model model, HttpServletRequest request) {
 
@@ -518,6 +523,7 @@ public class SPController {
 	return "mi/shop/add";
     }
 
+    @RequiresPermissions("shop:add")
     @RequestMapping(value = "/mi/shop", method = { RequestMethod.POST })
     @ResponseBody
     public Object addShop(HttpServletRequest request, Shop shop) {
@@ -554,6 +560,7 @@ public class SPController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/mi/shop/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateShop(HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -561,6 +568,7 @@ public class SPController {
 	return "/mi/shop/edit";
     }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/mi/shop/{id}/detail", method = { RequestMethod.GET })
     public String toViewShop(Model model, @PathVariable String id) {
 
@@ -569,6 +577,7 @@ public class SPController {
 	return "/mi/shop/detail";
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/mi/shop/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateShop(HttpServletRequest request, Shop shop) {

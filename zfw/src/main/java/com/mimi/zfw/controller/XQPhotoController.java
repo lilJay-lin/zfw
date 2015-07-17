@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class XQPhotoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rcId}/xqphoto/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRCImageByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class XQPhotoController {
 		return res;
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rcId}/xqphoto/{imageId}/detail", method = { RequestMethod.GET })
 	public String toRCImageDetail(HttpServletRequest request,
 			@PathVariable String rcId,@PathVariable String imageId) {
 		return "/mi/xqphoto/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rcId}/xqphoto/add", method = { RequestMethod.GET })
 	public String toAddRCImage(HttpServletRequest request, @PathVariable String rcId) {
 		return "mi/xqphoto/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/xqphoto/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addRCImage(HttpServletRequest request, RCImage image) {
@@ -106,6 +111,7 @@ public class XQPhotoController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/xqphoto/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRCImage(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class XQPhotoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rcId}/xqphoto/{imageId}/edit", method = { RequestMethod.GET })
 	public String toUpdateRCImage(HttpServletRequest request,
 			@PathVariable String rcId,@PathVariable String imageId) {
 		return "/mi/xqphoto/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/xqphoto/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateRCImage(HttpServletRequest request, RCImage image) {
@@ -155,7 +163,8 @@ public class XQPhotoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/xqphoto/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelRCImage(HttpServletRequest request, String imageIds) {

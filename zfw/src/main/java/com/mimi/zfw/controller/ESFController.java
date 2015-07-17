@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -407,6 +408,7 @@ public class ESFController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rcId}/esf/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getSHHByPage(HttpServletRequest request,
@@ -435,12 +437,14 @@ public class ESFController {
 		}
 		return res;
 	}
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rcId}/esf/{shhId}/detail", method = { RequestMethod.GET })
 	public String toSHHDetail(HttpServletRequest request,
 			@PathVariable String rcId,@PathVariable String shhId) {
 		return "/mi/esf/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rcId}/esf/add", method = { RequestMethod.GET })
 	public String toAddSHH(Model model, HttpServletRequest request,@PathVariable String rcId) {
 		ResidenceCommunity rc = rcService.get(rcId);
@@ -448,6 +452,7 @@ public class ESFController {
 		return "mi/esf/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esf/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addSHH(HttpServletRequest request, SecondHandHouse shh) {
@@ -473,6 +478,7 @@ public class ESFController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/esf/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getSHH(@PathVariable String id, HttpServletRequest request) {
@@ -492,12 +498,14 @@ public class ESFController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rcId}/esf/{shhId}/edit", method = { RequestMethod.GET })
 	public String toUpdateSHH(HttpServletRequest request,
 			@PathVariable String rcId,@PathVariable String shhId) {
 		return "/mi/esf/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esf/{shhId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateSHH(HttpServletRequest request, SecondHandHouse shh,
@@ -520,7 +528,8 @@ public class ESFController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esf/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelSHHPano(HttpServletRequest request, String rcId, String shhIds) {

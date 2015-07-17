@@ -42,9 +42,9 @@ public class PermissionServiceImpl extends
 	int count = pm.countByExample(null);
 	if (count < 1) {
 	    String[][] nc = {
-	    		{"管理用户","user"},{"查询用户","user:query"},{"浏览用户","user:view"},{"添加用户","user:add"},{"删除用户","user:del"},{"修改用户","user:update"},
+	    		{"查询用户","user:query"},{"浏览用户","user:view"},{"添加用户","user:add"},{"删除用户","user:del"},{"修改用户","user:update"},
 	    		{"自管理", "user:self"},{"进入后台","user:mi"},
-	    		{"管理角色","role"},{"查询角色","role:query"},{"浏览角色", "role:view"},{"添加角色","role:add"},{ "删除角色","role:del"},{"修改角色","role:update" },
+	    		{"查询角色","role:query"},{"浏览角色", "role:view"},{"添加角色","role:add"},{ "删除角色","role:del"},{"修改角色","role:update" },
 	    		
 	    		{"查询关联楼盘","rep:queryru"},
 	    		{"查询楼盘","rep:query"},{"浏览楼盘","rep:view"},{"添加楼盘","rep:add"},{"删除楼盘","rep:del"},{"修改楼盘","rep:update"},

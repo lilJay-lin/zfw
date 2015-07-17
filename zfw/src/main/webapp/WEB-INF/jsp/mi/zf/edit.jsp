@@ -36,6 +36,9 @@
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
+					<div class="form-actions">
+			  			<button type="reset" class="btn cancle" >返回</button>
+					</div>
 				</div>
 			</div>
 			<!-- 右边内容区域结束     -->

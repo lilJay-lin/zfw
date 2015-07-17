@@ -47,6 +47,7 @@
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
 		inAdd = true;
+		$(".js-add-only").show();
 		$(".js-rc-detail-container").show();
 	</script>
 </html>

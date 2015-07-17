@@ -49,7 +49,7 @@
 						<%@include file="videoList.jsp" %>
 					</div>
 					<div class="form-actions">
-					  <button type="reset" class="btn" id="cancle">返回</button>
+					  <button type="reset" class="btn cancle">返回</button>
 					</div>
 				</div>
 			</div>

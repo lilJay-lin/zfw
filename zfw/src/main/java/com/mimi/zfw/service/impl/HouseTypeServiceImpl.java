@@ -162,6 +162,7 @@ public class HouseTypeServiceImpl extends
 	public List<HouseType> getHouseTypeByREPId(String id) {
 		HouseTypeExample hte = new HouseTypeExample();
 		hte.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		hte.setOrderByClause("update_date desc,priority desc");
 		return htm.selectByExample(hte);
 	}
 
@@ -176,6 +177,7 @@ public class HouseTypeServiceImpl extends
 			hte.setLimitStart(targetPage * pageSize);
 			hte.setLimitSize(pageSize);
 		}
+		hte.setOrderByClause("update_date desc,priority desc");
 		return htm.selectByExample(hte);
 	}
 

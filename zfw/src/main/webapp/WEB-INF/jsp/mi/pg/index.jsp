@@ -62,7 +62,7 @@
 									<c:choose>
 										<c:when test="${computing}">
 											<div class="form-actions">
-											  <button type="button" class="btn btn-primary" disabled">正在计算中。。。</button>
+											  <button type="button" class="btn btn-primary" disabled">正在计算中...</button>
 											</div>
 										</c:when>
 										<c:otherwise>

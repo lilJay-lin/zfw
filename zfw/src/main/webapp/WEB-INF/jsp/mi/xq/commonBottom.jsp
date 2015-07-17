@@ -43,12 +43,8 @@
 		    	dateFormat: "yy-mm-dd"
 		    });
 		  });
-		function template(id,data){
-			var tpl = Handlebars.compile($(id).html());
-			return tpl(data);
-		}
 
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 // 				window.location.href = "${ctx}/mi/xf";
 				window.history.back(-1);
 		});

@@ -82,6 +82,7 @@
 	openCloseDetail('js-cfck-detail-container');
 	
 	$(".js-edit-operation").hide();
+	$(".js-not-detail").hide();
 	function initcfckData(){
 		var id = $("#warehouseId").val();
 		var getDataUrl = "${ctx}/mi/cfck/"+id;
@@ -96,7 +97,14 @@
 					for(var i in warehouse){
 						var ele = $("[name="+i+"]");
 						if(ele[0]){
-							ele.val(warehouse[i]);
+							if(i=="grossFloorArea"){
+								var num = Number(warehouse[i]);
+								if(num){
+									ele.val(Math.round(num*100)/100);
+								}
+							}else{
+								ele.val(warehouse[i]);
+							}
 							ele.attr("readonly","readonly");
 							ele.attr("disabled","disabled");
 						}
@@ -104,6 +112,7 @@
 					if(!!warehouse.preImageUrl){
 						$(".control-user-img").attr("src",warehouse.preImageUrl)
 					}
+					rentOrSale($("[name=rentOrSale]").val());
 				}
 			},
 			error:function(){

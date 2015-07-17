@@ -8,7 +8,7 @@ import com.mimi.zfw.mybatis.pojo.UserExample;
 
 public interface IUserService extends IBaseService<User, UserExample, String> {
 
-    public User saveOriginUser(User user);
+    public Map<String,Object> saveOriginUser(User user);
     
     public String updatePassword(User user);
 

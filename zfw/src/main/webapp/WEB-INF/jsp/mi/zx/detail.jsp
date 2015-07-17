@@ -71,6 +71,11 @@
 									<div class="control-group">
 										<label class="control-label">上传预览图像</label>
 										<div class="control">
+											<div class="control uploader-loading" style="display: none;">
+												<div class="loading">
+													<img src="${ctx}/assets/img/loading.gif"  />
+												</div>
+											</div>
 											<div class="control-img">
 												<img src=""/>
 											</div>
@@ -109,7 +114,7 @@
 									</div>
 									
 									<div class="form-actions">
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle">返回</button>
 									</div>
 								</fieldset>
 							</div>
@@ -149,7 +154,7 @@
 		return tpl(data);
 	}
 
-	$("#cancle").on("click",function(){
+	$(".cancle").on("click",function(){
 		window.location.href = "${ctx}/mi/info";
 	});
 	$(".uploader").hide();

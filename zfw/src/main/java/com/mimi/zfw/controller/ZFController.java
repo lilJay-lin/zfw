@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -405,6 +406,7 @@ public class ZFController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rcId}/zf/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRHByPage(HttpServletRequest request,
@@ -433,12 +435,14 @@ public class ZFController {
 		}
 		return res;
 	}
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rcId}/zf/{rhId}/detail", method = { RequestMethod.GET })
 	public String toRHDetail(HttpServletRequest request,
 			@PathVariable String rcId,@PathVariable String rhId) {
 		return "/mi/zf/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rcId}/zf/add", method = { RequestMethod.GET })
 	public String toAddRH(Model model, HttpServletRequest request,@PathVariable String rcId) {
 		ResidenceCommunity rc = rcService.get(rcId);
@@ -446,6 +450,7 @@ public class ZFController {
 		return "mi/zf/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zf/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addRH(HttpServletRequest request, RentalHousing rh) {
@@ -471,6 +476,7 @@ public class ZFController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/zf/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRH(@PathVariable String id, HttpServletRequest request) {
@@ -490,12 +496,14 @@ public class ZFController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rcId}/zf/{rhId}/edit", method = { RequestMethod.GET })
 	public String toUpdateRH(HttpServletRequest request,
 			@PathVariable String rcId,@PathVariable String rhId) {
 		return "/mi/zf/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zf/{rhId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateRH(HttpServletRequest request, RentalHousing rh,
@@ -518,7 +526,8 @@ public class ZFController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zf/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelRHPano(HttpServletRequest request, String rcId, String rhIds) {

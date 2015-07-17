@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class HXPanoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{htId}/hxpano/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTPanoByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class HXPanoController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{htId}/hxpano/{panoId}/detail", method = { RequestMethod.GET })
 	public String toHTPanoDetail(HttpServletRequest request,
 			@PathVariable String htId,@PathVariable String panoId) {
 		return "/mi/hxpano/detail";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{htId}/hxpano/add", method = { RequestMethod.GET })
 	public String toAddHTPano(HttpServletRequest request, @PathVariable String htId) {
 		return "mi/hxpano/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxpano/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addHTPano(HttpServletRequest request, HTPano pano) {
@@ -106,6 +111,7 @@ public class HXPanoController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/hxpano/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTPano(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class HXPanoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{htId}/hxpano/{panoId}/edit", method = { RequestMethod.GET })
 	public String toUpdateHTPano(HttpServletRequest request,
 			@PathVariable String htId,@PathVariable String panoId) {
 		return "/mi/hxpano/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxpano/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateHTPano(HttpServletRequest request, HTPano pano) {
@@ -155,7 +163,8 @@ public class HXPanoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxpano/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTPano(HttpServletRequest request, String panoIds) {

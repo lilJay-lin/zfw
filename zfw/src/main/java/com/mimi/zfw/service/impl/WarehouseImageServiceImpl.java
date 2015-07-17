@@ -44,7 +44,7 @@ public class WarehouseImageServiceImpl extends
 	ie.or().andWarehouseIdEqualTo(id).andDelFlagEqualTo(false);
 	ie.setLimitStart(targetPage * pageSize);
 	ie.setLimitSize(pageSize);
-	ie.setOrderByClause("update_date asc");
+	ie.setOrderByClause("update_date desc");
 	return wim.selectByExample(ie);
     }
 
@@ -83,6 +83,7 @@ public class WarehouseImageServiceImpl extends
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
 
+	example.setOrderByClause("update_date desc");
 	List<WarehouseImage> list = wim.selectByExample(example);
 
 	return list;
@@ -95,9 +96,7 @@ public class WarehouseImageServiceImpl extends
 	    example = new WarehouseImageExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
-	List<WarehouseImage> list = wim.selectByExample(example);
-
-	return list == null ? 0 : list.size();
+	return wim.countByExample(example);
     }
 
     @Override

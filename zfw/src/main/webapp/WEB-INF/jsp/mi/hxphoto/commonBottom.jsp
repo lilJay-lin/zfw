@@ -3,7 +3,7 @@
 		var inDetail = false;
 		var inAdd = false;
 		var inEdit = false;
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 			window.history.back(-1);
 		});
 	</script>

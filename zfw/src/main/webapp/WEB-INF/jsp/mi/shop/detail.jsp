@@ -22,7 +22,7 @@
 						<div class="box-hd" onclick="openCloseDetail('js-shop-detail-container')">
 							<h2>商铺信息</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
 						<div class="box-hd" onclick="openCloseDetail('js-shop-image-container')" >
@@ -62,6 +62,11 @@
 			<td><img src="{{contentUrl}}" style="width:100px"></td>
 			<td>{{name}}</td>
 			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${shopId}/spphoto/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+			</td>
 		</tr>
 		{{/each}}
 	</script>
@@ -72,46 +77,23 @@
 			<td>{{name}}</td>
 			<td>{{contentUrl}}</td>
 			<td>{{description}}</td>
+			<td>
+				<a class="btn btn-info" href="${ctx}/mi/${shopId}/sppano/{{id}}/detail">
+					<i class="icon-zoom-in "></i>                                            
+				</a>
+			</td>
 		</tr>
 		{{/each}}
 	
 	</script>		
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
+	inDetail = true;
 	openCloseDetail('js-shop-detail-container');
-	$(".js-edit-operation").hide();
-	function initShopData(){
-		var id = $("#shopId").val();
-		var getDataUrl = "${ctx}/mi/shop/"+id;
-		$.ajax({
-			type:"get",
-			url:getDataUrl,
-			async:true,
-			dataType:"json",
-			success:function(data){
-				if(data){
-					var shop = data.shop;
-					for(var i in shop){
-						var ele = $("[name="+i+"]");
-						if(ele[0]){
-							ele.val(shop[i]);
-							ele.attr("readonly","readonly");
-							ele.attr("disabled","disabled");
-						}
-					}
-					if(!!shop.preImageUrl){
-						$(".control-user-img").attr("src",shop.preImageUrl)
-					}
-				}
-			},
-			error:function(){
-				alert("获取商铺信息失败");
-			}
-		});
-	}
-		//initShopData();
-		$("#submit").hide();
-		$(".uploader").hide();
+	$(".js-not-detail").hide();
+	$(".js-detail-only").show();
 	</script>
 </html>

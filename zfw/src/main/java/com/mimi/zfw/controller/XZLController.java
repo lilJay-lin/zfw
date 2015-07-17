@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -433,12 +434,14 @@ public class XZLController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:query")
     @RequestMapping(value = "/mi/xzl", method = { RequestMethod.GET })
     public String index(HttpServletRequest request) {
 
 	return "/mi/xzl/index";
     }
 
+    @RequiresPermissions("ob:query")
     @RequestMapping(value = "/mi/xzl/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getOfficeBuildingByPage(HttpServletRequest request,
@@ -472,7 +475,7 @@ public class XZLController {
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<OfficeBuilding> items = obService.findOfficeBuildingsByParams(
-		    name, null, null, null, null, null, null, null, page,
+		    name, null, null, null, null, null, null, "onUpdateFromNear", page,
 		    pageSize);
 	    rows = obService.countOfficeBuildingByParams(name, null, null,
 		    null, null, null, null);
@@ -508,6 +511,7 @@ public class XZLController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/mi/xzl/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getOfficeBuilding(@PathVariable String id,
@@ -529,6 +533,7 @@ public class XZLController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:add")
     @RequestMapping(value = "/mi/xzl/add", method = { RequestMethod.GET })
     public String toAddOfficeBuilding(Model model, HttpServletRequest request) {
 
@@ -537,6 +542,7 @@ public class XZLController {
 	return "mi/officeBuilding/add";
     }
 
+    @RequiresPermissions("ob:add")
     @RequestMapping(value = "/mi/xzl", method = { RequestMethod.POST })
     @ResponseBody
     public Object addOfficeBuilding(HttpServletRequest request,
@@ -575,6 +581,7 @@ public class XZLController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/mi/xzl/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateOfficeBuilding(HttpServletRequest request,
 	    Model model, @PathVariable String id) {
@@ -582,6 +589,7 @@ public class XZLController {
 	return "/mi/xzl/edit";
     }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/mi/xzl/{id}/detail", method = { RequestMethod.GET })
     public String toViewOfficeBuilding(Model model, @PathVariable String id) {
 
@@ -590,6 +598,7 @@ public class XZLController {
 	return "/mi/xzl/detail";
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/mi/xzl/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateOfficeBuilding(HttpServletRequest request,
@@ -620,6 +629,7 @@ public class XZLController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:del")
     @RequestMapping(value = "/mi/xzls", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchOfficeBuilding(HttpServletRequest request,

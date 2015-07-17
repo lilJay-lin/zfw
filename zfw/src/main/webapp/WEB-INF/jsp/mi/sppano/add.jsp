@@ -22,11 +22,7 @@
 						<div class="box-hd">
 							<h2>新增商铺全景</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
-					</div>
-					<div class="form-actions">
-					  <button type="button" class="btn btn-primary" id="submit">保存</button>
-					  <button type="reset" class="btn" id="cancle">返回</button>
+						<%@include file="commonBody.jsp" %>
 					</div>
 				</div>
 			</div>
@@ -47,52 +43,12 @@
 		<!-- 底部区域结束     -->
 		
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
 	<script>
+		inAdd = true;
+		$(".js-not-add").hide();
+		$(".js-add-only").show();
 		
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			if(!!uploading){
-				alert("图像正在上传，请稍后..")
-			}
-			var res = form.validate();
-			if(res){
-				var image = getImageData();
-			   var url = "${ctx}/mi/sppano";
-			btn.attr("disabled","disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:image,
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-			   				btn.removeAttr("disabled");
-							$("body").scrollTop(0);
-			   			}else{
-			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/shop/${shopId}/edit";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-			   		btn.removeAttr("disabled");
-			   		alert("新增商铺全景失败!");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
 	</script>
 </html>

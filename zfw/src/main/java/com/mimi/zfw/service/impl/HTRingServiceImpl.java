@@ -40,6 +40,7 @@ public class HTRingServiceImpl extends
 	public List<HTRing> getRingsByHTId(String id) {
 		HTRingExample hre = new HTRingExample();
 		hre.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
+		hre.setOrderByClause("update_date desc");
 		return htrm.selectByExample(hre);
 	}
 
@@ -49,6 +50,7 @@ public class HTRingServiceImpl extends
 		hre.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
 		hre.setLimitStart(targetPage * pageSize);
 		hre.setLimitSize(pageSize);
+		hre.setOrderByClause("update_date desc");
 		return htrm.selectByExample(hre);
 	}
 

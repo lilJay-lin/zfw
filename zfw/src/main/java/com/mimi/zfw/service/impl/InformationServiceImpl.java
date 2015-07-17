@@ -112,7 +112,7 @@ public class InformationServiceImpl extends
 			ie.setLimitStart(targetPage * pageSize);
 			ie.setLimitSize(pageSize);
 		}
-		ie.setOrderByClause("priority desc");
+		ie.setOrderByClause("priority desc,update_date desc");
 		return im.selectByExample(ie);
 	}
 
@@ -150,7 +150,7 @@ public class InformationServiceImpl extends
 				ie.setLimitStart(targetPage * pageSize);
 				ie.setLimitSize(pageSize);
 			}
-			ie.setOrderByClause("priority desc");
+			ie.setOrderByClause("priority desc,update_date desc");
 			return im.selectByExample(ie);
 		}
 		return null;

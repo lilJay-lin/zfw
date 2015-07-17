@@ -49,6 +49,7 @@
 	<script>
 		inAdd = true;
 		  $(function() {
+			  	$(".js-add-only").show();
 				$(".js-rh-detail-container").show();
 		  });
 	</script>

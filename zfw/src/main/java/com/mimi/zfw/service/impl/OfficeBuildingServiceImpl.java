@@ -374,6 +374,7 @@ public class OfficeBuildingServiceImpl extends
 	    obe.setLimitStart(targetPage * pageSize);
 	    obe.setLimitSize(pageSize);
 	}
+	obe.setOrderByClause("update_date desc,priority desc");
 	return obm.selectByExample(obe);
     }
 

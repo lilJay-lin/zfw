@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,12 +39,14 @@ public class NameListController {
     private static final Logger LOG = LoggerFactory
 	    .getLogger(UserController.class);
 
+    @RequiresPermissions("nl:query")
     @RequestMapping(value = "/nl", method = { RequestMethod.GET })
     public String index(HttpServletRequest request) {
 
 	return "/mi/nl/index";
     }
 
+    @RequiresPermissions("nl:query")
     @RequestMapping(value = "/nl/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getNameListsByPage(HttpServletRequest request, @PathVariable int curPage ,String name) {
@@ -113,6 +116,7 @@ public class NameListController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("nl:view")
     @RequestMapping(value = "/nl/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getNameList(@PathVariable String id,
@@ -135,6 +139,7 @@ public class NameListController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("nl:add")
     @RequestMapping(value = "/nl/add", method = { RequestMethod.GET })
     public String toAddUser(Model model, HttpServletRequest request) {
 
@@ -143,6 +148,7 @@ public class NameListController {
 	return "mi/nl/add";
     }
 
+    @RequiresPermissions("nl:add")
     @RequestMapping(value = "/nl", method = { RequestMethod.POST })
     @ResponseBody
     public Object addNameList(HttpServletRequest request, NameList nl) {
@@ -180,6 +186,7 @@ public class NameListController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("nl:update")
     @RequestMapping(value = "/nl/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateUser(HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -187,6 +194,7 @@ public class NameListController {
 	return "/mi/nl/edit";
     }
 
+    @RequiresPermissions("nl:view")
     @RequestMapping(value = "/nl/{id}/detail", method = { RequestMethod.GET })
     public String toViewNameList(Model model, @PathVariable String id) {
 
@@ -195,6 +203,7 @@ public class NameListController {
 	return "/mi/nl/detail";
     }
 
+    @RequiresPermissions("nl:update")
     @RequestMapping(value = "/nl/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateNameList(HttpServletRequest request, NameList nl,
@@ -224,6 +233,7 @@ public class NameListController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("nl:del")
     @RequestMapping(value = "/nls", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchUser(HttpServletRequest request, NameList nl,

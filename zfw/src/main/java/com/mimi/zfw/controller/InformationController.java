@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -191,11 +192,13 @@ public class InformationController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("info:query")
 	@RequestMapping(value = "/mi/info", method = { RequestMethod.GET })
 	public String toMIInfo(HttpServletRequest request) {
 		return "mi/zx/index";
 	}
 
+    @RequiresPermissions("info:view")
 	@RequestMapping(value = "/mi/info/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getInfo(@PathVariable String id, HttpServletRequest request) {
@@ -219,6 +222,7 @@ public class InformationController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("info:update")
 	@RequestMapping(value = "/mi/info/{infoId}/edit", method = { RequestMethod.GET })
 	public String toUpdateInfo(HttpServletRequest request, Model model,
 			@PathVariable String infoId) {
@@ -226,6 +230,7 @@ public class InformationController {
 		return "/mi/zx/edit";
 	}
 
+    @RequiresPermissions("info:update")
 	@RequestMapping(value = "/mi/info/{infoId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateInfo(HttpServletRequest request, Information info,
@@ -250,12 +255,14 @@ public class InformationController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("info:view")
 	@RequestMapping(value = "/mi/info/{infoId}/detail", method = { RequestMethod.GET })
 	public String toInfoDetail(HttpServletRequest request, Model model,
 			@PathVariable String infoId) {
 		return "/mi/zx/detail";
 	}
 
+    @RequiresPermissions("info:query")
 	@RequestMapping(value = "/mi/info/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object miIndex(HttpServletRequest request,
@@ -283,11 +290,13 @@ public class InformationController {
 		return res;
 	}
 
+    @RequiresPermissions("info:add")
 	@RequestMapping(value = "/mi/info/add", method = { RequestMethod.GET })
 	public String toAddInfo(Model model, HttpServletRequest request) {
 		return "mi/zx/add";
 	}
 
+    @RequiresPermissions("info:add")
 	@RequestMapping(value = "/mi/info/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addInfo(HttpServletRequest request, Information info,
@@ -316,6 +325,7 @@ public class InformationController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("info:del")
 	@RequestMapping(value = "/mi/info/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelInfo(HttpServletRequest request, String infoIds) {

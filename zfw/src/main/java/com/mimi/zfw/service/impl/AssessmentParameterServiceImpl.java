@@ -42,6 +42,7 @@ public class AssessmentParameterServiceImpl extends
 	public List<AssessmentParameter> getAll() {
 		AssessmentParameterExample ape = new AssessmentParameterExample();
 		ape.or().andDelFlagEqualTo(false);
+		ape.setOrderByClause("update_date desc");
 		return apm.selectByExample(ape);
 	}
 

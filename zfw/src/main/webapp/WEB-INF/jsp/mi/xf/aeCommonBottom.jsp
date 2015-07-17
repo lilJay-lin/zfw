@@ -325,7 +325,8 @@
 			   				}
 			   			}else{
 			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/xf";
+// 			   				window.location.href="${ctx}/mi/xf";
+							window.history.back(-1);
 			   			}
 			   		}
 			   	},

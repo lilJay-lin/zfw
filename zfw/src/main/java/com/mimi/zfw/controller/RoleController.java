@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Permission;
 import com.mimi.zfw.mybatis.pojo.Role;
-import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.service.IPermissionService;
 import com.mimi.zfw.service.IRoleService;
 
@@ -75,63 +75,44 @@ public class RoleController {
     public String toTest(HttpServletRequest request, Model model) {
 	return "index";
     }
-    
+
+    @RequiresPermissions("role:query")
     @RequestMapping(value = "/mi/roles" , method ={RequestMethod.GET})
     public String index(HttpServletRequest request){
 	
 	return "/mi/role/index";
     }
-    
+
+    @RequiresPermissions("role:query")
     @RequestMapping(value = "/mi/roles/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
-    public Object getRolesByPage(HttpServletRequest request, @PathVariable int curPage) {
-
-	Object res = null;
-
-	int page = curPage - 1 > 0 ? curPage - 1 : 0;
-
-	String userid = request.getParameter("userid") == null ? null
-		: (String) request.getParameter("userid");
-
-	String name = request.getParameter("name") == null ? null
-		: (String) request.getParameter("name");
-	
-	RoleExample example = new RoleExample() ;
-	RoleExample.Criteria cr = example.createCriteria();
-	if(StringUtils.isNotBlank(name)){
-	    try {
-		cr.andNameLike("%"+URLDecoder.decode(name,"utf-8")+"%");
-	    } catch (UnsupportedEncodingException e) {
-		
-		JSONObject jo = new JSONObject();
-		jo.put("success", false);
-		jo.put("msg", "查询条件解码出错");
-		LOG.error("查询角色分页，查询条件解码出错！",e);
-		
-		return jo.toString();
-	    }
-	}
-	cr.andDelFlagEqualTo(false);
-	List<String> names = new ArrayList<String>();
-	names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
-	names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
-	cr.andNameNotIn(names);
-	Integer pageSize = request.getParameter("pagesize") == null ? Constants.DEFAULT_PAGE_SIZE
-		: Integer.valueOf((String) request.getParameter("pagesize"));
-	
-	int rows = 0;
-	try {
-	    //有userid则查询关联的role，无则查询所有role
-	    rows =userid==null ? roleService.countRoleByExample(example) : roleService.countRolesByUserId(userid);
-	    List<Role> items = userid==null ? roleService.findRoleByExample(example, page, pageSize):roleService.findRolesByUserId(userid, page, pageSize);
-	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows / pageSize + 1);
-	    res = getJsonObject(rows, totalpage, curPage, pageSize, items, true, "");
-	} catch (Exception e) {
-	    
-	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
-	    LOG.error("查询角色分页信息报错！",e);
-	}
-	return res;
+    public Object getRolesByPage(HttpServletRequest request, @PathVariable int curPage,Integer pageSize,String name,Boolean all) {
+		Object res = null;
+		int page = curPage - 1 > 0 ? curPage - 1 : 0;
+		if(StringUtils.isNotBlank(name)){
+		    try {
+		    	name=URLDecoder.decode(name,"utf-8");
+		    } catch (UnsupportedEncodingException e) {
+				JSONObject jo = new JSONObject();
+				jo.put("success", false);
+				jo.put("msg", "查询条件解码出错");
+				LOG.error("查询角色分页，查询条件解码出错！",e);
+				return jo.toString();
+		    }
+		}
+		pageSize = pageSize == null ? Constants.DEFAULT_PAGE_SIZE
+			: pageSize;
+		int rows = 0;
+		try {
+		    rows = roleService.countByParams(name, all);
+		    List<Role> items = roleService.findByParams(name, all, page, pageSize);
+		    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows / pageSize + 1);
+		    res = getJsonObject(rows, totalpage, curPage, pageSize, items, true, "");
+		} catch (Exception e) {
+		    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
+		    LOG.error("查询角色分页信息报错！",e);
+		}
+		return res;
     }
 
     public Object getJsonObject(int rows, int totalpage, int curPage,
@@ -153,7 +134,8 @@ public class RoleController {
 	return jo.toString();
     }
 
-    
+
+    @RequiresPermissions("role:view")
     @RequestMapping(value = "/mi/role/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getRole(@PathVariable String id, HttpServletRequest request) {
@@ -177,6 +159,7 @@ public class RoleController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("role:add")
     @RequestMapping(value = "/mi/role/add", method = { RequestMethod.GET })
     public String toAddUser(Model model, HttpServletRequest request) {
 
@@ -185,6 +168,7 @@ public class RoleController {
 	return "mi/role/add";
     }
 
+    @RequiresPermissions("role:add")
     @RequestMapping(value = "/mi/role", method = { RequestMethod.POST })
     @ResponseBody
     public Object addRole(HttpServletRequest request, Role role, String permissions) {
@@ -201,7 +185,7 @@ public class RoleController {
 
 		Map<String, String> res = roleService.addRole(role, permissions);
 
-		if (StringUtils.isEmpty(res.get("msg"))) {
+		if(res.isEmpty()){
 		    jo.put("success", true);
 		    jo.put("msg", "新增角色保存成功!");
 
@@ -222,12 +206,14 @@ public class RoleController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("role:update")
     @RequestMapping(value = "/mi/role/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateUser(HttpServletRequest request,Model model, @PathVariable String id) {
 	model.addAttribute("id", id);
 	return "/mi/role/edit";
     }
-    
+
+    @RequiresPermissions("role:view")
     @RequestMapping(value = "/mi/role/{id}/detail", method = { RequestMethod.GET })
     public String toViewRole(Model model, @PathVariable String id) {
 
@@ -236,6 +222,7 @@ public class RoleController {
 	return "/mi/role/detail";
     }
 
+    @RequiresPermissions("role:update")
     @RequestMapping(value = "/mi/role/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateRole(HttpServletRequest request, Role role,
@@ -246,7 +233,7 @@ public class RoleController {
 
 	    Map<String, String> res = roleService.updateRole(role, adds, dels);
 
-	    if (StringUtils.isEmpty(res.get("msg"))) {
+		if(res.isEmpty()){
 		jo.put("success", true);
 		jo.put("msg", "更新角色成功!");
 
@@ -265,6 +252,7 @@ public class RoleController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("role:del")
     @RequestMapping(value = "/mi/roles", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchUser(HttpServletRequest request, Role role,

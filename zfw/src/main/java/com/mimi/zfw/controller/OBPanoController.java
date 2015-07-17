@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -61,12 +62,7 @@ public class OBPanoController {
 	return jo.toString();
     }
 
-//    @RequestMapping(value = "/mi/shop", method = { RequestMethod.GET })
-//    public String index(HttpServletRequest request) {
-//
-//	return "/mi/{officeBuildingId}/xzlpano/index";
-//    }
-
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/{officeBuildingId}/xzlpano/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String officeBuildingId,
@@ -136,6 +132,7 @@ public class OBPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/xzlpano/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getOBPano( @PathVariable String id, HttpServletRequest request) {
@@ -156,12 +153,14 @@ public class OBPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/{officeBuildingId}/xzlpano/add", method = { RequestMethod.GET })
     public String toAddOBPano(@PathVariable String officeBuildingId,Model model, HttpServletRequest request) {
 	model.addAttribute("officeBuildingId", officeBuildingId);
 	return "/mi/xzlpano/add";
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/xzlpano", method = { RequestMethod.POST })
     @ResponseBody
     public Object addOBPano(HttpServletRequest request, OBPano obPano) {
@@ -197,6 +196,7 @@ public class OBPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/{officeBuildingId}/xzlpano/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateOBPano(@PathVariable String officeBuildingId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -205,6 +205,7 @@ public class OBPanoController {
 	return "/mi/xzlpano/edit";
     }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/{officeBuildingId}/xzlpano/{id}/detail", method = { RequestMethod.GET })
     public String toViewOBPano(@PathVariable String officeBuildingId, HttpServletRequest request, Model model,@PathVariable String id) {
 
@@ -213,6 +214,7 @@ public class OBPanoController {
 	return "/mi/xzlpano/detail";
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/xzlpano/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateOBPano(HttpServletRequest request, OBPano obPano ,@PathVariable String id) {
@@ -241,6 +243,7 @@ public class OBPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/xzlpanos", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchOBPano(HttpServletRequest request, OBPano obPano,

@@ -37,7 +37,7 @@
 										<label class="control-label">姓名</label>
 										<div class="control">
 											<input type="text" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
-					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$" require="require" require_msg ="用户名不能为空"  placeholder="输入用户名"  />
+					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$"  placeholder="输入用户名"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -100,7 +100,7 @@
 									
 									<div class="box box-inline">
 										<div class="box-hd">
-											<h2>添加关联关系</h2>
+											<h2>添加角色</h2>
 										</div>
 										<div class="box-cnt">
 											<div class="datatable" id="roleinfo">
@@ -139,7 +139,7 @@
 									
 									<div class="box box-inline">
 										<div class="box-hd">
-											<h2>已选关联关系</h2>
+											<h2>已担当角色</h2>
 										</div>
 										<div class="box-cnt">
 											<ul class="relation">
@@ -151,7 +151,7 @@
 									
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="submit">保存</button>
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle">返回</button>
 									</div>
 								</fieldset>
 							</div>
@@ -282,9 +282,9 @@
 	  			container:"#roleinfo",
 	  			template:"#role-template",
 	  			url:"${ctx}/mi/roles/page/",
+	  			data:{"all":true}
 	  	})
-	  	page.init();
-	  	
+	  	page.init();	  	
 	  	$("#search-role").click(function(){
 	  		var name = encodeURIComponent($("#searchbyname").val());
 	  		page.setData({"name":name})
@@ -417,7 +417,7 @@
 		/*
 		 * 返回
 		 */
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 				window.location.href = "${ctx}/mi/users";
 		})
 	</script>

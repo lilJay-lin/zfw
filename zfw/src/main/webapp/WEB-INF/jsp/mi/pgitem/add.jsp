@@ -50,6 +50,7 @@
 		inAdd = true;
 		  $(function() {
 				$(".js-ai-detail-container").show();
+				$(".js-add-only").show();
 		  });
 	</script>
 </html>

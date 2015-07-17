@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class WarehouseImageController {
 //	return "/mi/{warehouseId}/cfckphoto/index";
 //    }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/{warehouseId}/cfckphoto/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String warehouseId,
@@ -136,6 +138,7 @@ public class WarehouseImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/cfckphoto/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getWarehouseImage( @PathVariable String id, HttpServletRequest request) {
@@ -156,12 +159,14 @@ public class WarehouseImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/{warehouseId}/cfckphoto/add", method = { RequestMethod.GET })
     public String toAddWarehouseImage(@PathVariable String warehouseId,Model model, HttpServletRequest request) {
 	model.addAttribute("warehouseId", warehouseId);
 	return "/mi/cfckphoto/add";
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/cfckphoto", method = { RequestMethod.POST })
     @ResponseBody
     public Object addWarehouseImage(HttpServletRequest request, WarehouseImage warehouseImage) {
@@ -197,6 +202,7 @@ public class WarehouseImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/{warehouseId}/cfckphoto/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateWarehouseImage(@PathVariable String warehouseId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -205,6 +211,7 @@ public class WarehouseImageController {
 	return "/mi/cfckphoto/edit";
     }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/{warehouseId}/cfckphoto/{id}/detail", method = { RequestMethod.GET })
     public String toViewWarehouseImage(@PathVariable String warehouseId, HttpServletRequest request, Model model,@PathVariable String id) {
 
@@ -213,6 +220,7 @@ public class WarehouseImageController {
 	return "/mi/cfckphoto/detail";
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/cfckphoto/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateWarehouseImage(HttpServletRequest request, WarehouseImage warehouseImage ,@PathVariable String id) {
@@ -241,6 +249,7 @@ public class WarehouseImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/cfckphotos", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchWarehouseImage(HttpServletRequest request, WarehouseImage warehouseImage,

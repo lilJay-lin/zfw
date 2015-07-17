@@ -42,7 +42,7 @@ public class ShopImageServiceImpl extends
 	ie.or().andShopIdEqualTo(id).andDelFlagEqualTo(false);
 	ie.setLimitStart(targetPage * pageSize);
 	ie.setLimitSize(pageSize);
-	ie.setOrderByClause("update_date asc");
+	ie.setOrderByClause("update_date desc");
 	return sim.selectByExample(ie);
     }
 
@@ -56,6 +56,7 @@ public class ShopImageServiceImpl extends
 	example.or().andShopIdEqualTo(shopId).andDelFlagEqualTo(false);
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
+	example.setOrderByClause("update_date desc");
 	List<ShopImage> shopImages= sim.selectByExample(example);
 	
 	return shopImages;
@@ -68,9 +69,7 @@ public class ShopImageServiceImpl extends
 	}
 	ShopImageExample example = new ShopImageExample();
 	example.or().andShopIdEqualTo(shopId).andDelFlagEqualTo(false);
-	List<ShopImage> shopImages= sim.selectByExample(example);
-	
-	return shopImages.size();
+	return sim.countByExample(example);
     }
 
     @Override
@@ -107,7 +106,8 @@ public class ShopImageServiceImpl extends
 
 	example.setLimitStart(curPage* pageSize);
 	example.setLimitSize(pageSize);
-	
+
+	example.setOrderByClause("update_date desc");
 	List<ShopImage> list = sim.selectByExample(example);
 	
 	return list;

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -178,6 +179,7 @@ public class HXController {
 		return "ui/photo/photoList";
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/hx/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTByPage(HttpServletRequest request,
@@ -206,17 +208,20 @@ public class HXController {
 		}
 		return res;
 	}
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/hx/{htId}/detail", method = { RequestMethod.GET })
 	public String toHTDetail(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String htId) {
 		return "/mi/hx/detail";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/hx/add", method = { RequestMethod.GET })
 	public String toAddHT(Model model, HttpServletRequest request,@PathVariable String repId) {
 		return "mi/hx/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hx/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addHT(HttpServletRequest request, HouseType ht) {
@@ -242,6 +247,7 @@ public class HXController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/hx/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHT(@PathVariable String id, HttpServletRequest request) {
@@ -261,12 +267,14 @@ public class HXController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/hx/{htId}/edit", method = { RequestMethod.GET })
 	public String toUpdateHT(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String htId) {
 		return "/mi/hx/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hx/{htId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateHT(HttpServletRequest request, HouseType ht,
@@ -289,7 +297,8 @@ public class HXController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hx/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTPano(HttpServletRequest request, String repId, String htIds) {

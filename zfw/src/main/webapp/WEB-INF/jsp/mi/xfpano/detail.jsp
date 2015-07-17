@@ -77,7 +77,7 @@
 		}
 		initPanoData();
 		$("#submit").hide();
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 // 			window.location.href = "${ctx}/mi/xf/${repId}/edit";
 			window.history.back(-1);
 		});

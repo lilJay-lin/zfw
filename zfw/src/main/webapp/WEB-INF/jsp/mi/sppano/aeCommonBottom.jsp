@@ -1,16 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	
 <script>
-/*
- * 返回
- */
-$("#cancle").on("click",function(){
-	
-		window.location.href = "${ctx}/mi/shop/${shopId}/edit";
-	
-});
-
-
 function checkImgType(element){
    var filePath=$(element).val();
    var extStart=filePath.lastIndexOf(".");
@@ -67,8 +56,8 @@ $(":file").change(function(){
         }
     });
 });
-function getImageData(){
-	var image = {
+function getPanoData(){
+	var pano = {
 		id:"",
 		name:"",
 		description:"",
@@ -76,10 +65,66 @@ function getImageData(){
 		preImageUrl:"",
 		shopId:""
 	};
-   for(var i in image){
+   for(var i in pano){
    		var value = $("[name="+i+"]").val();
-   		image[i]=value;
+   		pano[i]=value;
    }
-   return image;
+   return pano;
 }
+
+$("#submit").click(function(){
+	var btn=$(this);
+	var form = $(".form");
+	if(!!uploading){
+		alert("图像正在上传，请稍后..");
+		return ;
+	}
+	var res = form.validate();
+	if(res){
+		var pano = getPanoData();
+
+		if(inEdit){
+			url = "${ctx}/mi/sppano/${panoId}";
+		}else{
+			url = "${ctx}/mi/sppano/${panoId}";
+		}
+	   var url = "${ctx}/mi/sppano/${panoId}";
+	btn.attr("disabled","disabled");
+	   $.ajax({
+	   	type:"POST",
+	   	url:url,
+	   	async:true,
+	   	data:pano,
+	   	dataType:"json",
+	   	success:function(data){
+	   		if(data){
+	   			if(!data.success){
+	   				var name = data.field;
+	   				if(name){
+	   					var p = form.find("input[name='"+name+"']");
+	   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+	   				}else{
+	   					alert(data.msg);
+	   				}
+	   			}else{
+	   				alert(data.msg);
+	   				window.location.href="${ctx}/mi/shop/${shopId}/edit";
+	   			}
+	   		}
+	   	},
+	   	error:function(){
+			if(inEdit){
+		   		alert("更新商铺全景信息失败!");
+			}else{
+		   		alert("新增商铺全景信息失败!");
+			}
+	   	},
+	   	complete:function(){
+	   		btn.removeAttr("disabled");
+	   	}
+	   });
+	}else{
+		$("body").scrollTop(0);
+	}
+});
 </script>

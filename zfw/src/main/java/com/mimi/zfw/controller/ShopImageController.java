@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class ShopImageController {
 //	return "/mi/{shopId}/spphoto/index";
 //    }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/{shopId}/spphoto/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String shopId,
@@ -136,6 +138,7 @@ public class ShopImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/spphoto/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopImage( @PathVariable String id, HttpServletRequest request) {
@@ -156,12 +159,14 @@ public class ShopImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/{shopId}/spphoto/add", method = { RequestMethod.GET })
     public String toAddShopImage(@PathVariable String shopId,Model model, HttpServletRequest request) {
 	model.addAttribute("shopId", shopId);
 	return "/mi/spphoto/add";
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/spphoto", method = { RequestMethod.POST })
     @ResponseBody
     public Object addShopImage(HttpServletRequest request, ShopImage shopImage) {
@@ -197,6 +202,7 @@ public class ShopImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/{shopId}/spphoto/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateShopImage(@PathVariable String shopId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -205,6 +211,7 @@ public class ShopImageController {
 	return "/mi/spphoto/edit";
     }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/{shopId}/spphoto/{id}/detail", method = { RequestMethod.GET })
     public String toViewShopImage(@PathVariable String shopId, HttpServletRequest request, Model model,@PathVariable String id) {
 
@@ -213,6 +220,7 @@ public class ShopImageController {
 	return "/mi/spphoto/detail";
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/spphoto/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateShopImage(HttpServletRequest request, ShopImage shopImage ,@PathVariable String id) {
@@ -241,6 +249,7 @@ public class ShopImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/spphotos", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchShopImage(HttpServletRequest request, ShopImage shopImage,

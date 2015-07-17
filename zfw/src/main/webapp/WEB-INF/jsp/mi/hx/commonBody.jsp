@@ -105,6 +105,11 @@
 													<span class="filename" style="-webkit-user-select: none;">没有选择文件...</span>
 													<span class="action" style="-webkit-user-select: none;">选择</span>
 												</div>
+												<div class="control uploader-loading" style="display: none;">
+													<div class="loading">
+														<img src="${ctx}/assets/img/loading.gif"  />
+													</div>
+												</div>
 												<div class="control-img">
 													<img src=""/>
 												</div>
@@ -119,7 +124,7 @@
 									</div>
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="submit">保存</button>
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle js-add-only" style="display: none;">返回</button>
 									</div>
 								</fieldset>
 							</div>

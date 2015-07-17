@@ -100,7 +100,7 @@
 									</div>
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="submit">保存</button>
-									  <button type="reset" class="btn" id="cancle">返回</button>
+									  <button type="reset" class="btn cancle">返回</button>
 									</div>
 								</fieldset>
 							</div>
@@ -265,7 +265,8 @@
 	  	var page = new Page({
 	  			container:"#roleinfo",
 	  			template:"#role-template",
-	  			url:"${ctx}/mi/roles/page/"
+	  			url:"${ctx}/mi/roles/page/",
+	  			data:{"all":true}
 	  	})
 	  	page.init();	  	
 	  	$("#search-role").click(function(){
@@ -451,7 +452,7 @@
 		/*
 		 * 返回
 		 */
-		$("#cancle").on("click",function(){
+		$(".cancle").on("click",function(){
 				window.location.href = "${ctx}/mi/users";
 		})
 	</script>

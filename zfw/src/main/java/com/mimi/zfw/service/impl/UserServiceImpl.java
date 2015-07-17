@@ -160,28 +160,36 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     }
 
     @Override
-    public User saveOriginUser(User user) {
-	Date nowDate = new Date(System.currentTimeMillis());
-	user.setId(UUID.randomUUID().toString());
-	user.setCreateDate(nowDate);
-	String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
-	user.setPassword(getFinalPwd(user.getId(), salt, user.getPassword()));
-	user.setSalt(salt);
-	um.insertSelective(user);
-
-	RoleExample re = new RoleExample();
-	re.or().andNameEqualTo(Constants.ROLE_NAME_NORMAL_DEFAULT)
-		.andDelFlagEqualTo(false);
-	List<Role> roles = rm.selectByExample(re);
-	for (int i = 0; i < roles.size(); i++) {
-	    RelationUserAndRole rur = new RelationUserAndRole();
-	    rur.setId(UUID.randomUUID().toString());
-	    rur.setUserId(user.getId());
-	    rur.setRoleId(roles.get(i).getId());
-	    rur.setCreateDate(nowDate);
-	    rurm.insertSelective(rur);
-	}
-	return user;
+    public Map<String,Object> saveOriginUser(User user) {
+    	Map<String,Object> map = new HashMap<String,Object>();
+    	Map<String, String> resMap = new HashMap<String, String>();
+    	resMap = this.checkUser(user);
+    	if(!resMap.isEmpty()){
+    		map.put("msg", resMap.get("msg"));
+    	    return map;
+    	}
+		Date nowDate = new Date(System.currentTimeMillis());
+		user.setId(UUID.randomUUID().toString());
+		user.setCreateDate(nowDate);
+		String salt = new SecureRandomNumberGenerator().nextBytes().toHex();
+		user.setPassword(getFinalPwd(user.getId(), salt, user.getPassword()));
+		user.setSalt(salt);
+		um.insertSelective(user);
+	
+		RoleExample re = new RoleExample();
+		re.or().andNameEqualTo(Constants.ROLE_NAME_NORMAL_DEFAULT)
+			.andDelFlagEqualTo(false);
+		List<Role> roles = rm.selectByExample(re);
+		for (int i = 0; i < roles.size(); i++) {
+		    RelationUserAndRole rur = new RelationUserAndRole();
+		    rur.setId(UUID.randomUUID().toString());
+		    rur.setUserId(user.getId());
+		    rur.setRoleId(roles.get(i).getId());
+		    rur.setCreateDate(nowDate);
+		    rurm.insertSelective(rur);
+		}
+		map.put("command", user);
+		return map;
     }
 
     @Override
@@ -312,7 +320,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	String idStr = "";
 	try {
 	    SecurityUtils.getSubject().getPrincipals().asSet();
-	    Set<String> set = SecurityUtils.getSubject().getPrincipals()
+	    @SuppressWarnings("unchecked")
+		Set<String> set = SecurityUtils.getSubject().getPrincipals()
 		    .asSet();
 	    Iterator<String> it = set.iterator();
 	    int i = 0;
@@ -382,6 +391,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	UserExample userExample = bindParams(name);
 	userExample.setLimitStart(curPage * pageSize);
 	userExample.setLimitSize(pageSize);
+	userExample.setOrderByClause("update_date desc");
 	List<User> users = um.selectByExample(userExample);
 	return users;
     }
@@ -595,7 +605,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	resMap = this.checkUser(user);
 	
-	if(StringUtils.isNotBlank(resMap.get("msg"))){
+	if(!resMap.isEmpty()){
 	    return resMap;
 	}
 
@@ -624,7 +634,8 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
     public Map<String, String> checkUser(User user) {
 	
 	Map<String, String> resMap = new HashMap<String, String>();
-	resMap.put("msg", "");
+//	resMap.put("msg", "");
+	String id = user.getId();
 	String name = user.getName();
 	String phoneNum = user.getPhoneNum();
 	String email = user.getEmail();
@@ -634,36 +645,29 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    resMap.put("msg", "名字、邮箱和号码不能同时为空");
 	    return resMap;
 	}
-	
-//	if (StringUtils.isEmpty(name)) {
-//	    resMap.put("field", "name");
-//	    resMap.put("msg", "名字不能为空");
-//	    return resMap;
-//	}
 
 	if (StringUtils.isEmpty(password)) {
 	    resMap.put("field", "password");
 	    resMap.put("msg", "密码不能空");
 	    return resMap;
 	}
+	UserExample ue = new UserExample();
 	
-//	if (StringUtils.isEmpty(email)) {
-//	    resMap.put("field", "email");
-//	    resMap.put("msg", "邮箱不能为空");
-//	    return resMap;
-//	}
-//	
-//	if(StringUtils.isEmpty(phoneNum)){
-//	    resMap.put("field", "phoneNum");
-//	    resMap.put("msg", "手机号码不能为空");
-//	    return resMap;
-//	}
 	if(StringUtils.isBlank(name)){
 	    user.setName(null);
 	}else if (!this.checkNameFormat(name)) {
 	    resMap.put("field", "name");
 	    resMap.put("msg", "用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头");
 	    return resMap;
+	}else{
+		UserExample.Criteria cri = ue.createCriteria();
+		cri.andNameEqualTo(name).andDelFlagEqualTo(false);
+		if(StringUtils.isNotBlank(id)){
+			cri.andIdNotEqualTo(id);
+		}
+		if(!ue.getOredCriteria().contains(cri)){
+			ue.or(cri);
+		}
 	}
 
 	if(StringUtils.isBlank(email)){
@@ -672,6 +676,15 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    resMap.put("field", "email");
 	    resMap.put("msg", "邮箱格式不正确");
 	    return resMap;
+	}else{
+		UserExample.Criteria cri = ue.createCriteria();
+		cri.andEmailEqualTo(email).andDelFlagEqualTo(false);
+		if(StringUtils.isNotBlank(id)){
+			cri.andIdNotEqualTo(id);
+		}
+		if(!ue.getOredCriteria().contains(cri)){
+			ue.or(cri);
+		}
 	}
 
 	if(StringUtils.isBlank(phoneNum)){
@@ -680,6 +693,34 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    resMap.put("field", "phoneNum");
 	    resMap.put("msg", "手机号码格式不正确");
 	    return resMap;
+	}else{
+		UserExample.Criteria cri = ue.createCriteria();
+		cri.andPhoneNumEqualTo(phoneNum).andDelFlagEqualTo(false);
+		if(StringUtils.isNotBlank(id)){
+			cri.andIdNotEqualTo(id);
+		}
+		if(!ue.getOredCriteria().contains(cri)){
+			ue.or(cri);
+		}
+	}
+	ue.setLimitSize(1);
+	ue.setLimitStart(0);
+	List<User> list = um.selectByExample(ue);
+	if(list!=null && !list.isEmpty()){
+		User tu = list.get(0);
+		if(StringUtils.isNotBlank(tu.getName()) && tu.getName().equals(user.getName())){
+		    resMap.put("field", "name");
+		    resMap.put("msg", "用户名已存在");
+		    return resMap;
+		}else if(StringUtils.isNotBlank(tu.getEmail()) && tu.getEmail().equals(user.getEmail())){
+		    resMap.put("field", "email");
+		    resMap.put("msg", "邮箱已存在");
+		    return resMap;
+		}else if(StringUtils.isNotBlank(tu.getPhoneNum()) && tu.getPhoneNum().equals(user.getPhoneNum())){
+		    resMap.put("field", "phoneNum");
+		    resMap.put("msg", "手机号码已存在");
+		    return resMap;
+		}
 	}
 
 	return resMap;
@@ -701,7 +742,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
 	resMap = this.checkUser(user);
 	
-	if(StringUtils.isNotBlank(resMap.get("msg"))){
+	if(!resMap.isEmpty()){
 	    return resMap;
 	}
 

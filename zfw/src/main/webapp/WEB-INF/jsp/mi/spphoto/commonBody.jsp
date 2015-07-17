@@ -18,7 +18,7 @@
 					<div class="control control-img-box">
 						<img  class="control-user-img" />
 					</div>
-					<div class="control">
+					<div class="control js-not-detail">
 						<div class="uploader">
 							<input type="hidden" name="contentUrl" />
 							<input type="file" name="theFile" accept="image/*"/>
@@ -40,8 +40,8 @@
 				</div>
 			</div>
 			<div class="form-actions">
-			  <button type="button" class="btn btn-primary" id="submit">保存</button>
-			  <button type="reset" class="btn" id="cancle">返回</button>
+			  <button type="button" class="btn btn-primary js-not-detail" id="submit">保存</button>
+			  <button type="reset" class="btn cancle">返回</button>
 			</div>
 		</fieldset>
 	</div>

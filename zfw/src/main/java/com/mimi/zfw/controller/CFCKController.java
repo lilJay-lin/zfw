@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
-import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.mybatis.pojo.WarehouseImage;
 import com.mimi.zfw.mybatis.pojo.WarehousePano;
@@ -439,12 +439,14 @@ public class CFCKController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:query")
     @RequestMapping(value = "/mi/cfck", method = { RequestMethod.GET })
     public String index(HttpServletRequest request) {
 
 	return "/mi/cfck/index";
     }
 
+    @RequiresPermissions("warehouse:query")
     @RequestMapping(value = "/mi/cfck/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getWarehouseByPage(HttpServletRequest request,
@@ -484,7 +486,7 @@ public class CFCKController {
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<Warehouse> items = wService.findWarehousesByParams(name, null,
-		    null, type, null, null, null, null, page, pageSize);
+		    null, type, null, null, null, "onUpdateFromNear", page, pageSize);
 	    rows = wService.countWarehouseByParams(name, null, null, type,
 		    null, null, null);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
@@ -518,6 +520,7 @@ public class CFCKController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/mi/cfck/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getWarehouse(@PathVariable String id,
@@ -539,14 +542,16 @@ public class CFCKController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:add")
     @RequestMapping(value = "/mi/cfck/add", method = { RequestMethod.GET })
-    public String toAddWarehouse(Model model, HttpServletRequest request) {
+    public String toAddWarehouse(HttpServletRequest request) {
 
 	// return new ModelAndView("mi/users/add","user",new User());
 
 	return "mi/cfck/add";
     }
 
+    @RequiresPermissions("warehouse:add")
     @RequestMapping(value = "/mi/cfck", method = { RequestMethod.POST })
     @ResponseBody
     public Object addWarehouse(HttpServletRequest request, Warehouse warehouse) {
@@ -583,6 +588,7 @@ public class CFCKController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/mi/cfck/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateWarehouse(HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -590,6 +596,7 @@ public class CFCKController {
 	return "/mi/cfck/edit";
     }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/mi/cfck/{id}/detail", method = { RequestMethod.GET })
     public String toViewWarehouse(Model model, @PathVariable String id) {
 
@@ -598,6 +605,7 @@ public class CFCKController {
 	return "/mi/cfck/detail";
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/mi/cfck/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateWarehouse(HttpServletRequest request,
@@ -627,6 +635,7 @@ public class CFCKController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:del")
     @RequestMapping(value = "/mi/cfcks", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchWarehouse(HttpServletRequest request,

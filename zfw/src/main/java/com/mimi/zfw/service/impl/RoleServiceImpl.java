@@ -53,12 +53,6 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	this.rm = (RoleMapper) baseDao;
     }
 
-    public int k = 1;
-
-    public int getK() {
-	return k++;
-    }
-
     @Override
     public void initRole() {
 	int count = rm.countByExample(null);
@@ -124,45 +118,6 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	} else {
 	    return null;
 	}
-    }
-
-    @Override
-    public List<Role> findRoleByExample(RoleExample example, Integer curPage,
-	    Integer pageSize) {
-	
-	if(example == null){
-	    example = new RoleExample();
-	    RoleExample.Criteria cr = example.createCriteria();
-	    cr.andDelFlagEqualTo(false);
-	    List<String> names = new ArrayList<String>();
-	    names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
-	    names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
-	    cr.andNameNotIn(names);
-	}
-	example.setLimitStart(curPage* pageSize);
-	example.setLimitSize(pageSize);
-	
-	List<Role> roles = rm.selectByExample(example);
-	
-	return roles;
-    }
-
-    @Override
-    public int countRoleByExample(RoleExample example) {
-	
-	if(example == null){
-	    example = new RoleExample();
-	    RoleExample.Criteria cr = example.createCriteria();
-	    cr.andDelFlagEqualTo(false);
-	    List<String> names = new ArrayList<String>();
-	    names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
-	    names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
-	    cr.andNameNotIn(names);
-	}
-	
-	List<Role> roles = rm.selectByExample(example);
-	
-	return roles==null?0: roles.size();
     }
 
     @Override
@@ -261,15 +216,13 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
     public Map<String, String> addRole(Role role, String permissions) {
 	
 	Map<String, String> resMap = new HashMap<String, String>();
-	resMap.put("msg", "");
-
 	if (role == null) {
 	    resMap.put("msg", "角色信息不能为空");
 	}
 
 	resMap = this.checkRole(role);
 	
-	if(StringUtils.isNotBlank(resMap.get("msg"))){
+	if(!resMap.isEmpty()){
 	    return resMap;
 	}
 	role.setDelFlag(false);
@@ -291,7 +244,6 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
     public Map<String, String> updateRole(Role role, String adds, String dels) {
 	
 	Map<String, String> resMap = new HashMap<String, String>();
-	resMap.put("msg", "");
 
 	String roleid = role.getId();
 
@@ -302,7 +254,7 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
 	resMap = this.checkRole(role);
 
-	if(StringUtils.isNotBlank(resMap.get("msg"))){
+	if(!resMap.isEmpty()){
 	    return resMap;
 	}
 	role.setLastEditor(userService.getCurUserId());
@@ -323,19 +275,28 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 
     @Override
     public Map<String, String> checkRole(Role role) {
-	Map<String,String> resMap = new HashMap<String, String>();
-	resMap.put("msg", "");
-	String name = role.getName();
-	if(StringUtils.isBlank(name)){
-	    resMap.put("field","name");
-	    resMap.put("msg", "角色名称不能为空");
-	}else if(!name.matches("^[0-9a-zA-Z_\u4E00-\u9FA5]+$")){
-	    resMap.put("field","name");
-	    resMap.put("msg", "角色名称只能由中文、阿拉伯数据、英文字母和下划线组成");
-	}
-	
-	
-	return resMap;
+		Map<String,String> resMap = new HashMap<String, String>();
+		String name = role.getName();
+		if(StringUtils.isBlank(name)){
+		    resMap.put("field","name");
+		    resMap.put("msg", "角色名称不能为空");
+			return resMap;
+		}else if(!name.matches("^[0-9a-zA-Z_\u4E00-\u9FA5]+$")){
+		    resMap.put("field","name");
+		    resMap.put("msg", "角色名称只能由中文、阿拉伯数据、英文字母和下划线组成");
+			return resMap;
+		}
+		RoleExample re = new RoleExample();
+		re.or().andNameEqualTo(name).andDelFlagEqualTo(false);
+		List<Role> list = rm.selectByExample(re);
+		if(list!=null && !list.isEmpty()){
+			if(name.equals(list.get(0).getName()) && !list.get(0).getId().equals(role.getId())){
+			    resMap.put("field","name");
+			    resMap.put("msg", "角色已存在");
+				return resMap;
+			}
+		}
+		return resMap;
     }
 
     @Override
@@ -372,5 +333,40 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	
 	return row;
     }
+
+	@Override
+	public List<Role> findByParams(String name, Boolean all,
+			Integer targetPage, Integer pageSize) {
+		RoleExample re = bindParams(name,all);
+		if(targetPage!=null && pageSize!=null){
+			re.setLimitStart(targetPage*pageSize);
+			re.setLimitSize(pageSize);
+		}
+		re.setOrderByClause("update_date desc");
+		return rm.selectByExample(re);
+	}
+
+	@Override
+	public int countByParams(String name,  Boolean all) {
+		RoleExample re = bindParams(name,all);
+		return rm.countByExample(re);
+	}
+
+	private RoleExample bindParams(String name, Boolean all) {
+		RoleExample re = new RoleExample();
+		RoleExample.Criteria cri = re.createCriteria();
+		cri.andDelFlagEqualTo(false);
+		if(StringUtils.isNotBlank(name)){
+			cri.andNameLike("%"+name+"%");
+		}
+		if(all==null || all==false){
+			List<String> names = new ArrayList<String>();
+			names.add(Constants.ROLE_NAME_ADMIN_DEFAULT);
+			names.add(Constants.ROLE_NAME_NORMAL_DEFAULT);
+			cri.andNameNotIn(names);
+		}
+		return re;
+	}
+
 
 }

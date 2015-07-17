@@ -49,6 +49,7 @@
 	<script>
 		inAdd = true;
 		  $(function() {
+			  $(".js-add-only").show();
 				$(".js-ht-detail-container").show();
 		     	var data = new Date();
 				var str = data.getFullYear()+"-"+(data.getMonth()+1)+"-"+data.getDate();

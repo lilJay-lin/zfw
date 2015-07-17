@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -152,12 +153,14 @@ public class PGController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("am:view")
 	@RequestMapping(value = "/mi/pg", method = { RequestMethod.GET })
 	public String toMIIndex(HttpServletRequest request) {
 		addResponseData(request);
 		return "mi/pg/index";
 	}
 
+    @RequiresPermissions("am:compute")
 	@RequestMapping(value = "/mi/pg/compute", method = { RequestMethod.POST })
 	public @ResponseBody
 	Object compute(HttpServletRequest request){
