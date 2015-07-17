@@ -111,6 +111,7 @@ public class NameListServiceImpl extends
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
 
+	example.setOrderByClause("update_date desc");
 	List<NameList> nls = nlm.selectByExample(example);
 
 	return nls;
@@ -123,9 +124,7 @@ public class NameListServiceImpl extends
 	    example = new NameListExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
-	List<NameList> nls = nlm.selectByExample(example);
-
-	return nls == null ? 0 : nls.size();
+	return nlm.countByExample(example);
     }
 
     @Override

@@ -267,6 +267,7 @@ public class WarehouseServiceImpl extends
 	    warehousee.setLimitStart(targetPage * pageSize);
 	    warehousee.setLimitSize(pageSize);
 	}
+	warehousee.setOrderByClause("update_date desc");
 	return wm.selectByExample(warehousee);
     }
 

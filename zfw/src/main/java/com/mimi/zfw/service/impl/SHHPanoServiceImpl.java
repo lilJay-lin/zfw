@@ -40,6 +40,7 @@ public class SHHPanoServiceImpl extends
 	public List<SHHPano> getPanosBySHHId(String id) {
 		SHHPanoExample pe = new SHHPanoExample();
 		pe.or().andSecondHandHouseIdEqualTo(id).andDelFlagEqualTo(false);
+		pe.setOrderByClause("update_date desc");
 		return shhpm.selectByExample(pe);
 	}
 

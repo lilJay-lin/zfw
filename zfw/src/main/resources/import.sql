@@ -7,7 +7,7 @@ creater varchar(50),
 last_editor varchar(50),
 create_date timestamp DEFAULT CURRENT_TIMESTAMP,
 update_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-del_flag tinyint(1) default false NOT NULL
+del_flag tinyint(1) default false
 );
 
 drop table if exists tbl_user;

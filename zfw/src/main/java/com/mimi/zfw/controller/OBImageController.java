@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class OBImageController {
 //	return "/mi/{officeBuildingId}/xzlphoto/index";
 //    }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/{officeBuildingId}/xzlphoto/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String officeBuildingId,
@@ -136,6 +138,7 @@ public class OBImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/xzlphoto/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getOBImage( @PathVariable String id, HttpServletRequest request) {
@@ -156,12 +159,14 @@ public class OBImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/{officeBuildingId}/xzlphoto/add", method = { RequestMethod.GET })
     public String toAddOBImage(@PathVariable String officeBuildingId,Model model, HttpServletRequest request) {
 	model.addAttribute("officeBuildingId", officeBuildingId);
 	return "/mi/xzlphoto/add";
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/xzlphoto", method = { RequestMethod.POST })
     @ResponseBody
     public Object addOBImage(HttpServletRequest request, OBImage obImage) {
@@ -197,6 +202,7 @@ public class OBImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/{officeBuildingId}/xzlphoto/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateOBImage(@PathVariable String officeBuildingId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -205,6 +211,7 @@ public class OBImageController {
 	return "/mi/xzlphoto/edit";
     }
 
+    @RequiresPermissions("ob:view")
     @RequestMapping(value = "/{officeBuildingId}/xzlphoto/{id}/detail", method = { RequestMethod.GET })
     public String toViewOBImage(@PathVariable String officeBuildingId, HttpServletRequest request, Model model,@PathVariable String id) {
 
@@ -213,6 +220,7 @@ public class OBImageController {
 	return "/mi/xzlphoto/detail";
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/xzlphoto/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateOBImage(HttpServletRequest request, OBImage obImage ,@PathVariable String id) {
@@ -241,6 +249,7 @@ public class OBImageController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("ob:update")
     @RequestMapping(value = "/xzlphotos", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchOBImage(HttpServletRequest request, OBImage obImage,

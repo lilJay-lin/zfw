@@ -286,16 +286,21 @@ public class UserController {
 		return "ui/user/register";
 	    }
 	    command.setPassword(password);
-	    command = userService.saveOriginUser(command);
-
-	    try {
-		userService.login(command.getPhoneNum(), password);
-		addHeadImgUrl(request);
-		return "ui/user/index";
-	    } catch (Exception e) {
-		LOG.error("密码登录出错！", e);
-		checkResult = getErrorFromLoginExceptionName(e.getClass()
-			.getName());
+    	Map<String,Object> rm = new HashMap<String,Object>();
+    	rm = userService.saveOriginUser(command);
+    	if(StringUtils.isBlank((String) rm.get("msg"))){
+    		command = (User) rm.get("command");
+    	    try {
+    		userService.login(command.getPhoneNum(), password);
+    		addHeadImgUrl(request);
+    		return "ui/user/index";
+    	    } catch (Exception e) {
+    		LOG.error("密码登录出错！", e);
+    		checkResult = getErrorFromLoginExceptionName(e.getClass()
+    			.getName());
+    	    }
+    	}else{
+	    	checkResult = (String) rm.get("msg");
 	    }
 	}
 	request.setAttribute("error", checkResult);
@@ -544,6 +549,7 @@ public class UserController {
 	return res;
     }
 
+    @RequiresPermissions("user:view")
     @RequestMapping(value = "/mi/user/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getUser(@PathVariable String id, HttpServletRequest request) {
@@ -568,6 +574,7 @@ public class UserController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("user:add")
     @RequestMapping(value = "/mi/user/add", method = { RequestMethod.GET })
     public String toAddUser(Model model, HttpServletRequest request) {
 
@@ -580,6 +587,7 @@ public class UserController {
 	return "mi/user/add";
     }
 
+    @RequiresPermissions("user:add")
     @RequestMapping(value = "/mi/user", method = { RequestMethod.POST })
     @ResponseBody
     public Object addUser(HttpServletRequest request, User user, String roles,
@@ -606,7 +614,7 @@ public class UserController {
 
 		Map<String, String> res = userService.addUser(user, roles);
 
-		if (StringUtils.isEmpty(res.get("msg"))) {
+		if (res.isEmpty()) {
 		    jo.put("success", true);
 		    jo.put("msg", "新增用户保存成功!");
 
@@ -627,6 +635,7 @@ public class UserController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("user:update")
     @RequestMapping(value = "/mi/user/{userid}/edit", method = { RequestMethod.GET })
     public String toUpdateUser(HttpServletRequest request,Model model, @PathVariable String userid) {
 	addHeadImgUrl(request);
@@ -636,7 +645,6 @@ public class UserController {
 	return "/mi/user/edit";
     }
 
-    @RequiresPermissions("user:view")
     @RequestMapping(value = "/mi/user/{userid}/person", method = { RequestMethod.GET })
     public String toEidtLoginUser(HttpServletRequest request,Model model, @PathVariable String userid) {
 	addHeadImgUrl(request);
@@ -645,7 +653,8 @@ public class UserController {
 
 	return "/mi/user/person";
     }
-    
+
+    @RequiresPermissions("user:view")
     @RequestMapping(value = "/mi/user/{userid}/detail", method = { RequestMethod.GET })
     public String toViewUser(Model model, @PathVariable String userid) {
 
@@ -655,6 +664,7 @@ public class UserController {
 	return "/mi/user/detail";
     }
 
+    @RequiresPermissions("user:update")
     @RequestMapping(value = "/mi/user/{userid}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateUser(HttpServletRequest request, User user,
@@ -685,7 +695,7 @@ public class UserController {
 	    Map<String, String> res = userService.updateUser(user, addroles,
 		    delroles);
 
-	    if (StringUtils.isEmpty(res.get("msg"))) {
+	    if (res.isEmpty()) {
 		if(StringUtils.equals(user.getId(), userService.getCurUserId())){
 		    request.getSession().setAttribute("miCurrentHeadImgUrl", user.getHeadImgUrl());
 		    request.getSession().setAttribute("miCurrentUserId", user.getId());

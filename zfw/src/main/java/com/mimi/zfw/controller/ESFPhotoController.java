@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class ESFPhotoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{shhId}/esfphoto/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getSHHImageByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class ESFPhotoController {
 		return res;
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{shhId}/esfphoto/{imageId}/detail", method = { RequestMethod.GET })
 	public String toSHHImageDetail(HttpServletRequest request,
 			@PathVariable String shhId,@PathVariable String imageId) {
 		return "/mi/esfphoto/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{shhId}/esfphoto/add", method = { RequestMethod.GET })
 	public String toAddSHHImage(HttpServletRequest request, @PathVariable String shhId) {
 		return "mi/esfphoto/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esfphoto/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addSHHImage(HttpServletRequest request, SHHImage image) {
@@ -105,7 +110,7 @@ public class ESFPhotoController {
 		return jo.toString();
 	}
 
-
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/esfphoto/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getSHHImage(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +132,14 @@ public class ESFPhotoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{shhId}/esfphoto/{imageId}/edit", method = { RequestMethod.GET })
 	public String toUpdateSHHImage(HttpServletRequest request,
 			@PathVariable String shhId,@PathVariable String imageId) {
 		return "/mi/esfphoto/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esfphoto/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateSHHImage(HttpServletRequest request, SHHImage image) {
@@ -155,7 +162,8 @@ public class ESFPhotoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esfphoto/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelSHHImage(HttpServletRequest request, String imageIds) {

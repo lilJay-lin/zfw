@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class ESFPanoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{shhId}/esfpano/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getSHHPanoByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class ESFPanoController {
 		return res;
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{shhId}/esfpano/{panoId}/detail", method = { RequestMethod.GET })
 	public String toSHHPanoDetail(HttpServletRequest request,
 			@PathVariable String shhId,@PathVariable String panoId) {
 		return "/mi/esfpano/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{shhId}/esfpano/add", method = { RequestMethod.GET })
 	public String toAddSHHPano(HttpServletRequest request, @PathVariable String shhId) {
 		return "mi/esfpano/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esfpano/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addSHHPano(HttpServletRequest request, SHHPano pano) {
@@ -106,6 +111,7 @@ public class ESFPanoController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/esfpano/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getSHHPano(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class ESFPanoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{shhId}/esfpano/{panoId}/edit", method = { RequestMethod.GET })
 	public String toUpdateSHHPano(HttpServletRequest request,
 			@PathVariable String shhId,@PathVariable String panoId) {
 		return "/mi/esfpano/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esfpano/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateSHHPano(HttpServletRequest request, SHHPano pano) {
@@ -155,7 +163,8 @@ public class ESFPanoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/esfpano/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelSHHPano(HttpServletRequest request, String panoIds) {

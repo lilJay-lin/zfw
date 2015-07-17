@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class HXPhotoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{htId}/hxphoto/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTImageByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class HXPhotoController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{htId}/hxphoto/{imageId}/detail", method = { RequestMethod.GET })
 	public String toHTImageDetail(HttpServletRequest request,
 			@PathVariable String htId,@PathVariable String imageId) {
 		return "/mi/hxphoto/detail";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{htId}/hxphoto/add", method = { RequestMethod.GET })
 	public String toAddHTImage(HttpServletRequest request, @PathVariable String htId) {
 		return "mi/hxphoto/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxphoto/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addHTImage(HttpServletRequest request, HTImage image) {
@@ -106,6 +111,7 @@ public class HXPhotoController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/hxphoto/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTImage(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class HXPhotoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{htId}/hxphoto/{imageId}/edit", method = { RequestMethod.GET })
 	public String toUpdateHTImage(HttpServletRequest request,
 			@PathVariable String htId,@PathVariable String imageId) {
 		return "/mi/hxphoto/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxphoto/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateHTImage(HttpServletRequest request, HTImage image) {
@@ -155,7 +163,8 @@ public class HXPhotoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxphoto/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTImage(HttpServletRequest request, String imageIds) {

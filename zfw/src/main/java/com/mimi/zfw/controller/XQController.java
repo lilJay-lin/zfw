@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -176,11 +177,13 @@ public class XQController {
 	}
 	
 
+    @RequiresPermissions("rc:query")
 	@RequestMapping(value = "/mi/xq", method = { RequestMethod.GET })
 	public String toMIRC(HttpServletRequest request) {
 		return "mi/xq/index";
 	}
 
+    @RequiresPermissions("rc:query")
 	@RequestMapping(value = "/mi/xq/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRCByPage(HttpServletRequest request,String name,Boolean active,
@@ -207,17 +210,20 @@ public class XQController {
 		return res;
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/xq/{rcId}/detail", method = { RequestMethod.GET })
 	public String toRCDetail(HttpServletRequest request,
 			@PathVariable String rcId) {
 		return "/mi/xq/detail";
 	}
 
+    @RequiresPermissions("rc:add")
 	@RequestMapping(value = "/mi/xq/add", method = { RequestMethod.GET })
 	public String toAddRC(Model model, HttpServletRequest request) {
 		return "mi/xq/add";
 	}
 
+    @RequiresPermissions("rc:add")
 	@RequestMapping(value = "/mi/xq/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addRC(HttpServletRequest request, ResidenceCommunity rc) {
@@ -242,6 +248,7 @@ public class XQController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/xq/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRC(@PathVariable String id, HttpServletRequest request) {
@@ -262,12 +269,14 @@ public class XQController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/xq/{rcId}/edit", method = { RequestMethod.GET })
 	public String toUpdateRC(HttpServletRequest request,
 			@PathVariable String rcId) {
 		return "/mi/xq/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/xq/{rcId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateRC(HttpServletRequest request, ResidenceCommunity rc,
@@ -291,6 +300,7 @@ public class XQController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:del")
 	@RequestMapping(value = "/mi/xq/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTPano(HttpServletRequest request, String rcIds) {

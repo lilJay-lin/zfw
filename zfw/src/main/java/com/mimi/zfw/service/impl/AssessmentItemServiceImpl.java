@@ -85,6 +85,7 @@ public class AssessmentItemServiceImpl extends
 	public List<AssessmentItem> getAll() {
 		AssessmentItemExample aie = new AssessmentItemExample();
 		aie.or().andDelFlagEqualTo(false);
+		aie.setOrderByClause("update_date desc");
 		return aim.selectByExample(aie);
 	}
 
@@ -96,6 +97,7 @@ public class AssessmentItemServiceImpl extends
 			aie.setLimitStart(targetPage * pageSize);
 			aie.setLimitSize(pageSize);
 		}
+		aie.setOrderByClause("update_date desc");
 		return aim.selectByExample(aie);
 	}
 

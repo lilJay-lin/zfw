@@ -53,13 +53,13 @@ public class RHImageServiceImpl extends
 		if (StringUtils.isBlank(rhId)) {
 			return null;
 		}
-		RHImageExample pe = bindRHImageParams(rhId, name);
+		RHImageExample ie = bindRHImageParams(rhId, name);
 		if (targetPage != null && pageSize != null) {
-			pe.setLimitStart(targetPage * pageSize);
-			pe.setLimitSize(pageSize);
+			ie.setLimitStart(targetPage * pageSize);
+			ie.setLimitSize(pageSize);
 		}
-		pe.setOrderByClause("update_date desc");
-		return rhim.selectByExample(pe);
+		ie.setOrderByClause("update_date desc");
+		return rhim.selectByExample(ie);
 	}
 
 	@Override

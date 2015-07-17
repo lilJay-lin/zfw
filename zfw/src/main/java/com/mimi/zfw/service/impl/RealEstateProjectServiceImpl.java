@@ -577,6 +577,7 @@ public class RealEstateProjectServiceImpl extends
 			if (!repIds.isEmpty()) {
 				RealEstateProjectExample repe = new RealEstateProjectExample();
 				repe.or().andIdIn(repIds).andDelFlagEqualTo(false);
+				repe.setOrderByClause("priority desc,update_date desc");
 				List<RealEstateProject> list = repm.selectByExample(repe);
 				return list;
 			}

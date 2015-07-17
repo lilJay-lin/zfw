@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class WarehousePanoController {
 //	return "/mi/{warehouseId}/cfckpano/index";
 //    }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/{warehouseId}/cfckpano/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String warehouseId,
@@ -136,6 +138,7 @@ public class WarehousePanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/cfckpano/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getWarehousePano( @PathVariable String id, HttpServletRequest request) {
@@ -156,12 +159,14 @@ public class WarehousePanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/{warehouseId}/cfckpano/add", method = { RequestMethod.GET })
     public String toAddWarehousePano(@PathVariable String warehouseId,Model model, HttpServletRequest request) {
 	model.addAttribute("warehouseId", warehouseId);
 	return "/mi/cfckpano/add";
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/cfckpano", method = { RequestMethod.POST })
     @ResponseBody
     public Object addWarehousePano(HttpServletRequest request, WarehousePano warehousePano) {
@@ -197,6 +202,7 @@ public class WarehousePanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/{warehouseId}/cfckpano/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateWarehousePano(@PathVariable String warehouseId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -205,6 +211,7 @@ public class WarehousePanoController {
 	return "/mi/cfckpano/edit";
     }
 
+    @RequiresPermissions("warehouse:view")
     @RequestMapping(value = "/{warehouseId}/cfckpano/{id}/detail", method = { RequestMethod.GET })
     public String toViewWarehousePano(@PathVariable String warehouseId, HttpServletRequest request, Model model,@PathVariable String id) {
 
@@ -213,6 +220,7 @@ public class WarehousePanoController {
 	return "/mi/cfckpano/detail";
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/cfckpano/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateWarehousePano(HttpServletRequest request, WarehousePano warehousePano ,@PathVariable String id) {
@@ -241,6 +249,7 @@ public class WarehousePanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("warehouse:update")
     @RequestMapping(value = "/cfckpanos", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchWarehousePano(HttpServletRequest request, WarehousePano warehousePano,

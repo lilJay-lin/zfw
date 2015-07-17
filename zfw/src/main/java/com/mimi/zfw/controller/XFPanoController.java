@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class XFPanoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/xfpano/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPPanoByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class XFPanoController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/xfpano/{panoId}/detail", method = { RequestMethod.GET })
 	public String toREPPanoDetail(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String panoId) {
 		return "/mi/xfpano/detail";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/xfpano/add", method = { RequestMethod.GET })
 	public String toAddREPPano(HttpServletRequest request, @PathVariable String repId) {
 		return "mi/xfpano/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfpano/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addREPPano(HttpServletRequest request, REPPano pano) {
@@ -106,6 +111,7 @@ public class XFPanoController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/xfpano/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPPano(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class XFPanoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/xfpano/{panoId}/edit", method = { RequestMethod.GET })
 	public String toUpdateREPPano(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String panoId) {
 		return "/mi/xfpano/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfpano/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateREPPano(HttpServletRequest request, REPPano pano) {
@@ -155,7 +163,8 @@ public class XFPanoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfpano/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelREPPano(HttpServletRequest request, String panoIds) {

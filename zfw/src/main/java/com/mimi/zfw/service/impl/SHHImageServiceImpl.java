@@ -54,13 +54,13 @@ public class SHHImageServiceImpl extends
 		if (StringUtils.isBlank(shhId)) {
 			return null;
 		}
-		SHHImageExample pe = bindSHHImageParams(shhId, name);
+		SHHImageExample ie = bindSHHImageParams(shhId, name);
 		if (targetPage != null && pageSize != null) {
-			pe.setLimitStart(targetPage * pageSize);
-			pe.setLimitSize(pageSize);
+			ie.setLimitStart(targetPage * pageSize);
+			ie.setLimitSize(pageSize);
 		}
-		pe.setOrderByClause("update_date desc");
-		return shhim.selectByExample(pe);
+		ie.setOrderByClause("update_date desc");
+		return shhim.selectByExample(ie);
 	}
 
 	@Override

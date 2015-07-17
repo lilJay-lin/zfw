@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class ZFPhotoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rhId}/zfphoto/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRHImageByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class ZFPhotoController {
 		return res;
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rhId}/zfphoto/{imageId}/detail", method = { RequestMethod.GET })
 	public String toRHImageDetail(HttpServletRequest request,
 			@PathVariable String rhId,@PathVariable String imageId) {
 		return "/mi/zfphoto/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rhId}/zfphoto/add", method = { RequestMethod.GET })
 	public String toAddRHImage(HttpServletRequest request, @PathVariable String rhId) {
 		return "mi/zfphoto/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zfphoto/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addRHImage(HttpServletRequest request, RHImage image) {
@@ -106,6 +111,7 @@ public class ZFPhotoController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/zfphoto/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRHImage(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class ZFPhotoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rhId}/zfphoto/{imageId}/edit", method = { RequestMethod.GET })
 	public String toUpdateRHImage(HttpServletRequest request,
 			@PathVariable String rhId,@PathVariable String imageId) {
 		return "/mi/zfphoto/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zfphoto/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateRHImage(HttpServletRequest request, RHImage image) {
@@ -155,7 +163,8 @@ public class ZFPhotoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zfphoto/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelRHImage(HttpServletRequest request, String imageIds) {

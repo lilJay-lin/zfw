@@ -41,6 +41,7 @@ public class REPVideoServiceImpl extends
 	public List<REPVideo> getVideosByHTId(String id) {
 		REPVideoExample ve = new REPVideoExample();
 		ve.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		ve.setOrderByClause("update_date desc");
 		return repvm.selectByExample(ve);
 	}
 
@@ -51,6 +52,7 @@ public class REPVideoServiceImpl extends
 		ve.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
 		ve.setLimitStart(targetPage*pageSize);
 		ve.setLimitSize(pageSize);
+		ve.setOrderByClause("update_date desc");
 		return repvm.selectByExample(ve);
 	}
 	@Override

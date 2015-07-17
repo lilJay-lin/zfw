@@ -40,6 +40,7 @@ public class REPPanoServiceImpl extends
 	public List<REPPano> getPanosByHTId(String id) {
 		REPPanoExample pe = new REPPanoExample();
 		pe.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		pe.setOrderByClause("update_date desc");
 		return reppm.selectByExample(pe);
 	}
 
@@ -50,6 +51,7 @@ public class REPPanoServiceImpl extends
 		pe.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
 		pe.setLimitStart(targetPage * pageSize);
 		pe.setLimitSize(pageSize);
+		pe.setOrderByClause("update_date desc");
 		return reppm.selectByExample(pe);
 	}
 

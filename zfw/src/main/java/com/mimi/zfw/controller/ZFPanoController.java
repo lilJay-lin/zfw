@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class ZFPanoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rhId}/zfpano/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRHPanoByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class ZFPanoController {
 		return res;
 	}
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/{rhId}/zfpano/{panoId}/detail", method = { RequestMethod.GET })
 	public String toRHPanoDetail(HttpServletRequest request,
 			@PathVariable String rhId,@PathVariable String panoId) {
 		return "/mi/zfpano/detail";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rhId}/zfpano/add", method = { RequestMethod.GET })
 	public String toAddRHPano(HttpServletRequest request, @PathVariable String rhId) {
 		return "mi/zfpano/add";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zfpano/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addRHPano(HttpServletRequest request, RHPano pano) {
@@ -106,6 +111,7 @@ public class ZFPanoController {
 	}
 
 
+    @RequiresPermissions("rc:view")
 	@RequestMapping(value = "/mi/zfpano/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getRHPano(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class ZFPanoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/{rhId}/zfpano/{panoId}/edit", method = { RequestMethod.GET })
 	public String toUpdateRHPano(HttpServletRequest request,
 			@PathVariable String rhId,@PathVariable String panoId) {
 		return "/mi/zfpano/edit";
 	}
 
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zfpano/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateRHPano(HttpServletRequest request, RHPano pano) {
@@ -155,7 +163,8 @@ public class ZFPanoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rc:update")
 	@RequestMapping(value = "/mi/zfpano/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelRHPano(HttpServletRequest request, String panoIds) {

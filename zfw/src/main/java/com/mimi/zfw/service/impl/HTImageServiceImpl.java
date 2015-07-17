@@ -40,6 +40,7 @@ public class HTImageServiceImpl extends
 	public List<HTImage> getImagesByHTId(String id) {
 		HTImageExample hie = new HTImageExample();
 		hie.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
+		hie.setOrderByClause("update_date desc");
 		return htim.selectByExample(hie);
 	}
 

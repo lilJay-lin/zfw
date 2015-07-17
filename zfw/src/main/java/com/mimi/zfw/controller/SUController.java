@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,13 @@ public class SUController {
 	@Resource
 	private INameListService nlService;
 
+    @RequiresPermissions("su:view")
 	@RequestMapping(value = "/mi/su", method = { RequestMethod.GET })
 	public String su(HttpServletRequest request) {
 		return "mi/su/index";
 	}
 
+    @RequiresPermissions("su:update")
 	@RequestMapping(value = "/mi/su/edit", method = { RequestMethod.POST })
 	public @ResponseBody
 	Object edit(HttpServletRequest request, Boolean showSignUpForm,
@@ -45,6 +48,7 @@ public class SUController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("su:view")
 	@RequestMapping(value = "/mi/su/detail", method = { RequestMethod.GET })
 	public @ResponseBody
 	Object detail(HttpServletRequest request, Boolean showSignUpForm,

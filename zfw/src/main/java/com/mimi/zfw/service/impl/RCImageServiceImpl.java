@@ -43,6 +43,7 @@ public class RCImageServiceImpl extends
 		cri.andResidenceCommunityIdEqualTo(rcId).andDelFlagEqualTo(false);
 		ie.setLimitStart(targetPage * pageSize);
 		ie.setLimitSize(pageSize);
+		ie.setOrderByClause("update_date desc");
 		return rcim.selectByExample(ie);
 	}
 
@@ -52,13 +53,13 @@ public class RCImageServiceImpl extends
 		if (StringUtils.isBlank(rcId)) {
 			return null;
 		}
-		RCImageExample pe = bindRCImageParams(rcId, name);
+		RCImageExample ie = bindRCImageParams(rcId, name);
 		if (targetPage != null && pageSize != null) {
-			pe.setLimitStart(targetPage * pageSize);
-			pe.setLimitSize(pageSize);
+			ie.setLimitStart(targetPage * pageSize);
+			ie.setLimitSize(pageSize);
 		}
-		pe.setOrderByClause("update_date desc");
-		return rcim.selectByExample(pe);
+		ie.setOrderByClause("update_date desc");
+		return rcim.selectByExample(ie);
 	}
 
 	@Override

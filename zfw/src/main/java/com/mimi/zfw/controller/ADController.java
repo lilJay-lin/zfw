@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,13 @@ public class ADController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("ad:query")
 	@RequestMapping(value = "/mi/ad", method = { RequestMethod.GET })
 	public String toMIIndex(HttpServletRequest request) {
 		return "/mi/ad/index";
 	}
 
+    @RequiresPermissions("ad:query")
 	@RequestMapping(value = "/mi/ad/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getAdvertisementByPage(HttpServletRequest request,
@@ -52,10 +55,10 @@ public class ADController {
 		Object res = null;
 		int page = curPage - 1 > 0 ? curPage - 1 : 0;
 		try {
-			List<Advertisement> items = adService.findByParams(name, location,
-					page, pageSize);
 			pageSize = pageSize == null ? Constants.DEFAULT_PAGE_SIZE
 					: pageSize;
+			List<Advertisement> items = adService.findByParams(name, location,
+					page, pageSize);
 			if (items != null && !items.isEmpty()) {
 				for (Advertisement item : items) {
 					item.setPreImageUrl(aossService.addImgParams(
@@ -75,12 +78,14 @@ public class ADController {
 		return res;
 	}
 
+    @RequiresPermissions("ad:view")
 	@RequestMapping(value = "/mi/ad/{adId}/detail", method = { RequestMethod.GET })
 	public String toAdvertisementDetail(HttpServletRequest request,
 			@PathVariable String adId) {
 		return "/mi/ad/detail";
 	}
 
+    @RequiresPermissions("ad:view")
 	@RequestMapping(value = "/mi/ad/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getAdvertisement(@PathVariable String id,
@@ -103,12 +108,14 @@ public class ADController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ad:update")
 	@RequestMapping(value = "/mi/ad/{adId}/edit", method = { RequestMethod.GET })
 	public String toUpdateAdvertisement(HttpServletRequest request,
 			@PathVariable String adId) {
 		return "/mi/ad/edit";
 	}
 
+    @RequiresPermissions("ad:update")
 	@RequestMapping(value = "/mi/ad/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateAdvertisement(HttpServletRequest request,

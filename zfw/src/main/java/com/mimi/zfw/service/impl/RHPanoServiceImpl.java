@@ -40,6 +40,7 @@ public class RHPanoServiceImpl extends
 	public List<RHPano> getPanosByRHId(String id) {
 		RHPanoExample pe = new RHPanoExample();
 		pe.or().andRentalHousingIdEqualTo(id).andDelFlagEqualTo(false);
+		pe.setOrderByClause("update_date desc");
 		return rhpm.selectByExample(pe);
 	}
 

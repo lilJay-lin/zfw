@@ -40,6 +40,7 @@ public class HTPanoServiceImpl extends
 	public List<HTPano> getPanosByHTId(String id) {
 		HTPanoExample hpe = new HTPanoExample();
 		hpe.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
+		hpe.setOrderByClause("update_date desc");
 		return htpm.selectByExample(hpe);
 	}
 
@@ -49,6 +50,7 @@ public class HTPanoServiceImpl extends
 		hpe.or().andHouseTypeIdEqualTo(id).andDelFlagEqualTo(false);
 		hpe.setLimitStart(targetPage * pageSize);
 		hpe.setLimitSize(pageSize);
+		hpe.setOrderByClause("update_date desc");
 		return htpm.selectByExample(hpe);
 	}
 

@@ -41,6 +41,7 @@ public class WarehousePanoServiceImpl extends
     public List<WarehousePano> getPanosByWarehouseId(String id) {
 	WarehousePanoExample pe = new WarehousePanoExample();
 	pe.or().andWarehouseIdEqualTo(id).andDelFlagEqualTo(false);
+	pe.setOrderByClause("update_date desc");
 	return wpm.selectByExample(pe);
     }
 
@@ -78,6 +79,7 @@ public class WarehousePanoServiceImpl extends
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
 
+	example.setOrderByClause("update_date desc");
 	List<WarehousePano> list = wpm.selectByExample(example);
 
 	return list;
@@ -90,9 +92,7 @@ public class WarehousePanoServiceImpl extends
 	    example = new WarehousePanoExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
-	List<WarehousePano> list = wpm.selectByExample(example);
-
-	return list == null ? 0 : list.size();
+	return wpm.countByExample(example);
     }
 
     @Override

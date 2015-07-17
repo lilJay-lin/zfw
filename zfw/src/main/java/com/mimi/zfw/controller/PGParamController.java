@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,7 @@ public class PGParamController {
 	@Resource
 	private IAssessmentParameterService apService;
 
+    @RequiresPermissions("ai:view")
 	@RequestMapping(value = "/mi/{aiId}/pgparam/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getAPByPage(HttpServletRequest request,
@@ -56,18 +58,21 @@ public class PGParamController {
 		return res;
 	}
 
+    @RequiresPermissions("ai:view")
 	@RequestMapping(value = "/mi/{aiId}/pgparam/{apId}/detail", method = { RequestMethod.GET })
 	public String toAPDetail(HttpServletRequest request,
 			@PathVariable String aiId, @PathVariable String apId) {
 		return "/mi/pgparam/detail";
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/{aiId}/pgparam/add", method = { RequestMethod.GET })
 	public String toAddAP(Model model, HttpServletRequest request,
 			@PathVariable String aiId) {
 		return "mi/pgparam/add";
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/pgparam/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addAP(HttpServletRequest request, AssessmentParameter ap) {
@@ -92,6 +97,7 @@ public class PGParamController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ai:view")
 	@RequestMapping(value = "/mi/pgparam/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getAP(@PathVariable String id, HttpServletRequest request) {
@@ -108,12 +114,14 @@ public class PGParamController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/{aiId}/pgparam/{apId}/edit", method = { RequestMethod.GET })
 	public String toUpdateAP(HttpServletRequest request,
 			@PathVariable String aiId, @PathVariable String apId) {
 		return "/mi/pgparam/edit";
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/pgparam/{apId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateAP(HttpServletRequest request, AssessmentParameter ap,
@@ -137,6 +145,7 @@ public class PGParamController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/pgparam/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelAP(HttpServletRequest request, String aiId,

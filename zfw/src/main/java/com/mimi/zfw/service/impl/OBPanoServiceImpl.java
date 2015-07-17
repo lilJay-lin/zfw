@@ -39,6 +39,7 @@ public class OBPanoServiceImpl extends
     public List<OBPano> getPanosByOBId(String id) {
 	OBPanoExample pe = new OBPanoExample();
 	pe.or().andOfficeBuildingIdEqualTo(id).andDelFlagEqualTo(false);
+	pe.setOrderByClause("update_date desc");
 	return obpm.selectByExample(pe);
     }
 
@@ -76,6 +77,7 @@ public class OBPanoServiceImpl extends
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
 
+	example.setOrderByClause("update_date desc");
 	List<OBPano> list = obpm.selectByExample(example);
 
 	return list;
@@ -88,9 +90,7 @@ public class OBPanoServiceImpl extends
 	    example = new OBPanoExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
-	List<OBPano> list = obpm.selectByExample(example);
-
-	return list == null ? 0 : list.size();
+	return obpm.countByExample(example);
     }
 
     @Override

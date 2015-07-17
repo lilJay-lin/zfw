@@ -42,6 +42,7 @@ public class REPImageServiceImpl extends
 	public List<REPImage> getImagesByREPId(String id) {
 		REPImageExample ie = new REPImageExample();
 		ie.or().andRealEstateProjectIdEqualTo(id).andDelFlagEqualTo(false);
+		ie.setOrderByClause("update_date desc");
 		return repim.selectByExample(ie);
 	}
 

@@ -42,7 +42,7 @@ public class OBImageServiceImpl extends
 	ie.or().andOfficeBuildingIdEqualTo(id).andDelFlagEqualTo(false);
 	ie.setLimitStart(targetPage * pageSize);
 	ie.setLimitSize(pageSize);
-	ie.setOrderByClause("update_date asc");
+	ie.setOrderByClause("update_date desc");
 	return obim.selectByExample(ie);
     }
 
@@ -80,6 +80,7 @@ public class OBImageServiceImpl extends
 	example.setLimitStart(curPage * pageSize);
 	example.setLimitSize(pageSize);
 
+	example.setOrderByClause("update_date desc");
 	List<OBImage> list = obim.selectByExample(example);
 
 	return list;
@@ -92,9 +93,7 @@ public class OBImageServiceImpl extends
 	    example = new OBImageExample();
 	    example.or().andDelFlagEqualTo(false);
 	}
-	List<OBImage> list = obim.selectByExample(example);
-
-	return list == null ? 0 : list.size();
+	return obim.countByExample(example);
     }
 
     @Override

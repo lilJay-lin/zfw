@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,8 @@ public class PermissionController {
     private IPermissionService permissionService ;
     private static final Logger LOG = LoggerFactory
 	    .getLogger(UserController.class);
-    
+
+    @RequiresPermissions("role:view")
     @RequestMapping(value = "permissions/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getPermissionByPage(HttpServletRequest request, @PathVariable int curPage) {

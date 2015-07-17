@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class XFVideoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/xfvideo/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPVideoByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class XFVideoController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/xfvideo/{videoId}/detail", method = { RequestMethod.GET })
 	public String toREPVideoDetail(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String videoId) {
 		return "/mi/xfvideo/detail";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/xfvideo/add", method = { RequestMethod.GET })
 	public String toAddREPVideo(HttpServletRequest request, @PathVariable String repId) {
 		return "mi/xfvideo/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfvideo/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addREPVideo(HttpServletRequest request, REPVideo video) {
@@ -106,6 +111,7 @@ public class XFVideoController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/xfvideo/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPVideo(@PathVariable String id, HttpServletRequest request) {
@@ -127,12 +133,14 @@ public class XFVideoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/xfvideo/{videoId}/edit", method = { RequestMethod.GET })
 	public String toUpdateREPVideo(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String videoId) {
 		return "/mi/xfvideo/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfvideo/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateREPVideo(HttpServletRequest request, REPVideo video) {
@@ -155,7 +163,8 @@ public class XFVideoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfvideo/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelREPVideo(HttpServletRequest request, String videoIds) {

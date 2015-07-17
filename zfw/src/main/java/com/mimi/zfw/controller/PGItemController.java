@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,12 +31,13 @@ public class PGItemController {
 	@Resource
 	private IAssessmentItemService aiService;
 
-
+    @RequiresPermissions("ai:query")
 	@RequestMapping(value = "/mi/pgitem", method = { RequestMethod.GET })
 	public String toMIIndex(Model model, HttpServletRequest request) {
 		return "mi/pgitem/index";
 	}
-	
+
+    @RequiresPermissions("ai:query")
 	@RequestMapping(value = "/mi/pgitem/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getAIByPage(HttpServletRequest request,
@@ -58,17 +60,20 @@ public class PGItemController {
 		return res;
 	}
 
+    @RequiresPermissions("ai:view")
 	@RequestMapping(value = "/mi/pgitem/{aiId}/detail", method = { RequestMethod.GET })
 	public String toAIDetail(HttpServletRequest request,
 			@PathVariable String aiId) {
 		return "/mi/pgitem/detail";
 	}
 
+    @RequiresPermissions("ai:add")
 	@RequestMapping(value = "/mi/pgitem/add", method = { RequestMethod.GET })
 	public String toAddAI(Model model, HttpServletRequest request) {
 		return "mi/pgitem/add";
 	}
 
+    @RequiresPermissions("ai:add")
 	@RequestMapping(value = "/mi/pgitem/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addAI(HttpServletRequest request, AssessmentItem ai) {
@@ -93,6 +98,7 @@ public class PGItemController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ai:view")
 	@RequestMapping(value = "/mi/pgitem/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getAI(@PathVariable String id, HttpServletRequest request) {
@@ -109,12 +115,14 @@ public class PGItemController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/pgitem/{aiId}/edit", method = { RequestMethod.GET })
 	public String toUpdateAI(HttpServletRequest request,
 			@PathVariable String aiId) {
 		return "/mi/pgitem/edit";
 	}
 
+    @RequiresPermissions("ai:update")
 	@RequestMapping(value = "/mi/pgitem/{aiId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateAI(HttpServletRequest request, AssessmentItem ai,
@@ -138,6 +146,7 @@ public class PGItemController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("ai:del")
 	@RequestMapping(value = "/mi/pgitem/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelAI(HttpServletRequest request, String aiIds) {

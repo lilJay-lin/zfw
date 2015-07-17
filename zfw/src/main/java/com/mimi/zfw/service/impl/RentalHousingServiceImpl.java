@@ -171,6 +171,7 @@ public class RentalHousingServiceImpl extends
 			rhe.setLimitStart(targetPage * pageSize);
 			rhe.setLimitSize(pageSize);
 		}
+		rhe.setOrderByClause("priority desc,update_date desc");
 		return rhm.selectByExample(rhe);
 	}
 

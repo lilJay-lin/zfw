@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class HXRingController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{htId}/hxring/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTRingByPage(HttpServletRequest request,
@@ -69,17 +71,20 @@ public class HXRingController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{htId}/hxring/{ringId}/detail", method = { RequestMethod.GET })
 	public String toHTRingDetail(HttpServletRequest request,
 			@PathVariable String htId,@PathVariable String ringId) {
 		return "/mi/hxring/detail";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{htId}/hxring/add", method = { RequestMethod.GET })
 	public String toAddHTRing(HttpServletRequest request, @PathVariable String htId) {
 		return "mi/hxring/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxring/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addHTRing(HttpServletRequest request, HTRing ring) {
@@ -106,6 +111,7 @@ public class HXRingController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/hxring/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getHTRing(@PathVariable String id, HttpServletRequest request) {
@@ -127,13 +133,15 @@ public class HXRingController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{htId}/hxring/{ringId}/edit", method = { RequestMethod.GET })
 	public String toUpdateHTRing(HttpServletRequest request,
 			@PathVariable String htId,@PathVariable String ringId) {
 		return "/mi/hxring/edit";
 	}
 
-	@RequestMapping(value = "/mi/hxring/{id}", method = { RequestMethod.POST })
+    @RequiresPermissions("rep:update")
+	@RequestMapping(value = "/mi/hxring/{ringId}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateHTRing(HttpServletRequest request, HTRing ring) {
 		JSONObject jo = new JSONObject();
@@ -155,7 +163,8 @@ public class HXRingController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/hxring/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelHTRing(HttpServletRequest request, String ringIds) {

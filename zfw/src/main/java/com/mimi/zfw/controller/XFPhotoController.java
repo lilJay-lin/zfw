@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class XFPhotoController {
 	@Resource
 	IAliyunOSSService aossService;
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/xfphoto/page/{curPage}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPImageByPage(HttpServletRequest request,
@@ -70,6 +72,7 @@ public class XFPhotoController {
 		return res;
 	}
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/{repId}/xfphoto/{imageId}/detail", method = { RequestMethod.GET })
 	public String toREPImageDetail(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String imageId) {
@@ -77,11 +80,13 @@ public class XFPhotoController {
 	}
 
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/xfphoto/add", method = { RequestMethod.GET })
 	public String toAddREPImage(HttpServletRequest request, @PathVariable String repId) {
 		return "mi/xfphoto/add";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfphoto/add", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object addREPImage(HttpServletRequest request, REPImage image) {
@@ -108,6 +113,7 @@ public class XFPhotoController {
 	}
 
 
+    @RequiresPermissions("rep:view")
 	@RequestMapping(value = "/mi/xfphoto/{id}", method = { RequestMethod.GET })
 	@ResponseBody
 	public Object getREPImage(@PathVariable String id, HttpServletRequest request) {
@@ -129,12 +135,14 @@ public class XFPhotoController {
 		return jo.toString();
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/{repId}/xfphoto/{imageId}/edit", method = { RequestMethod.GET })
 	public String toUpdateREPImage(HttpServletRequest request,
 			@PathVariable String repId,@PathVariable String imageId) {
 		return "/mi/xfphoto/edit";
 	}
 
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfphoto/{id}", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object updateREPImage(HttpServletRequest request, REPImage image) {
@@ -157,7 +165,8 @@ public class XFPhotoController {
 		}
 		return jo.toString();
 	}
-	
+
+    @RequiresPermissions("rep:update")
 	@RequestMapping(value = "/mi/xfphoto/batchDel", method = { RequestMethod.POST })
 	@ResponseBody
 	public Object batchDelREPImage(HttpServletRequest request, String imageIds) {

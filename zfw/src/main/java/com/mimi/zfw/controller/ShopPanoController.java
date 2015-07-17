@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class ShopPanoController {
 //	return "/mi/{shopId}/sppano/index";
 //    }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/{shopId}/sppano/page/{curPage}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopByPage(HttpServletRequest request,@PathVariable String shopId,
@@ -136,6 +138,7 @@ public class ShopPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/sppano/{id}", method = { RequestMethod.GET })
     @ResponseBody
     public Object getShopPano( @PathVariable String id, HttpServletRequest request) {
@@ -156,12 +159,14 @@ public class ShopPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/{shopId}/sppano/add", method = { RequestMethod.GET })
     public String toAddShopPano(@PathVariable String shopId,Model model, HttpServletRequest request) {
 	model.addAttribute("shopId", shopId);
 	return "/mi/sppano/add";
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/sppano", method = { RequestMethod.POST })
     @ResponseBody
     public Object addShopPano(HttpServletRequest request, ShopPano shopPano) {
@@ -197,6 +202,7 @@ public class ShopPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/{shopId}/sppano/{id}/edit", method = { RequestMethod.GET })
     public String toUpdateShopPano(@PathVariable String shopId,HttpServletRequest request, Model model,
 	    @PathVariable String id) {
@@ -205,6 +211,7 @@ public class ShopPanoController {
 	return "/mi/sppano/edit";
     }
 
+    @RequiresPermissions("shop:view")
     @RequestMapping(value = "/{shopId}/sppano/{id}/detail", method = { RequestMethod.GET })
     public String toViewShopPano(@PathVariable String shopId, HttpServletRequest request, Model model,@PathVariable String id) {
 
@@ -213,6 +220,7 @@ public class ShopPanoController {
 	return "/mi/sppano/detail";
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/sppano/{id}", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateShopPano(HttpServletRequest request, ShopPano shopPano ,@PathVariable String id) {
@@ -241,6 +249,7 @@ public class ShopPanoController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("shop:update")
     @RequestMapping(value = "/sppanos", method = { RequestMethod.POST })
     @ResponseBody
     public Object updateBatchShopPano(HttpServletRequest request, ShopPano shopPano,
