@@ -673,6 +673,11 @@ body{
         .border-radius(50em);
     }
 }
+
+.nav-logout{
+    font-size:20px;
+    line-height: 20px;
+}
 .nav-user{
   display: inline-block;
   text-align: left;
@@ -772,7 +777,7 @@ body{
     background: @subNav-li-bg; 
     & li{
 //      border-top: 1px solid #FFFFFF;
-        &:hover{
+        &:hover,&.active{
             background: @subNav-li-hover-bg;
         }
     }
