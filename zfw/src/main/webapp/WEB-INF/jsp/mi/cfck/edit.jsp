@@ -19,20 +19,20 @@
 			<div class="main skin">
 				<div class="content">
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-cfck-detail-container')">
-							<h2>编辑厂房/仓库</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-warehouse-detail-container')">
+							<h2>编辑厂房仓库</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-cfck-image-container')">
-							<h2>编辑厂房/仓库图片</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-warehouse-image-container')">
+							<h2>编辑厂房仓库图片</h2>
 						</div>
-						<%@include file="cfckPhotoList.jsp" %>
+						<%@include file="photoList.jsp" %>
 					</div>
 					<div class="box">
-						<div class="box-hd" onclick="openCloseDetail('js-cfck-panos-container')">
-							<h2>管理厂房/仓库全景</h2>
+						<div class="box-hd" onclick="openCloseDetail('js-warehouse-panos-container')">
+							<h2>管理厂房仓库全景</h2>
 						</div>
 						<%@include file="panoList.jsp" %>
 					</div>
@@ -106,92 +106,15 @@
 	
 	</script>
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-		openCloseDetail('js-cfck-detail-container');
-		
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			if(!!uploading){
-				alert("图像正在上传，请稍后..");
-				return ;
-			}
-			var res = form.validate();
-			if(res){
-				var data = getSaveData();
-			   var url = "${ctx}/mi/cfck/${warehouseId}";
-			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:data,
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-							$("body").scrollTop(0);
-			   			}else{
-			   				alert(data.msg);
-			   				window.location.href="${ctx}/mi/cfck";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-			   		btn.removeAttr("disabled");
-			   		alert("新增厂房/仓库失败!");
-			   	},
-			   	complete:function(){
-			   		btn.removeAttr("disabled");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
-		function initcfckData(){
-			var id = $("#warehouseId").val();
-			var getDataUrl = "${ctx}/mi/cfck/"+id;
-			$.ajax({
-				type:"get",
-				url:getDataUrl,
-				async:true,
-				dataType:"json",
-				success:function(data){
-					if(data){
-						var warehouse = data.warehouse;
-						for(var i in warehouse){
-							var ele = $("[name="+i+"]");
-							if(ele[0]){
-								if(i=="grossFloorArea"){
-									var num = Number(warehouse[i]);
-									if(num){
-										ele.val(Math.round(num*100)/100);
-									}
-								}else{
-									ele.val(warehouse[i]);
-								}
-							}
-						}
-						if(!!warehouse.preImageUrl){
-							$(".control-user-img").attr("src",warehouse.preImageUrl)
-						}
-						rentOrSale($("[name=rentOrSale]").val());
-					}
-				},
-				error:function(){
-					alert("获取厂房/仓库信息失败");
-				}
-			});
-		}
+		inEdit = true;
+	   openCloseDetail('js-warehouse-detail-container');
+		$(".js-not-edit").hide();
+		$(".js-edit-only").show();
+	   
+	//initShopData();
 	</script>
 </html>

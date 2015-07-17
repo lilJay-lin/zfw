@@ -42,6 +42,9 @@ function initREPData(){
 						ele.attr("readonly","readonly");
 						ele.attr("disabled","disabled");
 					}
+					if(rep[i]==null){
+						continue;
+					}
 					if(i=="buildingType"){
 						var buildingTypes = rep["buildingType"];
 						if(buildingTypes){

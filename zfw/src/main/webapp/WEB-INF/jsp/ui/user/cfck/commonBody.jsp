@@ -44,7 +44,6 @@
 					<option value="厂房"> 厂房 </option>
 					<option value="仓库"> 仓库 </option>
 				</select>
-				</select>
 			</dd>
 		</dl>
 		<dl>

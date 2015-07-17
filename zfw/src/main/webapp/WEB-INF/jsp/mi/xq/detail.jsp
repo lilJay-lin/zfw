@@ -71,14 +71,12 @@
 		$(".uploader").hide();
 		$(".js-relation-select-box").hide();
 		$(".js-edit-content").hide();
+		$(".js-not-detail").hide();
 		inDetail = true;
 	</script>
 		<script type="text/x-handlebars" id="photo-template">
 			{{#each this}}
 			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
 				<td><img src="{{contentUrl}}" style="width:100px"></td>
 				<td>{{name}}</td>
 				<td>{{description}}</td>
@@ -93,9 +91,6 @@
 		<script type="text/x-handlebars" id="shh-template">
 			{{#each this}}
 			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
 				<td>{{name}}</td>
 				<td>{{description}}</td>
 				<td>{{priority}}</td>
@@ -114,9 +109,6 @@
 		<script type="text/x-handlebars" id="rh-template">
 			{{#each this}}
 			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
 				<td>{{name}}</td>
 				<td>{{description}}</td>
 				<td>{{priority}}</td>

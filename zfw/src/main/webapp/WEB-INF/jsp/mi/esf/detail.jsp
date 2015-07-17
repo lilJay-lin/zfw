@@ -64,14 +64,12 @@
 	$("#submit").hide();
 	$(".uploader").hide();
 	$(".js-edit-content").hide();
+	$(".js-not-detail").hide();
 	inDetail = true;
 	</script>
 	<script type="text/x-handlebars" id="pano-template">
 			{{#each this}}
 			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
 				<td><img src="{{preImageUrl}}" style="width:100px"></td>
 				<td>{{name}}</td>
 				<td>{{contentUrl}}</td>
@@ -87,9 +85,6 @@
 		<script type="text/x-handlebars" id="photo-template">
 			{{#each this}}
 			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
 				<td><img src="{{contentUrl}}" style="width:100px"></td>
 				<td>{{name}}</td>
 				<td>{{description}}</td>

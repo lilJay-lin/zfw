@@ -58,14 +58,12 @@
 	$("#submit").parent().hide();
 	$(".uploader").hide();
 	$(".js-edit-content").hide();
+	$(".js-not-detail").hide();
 	inDetail = true;
 	</script>
 	<script type="text/x-handlebars" id="ap-template">
 			{{#each this}}
 			<tr>
-				<td>
-					<input type="checkbox" value="{{id}}"/>
-				</td>
 				<td>{{name}}</td>
 				<td>{{value}}</td>
 				<td>{{description}}</td>

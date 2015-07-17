@@ -27,8 +27,8 @@
 			<div class="control-group">
 				<label class="control-label">名称</label>
 				<div class="control">
-					<input type="text" name="name" max="16" maxlength="16" error="全商铺名长度少于16个字" 
-					require="require" require_msg ="全商铺名不能为空"  placeholder="输入全商铺名称"  />
+					<input type="text" name="name" max="16" maxlength="16" error="商铺名长度少于16个字" 
+					require="require" require_msg ="商铺名不能为空"  placeholder="输入商铺名称"  />
 					<span class="help-inline"></span>
 				</div>
 			</div>
