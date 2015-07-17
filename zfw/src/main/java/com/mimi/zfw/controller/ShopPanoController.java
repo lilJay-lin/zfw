@@ -146,9 +146,9 @@ public class ShopPanoController {
 	JSONObject jo = new JSONObject();
 
 	try {
-	    ShopPano image = (ShopPano) spService.get(id);
-	    if (image != null) {
-		jo.put("image", image);
+	    ShopPano pano = (ShopPano) spService.get(id);
+	    if (pano != null) {
+		jo.put("pano", pano);
 	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block

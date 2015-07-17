@@ -96,7 +96,14 @@
 					for(var i in officeBuilding){
 						var ele = $("[name="+i+"]");
 						if(ele[0]){
-							ele.val(officeBuilding[i]);
+							if(i=="grossFloorArea" || i=="propertyFee"){
+								var num = Number(officeBuilding[i]);
+								if(num){
+									ele.val(Math.round(num*100)/100);
+								}
+							}else{
+								ele.val(officeBuilding[i]);
+							}
 							ele.attr("readonly","readonly");
 							ele.attr("disabled","disabled");
 						}

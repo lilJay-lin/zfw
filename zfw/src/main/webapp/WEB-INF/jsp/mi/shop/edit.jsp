@@ -22,7 +22,7 @@
 						<div class="box-hd" onclick="openCloseDetail('js-shop-detail-container')">
 							<h2>编辑商铺</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 					<div class="box">
 						<div class="box-hd" onclick="openCloseDetail('js-shop-image-container')">
@@ -106,83 +106,15 @@
 	
 	</script>
 	</body>
+	<%@include file="commonBottom.jsp" %>
 	<%@include file="aeCommonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-	   $(".form-actions").show();
+		inEdit = true;
 	   openCloseDetail('js-shop-detail-container');
+		$(".js-not-edit").hide();
+		$(".js-edit-only").show();
 	   
-		$("#submit").click(function(){
-			var btn=$(this);
-			var form = $(".form");
-			if(!!uploading){
-				alert("图像正在上传，请稍后..");
-				return ;
-			}
-			var res = form.validate();
-			if(res){
-				var data = getSaveData();
-			   var url = "${ctx}/mi/shop/${shopId}";
-			btn.attr("disabled","disabled");
-			btn.addClass("disabled");
-			   $.ajax({
-			   	type:"POST",
-			   	url:url,
-			   	async:true,
-			   	data:data,
-			   	dataType:"json",
-			   	success:function(data){
-			   		if(data){
-			   			if(!data.success){
-			   				var name = data.field;
-			   				if(name){
-			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
-			   				}else{
-			   					alert(data.msg);
-			   				}
-							$("body").scrollTop(0);
-			   			}else{
-			   				alert(data.msg);
-//			   				window.location.href="${ctx}/mi/shop/${repId}/edit";
-			   			}
-			   		}
-			   	},
-			   	error:function(){
-			   		btn.removeAttr("disabled");
-			   		alert("新增商铺失败!");
-			   	},
-			   	complete:function(){
-			   		btn.removeAttr("disabled");
-			   	}
-			   });
-			}else{
-				$("body").scrollTop(0);
-			}
-		});
-		function initShopData(){
-			var id = $("#shopId").val();
-			var getDataUrl = "${ctx}/mi/shop/"+id;
-			$.ajax({
-				type:"get",
-				url:getDataUrl,
-				async:true,
-				dataType:"json",
-				success:function(data){
-					if(data){
-						var shop = data.shop;
-						for(var i in shop){
-							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(shop[i]);
-						}
-						if(!!shop.preImageUrl){
-							$(".control-user-img").attr("src",shop.preImageUrl)
-						}
-					}
-				},
-				error:function(){
-					alert("获取商铺信息失败");
-				}
-			});
-		}
 	//initShopData();
 	</script>
 </html>

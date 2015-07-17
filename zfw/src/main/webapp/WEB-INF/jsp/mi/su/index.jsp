@@ -44,7 +44,7 @@
 									<shiro:hasPermission name="su:update">
 									<div class="form-actions">
 									  <button type="button" class="btn btn-primary" id="rBtn" onclick="toRefresh()">重置</button>
-									  <button type="reset" class="btn" id="eBtn" onClick="toSave()">修改</button>
+									  <button type="reset" class="btn btn-primary" id="eBtn" onClick="toSave()">修改</button>
 									</div>
 									</shiro:hasPermission>
 								</fieldset>

@@ -54,7 +54,8 @@
 			<div class="control-group">
 				<label class="control-label">面积</label>
 				<div class="control">
-					<input type="text" name="grossFloorArea"  />
+					<input type="text" name="grossFloorArea" max="8"  error="建筑面积范围0.0-99999.0" 
+											patterns = "^[0-9\.]*$"  placeholder="输入建筑面积0.0-99999.0" value="0.0"   />&nbsp;平方米
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -78,16 +79,16 @@
 			<div class="control-group js-control-group-rental">
 				<label class="control-label">出租</label>
 				<div class="control">
-					<input type="text"  name="rental" id="rental" max="6"  error="租金范围0.0-9999.0" 
-											patterns = "^[0-9\.]*$"  placeholder="输入出租费0.0-9999.0" value="0.0" />&nbsp;元/平方米·月
+					<input type="text"  name="rental" id="rental" max="6"  error="租金范围0-99999" 
+											patterns = "^[0-9]*$"  placeholder="输入出租费0-99999" value="0" />&nbsp;元/平方米·月
 					<span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="control-group js-control-group-totalPrice">
 				<label class="control-label">在售</label>
 				<div class="control">
-					<input type="text"  name="totalPrice" id="totalPrice" max="5"  error="租金范围0.0-999.0" 
-											patterns = "^[0-9\.]*$"  placeholder="输入出售费0.0-999.0" value="0.0" />&nbsp;万元
+					<input type="text"  name="totalPrice" id="totalPrice" max="5"  error="总价范围0-999" 
+											patterns = "^[0-9]*$"  placeholder="输入出售费0-999" value="0" />&nbsp;万元
 					<span class="help-inline"></span>
 				</div>
 			</div>

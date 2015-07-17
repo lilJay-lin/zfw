@@ -22,7 +22,7 @@
 						<div class="box-hd">
 							<h2>商铺全景详情</h2>
 						</div>
-						<%@include file="aeCommonBody.jsp" %>
+						<%@include file="commonBody.jsp" %>
 					</div>
 				</div>
 			</div>
@@ -43,40 +43,11 @@
 		<!-- 底部区域结束     -->
 		
 	</body>
+	<%@include file="commonBottom.jsp" %>
+	<%@include file="deCommonBottom.jsp" %>
 	<script>
-	$("#submit").hide();	
-		function initImageData(){
-			var id = $("#panoId").val();
-			var getImageUrl = "${ctx}/mi/sppano/"+id;
-			$.ajax({
-				type:"get",
-				url:getImageUrl,
-				async:true,
-				dataType:"json",
-				success:function(data){
-					if(data){
-						var image = data.image;
-						for(var i in image){
-							var ele = $("[name="+i+"]");
-							if(ele[0]){
-								ele.val(image[i]);
-								ele.attr("readonly","readonly");
-								ele.attr("disabled","disabled");
-							}
-						}
-						var preImageUrl = image["preImageUrl"];
-						if(preImageUrl){
-							$(".control-user-img").attr("src",preImageUrl);
-						}
-					}
-				},
-				error:function(){
-					alert("获取商铺全景信息失败");
-				}
-			});
-		}
-		initImageData();
-		$("#submit").hide();
-		$(".uploader").hide();
+		inDetail = true;
+		$(".js-not-detail").hide();
+		$(".js-detail-only").show();
 	</script>
 </html>

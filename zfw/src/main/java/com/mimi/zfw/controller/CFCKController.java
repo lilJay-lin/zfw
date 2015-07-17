@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Warehouse;
-import com.mimi.zfw.mybatis.pojo.Warehouse;
 import com.mimi.zfw.mybatis.pojo.WarehouseImage;
 import com.mimi.zfw.mybatis.pojo.WarehousePano;
 import com.mimi.zfw.service.IAliyunOSSService;
@@ -545,7 +544,7 @@ public class CFCKController {
 
     @RequiresPermissions("warehouse:add")
     @RequestMapping(value = "/mi/cfck/add", method = { RequestMethod.GET })
-    public String toAddWarehouse(Model model, HttpServletRequest request) {
+    public String toAddWarehouse(HttpServletRequest request) {
 
 	// return new ModelAndView("mi/users/add","user",new User());
 

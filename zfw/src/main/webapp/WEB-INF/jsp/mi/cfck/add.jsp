@@ -81,14 +81,14 @@
 			}
 			var res = form.validate();
 			if(res){
-				var shop = getSaveData();
+				var warehouse = getSaveData();
 			   var url = "${ctx}/mi/cfck";
 			  btn.attr("disabled","disabled");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
 			   	async:true,
-			   	data:{"shop":shop},
+			   	data:warehouse,
 			   	dataType:"json",
 			   	success:function(data){
 			   		if(data){
@@ -104,7 +104,7 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-//			   				window.location.href="${ctx}/mi/cfck/${repId}/edit";
+			   				window.location.href="${ctx}/mi/cfck";
 			   			}
 			   		}
 			   	},

@@ -142,7 +142,7 @@
 							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
-//			   				window.location.href="${ctx}/mi/cfck/${repId}/edit";
+			   				window.location.href="${ctx}/mi/cfck";
 			   			}
 			   		}
 			   	},
@@ -170,11 +170,22 @@
 					if(data){
 						var warehouse = data.warehouse;
 						for(var i in warehouse){
-							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(warehouse[i]);
+							var ele = $("[name="+i+"]");
+							if(ele[0]){
+								if(i=="grossFloorArea"){
+									var num = Number(warehouse[i]);
+									if(num){
+										ele.val(Math.round(num*100)/100);
+									}
+								}else{
+									ele.val(warehouse[i]);
+								}
+							}
 						}
 						if(!!warehouse.preImageUrl){
 							$(".control-user-img").attr("src",warehouse.preImageUrl)
 						}
+						rentOrSale($("[name=rentOrSale]").val());
 					}
 				},
 				error:function(){

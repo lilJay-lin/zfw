@@ -171,7 +171,17 @@
 					if(data){
 						var officeBuilding = data.officeBuilding;
 						for(var i in officeBuilding){
-							$("[name="+i+"]")[0]&&$("[name="+i+"]").val(officeBuilding[i]);
+							var ele = $("[name="+i+"]");
+							if(ele[0]){
+								if(i=="grossFloorArea" || i=="propertyFee"){
+									var num = Number(officeBuilding[i]);
+									if(num){
+										ele.val(Math.round(num*100)/100);
+									}
+								}else{
+									ele.val(officeBuilding[i]);
+								}
+							}
 						}
 						if(!!officeBuilding.preImageUrl){
 							$(".control-user-img").attr("src",officeBuilding.preImageUrl)
