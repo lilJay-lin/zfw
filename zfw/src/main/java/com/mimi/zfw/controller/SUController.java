@@ -7,8 +7,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +16,6 @@ import com.mimi.zfw.service.INameListService;
 
 @Controller
 public class SUController {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SUController.class);
-
 	@Resource
 	private INameListService nlService;
 

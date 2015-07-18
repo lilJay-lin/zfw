@@ -1,6 +1,7 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -161,10 +162,10 @@ public class OfficeBuildingServiceImpl extends
     @Override
     public List<OfficeBuilding> findOfficeBuildingsByParams(String keyWord,
 	    String region, String grossFloorArea, String type,
-	    String rentOrSale, String rental, String totalPrice,
+	    String rentOrSale, String rental, String totalPrice, Boolean outOfDate,
 	    String orderBy, Integer targetPage, Integer pageSize) {
 	OfficeBuildingExample obe = bindOfficeBuildingParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate);
 	String orderByClause = "";
 	if (StringUtils.isNotBlank(orderBy)) {
 	    if ("priceFromLow".equals(orderBy)) {
@@ -197,27 +198,27 @@ public class OfficeBuildingServiceImpl extends
     @Override
     public int countOfficeBuildingByParams(String keyWord, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	OfficeBuildingExample obe = bindOfficeBuildingParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate);
 	return obm.countByExample(obe);
     }
 
     private OfficeBuildingExample bindOfficeBuildingParams(String keyWord,
 	    String region, String grossFloorArea, String type,
-	    String rentOrSale, String rental, String totalPrice) {
+	    String rentOrSale, String rental, String totalPrice, Boolean outOfDate) {
 	OfficeBuildingExample obe = new OfficeBuildingExample();
 	OfficeBuildingExample.Criteria cri = obe.createCriteria();
 	cri.andDelFlagEqualTo(false);
 	bindOfficeBuildingParams(cri, region, grossFloorArea, type, rentOrSale,
-		rental, totalPrice);
+		rental, totalPrice, outOfDate);
 	if (StringUtils.isNotBlank(keyWord)) {
 	    cri.andNameLike("%" + keyWord + "%");
 
 	    OfficeBuildingExample.Criteria cri2 = obe.createCriteria();
 	    cri2.andAddressLike("%" + keyWord + "%").andDelFlagEqualTo(false);
 	    bindOfficeBuildingParams(cri2, region, grossFloorArea, type,
-		    rentOrSale, rental, totalPrice);
+		    rentOrSale, rental, totalPrice, outOfDate);
 	    obe.or(cri2);
 	}
 	return obe;
@@ -226,7 +227,7 @@ public class OfficeBuildingServiceImpl extends
     private OfficeBuildingExample.Criteria bindOfficeBuildingParams(
 	    OfficeBuildingExample.Criteria cri, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	if (StringUtils.isNotBlank(region)) {
 	    cri.andRegionEqualTo(region);
 	}
@@ -268,6 +269,9 @@ public class OfficeBuildingServiceImpl extends
 		cri.andTotalPriceBetween(Integer.valueOf(values[0]),
 			Integer.valueOf(values[1]));
 	    }
+	}
+	if (outOfDate!=null){
+		cri.andOutOfDateEqualTo(outOfDate);
 	}
 	return cri;
     }
@@ -522,12 +526,13 @@ public class OfficeBuildingServiceImpl extends
 	obe.or().andIdEqualTo(id).andCreaterEqualTo(userId)
 		.andDelFlagEqualTo(false);
 	if (obm.countByExample(obe) == 0) {
-	    return "要删除的数据不存在";
+		return "要刷新的数据不存在";
 	}
 	OfficeBuilding ob = new OfficeBuilding();
 	ob.setId(id);
 	ob.setLastEditor(userId);
 	ob.setUpdateDate(new Date(System.currentTimeMillis()));
+	ob.setOutOfDate(false);
 	obm.updateByPrimaryKeySelective(ob);
 	return null;
     }
@@ -656,5 +661,17 @@ public class OfficeBuildingServiceImpl extends
 	
 	return row;
     }
+
+	@Override
+	public String cleanDeadOB() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, -Constants.ACTIVE_TIME);
+		OfficeBuildingExample obe = new OfficeBuildingExample();
+		obe.or().andDelFlagEqualTo(false).andOutOfDateEqualTo(false).andUpdateDateLessThan(cal.getTime());
+		OfficeBuilding ob = new OfficeBuilding();
+		ob.setOutOfDate(true);
+		obm.updateByExampleSelective(ob, obe);
+		return null;
+	}
 
 }

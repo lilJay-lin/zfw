@@ -1,6 +1,7 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -144,10 +145,10 @@ public class WarehouseServiceImpl extends
     @Override
     public List<Warehouse> findWarehousesByParams(String keyWord,
 	    String region, String grossFloorArea, String type,
-	    String rentOrSale, String rental, String totalPrice,
+	    String rentOrSale, String rental, String totalPrice, Boolean outOfDate,
 	    String orderBy, Integer targetPage, Integer pageSize) {
 	WarehouseExample warehousee = bindWarehouseParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate);
 	String orderByClause = "";
 	if (StringUtils.isNotBlank(orderBy)) {
 	    if ("priceFromLow".equals(orderBy)) {
@@ -180,27 +181,27 @@ public class WarehouseServiceImpl extends
     @Override
     public int countWarehouseByParams(String keyWord, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	WarehouseExample warehousee = bindWarehouseParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate);
 	return wm.countByExample(warehousee);
     }
 
     private WarehouseExample bindWarehouseParams(String keyWord, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	WarehouseExample warehousee = new WarehouseExample();
 	WarehouseExample.Criteria cri = warehousee.createCriteria();
 	cri.andDelFlagEqualTo(false);
 	bindWarehouseParams(cri, region, grossFloorArea, type, rentOrSale,
-		rental, totalPrice);
+		rental, totalPrice, outOfDate);
 	if (StringUtils.isNotBlank(keyWord)) {
 	    cri.andNameLike("%" + keyWord + "%");
 
 	    WarehouseExample.Criteria cri2 = warehousee.createCriteria();
 	    cri2.andAddressLike("%" + keyWord + "%").andDelFlagEqualTo(false);
 	    bindWarehouseParams(cri2, region, grossFloorArea, type, rentOrSale,
-		    rental, totalPrice);
+		    rental, totalPrice, outOfDate);
 	    warehousee.or(cri2);
 	}
 	return warehousee;
@@ -209,7 +210,7 @@ public class WarehouseServiceImpl extends
     private WarehouseExample.Criteria bindWarehouseParams(
 	    WarehouseExample.Criteria cri, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	if (StringUtils.isNotBlank(region)) {
 	    cri.andRegionEqualTo(region);
 	}
@@ -251,6 +252,9 @@ public class WarehouseServiceImpl extends
 		cri.andTotalPriceBetween(Integer.valueOf(values[0]),
 			Integer.valueOf(values[1]));
 	    }
+	}
+	if (outOfDate!=null){
+		cri.andOutOfDateEqualTo(outOfDate);
 	}
 	return cri;
     }
@@ -416,12 +420,13 @@ public class WarehouseServiceImpl extends
 	warehousee.or().andIdEqualTo(id).andCreaterEqualTo(userId)
 		.andDelFlagEqualTo(false);
 	if (wm.countByExample(warehousee) == 0) {
-	    return "要删除的数据不存在";
+		return "要刷新的数据不存在";
 	}
 	Warehouse warehouse = new Warehouse();
 	warehouse.setId(id);
 	warehouse.setLastEditor(userId);
 	warehouse.setUpdateDate(new Date(System.currentTimeMillis()));
+	warehouse.setOutOfDate(false);
 	wm.updateByPrimaryKeySelective(warehouse);
 	return null;
     }
@@ -549,4 +554,16 @@ public class WarehouseServiceImpl extends
 	}
 	return row;
     }
+
+	@Override
+	public String cleanDeadWarehouse() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, -Constants.ACTIVE_TIME);
+		WarehouseExample warehousee = new WarehouseExample();
+		warehousee.or().andDelFlagEqualTo(false).andOutOfDateEqualTo(false).andUpdateDateLessThan(cal.getTime());
+		Warehouse warehouse = new Warehouse();
+		warehouse.setOutOfDate(true);
+		wm.updateByExampleSelective(warehouse, warehousee);
+		return null;
+	}
 }

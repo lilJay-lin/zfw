@@ -83,15 +83,16 @@ public class PGController {
 			Integer curFloor, Integer plusValue) {
 		JSONObject jo = new JSONObject();
 		try {
+			boolean outOfDate = false;
 			Map<String, Object> resultMap = shhfplfService.analyse(
 					residenceCommunityId, residenceCommunityName, forward,
 					curFloor, plusValue);
 			if (StringUtils.isBlank((String) resultMap.get("error"))) {
 
 				int zfTotalNum = rhService.countRentalHousingByParams(null,
-						null, null, null, null, null);
+						null, null, null, null, null,outOfDate);
 				int esfTotalNum = shhService.countSecondHandHouseByParams(null,
-						null, null, null, null, null);
+						null, null, null, null, null,outOfDate);
 				int averagePrice = 0;
 				ResidenceCommunity rc = null;
 				if (StringUtils.isNotBlank(residenceCommunityId)) {

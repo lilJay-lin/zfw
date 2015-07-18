@@ -9,20 +9,20 @@ public class ShiroSessionListener implements SessionListener {
     @Override
     public void onStart(Session session) {
 	// TODO Auto-generated method stub
-	System.out.println("start:"+session.getId());
+//	System.out.println("start:"+session.getId());
 
     }
 
     @Override
     public void onStop(Session session) {
 	// TODO Auto-generated method stub
-	System.out.println("stop:"+session.getId());
+//	System.out.println("stop:"+session.getId());
     }
 
     @Override
     public void onExpiration(Session session) {
 	// TODO Auto-generated method stub
-	System.out.println("expiration:"+session.getId());
+//	System.out.println("expiration:"+session.getId());
 
     }
 

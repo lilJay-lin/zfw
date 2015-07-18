@@ -13,11 +13,11 @@ public interface ISecondHandHouseService extends
 	List<SecondHandHouse> findSecondHandHousesByParams(
 			String residenceCommunityId, String keyWord, String region,
 			String totalPrice, Integer roomNum, String grossFloorArea,
-			String orderBy, Integer targetPage, Integer pageSize);
+			Boolean outOfDate, String orderBy, Integer targetPage, Integer pageSize);
 
 	int countSecondHandHouseByParams(String residenceCommunityId,
 			String keyWord, String region, String totalPrice, Integer roomNum,
-			String grossFloorArea);
+			String grossFloorArea, Boolean outOfDate);
 
 	List<SecondHandHouse> getByUserId(String userId, Integer targetPage,
 			Integer pageSize);
@@ -44,4 +44,6 @@ public interface ISecondHandHouseService extends
 	public Map<String, String> batchDel(String rcId, String shhIds);
 	
 	public void refreshByRC(ResidenceCommunity rc);
+
+	public String cleanDeadSHH();
 }
