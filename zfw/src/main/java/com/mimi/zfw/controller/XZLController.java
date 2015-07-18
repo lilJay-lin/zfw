@@ -55,11 +55,12 @@ public class XZLController {
 
     @RequestMapping(value = "/xzl", method = { RequestMethod.GET })
     public String ob(HttpServletRequest request) {
+    	Boolean outOfDate = false;
 	List<OfficeBuilding> list = obService.findOfficeBuildingsByParams(null,
-		null, null, null, Constants.ROS_RENT_ONLY, null, null, null, 0,
+		null, null, null, Constants.ROS_RENT_ONLY, null, null, outOfDate, null, 0,
 		Constants.DEFAULT_PAGE_SIZE);
 	int totalNum = obService.countOfficeBuildingByParams(null, null, null,
-		null, Constants.ROS_RENT_ONLY, null, null);
+		null, Constants.ROS_RENT_ONLY, null, null, outOfDate);
 	if (list != null && !list.isEmpty()) {
 	    for (int i = 0; i < list.size(); i++) {
 		OfficeBuilding ob = list.get(i);
@@ -179,11 +180,12 @@ public class XZLController {
 	    @PathVariable String grossFloorArea, @PathVariable String type,
 	    @PathVariable String rentOrSale, @PathVariable String rental,
 	    @PathVariable String totalPrice, @PathVariable String orderBy) {
+    	Boolean outOfDate = false;
 	List<OfficeBuilding> list = obService.findOfficeBuildingsByParams(
 		keyWord, region, grossFloorArea, type, rentOrSale, rental,
-		totalPrice, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
+		totalPrice, outOfDate, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
 	int totalNum = obService.countOfficeBuildingByParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate);
 	if (list != null && !list.isEmpty()) {
 	    for (int i = 0; i < list.size(); i++) {
 		OfficeBuilding ob = list.get(i);
@@ -211,9 +213,10 @@ public class XZLController {
 	}
 	JSONObject jo = new JSONObject();
 	try {
+    	Boolean outOfDate = false;
 	    List<OfficeBuilding> list = obService.findOfficeBuildingsByParams(
 		    keyWord, region, grossFloorArea, type, rentOrSale, rental,
-		    totalPrice, orderBy, targetPage, pageSize);
+		    totalPrice, outOfDate, orderBy, targetPage, pageSize);
 	    if (list != null && !list.isEmpty()) {
 		for (int i = 0; i < list.size(); i++) {
 		    OfficeBuilding ob = list.get(i);
@@ -346,12 +349,15 @@ public class XZLController {
 	OfficeBuilding ob = obService.get(id);
 	List<OBImage> images = obiService.getImagesByParams(id, 0,
 		Integer.MAX_VALUE);
-	Calendar cal = Calendar.getInstance();
-	cal.setTime(ob.getUpdateDate());
-	cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-	request.setAttribute("deadline",
-		cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
-			+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+	String deadline = "已过期";
+	if(ob.getOutOfDate()!=null && !ob.getOutOfDate()){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(ob.getUpdateDate());
+		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+		deadline = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
+				+ "-" + cal.get(Calendar.DAY_OF_MONTH);
+	}
+	request.setAttribute("deadline",deadline);
 	if (images != null && !images.isEmpty()) {
 	    for (int i = 0; i < images.size(); i++) {
 		OBImage obi = images.get(i);
@@ -473,12 +479,13 @@ public class XZLController {
 
 	int rows = 0;
 	try {
+    	Boolean outOfDate = null;
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<OfficeBuilding> items = obService.findOfficeBuildingsByParams(
-		    name, null, null, null, null, null, null, "onUpdateFromNear", page,
+		    name, null, null, null, null, null, null, outOfDate, "onUpdateFromNear", page,
 		    pageSize);
 	    rows = obService.countOfficeBuildingByParams(name, null, null,
-		    null, null, null, null);
+		    null, null, null, null, outOfDate);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
 	    res = getJsonObject(rows, totalpage, curPage, pageSize, items,
