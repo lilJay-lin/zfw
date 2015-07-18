@@ -37,7 +37,8 @@
 //        , serverUrl: URL + "jsp/controller.jsp"
 //        , serverUrl: URL + "ueditor/controller"
 //        , serverUrl: URL + "controller"
-        , serverUrl: "/zfw/ueditor/controller"
+//        , serverUrl: "/zfw/ueditor/controller"
+        , serverUrl: rsu + "ueditor/controller"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         , toolbars: [[

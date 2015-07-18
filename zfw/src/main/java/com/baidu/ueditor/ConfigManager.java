@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -171,6 +172,14 @@ public final class ConfigManager {
 	private String getConfigPath () {
 	    	String url = this.getClass().getResource("/")+ConfigManager.configFileName;
 	    	url = url.replace("file:/", "");
+	    	if(url.indexOf("%")>=0)
+	        {
+	            try { 
+	            	url = URLDecoder.decode(url,"utf-8"); 
+	                 } catch (Exception e) { 
+	                 e.printStackTrace(); 
+	                 } 
+	        }
 	    	return url;
 //	    	return this.getClass().getResource("/")+ConfigManager.configFileName;
 //	    	return "D:\\Workspaces\\javaWorkspace20140504\\zfw\\target\\classes\\"+ConfigManager.configFileName;
