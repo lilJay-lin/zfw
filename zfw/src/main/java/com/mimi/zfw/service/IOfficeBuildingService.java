@@ -13,11 +13,11 @@ public interface IOfficeBuildingService extends
 	public List<OfficeBuilding> findOfficeBuildingsByParams(String keyWord,
 			String region, String grossFloorArea, String type,
 			String rentOrSale, String rental, String totalPrice,
-			String orderBy, Integer targetPage, Integer pageSize);
+			Boolean outOfDate, String orderBy, Integer targetPage, Integer pageSize);
 
 	public int countOfficeBuildingByParams(String keyWord, String region,
 			String grossFloorArea, String type, String rentOrSale,
-			String rental, String totalPrice);
+			String rental, String totalPrice, Boolean outOfDate);
 
 	public int countByUserId(String userId);
 
@@ -39,5 +39,7 @@ public interface IOfficeBuildingService extends
 	public int updateBatchOfficeBuilding(String officeBuildingIds,OfficeBuilding officeBuilding);
 	
 	public Map<String,String> checkOfficeBuilding(OfficeBuilding officeBuilding);
+
+	public String cleanDeadOB();
 
 }

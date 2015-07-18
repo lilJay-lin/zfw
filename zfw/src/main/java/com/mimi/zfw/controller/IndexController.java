@@ -1,19 +1,10 @@
 package com.mimi.zfw.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,11 +18,8 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.baidu.ueditor.um.Uploader;
 import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.Information;
@@ -160,12 +148,13 @@ public class IndexController {
 
     @RequestMapping(value = "/{keyWord}-/search",method = RequestMethod.GET)
     public String search(HttpServletRequest request ,@PathVariable String keyWord) {
+    	Boolean outOfDate = false;
     	int xfNum = repService.countRealEstateProjectByParams(keyWord, null, null, null, null, null, null);
-    	int esfNum = shhService.countSecondHandHouseByParams(null, keyWord, null, null, null, null);
-    	int zfNum = rhService.countRentalHousingByParams(null, keyWord, null, null, null, null);
-    	int spNum = spService.countShopByParams(keyWord, null, null, null, null, null, null);
-    	int xzlNum = obService.countOfficeBuildingByParams(keyWord, null, null, null, null, null, null);
-    	int cfckNum = wService.countWarehouseByParams(keyWord, null, null, null, null, null, null);
+    	int esfNum = shhService.countSecondHandHouseByParams(null, keyWord, null, null, null, null,outOfDate);
+    	int zfNum = rhService.countRentalHousingByParams(null, keyWord, null, null, null, null,outOfDate);
+    	int spNum = spService.countShopByParams(keyWord, null, null, null, null, null, null, outOfDate);
+    	int xzlNum = obService.countOfficeBuildingByParams(keyWord, null, null, null, null, null, null, outOfDate);
+    	int cfckNum = wService.countWarehouseByParams(keyWord, null, null, null, null, null, null, outOfDate);
     	int totalNum = xfNum+esfNum+zfNum+spNum+xzlNum+cfckNum;
     	request.setAttribute("xfNum", xfNum);
     	request.setAttribute("esfNum", esfNum);

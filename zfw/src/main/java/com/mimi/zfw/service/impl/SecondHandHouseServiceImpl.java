@@ -1,6 +1,7 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,11 +66,11 @@ public class SecondHandHouseServiceImpl extends
 	@Override
 	public List<SecondHandHouse> findSecondHandHousesByParams(
 			String residenceCommunityId, String keyWord, String region,
-			String totalPrice, Integer roomNum, String grossFloorArea,
-			String orderBy, Integer targetPage, Integer pageSize) {
+			String totalPrice, Integer roomNum, String grossFloorArea,Boolean outOfDate,
+			String orderBy,Integer targetPage, Integer pageSize) {
 		SecondHandHouseExample shhe = bindSecondHandHouseParams(
 				residenceCommunityId, keyWord, region, totalPrice, roomNum,
-				grossFloorArea);
+				grossFloorArea,outOfDate);
 		String orderByClause = "";
 		if (StringUtils.isNotBlank(orderBy)) {
 			if ("priceFromLow".equals(orderBy)) {
@@ -92,16 +93,16 @@ public class SecondHandHouseServiceImpl extends
 	@Override
 	public int countSecondHandHouseByParams(String residenceCommunityId,
 			String keyWord, String region, String totalPrice, Integer roomNum,
-			String grossFloorArea) {
+			String grossFloorArea,Boolean outOfDate) {
 		SecondHandHouseExample shhe = bindSecondHandHouseParams(
 				residenceCommunityId, keyWord, region, totalPrice, roomNum,
-				grossFloorArea);
+				grossFloorArea,outOfDate);
 		return shhm.countByExample(shhe);
 	}
 
 	private SecondHandHouseExample bindSecondHandHouseParams(
 			String residenceCommunityId, String keyWord, String region,
-			String totalPrice, Integer roomNum, String grossFloorArea) {
+			String totalPrice, Integer roomNum, String grossFloorArea, Boolean outOfDate) {
 		SecondHandHouseExample shhe = new SecondHandHouseExample();
 		SecondHandHouseExample.Criteria cri = shhe.createCriteria();
 		cri.andDelFlagEqualTo(false);
@@ -151,6 +152,12 @@ public class SecondHandHouseServiceImpl extends
 					cri2.andGrossFloorAreaBetween(Float.valueOf(values[0]),
 							Float.valueOf(values[1]));
 				}
+			}
+		}
+		if(outOfDate!=null){
+			cri.andOutOfDateEqualTo(outOfDate);
+			if (cri2 != null) {
+				cri2.andOutOfDateEqualTo(outOfDate);
 			}
 		}
 		if (cri2 != null) {
@@ -497,6 +504,7 @@ public class SecondHandHouseServiceImpl extends
 		shh.setId(id);
 		shh.setUpdateDate(new Date(System.currentTimeMillis()));
 		shh.setLastEditor(userId);
+		shh.setOutOfDate(false);
 		shhm.updateByPrimaryKeySelective(shh);
 		return null;
 	}
@@ -660,5 +668,17 @@ public class SecondHandHouseServiceImpl extends
 		shh.setRegion(rc.getRegion());
 		shh.setResidenceCommunityName(rc.getName());
 		shhm.updateByExampleSelective(shh, shhe);
+	}
+
+	@Override
+	public String cleanDeadSHH() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, -Constants.ACTIVE_TIME);
+		SecondHandHouseExample shhe = new SecondHandHouseExample();
+		shhe.or().andDelFlagEqualTo(false).andOutOfDateEqualTo(false).andUpdateDateLessThan(cal.getTime());
+		SecondHandHouse shh = new SecondHandHouse();
+		shh.setOutOfDate(true);
+		shhm.updateByExampleSelective(shh, shhe);
+		return null;
 	}
 }

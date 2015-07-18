@@ -11,12 +11,12 @@ public interface IShopService extends IBaseService<Shop, ShopExample, String> {
 
 	public List<Shop> findShopsByParams(String keyWord, String region,
 			String grossFloorArea, String type, String rentOrSale,
-			String rental, String totalPrice, String orderBy,
+			String rental, String totalPrice, Boolean outOfDate, String orderBy,
 			Integer targetPage, Integer pageSize);
 
 	public int countShopByParams(String keyWord, String region,
 			String grossFloorArea, String type, String rentOrSale,
-			String rental, String totalPrice);
+			String rental, String totalPrice, Boolean outOfDate);
 
 	public List<Shop> getByUserId(String userId, Integer targetPage,
 			Integer pageSize);
@@ -36,5 +36,7 @@ public interface IShopService extends IBaseService<Shop, ShopExample, String> {
 	public Map<String,String> updateShop(Shop shop);
 	    
 	public int updateBatchShop(String shopids,Shop shop);
+
+	public String cleanDeadShop();
 
 }

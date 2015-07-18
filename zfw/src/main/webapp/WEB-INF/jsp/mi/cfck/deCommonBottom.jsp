@@ -33,6 +33,10 @@
 					for(var i in warehouse){
 						var ele = $("[name="+i+"]");
 						if(ele[0]){
+							if(inDetail){
+								ele.attr("readonly","readonly");
+								ele.attr("disabled","disabled");
+							}
 							if(i=="grossFloorArea" || i=="propertyFee"){
 								var num = Number(warehouse[i]);
 								if(num){
@@ -43,10 +47,6 @@
 								continue;
 							}else {
 								ele.val(warehouse[i]);
-							}
-							if(inDetail){
-								ele.attr("readonly","readonly");
-								ele.attr("disabled","disabled");
 							}
 						}
 					}

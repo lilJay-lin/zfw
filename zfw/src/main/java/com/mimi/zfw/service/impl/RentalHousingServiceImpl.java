@@ -1,6 +1,7 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,11 +66,11 @@ public class RentalHousingServiceImpl extends
 	@Override
 	public List<RentalHousing> findRentalHousingsByParams(
 			String residenceCommunityId, String keyWord, String region,
-			String rental, Integer roomNum, String grossFloorArea,
+			String rental, Integer roomNum, String grossFloorArea,Boolean outOfDate,
 			String orderBy, Integer targetPage, Integer pageSize) {
 		RentalHousingExample rhe = bindRentalHousingParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
-				grossFloorArea);
+				grossFloorArea,outOfDate);
 		String orderByClause = "";
 		if (StringUtils.isNotBlank(orderBy)) {
 			if ("priceFromLow".equals(orderBy)) {
@@ -92,16 +93,16 @@ public class RentalHousingServiceImpl extends
 	@Override
 	public int countRentalHousingByParams(String residenceCommunityId,
 			String keyWord, String region, String rental, Integer roomNum,
-			String grossFloorArea) {
+			String grossFloorArea,Boolean outOfDate) {
 		RentalHousingExample rhe = bindRentalHousingParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
-				grossFloorArea);
+				grossFloorArea,outOfDate);
 		return rhm.countByExample(rhe);
 	}
 
 	private RentalHousingExample bindRentalHousingParams(
 			String residenceCommunityId, String keyWord, String region,
-			String rental, Integer roomNum, String grossFloorArea) {
+			String rental, Integer roomNum, String grossFloorArea,Boolean outOfDate) {
 		RentalHousingExample rhe = new RentalHousingExample();
 		RentalHousingExample.Criteria cri = rhe.createCriteria();
 		cri.andDelFlagEqualTo(false);
@@ -151,6 +152,12 @@ public class RentalHousingServiceImpl extends
 					cri2.andGrossFloorAreaBetween(Float.valueOf(values[0]),
 							Float.valueOf(values[1]));
 				}
+			}
+		}
+		if(outOfDate!=null){
+			cri.andOutOfDateEqualTo(outOfDate);
+			if (cri2 != null) {
+				cri2.andOutOfDateEqualTo(outOfDate);
 			}
 		}
 		if (cri2 != null) {
@@ -366,12 +373,13 @@ public class RentalHousingServiceImpl extends
 		rhe.or().andIdEqualTo(id).andCreaterEqualTo(userId)
 				.andDelFlagEqualTo(false);
 		if (rhm.countByExample(rhe) == 0) {
-			return "要删除的数据不存在";
+			return "要刷新的数据不存在";
 		}
 		RentalHousing rh = new RentalHousing();
 		rh.setId(id);
 		rh.setUpdateDate(new Date(System.currentTimeMillis()));
 		rh.setLastEditor(userId);
+		rh.setOutOfDate(false);
 		rhm.updateByPrimaryKeySelective(rh);
 		return null;
 	}
@@ -708,6 +716,18 @@ public class RentalHousingServiceImpl extends
 		rh.setRegion(rc.getRegion());
 		rh.setResidenceCommunityName(rc.getName());
 		rhm.updateByExampleSelective(rh, rhe);
+	}
+
+	@Override
+	public String cleanDeadRH() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, -Constants.ACTIVE_TIME);
+		RentalHousingExample rhe = new RentalHousingExample();
+		rhe.or().andDelFlagEqualTo(false).andOutOfDateEqualTo(false).andUpdateDateLessThan(cal.getTime());
+		RentalHousing rh = new RentalHousing();
+		rh.setOutOfDate(true);
+		rhm.updateByExampleSelective(rh, rhe);
+		return null;
 	}
 
 }

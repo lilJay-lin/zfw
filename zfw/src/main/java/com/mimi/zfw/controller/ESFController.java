@@ -56,11 +56,12 @@ public class ESFController {
 
 	@RequestMapping(value = "/esf", method = { RequestMethod.GET })
 	public String esf(HttpServletRequest request) {
+		boolean outOfDate = false;
 		List<SecondHandHouse> list = shhService.findSecondHandHousesByParams(
-				null, null, null, null, null, null, null, 0,
+				null, null, null, null, null, null, outOfDate,null, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = shhService.countSecondHandHouseByParams(null, null,
-				null, null, null, null);
+				null, null, null, null,outOfDate);
 		if(list!=null && !list.isEmpty()){
 			for(int i=0;i<list.size();i++){
 				SecondHandHouse shh = list.get(i);
@@ -171,12 +172,13 @@ public class ESFController {
 			@PathVariable String keyWord, @PathVariable String region,
 			@PathVariable String totalPrice, @PathVariable Integer roomNum,
 			@PathVariable String grossFloorArea, @PathVariable String orderBy) {
+		boolean outOfDate = false;
 		List<SecondHandHouse> list = shhService.findSecondHandHousesByParams(
 				residenceCommunityId, keyWord, region, totalPrice, roomNum,
-				grossFloorArea, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
+				grossFloorArea, outOfDate,orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = shhService.countSecondHandHouseByParams(
 				residenceCommunityId, keyWord, region, totalPrice, roomNum,
-				grossFloorArea);
+				grossFloorArea,outOfDate);
 		if(list!=null && !list.isEmpty()){
 			for(int i=0;i<list.size();i++){
 				SecondHandHouse shh = list.get(i);
@@ -204,9 +206,10 @@ public class ESFController {
 		}
 		JSONObject jo = new JSONObject();
 		try {
+			boolean outOfDate = false;
 			List<SecondHandHouse> list = shhService.findSecondHandHousesByParams(
 					residenceCommunityId, keyWord, region, totalPrice, roomNum,
-					grossFloorArea, orderBy, targetPage, pageSize);
+					grossFloorArea,outOfDate, orderBy, targetPage, pageSize);
 			if(list!=null && !list.isEmpty()){
 				for(int i=0;i<list.size();i++){
 					SecondHandHouse shh = list.get(i);
@@ -339,12 +342,15 @@ public class ESFController {
 		SecondHandHouse shh = shhService.get(id);
 		List<SHHImage> images = shhiService.getImagesByParams(id, 0,
 				Integer.MAX_VALUE);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(shh.getUpdateDate());
-		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-		request.setAttribute("deadline",
-				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
-						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+		String deadline = "已过期";
+		if(shh.getOutOfDate()!=null && !shh.getOutOfDate()){
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(shh.getUpdateDate());
+			cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+			deadline = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
+					+ "-" + cal.get(Calendar.DAY_OF_MONTH);
+		}
+		request.setAttribute("deadline",deadline);
 
 		if(images!=null && !images.isEmpty()){
 			for(int i=0;i<images.size();i++){
