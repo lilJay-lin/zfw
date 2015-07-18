@@ -37,8 +37,8 @@
 												<input type="checkbox"  id="selectAll"/>
 											</th>
 											</shiro:hasPermission>
-											<th>角色名称</th>
-											<th>描述</th>
+											<th class="name">角色名称</th>
+											<th class="description">描述</th>
 											<th>最后修改时间</th>
 											<th class="operation">操作</th>
 										</tr>

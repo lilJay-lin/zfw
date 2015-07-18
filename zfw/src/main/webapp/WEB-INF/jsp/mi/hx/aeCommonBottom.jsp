@@ -90,10 +90,17 @@
 			}
 			var btn=$(this);
 			var form = $(".form");
+			console.log($(".form").children())
 			var res = form.validate();
 			if(res){
 				var url;
-				var ht = getHTData();
+				var ht = getHTData();				
+				if(!ht.preImageUrl){
+					$(".uploade-img-error").html("户型缩略图不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}	
 				if(inEdit){
 					url = "${ctx}/mi/hx/"+$("#htId").val();
 				}else{
@@ -112,11 +119,12 @@
 			   			if(!data.success){
 			   				var name = data.field;
 			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
+			   					var p = form.find("[name='"+name+"']");
 			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
 			   				}else{
 			   					alert(data.msg);
 			   				}
+							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
 // 			   				window.location.href="${ctx}/mi/xf/${repId}/edit";

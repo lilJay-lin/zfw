@@ -15,11 +15,19 @@
 		}
 
 		var uploading = !1;
+		$(":file").change(function(){
+			if(!!uploading){
+				alert("图像正在上传，请稍后..");
+				return ;
+			}
+			var errorStr = checkImgType(this);
 			if(errorStr){
 				alert(errorStr);
 				return;
 			}
 			var formData = new FormData($("#uploadForm")[0]);	
+			$(".uploader-loading").show();
+			uploading =!0;
 		    $.ajax({
 		        type:'POST',
 		        url:'${ctx}/mi/hxring/uploadImg',
@@ -40,7 +48,11 @@
 		        },
 		        error: function (data) {
 					alert("上传失败");
-		        }
+		        },
+				complete:function(){
+					uploading =!1;
+					$(".uploader-loading").hide();
+				}
 		    });
 		});
 		
@@ -69,6 +81,12 @@
 			var res = form.validate();
 			if(res){
 				var ring = getPanoData();
+				if(!ring.preImageUrl){
+					$(".uploade-img-error").html("缩略图不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}
 			   var url;
 			   if(inEdit){
 				   url = "${ctx}/mi/hxring/${ringId}";

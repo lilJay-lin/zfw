@@ -40,7 +40,7 @@
 										<th>邮箱</th>
 										<th>手机号码</th>
 										<th>状态</th>
-										<th>描述</th>
+										<th class="description">描述</th>
 										<!--<th>创建者</th>-->
 										<!--<th>上次编辑</th>
 										<th>创建日期</th>-->
@@ -249,7 +249,5 @@
 	  		page.setData({"name":name})
 	  		page.init();
 	  	})
-	  	
-	  	
-	</script>
+	  		</script>
 </html>

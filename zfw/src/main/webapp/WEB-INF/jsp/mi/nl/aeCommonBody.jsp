@@ -6,7 +6,7 @@
 			<div class="control-group">
 				<label class="control-label">姓名</label>
 				<div class="control">
-					<input type="text" name="name" max="16" maxlength="16" error="姓名长度少于16个字" 
+					<input type="text" name="name" max="32" maxlength="32" error="姓名长度最多32个字" 
 					require="require" require_msg ="姓名不能为空"  placeholder="输入姓名"  />
 					<span class="help-inline"></span>
 				</div>

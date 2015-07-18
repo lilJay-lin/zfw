@@ -55,7 +55,13 @@
 			var form = $(".form");
 			var res = form.validate();
 			if(res){
-				var pano = getImageData();
+				var pano = getPanoData();
+				if(!pano.preImageUrl){
+					$(".uploade-img-error").html("图片不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}	
 			   var url = "${ctx}/mi/xfpano/add";
 			btn.attr("disabled","disabled");
 			btn.addClass("disabled");
@@ -75,6 +81,7 @@
 			   				}else{
 			   					alert(data.msg);
 			   				}
+							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
 			   				window.location.href="${ctx}/mi/xf/${repId}/edit";

@@ -112,7 +112,13 @@
 			var res = form.validate();
 			if(res){
 				var url;
-				var rh = getRHData();
+				var rh = getRHData();				
+				if(!rh.preImageUrl){
+					$(".uploade-img-error").html("缩略图不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}	
 				if(inEdit){
 					url = "${ctx}/mi/zf/"+$("#rhId").val();
 				}else{

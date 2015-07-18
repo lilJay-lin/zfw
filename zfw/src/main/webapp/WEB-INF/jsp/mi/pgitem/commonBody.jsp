@@ -6,7 +6,7 @@
 									<div class="control-group">
 										<label class="control-label">名称</label>
 										<div class="control">
-											<input type="text" name="name" max="16" maxlength="16" error="评估项名长度少于16个字" 
+											<input type="text" name="name" max="32" maxlength="32" error="评估项名长度少于32个字" 
 											require="require" require_msg ="评估项名不能为空"  placeholder="输入评估项名称"  />
 											<span class="help-inline"></span>
 										</div>
@@ -23,7 +23,7 @@
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control">
-											<textarea name="description" maxlength="200"></textarea>
+											<textarea name="description" maxlength="200" max="200" error="描述长度少于200个字"></textarea>
 										</div>
 									</div>
 									<div class="form-actions">

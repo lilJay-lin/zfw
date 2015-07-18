@@ -28,7 +28,7 @@
 									<div class="control-group">
 										<label class="control-label">报名栏标题</label>
 										<div class="control">
-											<input type="text"  name="singUpFormTitle" id="singUpFormTitle" max="32" require="require" require_msg ="户型名不能为空" />
+											<input type="text"  name="singUpFormTitle" id="singUpFormTitle" max="32" error="报名栏标题最多32个字" require="require" require_msg ="报名栏标题不能为空" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -72,6 +72,10 @@
 	<script>
 
 		function toSave(){
+			var res = $(".form").validate();
+			if(!res){
+				return ;
+			}
 			var btn = $("#eBtn");
 			btn.attr("disabled","disabled");
 			btn.html("正在提交...");

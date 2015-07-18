@@ -8,7 +8,7 @@
 									<div class="control-group">
 										<label class="control-label">名称</label>
 										<div class="control">
-											<input type="text" name="name" max="16" maxlength="16" error="户型名长度少于16个字" 
+											<input type="text" name="name" max="32" maxlength="32" error="户型名长度最多32个字" 
 											require="require" require_msg ="户型名不能为空"  placeholder="输入户型名称"  />
 											<span class="help-inline"></span>
 										</div>
@@ -16,8 +16,8 @@
 									<div class="control-group">
 										<label class="control-label">户型均价</label>
 										<div class="control">
-											<input type="text"  name="averagePrice" id="averagePrice" max="6"  error="户型均价范围0-999999" 
-											patterns = "^[0-9]*$"  placeholder="输入户型均价 0-999999" value="0" />
+											<input type="text" require="require" require_msg ="户型均价不能为空" name="averagePrice" id="averagePrice" max="6"  error="户型均价范围0-999999" 
+											patterns = "^\d{1,6}$"  placeholder="输入户型均价 0-999999" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -42,8 +42,8 @@
 									<div class="control-group">
 										<label class="control-label">建筑面积</label>
 										<div class="control">
-											<input type="text"  name="grossFloorArea" id="grossFloorArea" max="6"  error="建筑面积范围0.0-999.0" 
-											patterns = "^[0-9\.]*$"  placeholder="输入建筑面积0.0-999.0" value="0.0" />
+											<input type="text" name="grossFloorArea"  max="9"  error="建筑面积范围0.00-999999.99" 
+											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.00-999999.99" value="0.0"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -51,7 +51,7 @@
 										<label class="control-label">居室数量</label>
 										<div class="control">
 											<input type="text"  name="roomNum" id="roomNum" max="2"  error="居室数量范围0-99" 
-											patterns = "^[0-9]*$"  placeholder="输入居室数 量0-99" value="0" />
+											patterns = "^\d{1,2}$"  placeholder="输入居室数量0-99" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -59,7 +59,7 @@
 										<label class="control-label">厅数量</label>
 										<div class="control">
 											<input type="text"  name="hallNum" id="hallNum" max="2"  error="厅数量范围0-99" 
-											patterns = "^[0-9]*$"  placeholder="输入厅数 量0-99" value="0" />
+											patterns = "^\d{1,2}$"  placeholder="输入厅数量0-99" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -67,7 +67,7 @@
 										<label class="control-label">厨房数量</label>
 										<div class="control">
 											<input type="text"  name="kitchenNum" id="kitchenNum" max="2"  error="厨房数量范围0-99" 
-											patterns = "^[0-9]*$"  placeholder="输入厨房数量 0-99" value="0" />
+											patterns =  "^\d{1,2}$"  placeholder="输入厨房数量 0-99" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -75,7 +75,7 @@
 										<label class="control-label">卫生间数量</label>
 										<div class="control">
 											<input type="text"  name="toiletNum" id="toiletNum" max="2"  error="卫生间数量范围0-99" 
-											patterns = "^[0-9]*$"  placeholder="输入 卫生间数量0-99" value="0" />
+											patterns =  "^\d{1,2}$"  placeholder="输入卫生间数量0-99" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -83,14 +83,14 @@
 										<label class="control-label">优先级</label>
 										<div class="control">
 											<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
-											patterns = "^[0-9]*$"  placeholder="输入优先级 0-9999" value="0" />
+											patterns = "^\d{1,4}$"  placeholder="输入优先级 0-9999" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">标签</label>
 										<div class="control">
-											<input type="text"  name="tags" id="tags" max="24" maxlength="24" 
+											<input type="text"  name="tags" id="tags" max="100" maxlength="100" error="标签最多100个字"
 								 placeholder="输入标签"  />
 											<span class="help-inline"></span>
 										</div>
@@ -110,6 +110,9 @@
 														<img src="${ctx}/assets/img/loading.gif"  />
 													</div>
 												</div>
+												<div class="control">
+													<span class="help-inline uploade-img-error"></span>
+												</div>
 												<div class="control-img">
 													<img src=""/>
 												</div>
@@ -119,7 +122,7 @@
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control">
-											<textarea name="description" maxlength="200"></textarea>
+											<textarea name="description"  max="200"  error="描述最多200个字"></textarea>
 										</div>
 									</div>
 									<div class="form-actions">

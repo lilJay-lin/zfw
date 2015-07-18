@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>商铺管理</h2>
+							<h2>名单管理</h2>
 						</div>
 						<div class="box-cnt">
 							<div class="datatable" id="nlList">
@@ -36,9 +36,9 @@
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</shiro:hasPermission>
-										<th>姓名</th>
+										<th class="name">姓名</th>
 										<th>电话</th>
-										<th>最后修改时间</th>
+										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
@@ -147,7 +147,7 @@
 	  			}
 	  		});
 	  		if(ids == ""){
-	  			alert("请选择需要处理的商铺");
+	  			alert("请选择需要处理的名单");
 				return ;
 	  		}
 	  		
@@ -158,7 +158,7 @@
 	  			return ;
 	  		}
 	  		if(deling){
-	  			alert("正在删除商铺,请稍后再操作");
+	  			alert("正在删除名单,请稍后再操作");
 	  			return;
 	  		}
 	  		var obj = {};

@@ -27,7 +27,7 @@
 			<div class="control-group">
 				<label class="control-label">名称</label>
 				<div class="control">
-					<input type="text" name="name" max="16" maxlength="16" error="写字楼名长度少于16个字" 
+					<input type="text"  name="name" max="32" maxlength="32"  error="写字楼名长度做多32个字" 
 					require="require" require_msg ="写字楼名不能为空"  placeholder="输入写字楼名称"  />
 					<span class="help-inline"></span>
 				</div>
@@ -52,23 +52,23 @@
 			<div class="control-group">
 				<label class="control-label">热线电话</label>
 				<div class="control">
-					<input type="text"  name="phoneNum" id="phoneNum" max="32" error="热线电话不能超长" placeholder="输入热线电话"/>
+					<input type="text"  name="phoneNum" id="phoneNum" patterns="^((0\d{2,3}-\d{7,8})|(1\d{10}))$" error="热线电话格式为固话(0660-12345678）或者手机号码" placeholder="输入热线电话"/>
 					<span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="control-group js-control-group-rental">
-				<label class="control-label">出租</label>
+				<label class="control-label">租金</label>
 				<div class="control">
-					<input type="text"  name="rental" id="rental" max="6"  error="租金范围0-99999" 
-											patterns = "^[0-9]*$"  placeholder="输入出租费0-99999" value="0" />&nbsp;元/平方米·月
+					<input type="text"  name="rental" id="rental" max="6" maxlength="6" error="租金范围0-999999" 
+								patterns = "^\d{1,6}$"  placeholder="输入租金范围0-999999" value="0" />&nbsp;元/平方米·月
 					<span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="control-group js-control-group-totalPrice">
-				<label class="control-label">在售</label>
+				<label class="control-label">总价</label>
 				<div class="control">
-					<input type="text"  name="totalPrice" id="totalPrice" max="5"  error="总价范围0-999" 
-											patterns = "^[0-9]*$"  placeholder="输入出售费0-999" value="0" />&nbsp;万元
+					<input type="text"  name="totalPrice" id="totalPrice" max="4" maxlength="4"  error="总价范围0-9999" 
+											patterns = "^\d{1,4}$"  placeholder="输入总价0-9999" value="0" />&nbsp;万元
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -86,8 +86,8 @@
 			<div class="control-group">
 				<label class="control-label">面积</label>
 				<div class="control">
-					<input type="text" name="grossFloorArea" max="8"  error="建筑面积范围0.0-99999.0" 
-											patterns = "^[0-9\.]*$"  placeholder="输入建筑面积0.0-99999.0" value="0.0"   />&nbsp;平方米
+					<input type="text" name="grossFloorArea" max="9" maxlength="9"  error="建筑面积范围0.00-999999.99" 
+											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.00-999999.99" value="0.0"   />&nbsp;平方米
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -106,20 +106,20 @@
 			<div class="control-group">
 				<label class="control-label">地址</label>
 				<div class="control">
-					<textarea name="address" maxlength="200" style="height:50px" error="地址内容长度不能超过200"></textarea>
+					<textarea name="address" maxlength="200" max="200" style="height:50px" error="地址内容长度不能超过200"></textarea>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">介绍</label>
 				<div class="control">
-					<textarea name="introduction" maxlength="2000" error="地址内容长度不能超过2000"></textarea>
+					<textarea name="introduction" maxlength="2000" max="2000" error="介绍内容长度不能超过2000"></textarea>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">物业费</label>
 				<div class="control">
-					<input type="text"  name="propertyFee" id="propertyFee" max="5"  error="物业费范围0.0-999.0" 
-					patterns = "^[0-9\.]*$"  placeholder="输入物业费0.0-999.0" value="0.0" />&nbsp;元/平方米·月
+					<input type="text"  name="propertyFee" id="propertyFee" max="7" maxlength="7"  error="物业费范围0.00-9999.99" 
+					patterns = "^\d{1,4}(\.\d{1,2})?$"  placeholder="输入物业费0.00-9999.99" value="0.00" />&nbsp;元/平方米·月
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -146,14 +146,13 @@
 			<div class="control-group">
 				<label class="control-label">描述</label>
 				<div class="control">
-					<textarea name="description" maxlength="200" style="height:100px"></textarea>
+					<textarea name="description" max="200" maxlength="200" error="描述最多200个字" style="height:100px"></textarea>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">标签</label>
 				<div class="control">
-					<input type="text"  error="最多只能输入24个字符"  name="tags" id="tags" max="24" maxlength="24" 
-		 placeholder="输入标签"  />
+					<input type="text" max="100" maxlength="100"  error="标签长度最大为100"  name="tags" id="tags" placeholder="输入标签"  />
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -161,7 +160,7 @@
 				<label class="control-label">优先级</label>
 				<div class="control">
 					<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
-					patterns = "^[0-9]*$" error="最多只能输入4个字符" placeholder="输入优先级 0-9999" value="0" />
+					patterns = "^\d{1,4}$" error="优先级最大长度为4" placeholder="输入优先级 0-9999" value="0" />
 					<span class="help-inline"></span>
 				</div>
 			</div>

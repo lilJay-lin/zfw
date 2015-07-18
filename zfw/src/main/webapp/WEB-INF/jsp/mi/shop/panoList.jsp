@@ -11,10 +11,10 @@
 			<thead>
 				<th class="js-edit-only" style="display:none"><input type="checkbox" id="selectAll" /></th>
 				<th>预览</th>
-				<th>名称</th>
-				<th>内容路径</th>
-				<th>描述</th>
-				<th>操作</th>
+				<th class="name">名称</th>
+				<th class="contentUrl">内容路径</th>
+				<th class="description">描述</th>
+				<th class="operation">操作</th>
 			</thead>
 			<tbody class="page-data-list">
 			</tbody>

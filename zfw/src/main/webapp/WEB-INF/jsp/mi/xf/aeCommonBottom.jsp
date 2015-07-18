@@ -323,6 +323,7 @@
 			   				}else{
 			   					alert(data.msg);
 			   				}
+							$("body").scrollTop(0);
 			   			}else{
 			   				alert(data.msg);
 // 			   				window.location.href="${ctx}/mi/xf";
@@ -336,6 +337,7 @@
 					}else{
 				   		alert("新增楼盘失败!");
 					}
+					$("body").scrollTop(0);
 			   	},
 			   	complete:function(){
 					btn.removeAttr("disabled");

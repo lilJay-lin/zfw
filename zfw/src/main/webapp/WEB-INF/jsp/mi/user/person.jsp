@@ -34,46 +34,6 @@
 											<img class="control-user-img" />
 										</div>
 									</div>
-									<div class="control-group">
-										<label class="control-label">姓名</label>
-										<div class="control">
-											<input type="text" name="name" max="16" min="4" maxlength="16" error="用户名长度4~16只能包含小写字母、数字、下划线并以小写字母开头" 
-					patterns = "^[a-z]([a-zA-Z0-9_]){3,15}$" require="require" require_msg ="用户名不能为空"  placeholder="输入用户名"  />
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">密码</label>
-										<div class="control">
-											<input type="password"  name="pwd" id="pwd" value="111111" max="32" min="6"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
-					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9\!\@\#\$\%\^\&\*\(\)]*$" placeholder="输入密码"  />
-											<input type="hidden"  name="password" id="password"/>
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">邮箱</label>
-										<div class="control">
-											<input type="text" name="email"  error="邮箱格式不正确" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$" />
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">手机号码</label>
-										<div class="control">
-											<input type="text" name="phoneNum"   patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
-											<span class="help-inline"></span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">状态</label>
-										<div class="control">
-											<select name="locked" disabled="disabled">
-												<option value="false" checked>正常</option>
-												<option value="true">锁定</option>
-											</select>
-										</div>
-									</div>
 									<form enctype="multipart/form-data" id="uploadForm">
 									<div class="control-group">
 										<label class="control-label">上传图像</label>
@@ -93,9 +53,50 @@
 									</div>
 									</form>
 									<div class="control-group">
+										<label class="control-label">姓名</label>
+										<div class="control">
+											<input type="text" name="name" max="32" min="4" maxlength="32" error="用户名长度4~32只能包含小写字母、数字、下划线并以小写字母开头" 
+					patterns = "^[a-z]([a-zA-Z0-9_]){3,31}$"  placeholder="输入用户名"  />
+											<span class="help-inline"></span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">密码</label>
+										<div class="control">
+											<input type="text"  name="pwd" id="pwd" max="32" min="6"  maxlength="32"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
+					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9!@#$%\^&\*\(\)]*$" placeholder="输入密码"  />
+											<input type="hidden" name="password" id="password"/>
+											<span class="help-inline"></span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">邮箱</label>
+										<div class="control">
+											<input type="text" name="email" placeholder="输入邮箱" max="32" maxlength="32" patterns="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+$" />
+											<span class="help-inline"></span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">手机号码</label>
+										<div class="control">
+											<input type="text" name="phoneNum" placeholder="输入手机号码" max="11" maxlength="11"  patterns="^1[0-9]{10}$"  error="手机号码格式不正确"/>
+											<span class="help-inline"></span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">状态</label>
+										<div class="control">
+											<select name="locked" disabled="disabled">
+												<option value="false" checked>正常</option>
+												<option value="true">锁定</option>
+											</select>
+										</div>
+									</div>
+									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control">
-											<textarea name="description"></textarea>
+											<textarea name="description"  maxlength="200" max="200" error="描述最大长度为200"></textarea>
+											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="form-actions">
@@ -206,8 +207,6 @@
 				return;
 			}
 			addRelation.push(id);
-			console.log(delRelation);
-			console.log(addRelation);
 			$(".relation").append(template("#relation-info-template",{"id":id,"name":name}))
 			return false;
 		})
@@ -222,8 +221,6 @@
 			if($.inArray(id,delRelation)==-1){//del中没有，则存入
 				delRelation.push(id);
 			}
-			console.log(delRelation);
-			console.log(addRelation);
 			$(this).parent().parent().remove();
 			return false;
 		})
@@ -353,10 +350,13 @@
 				}
 				
 			   for(var i in user){
-			   		var value = form.find("input[name="+i+"]").val();
+			   		var value = form.find("[name="+i+"]").val();
 			   		user[i]=value;
 			   }
-			   user['description']  = form.find("textarea[name='description']").val();
+			   if(user.name=="" && user.phoneNum =="" && user.email ==""){
+			   		alert("姓名、邮箱和手机号码不能全部为空");
+			   		return false;
+			   }
 			   var relation = {addroles:"",delroles:''};//mixRelationOperation(originalRelation,addRelation,delRelation);
 			   if(addRelation.length>0){
 			   		relation.addroles = addRelation.join("/")
@@ -379,8 +379,7 @@
 		   			var name = data.field;
 		   			if(!data.success){
 		   				if(name){
-		   					var p = form.find("input[name='"+name+"']");
-		   					console.log(p.next(".help-inline"))
+		   					var p = form.find("[name='"+name+"']");
 		   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
 		   				}else{
 		   					alert(data.msg)

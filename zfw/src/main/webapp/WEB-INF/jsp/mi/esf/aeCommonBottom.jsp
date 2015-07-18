@@ -101,6 +101,12 @@
 			if(res){
 				var url;
 				var shh = getSHHData();
+				if(!shh.preImageUrl){
+					$(".uploade-img-error").html("图片不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}	
 				if(inEdit){
 					url = "${ctx}/mi/esf/"+$("#shhId").val();
 				}else{

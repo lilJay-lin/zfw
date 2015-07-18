@@ -612,7 +612,6 @@ body {
 .container {
   width: 100%;
   overflow: hidden;
-  min-height: 1000px;
 }
 /*===============侧边栏===============*/
 .slider {
