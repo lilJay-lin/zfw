@@ -13,11 +13,11 @@ public interface IWarehouseService extends
 	public List<Warehouse> findWarehousesByParams(String keyWord,
 			String region, String grossFloorArea, String type,
 			String rentOrSale, String rental, String totalPrice,
-			String orderBy, Integer targetPage, Integer pageSize);
+			Boolean outOfDate, String orderBy, Integer targetPage, Integer pageSize);
 
 	public int countWarehouseByParams(String keyWord, String region,
 			String grossFloorArea, String type, String rentOrSale,
-			String rental, String totalPrice);
+			String rental, String totalPrice, Boolean outOfDate);
 
 	public int countByUserId(String userId);
 
@@ -37,5 +37,7 @@ public interface IWarehouseService extends
 	public Map<String,String> updateWarehouse(Warehouse warehouse);
 	    
 	public int updateBatchWarehouse(String warehouseids,Warehouse warehouse);
+
+	public String cleanDeadWarehouse();
 
 }

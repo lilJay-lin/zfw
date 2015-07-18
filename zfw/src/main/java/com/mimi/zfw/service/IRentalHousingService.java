@@ -12,11 +12,11 @@ public interface IRentalHousingService extends
 
 	List<RentalHousing> findRentalHousingsByParams(String residenceCommunityId,
 			String keyWord, String region, String rental, Integer roomNum,
-			String grossFloorArea, String orderBy, Integer targetPage,
+			String grossFloorArea, Boolean outOfDate, String orderBy, Integer targetPage,
 			Integer pageSize);
 
 	int countRentalHousingByParams(String residenceCommunityId, String keyWord,
-			String region, String rental, Integer roomNum, String grossFloorArea);
+			String region, String rental, Integer roomNum, String grossFloorArea, Boolean outOfDate);
 
 	List<RentalHousing> getByUserId(String userId, Integer targetPage,
 			Integer pageSize);
@@ -43,4 +43,6 @@ public interface IRentalHousingService extends
 	public Map<String, String> batchDel(String rcId, String rhIds);
 	
 	public void refreshByRC(ResidenceCommunity rc);
+
+	String cleanDeadRH();
 }

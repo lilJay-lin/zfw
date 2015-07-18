@@ -55,11 +55,12 @@ public class SPController {
 
     @RequestMapping(value = "/sp", method = { RequestMethod.GET })
     public String sp(HttpServletRequest request) {
+    	Boolean outOfDate = false;
 	List<Shop> list = shopService.findShopsByParams(null, null, null, null,
-		Constants.ROS_RENT_ONLY, null, null, null, 0,
+		Constants.ROS_RENT_ONLY, null, null,outOfDate, null,  0,
 		Constants.DEFAULT_PAGE_SIZE);
 	int totalNum = shopService.countShopByParams(null, null, null, null,
-		Constants.ROS_RENT_ONLY, null, null);
+		Constants.ROS_RENT_ONLY, null, null, outOfDate);
 	if (list != null && !list.isEmpty()) {
 	    for (int i = 0; i < list.size(); i++) {
 		Shop shop = list.get(i);
@@ -180,11 +181,12 @@ public class SPController {
 	    @PathVariable String grossFloorArea, @PathVariable String type,
 	    @PathVariable String rentOrSale, @PathVariable String rental,
 	    @PathVariable String totalPrice, @PathVariable String orderBy) {
+    	Boolean outOfDate = false;
 	List<Shop> list = shopService.findShopsByParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice, orderBy,
+		grossFloorArea, type, rentOrSale, rental, totalPrice,outOfDate, orderBy,
 		0, Constants.DEFAULT_PAGE_SIZE);
 	int totalNum = shopService.countShopByParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice,outOfDate);
 	if (list != null && !list.isEmpty()) {
 	    for (int i = 0; i < list.size(); i++) {
 		Shop shop = list.get(i);
@@ -213,8 +215,9 @@ public class SPController {
 	}
 	JSONObject jo = new JSONObject();
 	try {
+    	Boolean outOfDate = false;
 	    List<Shop> list = shopService.findShopsByParams(keyWord, region,
-		    grossFloorArea, type, rentOrSale, rental, totalPrice,
+		    grossFloorArea, type, rentOrSale, rental, totalPrice,outOfDate,
 		    orderBy, targetPage, pageSize);
 	    if (list != null && !list.isEmpty()) {
 		for (int i = 0; i < list.size(); i++) {
@@ -349,12 +352,15 @@ public class SPController {
 	Shop sp = shopService.get(id);
 	List<ShopImage> images = siService.getImagesByParams(id, 0,
 		Integer.MAX_VALUE);
-	Calendar cal = Calendar.getInstance();
-	cal.setTime(sp.getUpdateDate());
-	cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-	request.setAttribute("deadline",
-		cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
-			+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+	String deadline = "已过期";
+	if(sp.getOutOfDate()!=null && !sp.getOutOfDate()){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(sp.getUpdateDate());
+		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+		deadline = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
+				+ "-" + cal.get(Calendar.DAY_OF_MONTH);
+	}
+	request.setAttribute("deadline",deadline);
 	if (images != null && !images.isEmpty()) {
 	    for (int i = 0; i < images.size(); i++) {
 		ShopImage si = images.get(i);
@@ -459,9 +465,9 @@ public class SPController {
 	try {
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<Shop> items = shopService.findShopsByParams(name, null, null,
-		    null, null, null, null, "onUpdateFromNear", page, pageSize);
+		    null, null, null, null, null, "onUpdateFromNear", page, pageSize);
 	    rows = shopService.countShopByParams(name, null, null, null, null,
-		    null, null);
+		    null, null, null);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
 	    res = getJsonObject(rows, totalpage, curPage, pageSize, items,

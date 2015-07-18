@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class DateUtil {
 	public static String getUpdateTimeStr(Date date) {
-		String dateDesc = "";
+		String dateDesc = "秒前更新";
 		if (date != null) {
 			long tempTime = (System.currentTimeMillis() - date.getTime()) / (1000);
 			if (tempTime >= 60) {
@@ -29,6 +29,8 @@ public class DateUtil {
 			}
 			if (tempTime > 0) {
 				dateDesc = "(" + tempTime + dateDesc + ")";
+			} else {
+				dateDesc = "";
 			}
 		}
 		return dateDesc;

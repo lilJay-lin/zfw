@@ -56,11 +56,12 @@ public class ZFController {
 
 	@RequestMapping(value = "/zf", method = { RequestMethod.GET })
 	public String zf(HttpServletRequest request) {
+		boolean outOfDate = false;
 		List<RentalHousing> list = rhService.findRentalHousingsByParams(null,
-				null, null, null, null, null, null, 0,
+				null, null, null, null, null,outOfDate, null, 0,
 				Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = rhService.countRentalHousingByParams(null, null, null,
-				null, null, null);
+				null, null, null,outOfDate);
 		if(list!=null && !list.isEmpty()){
 			for(int i=0;i<list.size();i++){
 				RentalHousing rh = list.get(i);
@@ -171,12 +172,13 @@ public class ZFController {
 			@PathVariable String keyWord, @PathVariable String region,
 			@PathVariable String rental, @PathVariable Integer roomNum,
 			@PathVariable String grossFloorArea, @PathVariable String orderBy) {
+		boolean outOfDate = false;
 		List<RentalHousing> list = rhService.findRentalHousingsByParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
-				grossFloorArea, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
+				grossFloorArea,outOfDate, orderBy, 0, Constants.DEFAULT_PAGE_SIZE);
 		int totalNum = rhService.countRentalHousingByParams(
 				residenceCommunityId, keyWord, region, rental, roomNum,
-				grossFloorArea);
+				grossFloorArea,outOfDate);
 		if(list!=null && !list.isEmpty()){
 			for(int i=0;i<list.size();i++){
 				RentalHousing rh = list.get(i);
@@ -204,9 +206,10 @@ public class ZFController {
 		}
 		JSONObject jo = new JSONObject();
 		try {
+			boolean outOfDate = false;
 			List<RentalHousing> list = rhService.findRentalHousingsByParams(
 					residenceCommunityId, keyWord, region, rental, roomNum,
-					grossFloorArea, orderBy, targetPage, pageSize);
+					grossFloorArea,outOfDate, orderBy, targetPage, pageSize);
 			if(list!=null && !list.isEmpty()){
 				for(int i=0;i<list.size();i++){
 					RentalHousing rh = list.get(i);
@@ -338,12 +341,15 @@ public class ZFController {
 		RentalHousing rh = rhService.get(id);
 		List<RHImage> images = rhiService.getImagesByParams(id, 0,
 				Integer.MAX_VALUE);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(rh.getUpdateDate());
-		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-		request.setAttribute("deadline",
-				cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
-						+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+		String deadline = "已过期";
+		if(rh.getOutOfDate()!=null && !rh.getOutOfDate()){
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(rh.getUpdateDate());
+			cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+			deadline = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
+					+ "-" + cal.get(Calendar.DAY_OF_MONTH);
+		}
+		request.setAttribute("deadline",deadline);
 		if(images!=null && !images.isEmpty()){
 			for(int i=0;i<images.size();i++){
 				RHImage ri = images.get(i);

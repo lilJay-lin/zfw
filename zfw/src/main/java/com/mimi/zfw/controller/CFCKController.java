@@ -55,11 +55,12 @@ public class CFCKController {
 
     @RequestMapping(value = "/cfck", method = { RequestMethod.GET })
     public String cfck(HttpServletRequest request) {
+    	Boolean outOfDate = false;
 	List<Warehouse> list = wService.findWarehousesByParams(null, null,
-		null, null, Constants.ROS_RENT_ONLY, null, null, null, 0,
+		null, null, Constants.ROS_RENT_ONLY, null, null, outOfDate, null, 0,
 		Constants.DEFAULT_PAGE_SIZE);
 	int totalNum = wService.countWarehouseByParams(null, null, null, null,
-		Constants.ROS_RENT_ONLY, null, null);
+		Constants.ROS_RENT_ONLY, null, null, outOfDate);
 	if (list != null && !list.isEmpty()) {
 	    for (int i = 0; i < list.size(); i++) {
 		Warehouse warehouse = list.get(i);
@@ -180,11 +181,12 @@ public class CFCKController {
 	    @PathVariable String grossFloorArea, @PathVariable String type,
 	    @PathVariable String rentOrSale, @PathVariable String rental,
 	    @PathVariable String totalPrice, @PathVariable String orderBy) {
+    	Boolean outOfDate = false;
 	List<Warehouse> list = wService.findWarehousesByParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice, orderBy,
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate, orderBy,
 		0, Constants.DEFAULT_PAGE_SIZE);
 	int totalNum = wService.countWarehouseByParams(keyWord, region,
-		grossFloorArea, type, rentOrSale, rental, totalPrice);
+		grossFloorArea, type, rentOrSale, rental, totalPrice, outOfDate);
 	if (list != null && !list.isEmpty()) {
 	    for (int i = 0; i < list.size(); i++) {
 		Warehouse warehouse = list.get(i);
@@ -213,9 +215,10 @@ public class CFCKController {
 	}
 	JSONObject jo = new JSONObject();
 	try {
+    	Boolean outOfDate = false;
 	    List<Warehouse> list = wService.findWarehousesByParams(keyWord,
 		    region, grossFloorArea, type, rentOrSale, rental,
-		    totalPrice, orderBy, targetPage, pageSize);
+		    totalPrice, outOfDate, orderBy, targetPage, pageSize);
 	    if (list != null && !list.isEmpty()) {
 		for (int i = 0; i < list.size(); i++) {
 		    Warehouse warehouse = list.get(i);
@@ -350,12 +353,15 @@ public class CFCKController {
 	Warehouse warehouse = wService.get(id);
 	List<WarehouseImage> images = wiService.getImagesByParams(id, 0,
 		Integer.MAX_VALUE);
-	Calendar cal = Calendar.getInstance();
-	cal.setTime(warehouse.getUpdateDate());
-	cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
-	request.setAttribute("deadline",
-		cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
-			+ "-" + cal.get(Calendar.DAY_OF_MONTH));
+	String deadline = "已过期";
+	if(warehouse.getOutOfDate()!=null && !warehouse.getOutOfDate()){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(warehouse.getUpdateDate());
+		cal.add(Calendar.DAY_OF_YEAR, Constants.ACTIVE_TIME);
+		deadline = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
+				+ "-" + cal.get(Calendar.DAY_OF_MONTH);
+	}
+	request.setAttribute("deadline",deadline);
 	if (images != null && !images.isEmpty()) {
 	    for (int i = 0; i < images.size(); i++) {
 		WarehouseImage obi = images.get(i);
@@ -484,11 +490,12 @@ public class CFCKController {
 
 	int rows = 0;
 	try {
+    	Boolean outOfDate = null;
 	    // 有userid则查询关联的role，无则查询所有role
 	    List<Warehouse> items = wService.findWarehousesByParams(name, null,
-		    null, type, null, null, null, "onUpdateFromNear", page, pageSize);
+		    null, type, null, null, null, outOfDate, "onUpdateFromNear", page, pageSize);
 	    rows = wService.countWarehouseByParams(name, null, null, type,
-		    null, null, null);
+		    null, null, null, outOfDate);
 	    int totalpage = rows % pageSize == 0 ? rows / pageSize : (rows
 		    / pageSize + 1);
 	    res = getJsonObject(rows, totalpage, curPage, pageSize, items,

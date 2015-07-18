@@ -1,6 +1,7 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -163,10 +164,10 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
     @Override
     public List<Shop> findShopsByParams(String keyWord, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice, String orderBy,
+	    String rental, String totalPrice, Boolean outOfDate, String orderBy,
 	    Integer targetPage, Integer pageSize) {
 	ShopExample se = bindShopParams(keyWord, region, grossFloorArea, type,
-		rentOrSale, rental, totalPrice);
+		rentOrSale, rental, totalPrice, outOfDate);
 	String orderByClause = "";
 	if (StringUtils.isNotBlank(orderBy)) {
 	    if ("priceFromLow".equals(orderBy)) {
@@ -199,15 +200,15 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
     @Override
     public int countShopByParams(String keyWord, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	ShopExample se = bindShopParams(keyWord, region, grossFloorArea, type,
-		rentOrSale, rental, totalPrice);
+		rentOrSale, rental, totalPrice, outOfDate);
 	return sm.countByExample(se);
     }
 
     private ShopExample bindShopParams(String keyWord, String region,
 	    String grossFloorArea, String type, String rentOrSale,
-	    String rental, String totalPrice) {
+	    String rental, String totalPrice, Boolean outOfDate) {
 	ShopExample se = new ShopExample();
 	ShopExample.Criteria cri = se.createCriteria();
 	cri.andDelFlagEqualTo(false);
@@ -286,6 +287,12 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 			    Integer.valueOf(values[1]));
 		}
 	    }
+	}
+	if(outOfDate!=null){
+		cri.andOutOfDateEqualTo(outOfDate);
+		if (cri2 != null) {
+			cri2.andOutOfDateEqualTo(outOfDate);
+		}
 	}
 	if (cri2 != null) {
 	    se.or(cri2);
@@ -452,12 +459,13 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 	se.or().andIdEqualTo(id).andCreaterEqualTo(userId)
 		.andDelFlagEqualTo(false);
 	if (sm.countByExample(se) == 0) {
-	    return "要删除的数据不存在";
+		return "要刷新的数据不存在";
 	}
 	Shop shop = new Shop();
 	shop.setId(id);
 	shop.setLastEditor(userId);
 	shop.setUpdateDate(new Date(System.currentTimeMillis()));
+	shop.setOutOfDate(false);
 	sm.updateByPrimaryKeySelective(shop);
 	return null;
     }
@@ -586,4 +594,16 @@ public class ShopServiceImpl extends BaseService<Shop, ShopExample, String>
 	}
 	return row;
     }
+
+	@Override
+	public String cleanDeadShop() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, -Constants.ACTIVE_TIME);
+		ShopExample shope = new ShopExample();
+		shope.or().andDelFlagEqualTo(false).andOutOfDateEqualTo(false).andUpdateDateLessThan(cal.getTime());
+		Shop shop = new Shop();
+		shop.setOutOfDate(true);
+		sm.updateByExampleSelective(shop, shope);
+		return null;
+	}
 }
