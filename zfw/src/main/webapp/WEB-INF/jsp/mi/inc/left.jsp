@@ -163,7 +163,7 @@
 <script>
 localData = {
     hname:location.hostname?location.hostname:'localStatus',
-    isLocalStorage:false,
+    isLocalStorage:window.localStorage?true:false,
     dataDom:null,
     cookie:navigator.cookieEnabled,
 	
@@ -263,8 +263,8 @@ localData = {
 			e.stopPropagation();
 		})
 		
-		var host = window.location.pathname.replace("/zfw/mi/","");
-		if(host.length==0){
+		var host = window.location.pathname.replace("/zfw/mi","");
+		if(host.length==0 || host === "/"){
 			check = true;
 			return ;
 		}
