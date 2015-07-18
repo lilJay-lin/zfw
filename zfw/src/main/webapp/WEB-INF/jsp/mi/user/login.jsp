@@ -56,8 +56,8 @@
 	<script type="text/javascript" src="${encrypUrl}/md5.js"></script>
 	<script>
 // 		var storePwd = util.cookie("password");
-		var storeName = util.cookie("miName");
-		var storePwd = util.cookie("miPassword");
+		var storeName = getCookie("miName");
+		var storePwd = getCookie("miPassword");
 		if(storeName){
 			$("#txtname").val(storeName);
 		}
@@ -115,8 +115,8 @@
 					}
 					$("#submitBtn").attr("disabled","disabled");
 					if($("#rememberMe").is(":checked")){
-						util.cookie("miPassword",md5_pwd);
-						util.cookie("miName",$("#txtname").val());
+						addCookie("miPassword",md5_pwd,30);
+						addCookie("miName",$("#txtname").val(),30);
 // 						util.cookie("password",$("#password").val());
 					}
 					$("#password").val(RSAEncrypt(md5_pwd));

@@ -159,6 +159,7 @@
 	  		});
 	  		if(infoIds == ""){
 	  			alert("请选择需要处理的资讯");
+	  			return ;
 	  		}
 	  		delInfo(e,infoIds);
 	  	}

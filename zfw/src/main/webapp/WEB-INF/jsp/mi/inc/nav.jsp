@@ -5,7 +5,7 @@
 	<div class="navbar-inner">
 		<ul class="nav">
 <%-- 			<li><a href="${ctx}/mi/user/${miCurrentUserId}/person"class="btn btn-primary"><i class="icon-wrench"></i></a></li> --%>
-			<li ><a href="${ctx}/mi/user/logout" onclick="logout()" class="btn btn-primary"><i class="icon-unlock"></i></a></li>
+			<li ><a href="${ctx}/mi/user/logout" onclick="logout()" class="btn btn-primary nav-logout"><i class="icon-off "></i></a></li>
 			<li>
 				<a href="${ctx}/mi/user/${miCurrentUserId}/person">
 					<div class="nav-avatar">
@@ -22,6 +22,6 @@
 </div>
 <script type="text/javascript">
 	function logout(){
-		util.cookie("miPassword",null,-1);
+		deleteCookie("miPassword");
 	}
 </script>
