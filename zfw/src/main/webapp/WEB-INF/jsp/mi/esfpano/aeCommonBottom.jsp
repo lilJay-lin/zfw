@@ -81,6 +81,12 @@
 			var res = form.validate();
 			if(res){
 				var pano = getPanoData();
+				if(!pano.preImageUrl){
+					$(".uploade-img-error").html("缩略图不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}	
 			   var url;
 			   if(inEdit){
 				   url = "${ctx}/mi/esfpano/${panoId}";

@@ -95,6 +95,35 @@
 		var res = form.validate();
 		if(res){
 			var data = getSaveData();
+			switch (data.rentOrSale){
+				case "不限": 
+				if(data.rental == ""){
+					form.find("[name='rental']").next(".help-inline").html("销售类型是租售，租金不能为空").show();
+					$("body").scrollTop(0);
+					return ;
+				}else if(data.totalPrice ==""){
+					form.find("[name='totalPrice']").next(".help-inline").html("销售类型是租售，总价不能为空").show();
+					$("body").scrollTop(0);
+					return;
+				}
+				break;
+				case "出租":
+				if(data.rental == ""){
+					form.find("[name='rental']").next(".help-inline").show().html("销售类型是出租，租金不能为空").show();
+					$("body").scrollTop(0);
+					return ;
+				}
+					break;
+				case "出售":
+				if(data.totalPrice ==""){
+					form.find("[name='totalPrice']").next(".help-inline").html("销售类型是出售，总价不能为空").show();
+					$("body").scrollTop(0);
+					return;
+				}
+					break;
+				default:
+					break;
+			}
 			var url;
 			if(inEdit){
 				url = "${ctx}/mi/shop/${shopId}";

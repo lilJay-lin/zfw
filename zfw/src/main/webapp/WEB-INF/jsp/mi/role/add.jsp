@@ -28,14 +28,15 @@
 									<div class="control-group">
 										<label class="control-label">角色名称</label>
 										<div class="control">
-											<input type="text" name="name" require="require" require_msg ="角色名称不能为空"  placeholder="输入角色名名称"  />
+											<input type="text" name="name" require="require" require_msg ="角色名称不能为空" maxlength="32" max="32" error="角色名称最长32"  placeholder="输入角色名名称"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control">
-											<textarea name="description"></textarea>
+											<textarea name="description" maxlength="200" max="200" error="描述最大长度为200"></textarea>
+											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="box box-inline">
@@ -222,10 +223,9 @@
 					delFlag:false
 				}
 			    for(var i in role){
-			   		var value = form.find("input[name="+i+"]").val();
+			   		var value = form.find("[name="+i+"]").val();
 			   		role[i]=value;
 			   }
-			   role['description']  = form.find("textarea[name='description']").val();
 			   
 			   var permissions = addRelation.join("/");
 			   var data = {"permissions":permissions};
@@ -242,7 +242,7 @@
 			   			if(!data.success){
 			   				var name = data.field;
 			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
+			   					var p = form.find("[name='"+name+"']");
 			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
 			   				}else{
 			   					alert(data.msg)
@@ -256,12 +256,13 @@
 			   		}
 			   	},
 			   	error:function(){
-					btn.prop("disabled","false");
-					btn.removeClass("disabled");
-			   		alert("新增用户失败!");
+			   		btn.removeAttr("disabled");
+			   		alert("新增角色失败!");
 			   	}
 			   });
 			   
+			}else{
+				$("body").scrollTop(0);
 			}
 		})
 		

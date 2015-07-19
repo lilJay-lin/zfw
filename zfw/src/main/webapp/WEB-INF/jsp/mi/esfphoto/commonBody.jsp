@@ -7,7 +7,7 @@
 			<div class="control-group">
 				<label class="control-label">名称</label>
 				<div class="control">
-					<input type="text" name="name" max="16" maxlength="16" error="图片名长度少于16个字" 
+					<input type="text" name="name" max="32" maxlength="32" error="图片名长度最多32个字" 
 					require="require" require_msg ="图片名不能为空"  placeholder="输入图片名称"  />
 					<span class="help-inline"></span>
 				</div>
@@ -27,6 +27,9 @@
 								<img src="${ctx}/assets/img/loading.gif"  />
 							</div>
 						</div>
+						<div class="control">
+							<span class="help-inline uploade-img-error"></span>
+						</div>
 						<div class="control-img">
 							<img src=""/>
 						</div>
@@ -36,7 +39,7 @@
 			<div class="control-group">
 				<label class="control-label">描述</label>
 				<div class="control">
-					<textarea name="description" maxlength="200" style="height:100px"></textarea>
+					<textarea name="description" max="200" maxlength="200" error="描述最多200个字" style="height:100px"></textarea>
 				</div>
 			</div>
 			<div class="form-actions">

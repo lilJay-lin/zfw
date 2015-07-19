@@ -7,7 +7,7 @@
 									<div class="control-group">
 										<label class="control-label">名称</label>
 										<div class="control">
-											<input type="text" name="name" max="16" maxlength="16" error="评估参数名长度少于16个字" 
+											<input type="text" name="name" max="32" maxlength="32" error="评估参数名长度少于32个字" 
 											require="require" require_msg ="评估参数名不能为空"  placeholder="输入评估参数名称"  />
 											<span class="help-inline"></span>
 										</div>
@@ -15,8 +15,8 @@
 									<div class="control-group">
 										<label class="control-label">值</label>
 										<div class="control">
-											<input type="text" name="value" max="16" maxlength="16" error="评估参数值为整数" 
-											require="require" patterns = "^-?[0-9]*$" require_msg ="评估参数值不能为空"  placeholder="输入评估参数值"  />
+											<input type="text" name="value"  error="评估参数值为整数，最大为8位数" 
+											require="require" patterns = "^-?\d{1,8}$" require_msg ="评估参数值不能为空"  placeholder="输入评估参数值"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>

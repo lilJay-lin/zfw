@@ -21,7 +21,8 @@
 					}
 					var preImageUrl = pano["preImageUrl"];
 					if(preImageUrl){
-						$(".control-user-img").attr("src",preImageUrl);
+//						$(".control-user-img").attr("src",preImageUrl);
+						$(".control-img").find("img").attr("src",preImageUrl);
 					}
 				}
 			},

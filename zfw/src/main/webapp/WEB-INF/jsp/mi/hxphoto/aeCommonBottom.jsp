@@ -80,6 +80,12 @@
 			var res = form.validate();
 			if(res){
 				var image = getImageData();
+				if(!image.contentUrl){
+					$(".uploade-img-error").html("图片不能为空");
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}
 			   var url;
 			   if(inEdit){
 				   url = "${ctx}/mi/hxphoto/${imageId}";
@@ -101,6 +107,7 @@
 			   				if(name){
 			   					var p = form.find("input[name='"+name+"']");
 			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+								$("body").scrollTop(0);
 			   				}else{
 			   					alert(data.msg);
 			   				}

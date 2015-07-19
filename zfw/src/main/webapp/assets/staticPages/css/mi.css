@@ -291,6 +291,7 @@ body {
 }
 .datatable-table {
   display: table;
+  table-layout: fixed;
   width: 100%;
   margin-bottom: 20px;
   max-width: 100%;
@@ -314,6 +315,23 @@ body {
 }
 .datatable-table th.operation {
   width: 120px;
+}
+.datatable-table th.name {
+  width: 100px;
+}
+.datatable-table th.time {
+  width: 130px;
+}
+.datatable-table tbody td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.datatable-table th.description,
+.datatable-table th.contentUrl,
+.datatable-table th.summary,
+.datatable-table th.address {
+  width: 30%;
 }
 .datatable-table tr:last-of-type > td:last-of-type {
   border-bottom-right-radius: 4px;
@@ -612,7 +630,6 @@ body {
 .container {
   width: 100%;
   overflow: hidden;
-  min-height: 1000px;
 }
 /*===============侧边栏===============*/
 .slider {

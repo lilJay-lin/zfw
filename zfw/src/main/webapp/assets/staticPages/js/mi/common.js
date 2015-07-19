@@ -4,45 +4,40 @@
  * 
  */
 (function(){
-	/*
-	 * 下拉菜单
-	 */
-	function t(){
-		var a = this,
-		b = $(this);
-		b.hasClass("open")?(b.find("ul").css("display","none")):b.find("ul").css("display","block")
-		b.toggleClass("open")
-	}
-	
-	/*
-	 * 文件上传
-	 */
-	function u(){
-		$(this).parent().find(".filename").html($(this).val());
-	}
-	
-	/*
-	 * 关联关系
-	 */
-//	function r(){
-//		$(this).parentsUntil("li").remove();
-//	}
-	
-	$(document).delegate("li.submenu","click",t);
-	$(document).delegate(".uploader input","change",u)
-//	$(".relation").delegate("a","click",r)
-	var h = function(){
-		var height = window.innerHeight;
-		if(typeof height != 'number'){
-			if(document.compatMode == 'CSS1Compat'){
-				height = document.documentElement.clientHeight;
-			}else{
-				height = document.body.clientHeight;
-			}
+	$(function(){
+		/*
+	 	 *
+	 	 * 下拉菜单
+		 */
+		function t(){
+			var a = this,
+			b = $(this);
+			b.hasClass("open")?(b.find("ul").css("display","none")):b.find("ul").css("display","block")
+			b.toggleClass("open")
 		}
-		return height-41-36;
-	}();
-	$("div.container").css("min-height",h +"px");
+		
+		/*
+		 * 文件上传
+		 */
+		function u(){
+			$(this).parent().find(".filename").html($(this).val());
+		}
+		
+		$(document).delegate("li.submenu","click",t);
+		$(document).delegate(".uploader input","change",u)
+		var h = function(){
+			var height = window.innerHeight;
+			if(typeof height != 'number'){
+				if(document.compatMode == 'CSS1Compat'){
+					height = document.documentElement.clientHeight;
+				}else{
+					height = document.body.clientHeight;
+				}
+			}
+			return height-77;
+		}();
+		$("div.container").css("min-height",h +"px");
+	})
 })();
 
 
@@ -204,7 +199,6 @@
 			var self = this;
   			var p = self.$container.find(".pagination");
 			var page = p.data("curpage")||0;
-			console.log(page);
 			page = (page-1>0?page-1:1);
 			self.getPage(page)
 		},
@@ -266,6 +260,20 @@
 		validate:function(){
 			var form = $(this);
 			var inputs = form.find("input");
+			var textarea = form.find("textarea");
+			var els = [];
+			inputs.each(function(){
+				var el = $(this);
+				var type = el.attr("type")||"";
+				if("text/email/url/password/phonenumber/".indexOf(type) >-1 ){
+					els.push(el)
+				}
+			})
+			
+			textarea.each(function(){
+				els.push($(this))
+			})
+			
 			var showerror = function(el,err){
 				var h =null;
 				(h=el.next(".help-inline")).length==0&& (h=$("<div class='help-inline'></div>"),el.after(h));
@@ -276,12 +284,11 @@
 					h.show();
 				}
 			};
-			for(var i=0,l=inputs.length;i<l;i++){
-				var el = inputs.eq(i);
-				var type = el.attr("type");
-				if("text/email/url/password/phonenumber/".indexOf(type) ==-1){
-					continue;
-				}
+			
+			var res = true;
+			for(var i=0,l=els.length;i<l;i++){
+				var cur = true;
+				var el = els[i];
 				var value,max,min,error,require,require_msg,patterns;
 				max = el.attr("max");
 				min = el.attr("min");
@@ -298,30 +305,31 @@
 				}
 				if(require == "require" && !value){
 					showerror(el,require_msg);
-					return false;
+					cur =  false;
 				}
 
 				
 				if(min && len<min){
 					showerror(el,error);
-					return false;
+					cur = false;
 				}
 				
 				if(max && len>max){
 					showerror(el,error);
-					return false;
+					cur = false;
 				}
 				
 				if(patterns){
 					var reg = new RegExp(patterns);
-					if(!reg.exec(value)){
+					if(!reg.test(value)){
 						showerror(el,error);
-						return false;
+						cur = false;
 					}
 				}
-				showerror(el);
+				cur&&showerror(el);
+				!cur&&(res = cur);//保存错误结果
 			}
-			return true;
+			return res;
 		}
 	})
 })(jQuery);

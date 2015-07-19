@@ -118,6 +118,17 @@
 			   		}
 			   		info[i]=value;
 			   }
+			   var content = info.content;
+			   if(content == null || content==""){
+			   		$(".content-help-inline").html("资讯内容不能为空");
+			   		$("body").scrollTop(0);
+			   		return ;
+			   }
+//			   else if(content.length>5000){
+//			   		$(".content-help-inline").html("资讯内容超长");
+//			   		$("body").scrollTop(0);
+//			   		return ;
+//			   }
 			   var relation = {addREPs:"",delREPs:''};//mixRelationOperation(originalRelation,addRelation,delRelation);
 			   if(addRelation.length>0){
 			   		relation.addREPs = addRelation.join("/");
@@ -125,9 +136,10 @@
 			   if(delRelation.length>0){
 			   		relation.delREPs = delRelation.join("/");
 			   }
-			   var url = "${ctx}/mi/info/"+infoId;
+			var url = "${ctx}/mi/info/"+infoId;
 			btn.attr("disabled","disabled");
 			btn.addClass("disabled");
+			$(".content-help-inline").html("");
 			   $.ajax({
 			   	type:"POST",
 			   	url:url,
@@ -138,8 +150,13 @@
 		   			var name = data.field;
 		   			if(!data.success){
 		   				if(name){
-		   					var p = form.find("input[name='"+name+"']");
-		   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+		   					if(name == "content"){
+		   						$(".content-help-inline").html(data.msg);
+		   					}else{
+			   					var p = form.find("[name='"+name+"']");
+			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+		   					}
+		   					$("body").scrollTop(0);
 		   				}else{
 		   					alert(data.msg);
 		   				}

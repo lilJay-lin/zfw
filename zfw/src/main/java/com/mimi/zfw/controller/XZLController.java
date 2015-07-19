@@ -546,7 +546,7 @@ public class XZLController {
 
 	// return new ModelAndView("mi/users/add","user",new User());
 
-	return "mi/officeBuilding/add";
+	return "mi/xzl/add";
     }
 
     @RequiresPermissions("ob:add")

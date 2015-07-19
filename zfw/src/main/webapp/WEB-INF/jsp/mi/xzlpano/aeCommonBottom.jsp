@@ -42,7 +42,8 @@ $(":file").change(function(){
 			if(data.success){
 				var final_url = data.imgPath;
 				$("input[name='preImageUrl']").val(final_url);
-				$(".control-user-img").attr("src",final_url);
+//				$(".control-user-img").attr("src",final_url);
+				$(".control-img").find("img").attr("src",final_url);
 			}else{
 				alert(data.msg);
 			}
@@ -82,7 +83,12 @@ $("#submit").click(function(){
 	var res = form.validate();
 	if(res){
 		var pano = getPanoData();
-
+		if(!pano.preImageUrl){
+			$(".uploade-img-error").html("缩略图不能为空");
+			return;
+		}else{
+			$(".uploade-img-error").html("");
+		}	
 		if(inEdit){
 			url = "${ctx}/mi/xzlpano/${panoId}";
 		}else{
@@ -100,7 +106,7 @@ $("#submit").click(function(){
 	   			if(!data.success){
 	   				var name = data.field;
 	   				if(name){
-	   					var p = form.find("input[name='"+name+"']");
+	   					var p = form.find("[name='"+name+"']");
 	   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
 	   				}else{
 	   					alert(data.msg);

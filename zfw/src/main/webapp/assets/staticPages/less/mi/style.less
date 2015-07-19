@@ -294,6 +294,7 @@ body{
 
 .datatable-table{
     display: table;
+    table-layout: fixed;
     width: 100%;
     margin-bottom: 20px;
     max-width: 100%;
@@ -315,9 +316,26 @@ body{
         border-right: 1px solid @datatable-border-color;
     }
     
-    & th.operation{
-        width:120px;
+    & {
+        th.operation{
+            width:120px;
+        }
+        th.name{
+            width:100px;
+        }
+        th.time{
+            width:130px;
+        }
+        tbody td{
+             overflow: hidden;
+             text-overflow: ellipsis;
+             white-space: nowrap;
+        }
+        th.description,th.contentUrl,th.summary,th.address{
+            width:30%;
+        }
     }
+    
     
     & tr:last-of-type>td:last-of-type{
         border-bottom-right-radius:4px;
@@ -698,7 +716,7 @@ body{
 .container{
     width:100%;
     overflow: hidden;
-    min-height: 1000px;
+//  min-height: 1000px;
 }
 /*===============侧边栏===============*/
 @slider-bg:#383e4b;
