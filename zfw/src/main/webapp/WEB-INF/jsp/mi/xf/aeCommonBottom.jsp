@@ -293,14 +293,22 @@
 			if(res){
 				var url;
 				var data;
+				var rep = getREPData();
+				if(!rep.preImageUrl){
+					$(".uploade-img-error").html("图片不能为空");
+					$("body").scrollTop(0);
+					return;
+				}else{
+					$(".uploade-img-error").html("");
+				}	
 				if(inEdit){
 					url = "${ctx}/mi/xf/"+$("#repId").val();
-					var rep = getREPData();
+//					var rep = getREPData();
 					var relation = {addUserRelations:addUserRelation.join("/"),delUserRelations:delUserRelation.join("/"),addInfoRelations:addInfoRelation.join("/"),delInfoRelations:delInfoRelation.join("/")};
 				   data = $.extend(relation,rep);
 				}else{
 					url = "${ctx}/mi/xf/add";
-					var rep = getREPData();
+//					var rep = getREPData();
 				   var userIds = addUserRelation.join("/");
 				   var infoIds = addInfoRelation.join("/");
 				   data = $.extend({"userIds":userIds,"infoIds":infoIds},rep);

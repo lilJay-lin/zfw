@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.AssessmentParameterExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IAssessmentParameterService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class AssessmentParameterServiceImpl extends
@@ -162,15 +163,31 @@ public class AssessmentParameterServiceImpl extends
 			resMap.put("msg", "评估参数所属评估项不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(ap.getName())) {
-			resMap.put("msg", "评估参数名称不能为空");
+		
+		String name = ap.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "评估参数名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer value = ap.getValue();
+		errStr = FormatUtil.checkFormat(value, FormatUtil.REGEX_COMMON_PGPARAMETERVALUE, true, "评估参数值");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","value");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (ap.getValue() == null) {
-			resMap.put("msg", "评估参数值不能为空");
+		
+		String description = ap.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
+		
 		return resMap;
 	}
-
 }

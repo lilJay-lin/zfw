@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.HTRingExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IHTRingService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class HTRingServiceImpl extends
@@ -167,18 +168,36 @@ public class HTRingServiceImpl extends
 			resMap.put("msg", "三维所属户型不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(ring.getPreImageUrl())) {
-			resMap.put("msg", "三维缩略图不能为空");
+		String name = ring.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "三维名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		
+		if(StringUtils.isBlank(ring.getPreImageUrl())){
+		    resMap.put("msg","三维缩略图不能为空");
+		    return resMap;
+		}
+		
+		String contentUrl = ring.getContentUrl();
+		errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "三维内容路径");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","contentUrl");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(ring.getContentUrl())) {
-			resMap.put("msg", "三维内容路径不能为空");
+		
+		String description = ring.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(ring.getName())) {
-			resMap.put("msg", "三维名称不能为空");
-			return resMap;
-		}
+		
 		return resMap;
 	}
 }

@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.OBPanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IOBPanoService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class OBPanoServiceImpl extends
@@ -137,12 +138,43 @@ public class OBPanoServiceImpl extends
     public Map<String, String> checkOBPano(OBPano oBPano) {
 	Map<String, String> resMap = new HashMap<String, String>();
 
-	if (StringUtils.isBlank(oBPano.getName())) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "写字楼名称不能为空");
+	if (oBPano == null) {
+		resMap.put("msg", "全景内容不能为空");
+		return resMap;
 	}
-	if (StringUtils.isBlank(oBPano.getPreImageUrl())) {
-	    resMap.put("msg", "写字楼图片不能为空");
+	if (StringUtils.isBlank(oBPano.getOfficeBuildingId())) {
+		resMap.put("msg", "全景所属写字楼不能为空");
+		return resMap;
+	}
+
+	String name = oBPano.getName();
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "全景名");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+
+	
+	if(StringUtils.isBlank(oBPano.getPreImageUrl())){
+	    resMap.put("msg","全景缩略图不能为空");
+	    return resMap;
+	}
+	
+	String contentUrl = oBPano.getContentUrl();
+	errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "全景内容路径");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","contentUrl");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String description = oBPano.getDescription();
+	errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","description");
+		resMap.put("msg", errStr);
+		return resMap;
 	}
 
 	return resMap;

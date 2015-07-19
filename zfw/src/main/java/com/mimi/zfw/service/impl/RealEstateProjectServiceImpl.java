@@ -48,6 +48,7 @@ import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IHouseTypeService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class RealEstateProjectServiceImpl extends
@@ -755,14 +756,13 @@ public class RealEstateProjectServiceImpl extends
 			resMap.put("msg", "楼盘缩略图不能为空");
 			return resMap;
 		}
-		if (rep.getAveragePrice() == null) {
-			resMap.put("msg", "楼盘均价不能为空");
-			return resMap;
-		}
-		if (StringUtils.isBlank(rep.getName())) {
-			resMap.put("msg", "楼盘名称不能为空");
-			return resMap;
-		} else {
+		String name = rep.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "楼盘名");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}else {
 			RealEstateProjectExample repe = new RealEstateProjectExample();
 			repe.or().andNameEqualTo(rep.getName()).andDelFlagEqualTo(false);
 			List<RealEstateProject> repList = repm.selectByExample(repe);
@@ -775,6 +775,152 @@ public class RealEstateProjectServiceImpl extends
 				}
 			}
 		}
+		
+		Integer averagePrice = rep.getAveragePrice();
+		errStr = FormatUtil.checkFormat(averagePrice, FormatUtil.REGEX_COMMON_AVERAGEPRICE, true, "楼盘均价");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","averagePrice");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		String address = rep.getAddress();
+		errStr = FormatUtil.checkFormate(address,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2 , "地址");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","address");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		
+		String tel = rep.getTel();
+		errStr = FormatUtil.checkFormat(tel, FormatUtil.REGEX_COMMON_TEL,false, "热线电话");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","tel");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer houseHoldNum = rep.getHouseholdNum();
+		errStr = FormatUtil.checkFormat(houseHoldNum, FormatUtil.REGEX_COMMON_HOUSEHOLD_NUM, false, "住户数");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","houseHoldNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Float  floorAreaRatio = rep.getFloorAreaRatio();
+		errStr = FormatUtil.checkFormat(floorAreaRatio, FormatUtil.REGEX_COMMON_FLOORAREARATIO, false, "容积率");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","floorAreaRatio");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Float greenRate  = rep.getGreenRate();
+		errStr = FormatUtil.checkFormat(greenRate, FormatUtil.REGEX_COMMON_GREENRATE, false, "绿化率");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","greenRate");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer parkingSpaceNum = rep.getParkingSpaceNum();
+		errStr = FormatUtil.checkFormat(parkingSpaceNum, FormatUtil.REGEX_COMMON_PARKINGSPACENUM, false, "停车位");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","parkingSpaceNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer propertyYears = rep.getPropertyYears();
+		errStr = FormatUtil.checkFormat(propertyYears, FormatUtil.REGEX_COMMON_PROPERTYYEARS, false, "产权年限");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","propertyYears");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		String developer = rep.getDeveloper();
+		errStr = FormatUtil.checkFormate(developer, false, FormatUtil.MAX_LENGTH_COMMON_SHORT_L3, "开发商");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","developer");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		String preSalePermit = rep.getPreSalePermit();
+		errStr = FormatUtil.checkFormate(preSalePermit, false, FormatUtil.MAX_LENGTH_COMMON_SHORT_L3, "预售许可证");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","preSalePermit");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		String propertyCompany = rep.getPropertyCompany();
+		errStr = FormatUtil.checkFormate(propertyCompany, false, FormatUtil.MAX_LENGTH_COMMON_SHORT_L3, "物业公司");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","propertyCompany");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Float  propertyFee = rep.getPropertyFee();
+		errStr = FormatUtil.checkFormat(propertyFee, FormatUtil.REGEX_COMMON_PROPERTYFEE, false, "物业费");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","propertyFee");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+
+		String introduction = rep.getIntroduction();
+		errStr = FormatUtil.checkFormate(introduction,false,FormatUtil.MAX_LENGTH_COMMON_LONG_L1, "介绍");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","introduction");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+
+		String surrounding = rep.getSurrounding();
+		errStr = FormatUtil.checkFormate(surrounding,false,FormatUtil.MAX_LENGTH_COMMON_LONG_L1, "周边配套");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","surrounding");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		String traffic = rep.getTraffic();
+		errStr = FormatUtil.checkFormate(traffic,false,FormatUtil.MAX_LENGTH_COMMON_LONG_L1, "交通配套");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","traffic");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		String description = rep.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		String tags = rep.getTags();
+		errStr = FormatUtil.checkFormate(tags,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L1, "标签");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","tags");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		Integer priority = rep.getPriority();
+		errStr = FormatUtil.checkFormat(priority, FormatUtil.REGEX_COMMON_PRIORITY, false, "优先级");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","priority");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
 		return resMap;
 	}
 

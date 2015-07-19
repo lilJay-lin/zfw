@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.ShopImageExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IShopImageService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class ShopImageServiceImpl extends
@@ -169,14 +170,37 @@ public class ShopImageServiceImpl extends
     public Map<String, String> checkShopImage(ShopImage shopImage) {
 	Map<String, String> resMap = new HashMap<String, String>();
 	
-	if(StringUtils.isBlank(shopImage.getName())){
-	    resMap.put("field","name");
-	    resMap.put("msg","商铺名称不能为空");
-	}
-	if(StringUtils.isBlank(shopImage.getContentUrl())){
-	    resMap.put("msg","商铺图片不能为空");
+
+	if (shopImage == null) {
+	    resMap.put("msg", "图片内容不能为空");
+	    return resMap;
 	}
 	
+	if (StringUtils.isBlank(shopImage.getShopId())) {
+		resMap.put("msg", "图片所属商铺不能为空");
+		return resMap;
+	}
+	
+	String name = shopImage.getName();
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "图片名称");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+	
+	if(StringUtils.isBlank(shopImage.getContentUrl())){
+	    resMap.put("msg","商铺图片不能为空");
+	    return resMap;
+	}
+
+	String description = shopImage.getDescription();
+	errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","description");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
 	return resMap;
     }
 

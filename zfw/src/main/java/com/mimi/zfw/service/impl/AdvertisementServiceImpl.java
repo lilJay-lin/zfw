@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.AdvertisementExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class AdvertisementServiceImpl extends
@@ -156,24 +157,49 @@ public class AdvertisementServiceImpl extends
 
 	private Map<String, String> checkInfo(Advertisement ad) {
 		Map<String, String> resMap = new HashMap<String, String>();
+		
 		if (ad == null) {
 			resMap.put("msg", "广告内容不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(ad.getLocation())) {
-			resMap.put("msg", "广告位置不能为空");
+		
+		String name = ad.getName();
+		String errStr = FormatUtil.checkFormate(name, true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L3, "标题");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","name");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(ad.getPreImageUrl())) {
-			resMap.put("msg", "广告缩略图不能为空");
+		
+		String contentUrl = ad.getContentUrl();
+		errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "内容路径");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","contentUrl");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(ad.getContentUrl())) {
-			resMap.put("msg", "广告内容路径不能为空");
+		
+		String summary = ad.getSummary();
+		errStr = FormatUtil.checkFormate(summary, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "提要");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","summary");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(ad.getName())) {
-			resMap.put("msg", "广告名称不能为空");
+		
+		String description = ad.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		Integer priority = ad.getPriority();
+		errStr = FormatUtil.checkFormat(priority, FormatUtil.REGEX_COMMON_PRIORITY, false, "优先级");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","priority");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
 		return resMap;

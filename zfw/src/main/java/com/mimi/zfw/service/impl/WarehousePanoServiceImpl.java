@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.WarehousePanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.service.IWarehousePanoService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class WarehousePanoServiceImpl extends
@@ -139,14 +140,44 @@ public class WarehousePanoServiceImpl extends
     public Map<String, String> checkWarehousePano(WarehousePano warehousePano) {
 	Map<String, String> resMap = new HashMap<String, String>();
 
-	if (StringUtils.isBlank(warehousePano.getName())) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "厂房/仓库名称不能为空");
+	if (warehousePano == null) {
+		resMap.put("msg", "全景内容不能为空");
+		return resMap;
 	}
-	if (StringUtils.isBlank(warehousePano.getPreImageUrl())) {
-	    resMap.put("msg", "厂房/仓库图片不能为空");
+	if (StringUtils.isBlank(warehousePano.getWarehouseId())) {
+		resMap.put("msg", "全景所属厂房/仓库不能为空");
+		return resMap;
 	}
 
+	String name = warehousePano.getName();
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "全景名");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+
+	
+	if(StringUtils.isBlank(warehousePano.getPreImageUrl())){
+	    resMap.put("msg","全景缩略图不能为空");
+	    return resMap;
+	}
+	
+	String contentUrl = warehousePano.getContentUrl();
+	errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "全景内容路径");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","contentUrl");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String description = warehousePano.getDescription();
+	errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","description");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
 	return resMap;
     }
 }

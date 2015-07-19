@@ -17,8 +17,8 @@
 									<div class="control-group">
 										<label class="control-label">楼盘均价</label>
 										<div class="control">
-											<input type="text"  name="averagePrice" id="averagePrice" maxlength="6" max="6"  error="楼盘均价范围0-999999" 
-											patterns = "^\d{1,6}$"  placeholder="输入楼盘均价 0-999999" value="0" />
+											<input type="text"  name="averagePrice" id="averagePrice" maxlength="6" max="6"
+											 	require="require" require_msg ="楼盘均价不能为空" patterns = "^\d{1,6}$"   error="楼盘均价范围0-999999"  placeholder="输入楼盘均价 0-999999" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -109,16 +109,16 @@
 									<div class="control-group">
 										<label class="control-label">容积率</label>
 										<div class="control">
-											<input type="text"  name="floorAreaRatio" id="floorAreaRatio" max="11" maxlength="11" error="容积率范围0.0-999999.9999" 
-											patterns = "^\d{1,6}(\.\d{1,4})?$"  placeholder="输入容积率0.0-999999.9999" value="0.0" />
+											<input type="text"  name="floorAreaRatio" id="floorAreaRatio" max="11" maxlength="11" error="容积率范围0.0-99.9999" 
+											patterns = "^\d{1,2}(\.\d{1,4})?$"  placeholder="输入容积率0.0-99.9999" value="0.0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">绿化率</label>
 										<div class="control">
-											<input type="text"  name="greenRate" id="greenRate" max="11" maxlength="11" error="绿化率范围0.0-999999.9999" 
-											patterns = "^\d{1,6}(\.\d{1,4})?$"  placeholder="输入绿化率 0.0-999999.9999" value="0.0" />
+											<input type="text"  name="greenRate" id="greenRate" max="11" maxlength="11" error="绿化率范围0.0-99.9999" 
+											patterns = "^\d{1,2}(\.\d{1,4})?$"  placeholder="输入绿化率 0.0-99.9999" value="0.0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -232,6 +232,9 @@
 													<div class="loading">
 														<img src="${ctx}/assets/img/loading.gif"  />
 													</div>
+												</div>
+												<div class="control">
+													<span class="help-inline uploade-img-error"></span>
 												</div>
 												<div class="control-img">
 													<img src=""/>

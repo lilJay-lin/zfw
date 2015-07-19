@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.ShopPanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IShopPanoService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class ShopPanoServiceImpl extends
@@ -145,10 +146,7 @@ public class ShopPanoServiceImpl extends
     @Override
     public Map<String, String> updateShopPano(ShopPano shopPano) {
 	Map<String, String> resMap = new HashMap<String, String>();
-	if (shopPano == null) {
-	    resMap.put("msg", "商铺全景内容不能为空");
-	    return resMap;
-	}
+
 	resMap = checkShopPano(shopPano);
 	if (!resMap.isEmpty()) {
 	    return resMap;
@@ -163,16 +161,49 @@ public class ShopPanoServiceImpl extends
     @Override
     public Map<String, String> checkShopPano(ShopPano shopPano) {
 	Map<String, String> resMap = new HashMap<String, String>();
-
-	if (StringUtils.isBlank(shopPano.getName())) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "商铺名称不能为空");
+	
+	if (shopPano == null) {
+	    resMap.put("msg", "商铺全景内容不能为空");
+	    return resMap;
 	}
-	if (StringUtils.isBlank(shopPano.getPreImageUrl())) {
-	    resMap.put("msg", "商铺图片不能为空");
+
+	if (StringUtils.isBlank(shopPano.getShopId())) {
+		resMap.put("msg", "全景所属商铺不能为空");
+		return resMap;
+	}
+	
+	String name = shopPano.getName();
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "全景名");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+
+	
+	if(StringUtils.isBlank(shopPano.getPreImageUrl())){
+	    resMap.put("msg","全景缩略图不能为空");
+	    return resMap;
+	}
+	
+	String contentUrl = shopPano.getContentUrl();
+	errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "全景内容路径");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","contentUrl");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String description = shopPano.getDescription();
+	errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","description");
+		resMap.put("msg", errStr);
+		return resMap;
 	}
 
 	return resMap;
     }
+
 
 }
