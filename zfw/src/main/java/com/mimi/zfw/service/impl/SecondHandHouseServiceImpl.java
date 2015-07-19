@@ -30,6 +30,7 @@ import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IResidenceCommunityService;
 import com.mimi.zfw.service.ISecondHandHouseService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 import com.mimi.zfw.util.NumberUtil;
 
 @Service
@@ -649,14 +650,128 @@ public class SecondHandHouseServiceImpl extends
 			resMap.put("msg", "二手房所属小区不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(shh.getPreImageUrl())) {
-			resMap.put("msg", "二手房缩略图不能为空");
+//		if (StringUtils.isBlank(shh.getPreImageUrl())) {
+//			resMap.put("msg", "二手房缩略图不能为空");
+//			return resMap;
+//		}
+//		if (StringUtils.isBlank(shh.getName())) {
+//			resMap.put("msg", "二手房名称不能为空");
+//			return resMap;
+//		}
+		String name = shh.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "二手房名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		String phoneNum = shh.getPhoneNum();
+		errStr = FormatUtil.checkFormat(phoneNum, FormatUtil.REGEX_COMMON_PHONENUM,false, "联系电话");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","phoneNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer totalPrice = shh.getTotalPrice();
+		errStr =  FormatUtil.checkFormat(totalPrice, FormatUtil.REGEX_COMMON_TOTALPRICE,false, "总价");
+		if(StringUtils.isNotBlank(errStr)){
+			    resMap.put("field","totalPrice");
+			    resMap.put("msg", errStr);
+			    return resMap;
+		}
+		
+		Float grossFloorArea = shh.getGrossFloorArea();
+		errStr = FormatUtil.checkFormat(grossFloorArea, FormatUtil.REGEX_COMMON_GROSSFLOORAREA, false, "建筑面积");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","grossFloorArea");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(shh.getName())) {
-			resMap.put("msg", "二手房名称不能为空");
+		
+
+		Integer roomNum = shh.getRoomNum();
+		errStr = FormatUtil.checkFormat(roomNum, FormatUtil.REGEX_COMMON_ROOMNUM, false, "居室数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","roomNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer hallNum = shh.getHallNum();
+		errStr = FormatUtil.checkFormat(hallNum, FormatUtil.REGEX_COMMON_HALLNUM, false, "厅数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","hallNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		Integer toiletNum = shh.getToiletNum();
+		errStr = FormatUtil.checkFormat(toiletNum, FormatUtil.REGEX_COMMON_TOILETNUM, false, "卫生间数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","toiletNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		Integer curFloor = shh.getCurFloor();
+		errStr = FormatUtil.checkFormat(curFloor, FormatUtil.REGEX_COMMON_CURFLOOR, false, "所在楼层");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","curFloor");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer totalFloor = shh.getTotalFloor();
+		errStr = FormatUtil.checkFormat(totalFloor, FormatUtil.REGEX_COMMON_TOTALFLOOR, false, "总楼层");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","totalFloor");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		String address = shh.getAddress();
+		errStr = FormatUtil.checkFormate(address,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2 , "地址");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","address");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
+		
+		String introduction = shh.getIntroduction();
+		errStr = FormatUtil.checkFormate(introduction,false,FormatUtil.MAX_LENGTH_COMMON_LONG_L1, "介绍");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","introduction");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		String tags = shh.getTags();
+		errStr = FormatUtil.checkFormate(tags,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L1, "标签");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","tags");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		Integer priority = shh.getPriority();
+		errStr = FormatUtil.checkFormat(priority, FormatUtil.REGEX_COMMON_PRIORITY, false, "优先级");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","priority");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		String description = shh.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		
 		return resMap;
 	}
 

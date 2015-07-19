@@ -27,6 +27,7 @@ import com.mimi.zfw.mybatis.pojo.WarehousePanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IUserService;
 import com.mimi.zfw.service.IWarehouseService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class WarehouseServiceImpl extends
@@ -488,6 +489,117 @@ public class WarehouseServiceImpl extends
 
     private Map<String, String> checkWarehouse(Warehouse warehouse) {
 	Map<String, String> resMap = new HashMap<String, String>();
+	if (warehouse == null) {
+		resMap.put("msg", "厂房仓库内容不能为空");
+		return resMap;
+	}
+
+	String name = warehouse.getName();
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "厂房仓库名称");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+	
+	String phoneNum = warehouse.getPhoneNum();
+	errStr = FormatUtil.checkFormat(phoneNum, FormatUtil.REGEX_COMMON_TEL,false, "热线电话");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","phoneNum");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+	
+	Integer rental = warehouse.getRental();
+	Integer totalPrice = warehouse.getTotalPrice();
+	String rentOrSale = warehouse.getRentOrSale();
+
+	errStr = FormatUtil.checkFormat(rental, FormatUtil.REGEX_COMMON_RENTAL,false, "租金");
+	if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","rental");
+		    resMap.put("msg", errStr);
+		    return resMap;
+	    }
+	errStr =  FormatUtil.checkFormat(totalPrice, FormatUtil.REGEX_COMMON_TOTALPRICE,false, "总价");
+	if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","totalPrice");
+		    resMap.put("msg", errStr);
+		    return resMap;
+	}
+	if(StringUtils.equals(rentOrSale, Constants.ROS_RENT_AND_SALE)){
+	    
+	    if(rental == null){
+		resMap.put("field","rental");
+		resMap.put("msg", "销售类型是租售，租金不能为空");
+		return resMap;
+	    }else if(totalPrice == null){
+		resMap.put("field","totalPrice");
+		resMap.put("msg", "销售类型是租售，总价不能为空");
+		return resMap;
+	    }
+	    
+	}else if(StringUtils.equals(rentOrSale, Constants.ROS_RENT_ONLY)){
+	    if(rental == null){
+		resMap.put("field","rental");
+		resMap.put("msg", "销售类型是出租，租金不能为空");
+		return resMap;
+	    }
+	}else if(StringUtils.equals(rentOrSale, Constants.ROS_SALE_ONLY)){
+	    if(totalPrice == null){
+		resMap.put("field","totalPrice");
+		resMap.put("msg", "销售类型是出售，总价不能为空");
+		return resMap;
+	    }
+	}
+	
+	Float grossFloorArea = warehouse.getGrossFloorArea();
+	errStr = FormatUtil.checkFormat(grossFloorArea, FormatUtil.REGEX_COMMON_GROSSFLOORAREA, false, "面积");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","grossFloorArea");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String address = warehouse.getAddress();
+	errStr = FormatUtil.checkFormate(address,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2 , "地址");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","address");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String introduction = warehouse.getIntroduction();
+	errStr = FormatUtil.checkFormate(introduction,false,FormatUtil.MAX_LENGTH_COMMON_LONG_L1, "介绍");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","introduction");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String description = warehouse.getDescription();
+	errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","description");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	String tags = warehouse.getTags();
+	errStr = FormatUtil.checkFormate(tags,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L1, "标签");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","tags");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
+	Integer priority = warehouse.getPriority();
+	errStr = FormatUtil.checkFormat(priority, FormatUtil.REGEX_COMMON_PRIORITY, false, "优先级");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","priority");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
+	
 	return resMap;
     }
 

@@ -1,6 +1,7 @@
 package com.mimi.zfw.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IHouseTypeService;
 import com.mimi.zfw.service.IRealEstateProjectService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class HouseTypeServiceImpl extends
@@ -312,18 +314,101 @@ public class HouseTypeServiceImpl extends
 			resMap.put("msg", "户型所属楼盘不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(ht.getPreImageUrl())) {
-			resMap.put("msg", "户型缩略图不能为空");
+		String name = ht.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "户型名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}else {
+		    HouseTypeExample example = new HouseTypeExample();
+		    example.or().andNameEqualTo(name).andDelFlagEqualTo(false);
+			List<HouseType> list = htm.selectByExample(example);
+			if (list != null && !list.isEmpty()) {
+				for (HouseType model : list) {
+					if (!StringUtils.equals(model.getId(), ht.getId())) {
+						resMap.put("msg", "户型名称已存在");
+						return resMap;
+					}
+				}
+			}
+		}
+		
+
+		
+		Integer averagePrice = ht.getAveragePrice();
+		errStr = FormatUtil.checkFormat(averagePrice, FormatUtil.REGEX_COMMON_AVERAGEPRICE, true, "户型均价");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","averagePrice");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (ht.getAveragePrice() == null) {
-			resMap.put("msg", "户型均价不能为空");
+		
+		Date onSaleDate = ht.getOnSaleDate();
+		if(onSaleDate == null){
+			resMap.put("field","onSaleDate");
+			resMap.put("msg", "开售时间不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(ht.getName())) {
-			resMap.put("msg", "户型名称不能为空");
+		
+		
+		Float grossFloorArea = ht.getGrossFloorArea();
+		errStr = FormatUtil.checkFormat(grossFloorArea, FormatUtil.REGEX_COMMON_GROSSFLOORAREA, false, "面积");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","grossFloorArea");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
+
+		Integer roomNum = ht.getRoomNum();
+		errStr = FormatUtil.checkFormat(roomNum, FormatUtil.REGEX_COMMON_ROOMNUM, false, "居室数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","roomNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		Integer hallNum = ht.getHallNum();
+		errStr = FormatUtil.checkFormat(hallNum, FormatUtil.REGEX_COMMON_HALLNUM, false, "厅数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","hallNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		Integer kitchenNum = ht.getKitchenNum();
+		errStr = FormatUtil.checkFormat(kitchenNum, FormatUtil.REGEX_COMMON_KITCHEN_NUM, false, "厨房数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","kitchenNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		Integer toiletNum = ht.getToiletNum();
+		errStr = FormatUtil.checkFormat(toiletNum, FormatUtil.REGEX_COMMON_TOILETNUM, false, "卫生间数量");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","toiletNum");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		String tags = ht.getTags();
+		errStr = FormatUtil.checkFormate(tags,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L1, "标签");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","tags");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		Integer priority = ht.getPriority();
+		errStr = FormatUtil.checkFormat(priority, FormatUtil.REGEX_COMMON_PRIORITY, false, "优先级");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","priority");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		
 		return resMap;
 	}
 

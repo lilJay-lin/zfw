@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.NameListExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.INameListService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class NameListServiceImpl extends
@@ -198,16 +199,33 @@ public class NameListServiceImpl extends
 	Map<String, String> resMap = new HashMap<String, String>();
 	resMap.put("msg", "");
 	String name = nl.getName();
-	String phoneName = nl.getPhoneNum();
-	if (StringUtils.isBlank(name)) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "姓名不能为空");
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "姓名");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
 	}
-	if (StringUtils.isBlank(phoneName)) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "电话不能为空");
+	String phoneNum = nl.getPhoneNum();
+	errStr = FormatUtil.checkFormat(phoneNum, FormatUtil.REGEX_COMMON_PHONENUM,true, "电话");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","phoneNum");
+	    resMap.put("msg", errStr);
+	    return resMap;
 	}
-
+	
+	NameListExample example = new NameListExample();
+	example.or().andNameEqualTo(name).andPhoneNumEqualTo(phoneNum).andDelFlagEqualTo(false);
+	List<NameList> list = nlm.selectByExample(example);
+	if(list != null && list.size()>0){
+	    for(NameList n : list){
+		if(!StringUtils.equals(n.getId(), nl.getId())){
+		    resMap.put("msg", "指定名称和电话的记录已存在");
+		    return resMap;
+		}
+	    }
+	}
+	
+	
 	return resMap;
     }
 
@@ -233,4 +251,6 @@ public class NameListServiceImpl extends
 
 	return row;
     }
+    
+
 }

@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.RHImageExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRHImageService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class RHImageServiceImpl extends
@@ -160,14 +161,27 @@ public class RHImageServiceImpl extends
 			resMap.put("msg", "图片所属租房不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(image.getContentUrl())) {
-			resMap.put("msg", "图片内容路径不能为空");
+		String name = image.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "图片名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+		
+		if(StringUtils.isBlank(image.getContentUrl())){
+		    resMap.put("msg","图片不能为空");
+		    return resMap;
+		}
+
+		String description = image.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(image.getName())) {
-			resMap.put("msg", "图片名称不能为空");
-			return resMap;
-		}
+		
 		return resMap;
 	}
 }

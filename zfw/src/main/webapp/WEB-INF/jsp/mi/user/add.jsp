@@ -71,7 +71,7 @@
 									<div class="control-group">
 										<label class="control-label">邮箱</label>
 										<div class="control">
-											<input type="text" name="email" placeholder="输入邮箱" max="32" maxlength="32" patterns="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+$" />
+											<input type="text" name="email" placeholder="输入邮箱" max="32" maxlength="32" patterns="^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9])+$" />
 											<span class="help-inline"></span>
 										</div>
 									</div>

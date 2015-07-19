@@ -51,6 +51,7 @@
 										<label class="control-label">描述</label>
 										<div class="control">
 											<textarea name="description" max="200" maxlength="200" error="描述最多200个字"></textarea>
+											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="form-actions">

@@ -25,6 +25,7 @@ import com.mimi.zfw.mybatis.pojo.RelationREPAndInformationExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IInformationService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class InformationServiceImpl extends
@@ -330,31 +331,68 @@ public class InformationServiceImpl extends
 	
 	private Map<String, String> checkInfo(Information info){
 		Map<String, String> resMap = new HashMap<String, String>();
-		if(StringUtils.isBlank(info.getAuthor())){
-		    resMap.put("field", "authoer");
-		    resMap.put("msg", "作者不能为空");
-		    return resMap;
+		
+		if(info==null){
+			resMap.put("msg", "资讯内容不能为空");
+			return resMap;
 		}
-		if(StringUtils.isBlank(info.getContent())){
-		    resMap.put("field", "content");
-		    resMap.put("msg", "内容不能为空");
-		    return resMap;
+		
+		String name = info.getName();
+		String errStr = FormatUtil.checkFormate(name, true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L3, "标题");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","name");
+			resMap.put("msg", errStr);
+			return resMap;
 		}
-		if(StringUtils.isBlank(info.getName())){
-		    resMap.put("field", "name");
-		    resMap.put("msg", "标题不能为空");
-		    return resMap;
+		
+		String author = info.getAuthor();
+		errStr = FormatUtil.checkFormate(author, true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "作者");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","author");
+			resMap.put("msg", errStr);
+			return resMap;
 		}
-		if(StringUtils.isBlank(info.getType())){
-		    resMap.put("field", "type");
-		    resMap.put("msg", "类型不能为空");
-		    return resMap;
+		
+		String content = info.getContent();
+		errStr = FormatUtil.checkFormate(content, true, FormatUtil.MAX_LENGTH_COMMON_LONG_L2, "内容");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","content");
+			resMap.put("msg", errStr);
+			return resMap;
 		}
-		if(StringUtils.isBlank(info.getSummary())){
-		    resMap.put("field", "summary");
-		    resMap.put("msg", "提要不能为空");
-		    return resMap;
+		
+		String summary = info.getSummary();
+		errStr = FormatUtil.checkFormate(summary, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "提要");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","summary");
+			resMap.put("msg", errStr);
+			return resMap;
 		}
+		
+		String description = info.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		String tags = info.getTags();
+		errStr = FormatUtil.checkFormate(tags,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L1, "标签");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","tags");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
+		Integer priority = info.getPriority();
+		errStr = FormatUtil.checkFormat(priority, FormatUtil.REGEX_COMMON_PRIORITY, false, "优先级");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","priority");
+			resMap.put("msg", errStr);
+			return resMap;
+		}
+		
 		return resMap;
 	}
 

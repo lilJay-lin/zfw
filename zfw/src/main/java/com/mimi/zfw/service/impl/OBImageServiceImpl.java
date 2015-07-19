@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.OBImageExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IOBImageService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class OBImageServiceImpl extends
@@ -140,14 +141,35 @@ public class OBImageServiceImpl extends
     public Map<String, String> checkOBImage(OBImage oBImage) {
 	Map<String, String> resMap = new HashMap<String, String>();
 
-	if (StringUtils.isBlank(oBImage.getName())) {
-	    resMap.put("field", "name");
-	    resMap.put("msg", "写字楼名称不能为空");
+	if (oBImage == null) {
+		resMap.put("msg", "图片内容不能为空");
+		return resMap;
 	}
-	if (StringUtils.isBlank(oBImage.getContentUrl())) {
-	    resMap.put("msg", "写字楼图片不能为空");
+	if (StringUtils.isBlank(oBImage.getOfficeBuildingId())) {
+		resMap.put("msg", "图片所属写字楼不能为空");
+		return resMap;
 	}
 
+	String name = oBImage.getName();
+	String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "图片名称");
+	if(StringUtils.isNotBlank(errStr)){
+	    resMap.put("field","name");
+	    resMap.put("msg", errStr);
+	    return resMap;
+	}
+	
+	if(StringUtils.isBlank(oBImage.getContentUrl())){
+	    resMap.put("msg","图片不能为空");
+	    return resMap;
+	}
+
+	String description = oBImage.getDescription();
+	errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+	if(StringUtils.isNotBlank(errStr)){
+		resMap.put("field","description");
+		resMap.put("msg", errStr);
+		return resMap;
+	}
 	return resMap;
     }
 
