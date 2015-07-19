@@ -318,7 +318,7 @@
 		        success: function (data) {
 					if(data.success){
 						var final_url = data.imgPath;
-						$("input[name='headImgUrl']").val(final_url);
+						$("[name='headImgUrl']").val(final_url);
 						$(".control-user-img").attr("src",final_url);
 					}else{
 						alert(data.msg);

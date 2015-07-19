@@ -41,7 +41,7 @@
 		        success: function (data) {
 					if(data.success){
 						var final_url = data.imgPath;
-						$("input[name='preImageUrl']").val(final_url);
+						$("[name='preImageUrl']").val(final_url);
 						$(".control-img").find("img").attr("src",final_url);
 					}else{
 						alert(data.msg);
@@ -96,7 +96,7 @@
 			   			if(!data.success){
 			   				var name = data.field;
 			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
+			   					var p = form.find("[name='"+name+"']");
 			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
 			   				}else{
 			   					alert(data.msg);

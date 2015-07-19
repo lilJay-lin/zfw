@@ -84,15 +84,13 @@
 			var btn=$(this);
 			var form = $(".form");
 			var res = form.validate();
-			if(res){
-				var tempContent = UE.getEditor('UEContainer').getContent();
-			   if(tempContent == null || tempContent==""){
-			   		$(".content-help-inline").html("资讯内容不能为空");
-			   		res = false;
-			   }else{
-				   $(".content-help-inline").html("");
-			   }
-			}
+			var tempContent = UE.getEditor('UEContainer').getContent();
+		   if(tempContent == null || tempContent==""){
+		   		$(".content-help-inline").html("资讯内容不能为空");
+		   		res = false;
+		   }else{
+			   $(".content-help-inline").html("");
+		   }
 			if(res){
 				var info = {
 					name:"",
@@ -106,7 +104,7 @@
 					preImageUrl:""
 				};
 			   for(var i in info){
-// 			   		var value = form.find("input[name="+i+"]").val();
+// 			   		var value = form.find("[name="+i+"]").val();
 			   		var value = $("[name="+i+"]").val();
 			   		if(i=="content"){
 			   			value = UE.getEditor('UEContainer').getContent();
