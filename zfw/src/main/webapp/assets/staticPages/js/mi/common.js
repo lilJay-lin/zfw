@@ -261,6 +261,19 @@
 			var form = $(this);
 			var inputs = form.find("input");
 			var textarea = form.find("textarea");
+			var els = [];
+			inputs.each(function(){
+				var el = $(this);
+				var type = el.attr("type")||"";
+				if("text/email/url/password/phonenumber/".indexOf(type) >-1 ){
+					els.push(el)
+				}
+			})
+			
+			textarea.each(function(){
+				els.push($(this))
+			})
+			
 			var showerror = function(el,err){
 				var h =null;
 				(h=el.next(".help-inline")).length==0&& (h=$("<div class='help-inline'></div>"),el.after(h));
@@ -272,12 +285,10 @@
 				}
 			};
 			
-			for(var i=0,l=inputs.length;i<l;i++){
-				var el = inputs.eq(i);
-				var type = el.attr("type")||"";
-				if("text/email/url/password/phonenumber/".indexOf(type) ==-1 ){
-					continue;
-				}
+			var res = true;
+			for(var i=0,l=els.length;i<l;i++){
+				var cur = true;
+				var el = els[i];
 				var value,max,min,error,require,require_msg,patterns;
 				max = el.attr("max");
 				min = el.attr("min");
@@ -294,72 +305,31 @@
 				}
 				if(require == "require" && !value){
 					showerror(el,require_msg);
-					return false;
+					cur =  false;
 				}
 
 				
 				if(min && len<min){
 					showerror(el,error);
-					return false;
+					cur = false;
 				}
 				
 				if(max && len>max){
 					showerror(el,error);
-					return false;
-				}
-				
-				if(patterns){
-					var reg = new RegExp(patterns);
-					if(!reg.exec(value)){
-						showerror(el,error);
-						return false;
-					}
-				}
-				showerror(el);
-			}
-			for(var i=0,l=textarea.length;i<l;i++){
-				var el = textarea.eq(i);
-				var value,max,min,error,require,require_msg,patterns;
-				max = el.attr("max");
-				min = el.attr("min");
-				error = el.attr("error")||"输入内容格式错误";
-				require = el.attr("require");
-				require_msg = el.attr("require_msg")||"不能为空";
-				patterns = el.attr("patterns");
-				value = el.val();
-				if($.trim(value).length==0)value="";
-				len = value.length;
-				
-				if(require !="require" && !value){
-					continue;
-				}
-				if(require == "require" && !value){
-					showerror(el,require_msg);
-					return false;
-				}
-
-				
-				if(min && len<min){
-					showerror(el,error);
-					return false;
-				}
-				
-				if(max && len>max){
-					showerror(el,error);
-					return false;
+					cur = false;
 				}
 				
 				if(patterns){
 					var reg = new RegExp(patterns);
 					if(!reg.test(value)){
 						showerror(el,error);
-						return false;
+						cur = false;
 					}
 				}
-				showerror(el);
+				cur&&showerror(el);
+				!cur&&(res = cur);//保存错误结果
 			}
-			
-			return true;
+			return res;
 		}
 	})
 })(jQuery);

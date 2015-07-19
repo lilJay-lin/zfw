@@ -54,7 +54,7 @@
 									</div>
 									</form>
 									<div class="control-group">
-										<label class="control-label">姓名</label>
+										<label class="control-label">用户名</label>
 										<div class="control">
 											<input type="text" name="name" max="32" min="4" maxlength="32" error="用户名长度4~32只能包含小写字母、数字、下划线并以小写字母开头" 
 					patterns = "^[a-z]([a-zA-Z0-9_]){3,31}$"  placeholder="输入用户名"  />
@@ -64,8 +64,8 @@
 									<div class="control-group">
 										<label class="control-label">密码</label>
 										<div class="control">
-											<input type="text"  name="pwd" id="pwd" max="32" min="6"  maxlength="32"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
-					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9!@#$%\^&\*\(\)]*$" placeholder="输入密码"  />
+											<input type="password"  name="pwd" id="pwd" max="32" min="6"  maxlength="32"  error="密码长度6~32只能包含大小写字母、数字、部分特殊符号 !@#$%^&*()" 
+					require="require" require_msg ="密码不能为空" patterns = "^[A-Za-z0-9!@#$%\^&\*\(\)]*$" placeholder="输入密码" value="******" />
 											<input type="hidden"  name="password" id="password"/>
 											<span class="help-inline"></span>
 										</div>
