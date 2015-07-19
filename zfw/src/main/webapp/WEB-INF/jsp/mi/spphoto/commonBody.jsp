@@ -14,7 +14,7 @@
 			</div>
 			<form enctype="multipart/form-data" method="post" id="uploadForm">
 				<div class="control-group">
-					<label class="control-label">上传预览图像</label>
+					<label class="control-label">图像</label>
 					<!--<div class="control control-img-box">
 						<img  class="control-user-img" />
 					</div>-->

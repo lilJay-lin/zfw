@@ -104,6 +104,17 @@
 			   		}
 			   		info[i]=value;
 			   }
+			   var content = info.content;
+			   if(content == null || content==""){
+			   		$(".content-help-inline").html("资讯内容不能为空");
+			   		$("body").scrollTop(0);
+			   		return ;
+			   }
+//			   else if(content.length>5000){
+//			   		$(".content-help-inline").html("资讯内容超长");
+//			   		$("body").scrollTop(0);
+//			   		return ;
+//			   }
 			   var repIds = addRelation.join("/");
 			   var data = {"repIds":repIds};
 			   var url = "${ctx}/mi/info/add";
@@ -120,8 +131,13 @@
 			   			if(!data.success){
 			   				var name = data.field;
 			   				if(name){
-			   					var p = form.find("input[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					if(name == "content"){
+			   						$(".content-help-inline").html(data.msg);
+			   					}else{
+				   					var p = form.find("[name='"+name+"']");
+				   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					}
+			   					$("body").scrollTop(0);
 			   				}else{
 			   					alert(data.msg);
 			   				}

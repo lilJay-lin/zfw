@@ -20,7 +20,6 @@
 						}
 					}
 					var preImageUrl = pano["preImageUrl"];
-					alert(preImageUrl)
 					if(preImageUrl){
 //						$(".control-user-img").attr("src",preImageUrl);
 						$(".control-img").find("img").attr("src",preImageUrl);

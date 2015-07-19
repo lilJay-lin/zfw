@@ -21,7 +21,8 @@
 					}
 					var contentUrl = image["contentUrl"];
 					if(contentUrl){
-						$(".control-user-img").attr("src",contentUrl);
+//						$(".control-user-img").attr("src",contentUrl);
+						$(".control-img").find("img").attr("src",contentUrl);
 					}
 				}
 			},

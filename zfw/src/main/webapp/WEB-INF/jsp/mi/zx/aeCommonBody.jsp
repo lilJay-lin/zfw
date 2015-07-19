@@ -6,7 +6,7 @@
 									<div class="control-group">
 										<label class="control-label">标题</label>
 										<div class="control">
-											<input type="text" name="name" max="16" maxlength="16" error="资讯名长度少于16个字" 
+											<input type="text" name="name" max="50" maxlength="50" error="资讯名长度最多50个字" 
 											require="require" require_msg ="资讯名不能为空"  placeholder="输入资讯标题"  />
 											<span class="help-inline"></span>
 										</div>
@@ -14,7 +14,7 @@
 									<div class="control-group">
 										<label class="control-label">作者</label>
 										<div class="control">
-											<input type="text"  name="author" id="author" max="32" error="作者不能为空" 
+											<input type="text"  name="author" id="author" maxlength="32" max="32" error="作者长度最多32个字" 
 									require="require" require_msg ="作者不能为空" placeholder="输入作者"/>
 											<span class="help-inline"></span>
 										</div>
@@ -31,22 +31,22 @@
 									<div class="control-group">
 										<label class="control-label">优先级</label>
 										<div class="control">
-											<input type="text"  name="priority" id="priority" max="4"  error="优先级范围0-9999" 
-							patterns = "^[0-9]*$"  placeholder="输入优先级 0-9999" value="0" />
+											<input type="text"  name="priority" maxlength="4" id="priority" max="4"  error="优先级范围0-9999" 
+							patterns = "^\d{1,4}$"  placeholder="输入优先级 0-9999" value="0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">标签</label>
 										<div class="control">
-											<input type="text"  name="tags" id="tags" max="24" maxlength="24" 
+											<input type="text"  name="tags" id="tags" max="100" maxlength="100" error="标签最多100个字" 
 								 placeholder="输入标签"  />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<form enctype="multipart/form-data" method="post" id="uploadForm">
 									<div class="control-group">
-										<label class="control-label">上传预览图像</label>
+										<label class="control-label">预览图像</label>
 										<div class="control">
 											<div class="uploader">
 												<input type="hidden" name="preImageUrl" />
@@ -68,12 +68,15 @@
 									<div class="control-group">
 										<label class="control-label">提要</label>
 										<div class="control">
-											<textarea name="summary" style="height:100px"></textarea>
+											<textarea name="summary" require="require" require_msg ="提要不能为空"  max="200" maxlength="200" error="提要长度最多200个字" style="height:100px"></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">内容</label>
 										<div class="control" style="width:780px;height:600px">
+										<div class="control">
+											<div class="help-inline content-help-inline"></div>
+										</div>
 										<script id="UEContainer" name="content" type="text/plain">
 										</script>
 									    <!-- 配置文件 -->
@@ -202,7 +205,7 @@
 									<div class="control-group">
 										<label class="control-label">描述</label>
 										<div class="control">
-											<textarea name="description"></textarea>
+											<textarea name="description" max="200" maxlength="200" error="描述最多200个字"></textarea>
 										</div>
 									</div>
 									

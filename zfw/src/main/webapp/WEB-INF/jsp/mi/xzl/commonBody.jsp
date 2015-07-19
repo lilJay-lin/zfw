@@ -5,7 +5,7 @@
 			<input type="hidden" id="officeBuildingId" name ="id" value="${officeBuildingId}" />
 			<form enctype="multipart/form-data" method="post" id="uploadForm">
 				<div class="control-group">
-					<label class="control-label">上传缩略图</label>
+					<label class="control-label">缩略图</label>
 					<div class="control control-img-box">
 						<img class="control-user-img" />
 					</div>

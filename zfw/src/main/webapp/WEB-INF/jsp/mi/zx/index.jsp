@@ -41,12 +41,12 @@
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</shiro:hasPermission>
-										<th>名称</th>
-										<th>作者</th>
-										<th>提要</th>
+										<th class="name">名称</th>
+										<th class="author">作者</th>
+										<th class="summary">提要</th>
 										<th>类型</th>
 										<th>优先级</th>
-										<th>最后修改时间</th>
+										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">

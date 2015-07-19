@@ -39,11 +39,11 @@
 								<table class="datatable-table">
 									<thead>
 										<th>预览</th>
-										<th>名称</th>
+										<th class="name">名称</th>
 										<th>位置</th>
 										<th>显示</th>
 										<th>优先级</th>
-										<th>最后修改时间</th>
+										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">

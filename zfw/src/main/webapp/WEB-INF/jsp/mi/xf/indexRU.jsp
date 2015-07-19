@@ -31,10 +31,10 @@
 								</div>
 								<table class="datatable-table">
 									<thead>
-										<th>名称</th>
-										<th>地址</th>
-										<th>描述</th>
-										<th>最后修改时间</th>
+										<th class="name">名称</th>
+										<th class="address">地址</th>
+										<th class="description">描述</th>
+										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
