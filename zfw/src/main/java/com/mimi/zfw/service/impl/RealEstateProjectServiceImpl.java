@@ -1067,6 +1067,8 @@ public class RealEstateProjectServiceImpl extends
 					repList.add(rurList.get(i).getRealEstateProjectId());
 				}
 				cri.andIdIn(repList);
+			}else{
+				return null;
 			}
 		}
 		return repe;

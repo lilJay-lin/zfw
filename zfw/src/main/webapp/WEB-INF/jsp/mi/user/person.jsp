@@ -373,7 +373,7 @@
 			   }
 				var publicExponent = document.getElementById("publicExponent").value;
 				var modulus = document.getElementById("modulus").value;
-			   var url = "${ctx}/mi/user/"+userid;
+			   var url = "${ctx}/mi/user/self";
 			   btn.attr("disabled","disabled");
 			   btn.addClass("disabled");
 			   $.ajax({
@@ -419,7 +419,7 @@
 		 * 
 		 */
 		var id = $("#userid").val();
-		var getUserUrl = "${ctx}/mi/user/"+id;
+		var getUserUrl = "${ctx}/mi/user/self";
 		$.ajax({
 			type:"get",
 			url:getUserUrl,
