@@ -189,7 +189,7 @@
 										                   autoFloatEnabled: false,
 										                   enableAutoSave :false,
 										                   initialFrameHeight :420,
-										                   maximumWords :5000
+										                   maximumWords :4000
 										               });
 // 										        ue.ready(function() {
 // 										            //设置编辑器的内容
