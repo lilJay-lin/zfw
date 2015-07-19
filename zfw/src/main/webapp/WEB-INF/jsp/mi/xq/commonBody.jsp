@@ -75,16 +75,16 @@
 									<div class="control-group">
 										<label class="control-label">容积率</label>
 										<div class="control">
-											<input type="text"  name="floorAreaRatio" id="floorAreaRatio" max="11" maxlength="11" error="容积率范围0.0-999999.9999" 
-											patterns = "^\d{1,6}(\.\d{1,4})?$"  placeholder="输入容积率0.0-999999.9999" value="0.0" />
+											<input type="text"  name="floorAreaRatio" id="floorAreaRatio" max="11" maxlength="11" error="容积率范围0.0-99.9999" 
+											patterns = "^\d{1,2}(\.\d{1,4})?$"  placeholder="输入容积率0.0-99.9999" value="0.0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">绿化率</label>
 										<div class="control">
-											<input type="text"  name="greenRate" id="greenRate" max="11" maxlength="11"  error="绿化率范围0.0-99999.9999" 
-											patterns = "^\d{1,6}(\.\d{1,4})?$"  placeholder="输入绿化率 0.0-99999.9999" value="0.0" />
+											<input type="text"  name="greenRate" id="greenRate" max="11" maxlength="11"  error="绿化率范围0.0-99.9999" 
+											patterns = "^\d{1,2}(\.\d{1,4})?$"  placeholder="输入绿化率 0.0-99.9999" value="0.0" />
 											<span class="help-inline"></span>
 										</div>
 									</div>

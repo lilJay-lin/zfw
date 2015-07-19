@@ -297,29 +297,21 @@
 				require_msg = el.attr("require_msg")||"不能为空";
 				patterns = el.attr("patterns");
 				value = el.val();
-				if($.trim(value).length==0)value="";
+				if(typeof value == 'undefined' || $.trim(value).length==0 || value==null)value="";
 				len = value.length;
-				
-				if(require !="require" && !value){
+				if(typeof require == 'undefined' && len==0){
+					showerror(el);
 					continue;
-				}
-				if(require == "require" && !value){
+				}else if(require == "require" && len == 0){
 					showerror(el,require_msg);
 					cur =  false;
-				}
-
-				
-				if(min && len<min){
+				}else if(!!min && len<min){
 					showerror(el,error);
 					cur = false;
-				}
-				
-				if(max && len>max){
+				}else if(!!max && len>max){
 					showerror(el,error);
 					cur = false;
-				}
-				
-				if(patterns){
+				}else if(!!patterns){
 					var reg = new RegExp(patterns);
 					if(!reg.test(value)){
 						showerror(el,error);

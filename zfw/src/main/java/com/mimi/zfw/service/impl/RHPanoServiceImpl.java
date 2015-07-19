@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.RHPanoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRHPanoService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class RHPanoServiceImpl extends
@@ -157,18 +158,37 @@ public class RHPanoServiceImpl extends
 			resMap.put("msg", "全景所属租房不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(pano.getPreImageUrl())) {
-			resMap.put("msg", "全景缩略图不能为空");
+
+		String name = pano.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "全景名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		
+		if(StringUtils.isBlank(pano.getPreImageUrl())){
+		    resMap.put("msg","全景缩略图不能为空");
+		    return resMap;
+		}
+		
+		String contentUrl = pano.getContentUrl();
+		errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "全景内容路径");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","contentUrl");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(pano.getContentUrl())) {
-			resMap.put("msg", "全景内容路径不能为空");
+		
+		String description = pano.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(pano.getName())) {
-			resMap.put("msg", "全景名称不能为空");
-			return resMap;
-		}
+
 		return resMap;
 	}
 

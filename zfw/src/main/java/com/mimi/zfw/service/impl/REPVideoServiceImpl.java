@@ -18,6 +18,7 @@ import com.mimi.zfw.mybatis.pojo.REPVideoExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IREPVideoService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class REPVideoServiceImpl extends
@@ -168,18 +169,37 @@ public class REPVideoServiceImpl extends
 			resMap.put("msg", "视频所属楼盘不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(video.getPreImageUrl())) {
-			resMap.put("msg", "视频缩略图不能为空");
+
+		String name = video.getName();
+		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "视频名称");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","name");
+		    resMap.put("msg", errStr);
+		    return resMap;
+		}
+
+		
+		if(StringUtils.isBlank(video.getPreImageUrl())){
+		    resMap.put("msg","视频缩略图不能为空");
+		    return resMap;
+		}
+		
+		String contentUrl = video.getContentUrl();
+		errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "视频内容路径");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","contentUrl");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(video.getContentUrl())) {
-			resMap.put("msg", "视频内容路径不能为空");
+		
+		String description = video.getDescription();
+		errStr = FormatUtil.checkFormate(description,false,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+			resMap.put("field","description");
+			resMap.put("msg", errStr);
 			return resMap;
 		}
-		if (StringUtils.isBlank(video.getName())) {
-			resMap.put("msg", "视频名称不能为空");
-			return resMap;
-		}
+		
 		return resMap;
 	}
 

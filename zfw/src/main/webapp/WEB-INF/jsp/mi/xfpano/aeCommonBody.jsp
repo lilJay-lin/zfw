@@ -16,6 +16,7 @@
 										<label class="control-label">内容路径</label>
 										<div class="control">
 											<textarea name="contentUrl" max="200" maxlength="200" error="路径长多最多200个字" require="require" require_msg ="内容路径不能为空"  style="height:60px"></textarea>
+											<span class="help-inline"></span>
 										</div>
 									</div>
 									<form enctype="multipart/form-data" method="post" id="uploadForm">

@@ -36,7 +36,7 @@
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</ct:hasAnyPermissions>
-										<th>名称</th>
+										<th class="name">名称</th>
 										<th>邮箱</th>
 										<th>手机号码</th>
 										<th>状态</th>
@@ -44,7 +44,7 @@
 										<!--<th>创建者</th>-->
 										<!--<th>上次编辑</th>
 										<th>创建日期</th>-->
-										<th>最后修改时间</th>
+										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
