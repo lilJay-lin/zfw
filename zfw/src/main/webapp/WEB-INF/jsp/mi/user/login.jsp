@@ -66,11 +66,15 @@
 			$("#txtpsw").val("111111");
 			$("#rememberMe").prop("checked","true");
 		}
-		$("#txtpsw").on("change",function(){
+// 		$("#txtpsw").on("change",function(){
+// 			storePwd = null;
+// // 			RSAEncrypt($(this).val());
+// // 			$("#password").val(hex_md5($(this).val()))
+// 		});
+		$("#txtpsw").on("keyup",function(){
 			storePwd = null;
-// 			RSAEncrypt($(this).val());
-// 			$("#password").val(hex_md5($(this).val()))
 		});
+		
 		function RSAEncrypt(pwd) {
 // 			var thisPwd = hex_md5(pwd);
 			var thisPwd = pwd;
