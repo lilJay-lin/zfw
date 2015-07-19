@@ -118,7 +118,7 @@
 			var id = $(this).data("id");
 			var name = $(this).data("name");
 			if(!name){
-				name = $(this).data("eamil");
+				name = $(this).data("email");
 			}
 			if(!name){
 				name = $(this).data("phonenum");
