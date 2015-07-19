@@ -35,6 +35,7 @@ import com.mimi.zfw.mybatis.pojo.UserExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IAliyunOSSService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 import com.mimi.zfw.util.MD5Util;
 import com.mimi.zfw.web.shiro.authc.UniqueidUsernamePasswordToken;
 
@@ -204,28 +205,31 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 
     @Override
     public boolean checkNameFormat(String name) {
-	String regex = "^[a-z]([a-z0-9_]){4,32}";
-	return checkValueFormat(name, regex);
+    	return FormatUtil.checkValueFormat(name, FormatUtil.REGEX_USER_NAME, false, FormatUtil.MIN_LENGTH_USER_NAME, FormatUtil.MAX_LENGTH_COMMON);
+//	String regex = "^[a-z]([a-z0-9_]){4,32}";
+//	return checkValueFormat(name, regex);
     }
 
     @Override
     public boolean checkPhoneNumFormat(String phoneNum) {
-	String regex = "^1[0-9]{10}$";
-	return checkValueFormat(phoneNum, regex);
+    	return FormatUtil.checkValueFormat(phoneNum, FormatUtil.REGEX_USER_PHONE_NUM, false);
+//	String regex = "^1[0-9]{10}$";
+//	return checkValueFormat(phoneNum, regex);
     }
 
     @Override
     public boolean checkEamilFormat(String eamil) {
-	String regex = "([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+";
-	return checkValueFormat(eamil, regex);
+    	return FormatUtil.checkValueFormat(eamil, FormatUtil.REGEX_USER_EMAIL, false,FormatUtil.MIN_LENGTH_COMMON,FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2);
+//	String regex = "([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+";
+//	return checkValueFormat(eamil, regex);
     }
 
-    private boolean checkValueFormat(String value, String regex) {
-	if (StringUtils.isNotBlank(value)) {
-	    return value.matches(regex);
-	}
-	return false;
-    }
+//    private boolean checkValueFormat(String value, String regex) {
+//	if (StringUtils.isNotBlank(value)) {
+//	    return value.matches(regex);
+//	}
+//	return false;
+//    }
 
     @Override
     public User findByEmail(String email) {
@@ -651,6 +655,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	    resMap.put("msg", "密码不能空");
 	    return resMap;
 	}
+
 	UserExample ue = new UserExample();
 	
 	if(StringUtils.isBlank(name)){

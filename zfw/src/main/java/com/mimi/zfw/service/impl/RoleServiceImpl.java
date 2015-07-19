@@ -27,6 +27,7 @@ import com.mimi.zfw.mybatis.pojo.RoleExample;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IRoleService;
 import com.mimi.zfw.service.IUserService;
+import com.mimi.zfw.util.FormatUtil;
 
 @Service
 public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
@@ -277,13 +278,19 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
     public Map<String, String> checkRole(Role role) {
 		Map<String,String> resMap = new HashMap<String, String>();
 		String name = role.getName();
-		if(StringUtils.isBlank(name)){
+//		if(StringUtils.isBlank(name)){
+//		    resMap.put("field","name");
+//		    resMap.put("msg", "角色名称不能为空");
+//			return resMap;
+//		}else if(!name.matches("^[0-9a-zA-Z_\u4E00-\u9FA5]+$")){
+//		    resMap.put("field","name");
+//		    resMap.put("msg", "角色名称只能由中文、阿拉伯数据、英文字母和下划线组成");
+//			return resMap;
+//		}
+		String errStr = FormatUtil.checkFormat(name, FormatUtil.REGEX_COMMON_NAME, true, FormatUtil.MIN_LENGTH_COMMON, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "角色名");
+		if(StringUtils.isNotBlank(errStr)){
 		    resMap.put("field","name");
-		    resMap.put("msg", "角色名称不能为空");
-			return resMap;
-		}else if(!name.matches("^[0-9a-zA-Z_\u4E00-\u9FA5]+$")){
-		    resMap.put("field","name");
-		    resMap.put("msg", "角色名称只能由中文、阿拉伯数据、英文字母和下划线组成");
+		    resMap.put("msg", errStr);
 			return resMap;
 		}
 		RoleExample re = new RoleExample();
@@ -295,6 +302,13 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 			    resMap.put("msg", "角色已存在");
 				return resMap;
 			}
+		}
+		
+		errStr = FormatUtil.checkFormat(role.getDescription(), FormatUtil.REGEX_NO_NEED, false, FormatUtil.MIN_LENGTH_COMMON, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "描述");
+		if(StringUtils.isNotBlank(errStr)){
+		    resMap.put("field","description");
+		    resMap.put("msg", errStr);
+			return resMap;
 		}
 		return resMap;
     }

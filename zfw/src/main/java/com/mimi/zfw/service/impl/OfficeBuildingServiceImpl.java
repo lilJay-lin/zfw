@@ -649,7 +649,6 @@ public class OfficeBuildingServiceImpl extends
 	    oi.setDelFlag(true);
 	    oi.setLastEditor(userService.getCurUserId());
 	    obim.updateByExampleSelective(oi, oie);
-	    
 
 	    OBPanoExample ope = new OBPanoExample();
 	    ope.or().andOfficeBuildingIdIn(list).andDelFlagEqualTo(false);
