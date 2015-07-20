@@ -300,7 +300,7 @@
 					
 					var form = $(".form");
 					for(var i in role){
-						var e = form.find("input[name="+i+"]");
+						var e = form.find("[name="+i+"]");
 						e.length>0&&e.val(role[i]);
 					}
 					var d = form.find("textarea[name='description']");

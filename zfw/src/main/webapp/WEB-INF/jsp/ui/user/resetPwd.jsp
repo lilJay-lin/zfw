@@ -358,9 +358,9 @@ function gt_custom_ajax(result, selector) {
 		smoothCaptchObject.challenge = selector(".geetest_challenge").value;
 		smoothCaptchObject.validate = selector(".geetest_validate").value;
 		smoothCaptchObject.seccode = selector(".geetest_seccode").value;
-		$("input[name='geetest_challenge']").val(smoothCaptchObject.challenge);
-		$("input[name='geetest_validate']").val(smoothCaptchObject.validate);
-		$("input[name='geetest_seccode']").val(smoothCaptchObject.seccode);
+		$("[name='geetest_challenge']").val(smoothCaptchObject.challenge);
+		$("[name='geetest_validate']").val(smoothCaptchObject.validate);
+		$("[name='geetest_seccode']").val(smoothCaptchObject.seccode);
 		refreshSubmitBtn();
 // 		setTimeout(function() {
 // 			$(".captcha").hide();

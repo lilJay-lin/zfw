@@ -84,6 +84,13 @@
 			var btn=$(this);
 			var form = $(".form");
 			var res = form.validate();
+			var tempContent = UE.getEditor('UEContainer').getContent();
+		   if(tempContent == null || tempContent==""){
+		   		$(".content-help-inline").html("资讯内容不能为空");
+		   		res = false;
+		   }else{
+			   $(".content-help-inline").html("");
+		   }
 			if(res){
 				var info = {
 					name:"",
@@ -97,19 +104,19 @@
 					preImageUrl:""
 				};
 			   for(var i in info){
-// 			   		var value = form.find("input[name="+i+"]").val();
+// 			   		var value = form.find("[name="+i+"]").val();
 			   		var value = $("[name="+i+"]").val();
 			   		if(i=="content"){
 			   			value = UE.getEditor('UEContainer').getContent();
 			   		}
 			   		info[i]=value;
 			   }
-			   var content = info.content;
-			   if(content == null || content==""){
-			   		$(".content-help-inline").html("资讯内容不能为空");
-			   		$("body").scrollTop(0);
-			   		return ;
-			   }
+// 			   var content = info.content;
+// 			   if(content == null || content==""){
+// 			   		$(".content-help-inline").html("资讯内容不能为空");
+// 			   		$("body").scrollTop(0);
+// 			   		return ;
+// 			   }
 //			   else if(content.length>5000){
 //			   		$(".content-help-inline").html("资讯内容超长");
 //			   		$("body").scrollTop(0);

@@ -371,7 +371,7 @@
 		        success: function (data) {
 					if(data.success){
 						var final_url = data.imgPath;
-						$("input[name='headImgUrl']").val(final_url);
+						$("[name='headImgUrl']").val(final_url);
 						$(".control-user-img").attr("src",final_url);
 					}else{
 						alert(data.msg);
@@ -439,7 +439,7 @@
 		   			var name = data.field;
 		   			if(!data.success){
 		   				if(name){
-		   					var p = form.find("input[name='"+name+"']");
+		   					var p = form.find("[name='"+name+"']");
 		   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
 		   				}else{
 		   					alert(data.msg)
@@ -485,6 +485,10 @@
 					
 					var form = $(".form");
 					for(var i in user){
+						if(i=="locked"){
+							form.find("[name="+i+"]").length>0&&form.find("[name="+i+"]").val(String(user[i]));
+							continue;
+						}
 						var e = form.find("[name="+i+"]");
 						e.length>0&&e.val(user[i]);
 					}

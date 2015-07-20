@@ -40,7 +40,7 @@
 										<th>邮箱</th>
 										<th>手机号码</th>
 										<th>状态</th>
-										<th class="description">描述</th>
+<!-- 										<th class="description">描述</th> -->
 										<!--<th>创建者</th>-->
 										<!--<th>上次编辑</th>
 										<th>创建日期</th>-->
@@ -117,8 +117,8 @@
 				<td>{{email}}</td>
 				<td>{{phoneNum}}</td>
 				{{#if locked}}<td>锁定{{else}}<td>正常</td>{{/if}}
-				<td>{{description}}</td>
-				<!--<td>{{creater}}</td>
+				<!--<td>{{description}}</td>
+				<td>{{creater}}</td>
 				<td>{{create}}</td>
 				<td>{{lastEditor}}</td>
 				<td>{{createDate}}</td>-->
@@ -169,7 +169,7 @@
 	  		})
 	  		if(userids == ""){
 	  			alert("请选择需要更新的用户");
-	  			retur ;
+	  			return ;
 	  		}
 			var user = {};
 			var msg = "确认更新用户?";

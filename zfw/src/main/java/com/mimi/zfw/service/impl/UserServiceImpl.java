@@ -115,7 +115,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 			"15918402615" }, { "mimi", "linxj", "deleted_admin" } };
 	String[][] pwds = {
 		{ "123123", "123123", "123123", "123123", "123123" },
-		{ "123132", "123123", "123123" } };
+		{ "123123", "123123", "123123" } };
 	Date nowDate = new Date(System.currentTimeMillis());
 	for (int j = 0; j < types.length; j++) {
 	    RoleExample re = new RoleExample();
@@ -545,7 +545,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	int res = 0;
 
 	User user = this.get(userid);
-	if (user == null || StringUtils.isEmpty(roleids)) {
+	if (user == null || StringUtils.isBlank(roleids)) {
 	    res = 0;
 	} else {
 
@@ -573,7 +573,7 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	int res = 0;
 
 	User user = this.get(userid);
-	if (user == null || StringUtils.isEmpty(roleids)) {
+	if (user == null || StringUtils.isBlank(roleids)) {
 	    res = 0;
 	} else {
 
@@ -645,12 +645,12 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	String email = user.getEmail();
 	String password = user.getPassword();
 
-	if(StringUtils.isEmpty(name)&&StringUtils.isEmpty(email)&&StringUtils.isEmpty(phoneNum)){
+	if(StringUtils.isBlank(name)&&StringUtils.isBlank(email)&&StringUtils.isBlank(phoneNum)){
 	    resMap.put("msg", "名字、邮箱和号码不能同时为空");
 	    return resMap;
 	}
 
-	if (StringUtils.isEmpty(password)) {
+	if (StringUtils.isBlank(password)) {
 	    resMap.put("field", "password");
 	    resMap.put("msg", "密码不能空");
 	    return resMap;
@@ -756,17 +756,17 @@ public class UserServiceImpl extends BaseService<User, UserExample, String>
 	user.setLastEditor(this.getCurUserId());
 	
 	String headImgUrl = user.getHeadImgUrl();
-	if(StringUtils.isEmpty(headImgUrl)){
+	if(StringUtils.isBlank(headImgUrl)){
 	    headImgUrl = Constants.HEAD_IMG_DEFAULT_URL;
 	}
 	
 	um.updateByPrimaryKeySelective(user);
 	
-	if (!StringUtils.isEmpty(addroles)) {
+	if (StringUtils.isNotBlank(addroles)) {
 
 	    this.saveRelationUserAndRole(userid, addroles);
 	}
-	if (!StringUtils.isEmpty(delroles)) {
+	if (StringUtils.isNotBlank(delroles)) {
 	    this.deleteRelationUserAndRole(userid, delroles);
 	}
 

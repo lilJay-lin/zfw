@@ -40,7 +40,6 @@
 										</shiro:hasPermission>
 										<th class="name">名称</th>
 										<th class="address">地址</th>
-										<th class="description">描述</th>
 										<th>优先级</th>
 										<th>最后修改时间</th>
 										<th class="operation">操作</th>
@@ -105,7 +104,6 @@
 				</shiro:hasPermission>
 				<td>{{name}}</td>
 				<td>{{address}}</td>
-				<td>{{description}}</td>
 				<td>{{priority}}</td>
 				{{#with updateDate}}
 				<td>{{dateformat time 3}}</td>
