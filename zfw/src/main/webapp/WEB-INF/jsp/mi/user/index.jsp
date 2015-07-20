@@ -128,7 +128,7 @@
 				<td>
 					<shiro:hasPermission name="user:view">
 					<a class="btn btn-info" href="${ctx}/mi/user/{{id}}/detail">
-						<i class="icon-zoom-in "></i>                                            
+						<i class="icon-zoom-in "></i>  
 					</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="user:update">

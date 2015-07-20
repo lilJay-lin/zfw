@@ -122,6 +122,7 @@
 					<span > 厂房仓库管理</span>
 				</a>
 			</li>
+			</shiro:hasPermission>
 			<shiro:hasPermission name="rep:queryru">
 			<li>
 				<a  href="${ctx }/mi/xfru">
@@ -129,7 +130,6 @@
 					<span > 关联楼盘管理</span>
 				</a>
 			</li>
-			</shiro:hasPermission>
 			</shiro:hasPermission>
 		</ul>
 	</li>

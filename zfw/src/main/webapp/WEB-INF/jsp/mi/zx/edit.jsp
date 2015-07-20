@@ -98,6 +98,13 @@
 			var form = $(".form");
 			var res = form.validate();
 			var infoId = $("#infoId").val();
+			var tempContent = UE.getEditor('UEContainer').getContent();
+			   if(tempContent == null || tempContent==""){
+			   		$(".content-help-inline").html("资讯内容不能为空");
+			   		res = false;
+			   }else{
+				   $(".content-help-inline").html("");
+			   }
 			if(res){
 				var info = {
 					id:"",
@@ -118,12 +125,12 @@
 			   		}
 			   		info[i]=value;
 			   }
-			   var content = info.content;
-			   if(content == null || content==""){
-			   		$(".content-help-inline").html("资讯内容不能为空");
-			   		$("body").scrollTop(0);
-			   		return ;
-			   }
+// 			   var content = info.content;
+// 			   if(content == null || content==""){
+// 			   		$(".content-help-inline").html("资讯内容不能为空");
+// 			   		$("body").scrollTop(0);
+// 			   		return ;
+// 			   }
 //			   else if(content.length>5000){
 //			   		$(".content-help-inline").html("资讯内容超长");
 //			   		$("body").scrollTop(0);

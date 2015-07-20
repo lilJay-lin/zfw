@@ -574,6 +574,88 @@ public class UserController {
 	return jo.toString();
     }
 
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/mi/user/self", method = { RequestMethod.GET })
+    @ResponseBody
+    public Object getSelf(HttpServletRequest request) {
+
+	JSONObject jo = new JSONObject();
+
+	try {
+	    User user = userService.getCurUser();
+	    if (user != null) {
+		jo.put("user", user);
+		List<Role> relationroles = roleService.getRolesByUserId(user
+			.getId());
+		jo.put("relationroles", relationroles);
+	    }
+	} catch (Exception e) {
+	    
+	    jo.put("user", null);
+	    jo.put("relationroles", null);
+	    LOG.error("获取用户详细信息出错！",e);
+	}
+
+	return jo.toString();
+    }
+
+    @RequiresPermissions("user:self")
+    @RequestMapping(value = "/mi/user/self", method = { RequestMethod.POST })
+    @ResponseBody
+    public Object updateSelf(HttpServletRequest request,User user,
+    	    String publicExponent, String modulus,boolean resetPwd) {
+
+    	JSONObject jo = new JSONObject();
+    	try {
+
+    	    try {
+    		if(resetPwd){
+    		    Object salt = user.getId()+user.getSalt();
+    		    String password = RSAUtil.getResult(publicExponent, modulus,
+    				user.getPassword());
+    		    SimpleHash sh = new SimpleHash(Constants.SHIRO_HASH_ALGORITHM_NAME,
+    			    password, salt, Constants.SHIRO_HASH_ITERATIONS);
+    		    user.setPassword(sh.toString());
+    		}
+    		
+    	    } catch (Exception e) {
+    		jo.put("success", false);
+    		jo.put("msg", "密码解析出错，请稍后重试!");
+    		LOG.error("更新用户信息，密码解析出错！",e);
+    	    }
+    	    
+//    	    MultipartFile file = request.getParameter("file")==null?null:(MultipartFile)request.getAttribute("addroles");
+    	    String curId = userService.getCurUserId();
+    	    if(StringUtils.isBlank(curId)){
+    	    	jo.put("success", false);
+        		jo.put("msg", "请先登陆！");
+            	return jo.toString();
+    	    }
+    	    Map<String, String> res = userService.updateUser(user, null,
+    	    		    null);
+    	    if (res.isEmpty()) {
+    		if(StringUtils.equals(user.getId(), userService.getCurUserId())){
+    		    request.getSession().setAttribute("miCurrentHeadImgUrl", user.getHeadImgUrl());
+    		    request.getSession().setAttribute("miCurrentUserId", user.getId());
+    		}
+    		jo.put("success", true);
+    		jo.put("msg", "更新用户成功!");
+
+    	    } else {
+    		jo.put("success", false);
+    		jo.put("msg", res.get("msg"));
+    		jo.put("field", res.get("field"));
+    	    }
+
+    	} catch (Exception e) {
+    	    jo.put("success", false);
+    	    jo.put("msg", "更新用户失败!");
+    	    LOG.error("更新用户信息失败！",e);
+    	}
+
+    	return jo.toString();
+    }
+
     @RequiresPermissions("user:add")
     @RequestMapping(value = "/mi/user/add", method = { RequestMethod.GET })
     public String toAddUser(Model model, HttpServletRequest request) {

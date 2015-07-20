@@ -202,6 +202,10 @@
 					var user = data.user;
 					var relationroles = data.relationroles;
 					for(var i in user){
+						if(i=="locked"){
+							form.find("[name="+i+"]").length>0&&form.find("[name="+i+"]").val(String(user[i]));
+							continue;
+						}
 						form.find("[name="+i+"]").length>0&&form.find("[name="+i+"]").val(user[i]);
 					}
 					if(!!user.headImgUrl){

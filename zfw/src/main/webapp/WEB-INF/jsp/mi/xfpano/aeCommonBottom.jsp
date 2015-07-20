@@ -50,7 +50,7 @@
 		        success: function (data) {
 					if(data.success){
 						var final_url = data.imgPath;
-						$("input[name='preImageUrl']").val(final_url);
+						$("[name='preImageUrl']").val(final_url);
 						$(".control-img").find("img").attr("src",final_url);
 					}else{
 						alert(data.msg);

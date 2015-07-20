@@ -41,7 +41,7 @@
 	        success: function (data) {
 				if(data.success){
 					var final_url = data.imgPath;
-					$("input[name='preImageUrl']").val(final_url);
+					$("[name='preImageUrl']").val(final_url);
 					$(".control-user-img").attr("src",final_url);
 				}else{
 					alert(data.msg);
@@ -93,37 +93,66 @@
 			return ;
 		}
 		var res = form.validate();
-		if(res){
-			var data = getSaveData();
-			switch (data.rentOrSale){
-				case "不限": 
-				if(data.rental == ""){
+		var tempROS = $("[name=rentOrSale]").val();
+		var tempRental = $("[name=rental]").val();
+		var tempTotalPrice = $("[name=totalPrice]").val();
+		switch (tempROS){
+			case "不限": 
+				if(tempRental == ""){
 					form.find("[name='rental']").next(".help-inline").html("销售类型是租售，租金不能为空").show();
-					$("body").scrollTop(0);
-					return ;
-				}else if(data.totalPrice ==""){
+					res = false;
+				}
+				if(tempTotalPrice ==""){
 					form.find("[name='totalPrice']").next(".help-inline").html("销售类型是租售，总价不能为空").show();
-					$("body").scrollTop(0);
-					return;
+					res = false;
 				}
 				break;
-				case "出租":
-				if(data.rental == ""){
+			case "出租":
+				if(tempRental == ""){
 					form.find("[name='rental']").next(".help-inline").show().html("销售类型是出租，租金不能为空").show();
-					$("body").scrollTop(0);
-					return ;
+					res = false;
 				}
-					break;
-				case "出售":
-				if(data.totalPrice ==""){
+				break;
+			case "出售":
+				if(tempTotalPrice ==""){
 					form.find("[name='totalPrice']").next(".help-inline").html("销售类型是出售，总价不能为空").show();
-					$("body").scrollTop(0);
-					return;
+					res = false;
 				}
-					break;
-				default:
-					break;
-			}
+				break;
+			default:
+				break;
+		}
+		if(res){
+			var data = getSaveData();
+// 			switch (data.rentOrSale){
+// 				case "不限": 
+// 				if(data.rental == ""){
+// 					form.find("[name='rental']").next(".help-inline").html("销售类型是租售，租金不能为空").show();
+// 					$("body").scrollTop(0);
+// 					return ;
+// 				}else if(data.totalPrice ==""){
+// 					form.find("[name='totalPrice']").next(".help-inline").html("销售类型是租售，总价不能为空").show();
+// 					$("body").scrollTop(0);
+// 					return;
+// 				}
+// 				break;
+// 				case "出租":
+// 				if(data.rental == ""){
+// 					form.find("[name='rental']").next(".help-inline").show().html("销售类型是出租，租金不能为空").show();
+// 					$("body").scrollTop(0);
+// 					return ;
+// 				}
+// 					break;
+// 				case "出售":
+// 				if(data.totalPrice ==""){
+// 					form.find("[name='totalPrice']").next(".help-inline").html("销售类型是出售，总价不能为空").show();
+// 					$("body").scrollTop(0);
+// 					return;
+// 				}
+// 					break;
+// 				default:
+// 					break;
+// 			}
 			var url;
 			if(inEdit){
 				url = "${ctx}/mi/xzl/${officeBuildingId}";

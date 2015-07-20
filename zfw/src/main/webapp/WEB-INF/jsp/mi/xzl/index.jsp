@@ -32,7 +32,7 @@
 								<table class="datatable-table">
 									<thead>
 										<shiro:hasPermission name="ob:del">
-										<th class="checkarea">
+										<th  class="checkarea">
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</shiro:hasPermission>
@@ -214,3 +214,4 @@
 	  	});
 	</script>
 </html>
+>>>>>>> branch 'develop2' of https://github.com/lilJay-lin/zfw.git

@@ -85,10 +85,35 @@ public class RoleServiceImpl extends BaseService<Role, RoleExample, String>
 	    List<String> npns = new ArrayList<String>();
 	    npns.add("自管理");
 	    for (int i = 0; i < permissions.size(); i++) {
-		RelationRoleAndPermission rrm = new RelationRoleAndPermission();
 		if (npns.contains(permissions.get(i).getName())) {
+			RelationRoleAndPermission rrm = new RelationRoleAndPermission();
 		    rrm.setId(UUID.randomUUID().toString());
 		    rrm.setRoleId(normal.getId());
+		    rrm.setPermissionId(permissions.get(i).getId());
+		    rrm.setCreateDate(nowDate);
+		    rrpm.insertSelective(rrm);
+		}
+	    }
+
+	    Role r1 = new Role();
+	    r1.setId(UUID.randomUUID().toString());
+	    r1.setName("关联楼盘管理员");
+	    r1.setDescription("注册用户默认权限");
+	    r1.setCreateDate(nowDate);
+	    rm.insertSelective(r1);
+	    // rm.insert(r1);
+	    List<String> r1pns = new ArrayList<String>();
+	    r1pns.add("自管理");
+	    r1pns.add("进入后台");
+	    r1pns.add("查询关联楼盘");
+	    r1pns.add("浏览楼盘");
+	    r1pns.add("修改楼盘");
+	    r1pns.add("查询关联楼盘");
+	    for (int i = 0; i < permissions.size(); i++) {
+		if (r1pns.contains(permissions.get(i).getName())) {
+			RelationRoleAndPermission rrm = new RelationRoleAndPermission();
+		    rrm.setId(UUID.randomUUID().toString());
+		    rrm.setRoleId(r1.getId());
 		    rrm.setPermissionId(permissions.get(i).getId());
 		    rrm.setCreateDate(nowDate);
 		    rrpm.insertSelective(rrm);

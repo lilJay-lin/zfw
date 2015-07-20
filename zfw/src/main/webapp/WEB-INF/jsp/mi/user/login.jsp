@@ -61,15 +61,10 @@
 		if(storeName){
 			$("#txtname").val(storeName);
 			if(storePwd){
-				$("#txtpsw").val("******");
+				$("#txtpsw").val("111111");
 				$("#rememberMe").prop("checked","true");
 			}
 		}
-//		if(storePwd){
-// 			$("#password").val(storePwd);
-//			$("#txtpsw").val("111111");
-//			$("#rememberMe").prop("checked","true");
-//		}
 // 		$("#txtpsw").on("change",function(){
 // 			storePwd = null;
 // // 			RSAEncrypt($(this).val());
