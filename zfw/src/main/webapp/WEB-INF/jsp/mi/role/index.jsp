@@ -33,13 +33,13 @@
 									<thead>
 										<tr>
 											<shiro:hasPermission name="role:del">
-											<th>
+											<th class="checkarea">
 												<input type="checkbox"  id="selectAll"/>
 											</th>
 											</shiro:hasPermission>
 											<th class="name">角色名称</th>
 											<th class="description">描述</th>
-											<th>最后修改时间</th>
+											<th  class="time">最后修改时间</th>
 											<th class="operation">操作</th>
 										</tr>
 									</thead>

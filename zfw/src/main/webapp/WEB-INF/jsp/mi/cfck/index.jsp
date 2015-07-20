@@ -37,7 +37,7 @@
 								<table class="datatable-table">
 									<thead>
 										<shiro:hasPermission name="warehouse:del">
-										<th>
+										<th class="checkarea">
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</shiro:hasPermission>

@@ -60,17 +60,25 @@
 		var storePwd = getCookie("miPassword");
 		if(storeName){
 			$("#txtname").val(storeName);
+			if(storePwd){
+				$("#txtpsw").val("******");
+				$("#rememberMe").prop("checked","true");
+			}
 		}
-		if(storePwd){
+//		if(storePwd){
 // 			$("#password").val(storePwd);
-			$("#txtpsw").val("111111");
-			$("#rememberMe").prop("checked","true");
-		}
-		$("#txtpsw").on("change",function(){
+//			$("#txtpsw").val("111111");
+//			$("#rememberMe").prop("checked","true");
+//		}
+// 		$("#txtpsw").on("change",function(){
+// 			storePwd = null;
+// // 			RSAEncrypt($(this).val());
+// // 			$("#password").val(hex_md5($(this).val()))
+// 		});
+		$("#txtpsw").on("keyup",function(){
 			storePwd = null;
-// 			RSAEncrypt($(this).val());
-// 			$("#password").val(hex_md5($(this).val()))
 		});
+		
 		function RSAEncrypt(pwd) {
 // 			var thisPwd = hex_md5(pwd);
 			var thisPwd = pwd;
@@ -97,9 +105,9 @@
 				smoothCaptchObject.challenge = selector(".geetest_challenge").value;
 				smoothCaptchObject.validate = selector(".geetest_validate").value;
 				smoothCaptchObject.seccode = selector(".geetest_seccode").value;
-				$("input[name='geetest_challenge']").val(smoothCaptchObject.challenge);
-				$("input[name='geetest_validate']").val(smoothCaptchObject.validate);
-				$("input[name='geetest_seccode']").val(smoothCaptchObject.seccode);
+				$("[name='geetest_challenge']").val(smoothCaptchObject.challenge);
+				$("[name='geetest_validate']").val(smoothCaptchObject.validate);
+				$("[name='geetest_seccode']").val(smoothCaptchObject.seccode);
 			}
 		}
 		function submitForm(){

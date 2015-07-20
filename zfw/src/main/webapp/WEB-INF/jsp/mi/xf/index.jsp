@@ -32,13 +32,13 @@
 								<table class="datatable-table">
 									<thead>
 										<shiro:hasPermission name="rep:del">
-										<th>
+										<th class="checkarea">
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</shiro:hasPermission>
 										<th class="name">名称</th>
 										<th class="address">地址</th>
-										<th class="description">描述</th>
+<!-- 										<th class="description">描述</th> -->
 										<th>优先级</th>
 										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
@@ -104,7 +104,6 @@
 				</shiro:hasPermission>
 				<td>{{name}}</td>
 				<td>{{address}}</td>
-				<td>{{description}}</td>
 				<td>{{priority}}</td>
 				{{#with updateDate}}
 				<td>{{dateformat time 3}}</td>

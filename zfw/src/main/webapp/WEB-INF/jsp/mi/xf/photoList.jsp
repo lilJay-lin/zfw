@@ -15,7 +15,7 @@
 		</div>
 		<table class="datatable-table">
 			<thead>
-				<th class="js-not-detail"><input type="checkbox" id="selectAll"/></th>
+				<th class="js-not-detail checkarea"><input type="checkbox" id="selectAll"/></th>
 				<th>预览</th>
 				<th class="name">名称</th>
 				<th>类型</th>

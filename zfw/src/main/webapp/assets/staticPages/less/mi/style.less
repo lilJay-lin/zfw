@@ -314,9 +314,12 @@ body{
         border:0;
         border-bottom: 1px solid @datatable-border-color;
         border-right: 1px solid @datatable-border-color;
+        text-align: center;
     }
-    
     & {
+        th.checkarea{
+            width:15px;
+        }
         th.operation{
             width:120px;
         }
@@ -332,7 +335,7 @@ body{
              white-space: nowrap;
         }
         th.description,th.contentUrl,th.summary,th.address{
-            width:30%;
+            max-height:25%;
         }
     }
     
