@@ -320,19 +320,20 @@ public class HouseTypeServiceImpl extends
 		    resMap.put("field","name");
 		    resMap.put("msg", errStr);
 		    return resMap;
-		}else {
-		    HouseTypeExample example = new HouseTypeExample();
-		    example.or().andNameEqualTo(name).andDelFlagEqualTo(false);
-			List<HouseType> list = htm.selectByExample(example);
-			if (list != null && !list.isEmpty()) {
-				for (HouseType model : list) {
-					if (!StringUtils.equals(model.getId(), ht.getId())) {
-						resMap.put("msg", "户型名称已存在");
-						return resMap;
-					}
-				}
-			}
 		}
+//		else {
+//		    HouseTypeExample example = new HouseTypeExample();
+//		    example.or().andNameEqualTo(name).andDelFlagEqualTo(false);
+//			List<HouseType> list = htm.selectByExample(example);
+//			if (list != null && !list.isEmpty()) {
+//				for (HouseType model : list) {
+//					if (!StringUtils.equals(model.getId(), ht.getId())) {
+//						resMap.put("msg", "户型名称已存在");
+//						return resMap;
+//					}
+//				}
+//			}
+//		}
 		
 
 		
