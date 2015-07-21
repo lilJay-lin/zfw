@@ -155,7 +155,6 @@
 					<input type="checkbox" value="{{id}}"/>
 				</td>
 				<td>{{name}}</td>
-				<td>{{description}}</td>
 				<td>{{priority}}</td>
 				<td>{{saleStatus}}</td>
 				<td>{{averagePrice}}</td>

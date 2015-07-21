@@ -18,7 +18,7 @@
 										<label class="control-label">楼盘均价</label>
 										<div class="control">
 											<input type="text"  name="averagePrice" id="averagePrice" maxlength="6" max="6"
-											 	require="require" require_msg ="楼盘均价不能为空" patterns = "^\d{1,6}$"   error="楼盘均价范围0-999999"  placeholder="输入楼盘均价 0-999999" value="0" />
+											 	require="require" require_msg ="楼盘均价不能为空" patterns = "^\d{1,6}$"   error="楼盘均价范围0-999999"  placeholder="输入楼盘均价 0-999999" value="0" />&nbsp;元/平方米
 											<span class="help-inline"></span>
 										</div>
 									</div>

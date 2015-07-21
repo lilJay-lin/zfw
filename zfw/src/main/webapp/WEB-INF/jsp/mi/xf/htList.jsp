@@ -11,7 +11,6 @@
 			<thead>
 				<th class="js-not-detail checkarea"><input type="checkbox" id="selectAll"/></th>
 				<th class="name">名称</th>
-				<th class="description">描述</th>
 				<th>优先级</th>
 				<th>销售</th>
 				<th>价格</th>
