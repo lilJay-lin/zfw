@@ -135,7 +135,7 @@ public class NameListServiceImpl extends
 	resMap.put("msg", "");
 
 	if (nl == null) {
-	    resMap.put("msg", "电商团购信息不能为空");
+	    resMap.put("msg", "名单信息不能为空");
 	}
 
 	resMap = this.checkNameList(nl);
@@ -170,7 +170,7 @@ public class NameListServiceImpl extends
 	String nlid = nl.getId();
 
 	if (StringUtils.isBlank(nlid) || nlm.selectByPrimaryKey(nlid) == null) {
-	    resMap.put("msg", "电商团购信息不存在!");
+	    resMap.put("msg", "名单信息不存在!");
 	}
 
 	resMap = this.checkNameList(nl);

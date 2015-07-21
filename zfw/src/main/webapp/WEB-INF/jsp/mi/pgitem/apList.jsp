@@ -9,7 +9,7 @@
 		</div>
 		<table class="datatable-table">
 			<thead>
-				<th class="js-not-detail"><input type="checkbox" id="selectAll" /></th>
+				<th class="js-not-detail checkarea"><input type="checkbox" id="selectAll" /></th>
 				<th class="name">名称</th>
 				<th>值</th>
 				<th class="description">描述</th>

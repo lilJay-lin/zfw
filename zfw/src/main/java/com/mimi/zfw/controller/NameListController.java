@@ -71,7 +71,7 @@ public class NameListController {
 		JSONObject jo = new JSONObject();
 		jo.put("success", false);
 		jo.put("msg", "查询条件解码出错");
-		LOG.error("查询电商团购信息分页，查询条件解码出错！", e);
+		LOG.error("查询名单信息分页，查询条件解码出错！", e);
 
 		return jo.toString();
 	    }
@@ -92,7 +92,7 @@ public class NameListController {
 	} catch (Exception e) {
 
 	    res = getJsonObject(rows, 0, curPage, pageSize, null, false, "");
-	    LOG.error("查询电商团购信息分页信息报错！", e);
+	    LOG.error("查询名单信息分页信息报错！", e);
 	}
 	return res;
     }
@@ -133,7 +133,7 @@ public class NameListController {
 
 	    jo.put("user", null);
 	    jo.put("relations", null);
-	    LOG.error("查询电商团购信息出错！", e);
+	    LOG.error("查询名单信息出错！", e);
 	}
 
 	return jo.toString();
@@ -157,7 +157,7 @@ public class NameListController {
 
 	if (nl == null) {
 	    jo.put("success", false);
-	    jo.put("msg", "新增电商团购信息不能为空!");
+	    jo.put("msg", "新增名单信息不能为空!");
 	} else {
 
 	    try {
@@ -167,7 +167,7 @@ public class NameListController {
 
 		if (StringUtils.isEmpty(res.get("msg"))) {
 		    jo.put("success", true);
-		    jo.put("msg", "新增电商团购信息保存成功!");
+		    jo.put("msg", "新增名单信息保存成功!");
 
 		} else {
 		    jo.put("success", false);
@@ -177,8 +177,8 @@ public class NameListController {
 
 	    } catch (Exception e) {
 		jo.put("success", false);
-		jo.put("msg", "新增电商团购信息保存失败!");
-		LOG.error("新增电商团购信息保存失败！", e);
+		jo.put("msg", "新增名单信息保存失败!");
+		LOG.error("新增名单信息保存失败！", e);
 	    }
 
 	}
@@ -216,7 +216,7 @@ public class NameListController {
 
 	    if (StringUtils.isEmpty(res.get("msg"))) {
 		jo.put("success", true);
-		jo.put("msg", "更新电商团购信息成功!");
+		jo.put("msg", "更新名单信息成功!");
 
 	    } else {
 		jo.put("success", false);
@@ -226,8 +226,8 @@ public class NameListController {
 
 	} catch (Exception e) {
 	    jo.put("success", false);
-	    jo.put("msg", "更新电商团购信息失败!");
-	    LOG.error("更新电商团购信息失败！", e);
+	    jo.put("msg", "更新名单信息失败!");
+	    LOG.error("更新名单信息失败！", e);
 	}
 
 	return jo.toString();
@@ -244,12 +244,12 @@ public class NameListController {
 	    nlService.updateBatchNameList(nlids, nl);
 
 	    jo.put("success", true);
-	    jo.put("msg", "电商团购信息删除成功");
+	    jo.put("msg", "名单信息删除成功");
 	} catch (Exception e) {
 
 	    jo.put("success", false);
-	    jo.put("msg", "电商团购信息删除失败");
-	    LOG.error("删除电商团购信息失败！", e);
+	    jo.put("msg", "名单信息删除失败");
+	    LOG.error("删除名单信息失败！", e);
 	}
 
 	return jo.toString();

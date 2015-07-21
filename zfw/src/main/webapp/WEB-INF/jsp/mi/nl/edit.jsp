@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="box">
 						<div class="box-hd">
-							<h2>编辑电商团购</h2>
+							<h2>编辑名单</h2>
 						</div>
 						<%@include file="aeCommonBody.jsp" %>
 					</div>
@@ -78,7 +78,7 @@
 			   	},
 			   	error:function(){
 			   		btn.removeAttr("disabled");
-			   		alert("新增电商团购失败!");
+			   		alert("新增名单失败!");
 			   	},
 			   	complete:function(){
 			   		btn.removeAttr("disabled");
@@ -105,7 +105,7 @@
 					}
 				},
 				error:function(){
-					alert("获取电商团购信息失败");
+					alert("获取名单信息失败");
 				}
 			});
 		}

@@ -312,6 +312,10 @@ body {
   border: 0;
   border-bottom: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
+  text-align: center;
+}
+.datatable-table th.checkarea {
+  width: 15px;
 }
 .datatable-table th.operation {
   width: 120px;
@@ -331,7 +335,7 @@ body {
 .datatable-table th.contentUrl,
 .datatable-table th.summary,
 .datatable-table th.address {
-  width: 30%;
+  max-height: 25%;
 }
 .datatable-table tr:last-of-type > td:last-of-type {
   border-bottom-right-radius: 4px;

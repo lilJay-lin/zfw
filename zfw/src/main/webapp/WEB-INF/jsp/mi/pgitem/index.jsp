@@ -32,14 +32,14 @@
 								<table class="datatable-table">
 									<thead>
 										<shiro:hasPermission name="ai:del">
-										<th>
+										<th class="checkarea">
 											<input type="checkbox"  id="selectAll"/>
 										</th>
 										</shiro:hasPermission>
 										<th class="name">名称</th>
 										<th>类型</th>
 										<th class="description">描述</th>
-										<th>最后修改时间</th>
+										<th class="time">最后修改时间</th>
 										<th class="operation">操作</th>
 									</thead>
 									<tbody class="page-data-list">
