@@ -17,7 +17,7 @@
 										<label class="control-label">户型均价</label>
 										<div class="control">
 											<input type="text" require="require" require_msg ="户型均价不能为空" name="averagePrice" id="averagePrice" max="6"  error="户型均价范围0-999999" 
-											patterns = "^\d{1,6}$"  placeholder="输入户型均价 0-999999" value="0" />
+											patterns = "^\d{1,6}$"  placeholder="输入户型均价 0-999999" value="0" />&nbsp;元/平方米
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -43,7 +43,7 @@
 										<label class="control-label">建筑面积</label>
 										<div class="control">
 											<input type="text" name="grossFloorArea"  max="9"  error="建筑面积范围0.00-999999.99" 
-											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.00-999999.99" value="0.0"  />
+											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.00-999999.99" value="0.0"  />&nbsp;平方米
 											<span class="help-inline"></span>
 										</div>
 									</div>

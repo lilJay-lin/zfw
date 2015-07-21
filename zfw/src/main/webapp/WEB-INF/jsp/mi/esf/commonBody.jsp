@@ -33,7 +33,7 @@
 										<label class="control-label">建筑面积</label>
 										<div class="control">
 											<input type="text"  name="grossFloorArea" id="grossFloorArea" max="9" maxlength="9" error="建筑面积范围0.0-999999.99" 
-											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.0-999999.99" value="0.0" />
+											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.0-999999.99" value="0.0" />&nbsp;平方米
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -82,7 +82,7 @@
 										<label class="control-label">所在楼层</label>
 										<div class="control">
 											<input type="text"  name="curFloor" id="curFloor" max="3"  error="所在楼层范围0-999" 
-											patterns = "^\d{1,3}$"  placeholder="输入 所在楼层0-999" value="0" />
+											patterns = "^\d{1,3}$"  placeholder="输入 所在楼层0-999" value="0" />&nbsp;层
 											<span class="help-inline"></span>
 										</div>
 									</div>
@@ -90,7 +90,7 @@
 										<label class="control-label">总楼层</label>
 										<div class="control">
 											<input type="text"  name="totalFloor" id="totalFloor" max="3"  error="总楼层范围0-999" 
-											patterns = "^\d{1,3}$"  placeholder="输入 总楼层0-999" value="0" />
+											patterns = "^\d{1,3}$"  placeholder="输入 总楼层0-999" value="0" />&nbsp;层
 											<span class="help-inline"></span>
 										</div>
 									</div>
