@@ -304,6 +304,8 @@ public class RentalHousingServiceImpl extends
 		rh.setId(UUID.randomUUID().toString());
 		rh.setResidenceCommunityId(rc.getId());
 		rh.setRegion(rc.getRegion());
+		//数字为null设置为0
+//		defaultNumberParams(rh);
 		rhm.insertSelective(rh);
 
 		long timeMillis = System.currentTimeMillis();
@@ -494,7 +496,8 @@ public class RentalHousingServiceImpl extends
 			rcm.insertSelective(rc);
 			rh.setResidenceCommunityId(rc.getId());
 		}
-
+		//数字为null设置为0
+//		defaultNumberParams(rh);
 		// 更新租房
 		rhm.updateByPrimaryKeySelective(rh);
 
@@ -814,6 +817,8 @@ public class RentalHousingServiceImpl extends
 			return resMap;
 		}
 		
+		//数字为null设置为0
+		defaultNumberParams(rh);
 		
 		return resMap;
 	}
@@ -839,5 +844,47 @@ public class RentalHousingServiceImpl extends
 		rhm.updateByExampleSelective(rh, rhe);
 		return null;
 	}
-
+	private void defaultNumberParams(RentalHousing rh) {
+	    // TODO Auto-generated method stub
+	    Float f = new Float(0);
+	    Integer i = new Integer(0);
+	    
+	    if(rh.getRental() == null){
+		rh.setRental(i);
+	    }
+	    
+	    if(rh.getGrossFloorArea()==null){
+		rh.setGrossFloorArea(f);
+	    }
+	    
+	    if(rh.getInsideArea()==null){
+		rh.setInsideArea(f);
+	    }
+	    
+	    if(rh.getRoomNum()==null){
+		rh.setRoomNum(i);
+	    }
+	    
+	    if(rh.getHallNum() == null ){
+		rh.setHallNum(i);
+	    }
+	    
+	    
+	    if(rh.getToiletNum()==null){
+		rh.setToiletNum(i);
+	    }
+	    
+	    if(rh.getCurFloor()==null){
+		rh.setCurFloor(i);
+	    }
+	    
+	    if(rh.getTotalFloor()==null){
+		rh.setTotalFloor(i);
+	    }
+	    
+	    if(rh.getPriority() == null ){
+		rh.setPriority(i);
+	    }
+	    
+	}
 }

@@ -282,6 +282,10 @@ public class SecondHandHouseServiceImpl extends
 		shh.setId(UUID.randomUUID().toString());
 		shh.setResidenceCommunityId(rc.getId());
 		shh.setRegion(rc.getRegion());
+		
+		//数字为null设置为0
+//		defaultNumberParams(shh);
+		
 		shhm.insertSelective(shh);
 
 		long timeMillis = System.currentTimeMillis();
@@ -390,7 +394,8 @@ public class SecondHandHouseServiceImpl extends
 			rcm.insertSelective(rc);
 			shh.setResidenceCommunityId(rc.getId());
 		}
-
+		//数字为null设置为0
+//		defaultNumberParams(shh);
 		//更新二手房
 		shhm.updateByPrimaryKeySelective(shh);
 		
@@ -771,9 +776,12 @@ public class SecondHandHouseServiceImpl extends
 			return resMap;
 		}
 		
+		//数字为null设置为0
+		defaultNumberParams(shh);
 		
 		return resMap;
 	}
+
 
 	@Override
 	public void refreshByRC(ResidenceCommunity rc) {
@@ -795,5 +803,49 @@ public class SecondHandHouseServiceImpl extends
 		shh.setOutOfDate(true);
 		shhm.updateByExampleSelective(shh, shhe);
 		return null;
+	}
+	
+	private void defaultNumberParams(SecondHandHouse shh) {
+	    // TODO Auto-generated method stub
+	    Float f = new Float(0);
+	    Integer i = new Integer(0);
+	    
+	    if(shh.getTotalPrice()==null){
+		shh.setTotalPrice(i);
+	    }
+	    
+	    if(shh.getGrossFloorArea()==null){
+		shh.setGrossFloorArea(f);
+	    }
+	    
+	    if(shh.getInsideArea()==null){
+		shh.setInsideArea(f);
+	    }
+	    
+	    if(shh.getRoomNum()==null){
+		shh.setRoomNum(i);
+	    }
+	    
+	    if(shh.getHallNum() == null ){
+		shh.setHallNum(i);
+	    }
+	    
+	    
+	    if(shh.getToiletNum()==null){
+		shh.setToiletNum(i);
+	    }
+	    
+	    if(shh.getCurFloor()==null){
+		shh.setCurFloor(i);
+	    }
+	    
+	    if(shh.getTotalFloor()==null){
+		shh.setTotalFloor(i);
+	    }
+	    
+	    if(shh.getPriority() == null ){
+		shh.setPriority(i);
+	    }
+	    
 	}
 }
