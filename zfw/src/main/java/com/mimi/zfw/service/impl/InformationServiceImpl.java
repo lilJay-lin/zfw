@@ -19,6 +19,7 @@ import com.mimi.zfw.mybatis.dao.RelationREPAndInformationMapper;
 import com.mimi.zfw.mybatis.pojo.Information;
 import com.mimi.zfw.mybatis.pojo.InformationExample;
 import com.mimi.zfw.mybatis.pojo.InformationExample.Criteria;
+import com.mimi.zfw.mybatis.pojo.HouseType;
 import com.mimi.zfw.mybatis.pojo.RealEstateProject;
 import com.mimi.zfw.mybatis.pojo.RelationREPAndInformation;
 import com.mimi.zfw.mybatis.pojo.RelationREPAndInformationExample;
@@ -393,7 +394,17 @@ public class InformationServiceImpl extends
 			return resMap;
 		}
 		
+		//数字为null设置为0
+		defaultNumberParams(info);
+		
 		return resMap;
+	}
+	
+	private void defaultNumberParams(Information info){
+	    Integer i = new Integer(0);
+	    if(info.getPriority() == null ){
+		info.setPriority(i);
+	    }
 	}
 
 }

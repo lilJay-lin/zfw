@@ -921,6 +921,9 @@ public class RealEstateProjectServiceImpl extends
 			return resMap;
 		}
 		
+		//数字为null设置为0
+		defaultNumberParams(rep);
+		
 		return resMap;
 	}
 
@@ -1149,5 +1152,47 @@ public class RealEstateProjectServiceImpl extends
 		rep.setSaleStatus(saleStatus);
 		repm.updateByPrimaryKeySelective(rep);
 		return rep;
+	}
+	
+	
+	private  void defaultNumberParams(RealEstateProject rep){
+	    
+	    Float f = new Float(0);
+	    Integer i = new Integer(0);
+	    
+	    if(rep == null) return;
+	    
+	    if(rep.getAveragePrice() == null){
+		rep.setAveragePrice(i);
+	    }
+	    
+	    if(rep.getHouseholdNum() == null){
+		rep.setHouseholdNum(i);
+	    }
+	    
+	    if(rep.getFloorAreaRatio() == null ){
+		rep.setFloorAreaRatio(f);
+	    }
+	    
+	    if(rep.getGreenRate() == null ){
+		rep.setGreenRate(f);
+	    }
+	    
+	    if(rep.getParkingSpaceNum()==null){
+		rep.setParkingSpaceNum(i);
+	    }
+	    
+	    if(rep.getPropertyYears()==null){
+		rep.setPropertyYears(i);
+	    }
+	    
+	    if(rep.getPropertyFee() == null){
+		rep.setPropertyFee(f);
+	    }
+	    
+	    if(rep.getPriority() == null ){
+		rep.setPriority(i);
+	    }
+	    
 	}
 }

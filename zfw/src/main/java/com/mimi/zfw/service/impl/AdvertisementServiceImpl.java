@@ -15,6 +15,7 @@ import com.mimi.zfw.Constants;
 import com.mimi.zfw.mybatis.dao.AdvertisementMapper;
 import com.mimi.zfw.mybatis.pojo.Advertisement;
 import com.mimi.zfw.mybatis.pojo.AdvertisementExample;
+import com.mimi.zfw.mybatis.pojo.Information;
 import com.mimi.zfw.plugin.IBaseDao;
 import com.mimi.zfw.service.IAdvertisementService;
 import com.mimi.zfw.service.IUserService;
@@ -202,7 +203,16 @@ public class AdvertisementServiceImpl extends
 			resMap.put("msg", errStr);
 			return resMap;
 		}
+		
+		//数字为null设置为0
+		defaultNumberParams(ad);
+		
 		return resMap;
 	}
-
+	private void defaultNumberParams(Advertisement ad){
+	    Integer i = new Integer(0);
+	    if(ad.getPriority() == null ){
+		ad.setPriority(i);
+	    }
+	}
 }

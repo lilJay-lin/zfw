@@ -1033,7 +1033,47 @@ public class ResidenceCommunityServiceImpl extends
 			return resMap;
 		}
 		
+		//数字为null设置为0
+		defaultNumberParams(rc);
+		
 		return resMap;
+	}
+
+	private void defaultNumberParams(ResidenceCommunity rc) {
+	    // TODO Auto-generated method stub
+
+	    Float f = new Float(0);
+	    Integer i = new Integer(0);
+	    
+	    if(rc == null) return;
+	    
+	    if(rc.getHouseholdNum()==null){
+		rc.setHouseholdNum(i);
+	    }
+	    
+	    if(rc.getFloorAreaRatio()==null){
+		rc.setFloorAreaRatio(f);
+	    }
+	    
+	    if(rc.getGreenRate()==null){
+		rc.setGreenRate(f);
+	    }
+	    
+	    if(rc.getParkingSpaceNum()==null){
+		rc.setParkingSpaceNum(i);
+	    }
+	    
+	    if(rc.getPropertyYears()==null){
+		rc.setPropertyYears(i);
+	    }
+	    
+	    if(rc.getPropertyFee()==null){
+		rc.setPropertyFee(f);
+	    }
+	    
+	    if(rc.getPriority()==null){
+		rc.setPriority(i);
+	    }
 	}
 
 }

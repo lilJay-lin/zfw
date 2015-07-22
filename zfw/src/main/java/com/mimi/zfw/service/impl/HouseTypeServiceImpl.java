@@ -409,6 +409,8 @@ public class HouseTypeServiceImpl extends
 			return resMap;
 		}
 		
+		//数字为null设置为0
+		defaultNumberParams(ht);
 		
 		return resMap;
 	}
@@ -423,4 +425,43 @@ public class HouseTypeServiceImpl extends
 		htm.updateByExampleSelective(ht, hte);
 	}
 
+	private void defaultNumberParams(HouseType ht){
+	    Float f = new Float(0);
+	    Integer i = new Integer(0);
+	    
+	    if(ht == null) return;
+	    
+	    if(ht.getAveragePrice() == null){
+		ht.setAveragePrice(i);
+	    }
+	    
+	    if(ht.getGrossFloorArea()==null){
+		ht.setGrossFloorArea(f);
+	    }
+	    
+	    if(ht.getInsideArea()==null){
+		ht.setInsideArea(f);
+	    }
+	    
+	    if(ht.getRoomNum()==null){
+		ht.setRoomNum(i);
+	    }
+	    
+	    if(ht.getHallNum() == null ){
+		ht.setHallNum(i);
+	    }
+	    
+	    if(ht.getKitchenNum()==null){
+		ht.setKitchenNum(i);
+	    }
+	    
+	    if(ht.getToiletNum()==null){
+		ht.setToiletNum(i);
+	    }
+	    
+	    
+	    if(ht.getPriority() == null ){
+		ht.setPriority(i);
+	    }
+	}
 }
