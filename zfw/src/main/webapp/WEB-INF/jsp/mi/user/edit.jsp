@@ -29,12 +29,12 @@
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
 									<input type="hidden" id="userid" name ="id" value="${userid}" />
 									<input type="hidden" id="salt" name ="salt" value="${salt}" />
-									<div class="control-group">
+									<!--<div class="control-group">
 										<label class="control-label">图像</label>
 										<div class="control control-img-box">
 											<img class="control-user-img" />
 										</div>
-									</div>
+									</div>-->
 									<form enctype="multipart/form-data" id="uploadForm">
 									<div class="control-group">
 										<label class="control-label">上传图像</label>
@@ -50,6 +50,9 @@
 											<div class="loading">
 												<img src="${ctx}/assets/img/loading.gif"  />
 											</div>
+										</div>
+										<div class="control-img">
+											<img class="control-user-img" />
 										</div>
 									</div>
 									</form>
@@ -440,7 +443,7 @@
 		   			if(!data.success){
 		   				if(name){
 		   					var p = form.find("[name='"+name+"']");
-		   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
+		   					p.length>0&&(p.focus(),showerror(p,data.msg))
 		   				}else{
 		   					alert(data.msg)
 		   				}

@@ -752,10 +752,10 @@ public class RealEstateProjectServiceImpl extends
 			resMap.put("msg", "楼盘内容不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(rep.getPreImageUrl())) {
-			resMap.put("msg", "楼盘缩略图不能为空");
-			return resMap;
-		}
+//		if (StringUtils.isBlank(rep.getPreImageUrl())) {
+//			resMap.put("msg", "楼盘缩略图不能为空");
+//			return resMap;
+//		}
 		String name = rep.getName();
 		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "楼盘名");
 		if(StringUtils.isNotBlank(errStr)){

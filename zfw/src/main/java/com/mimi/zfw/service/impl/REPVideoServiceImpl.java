@@ -179,10 +179,10 @@ public class REPVideoServiceImpl extends
 		}
 
 		
-		if(StringUtils.isBlank(video.getPreImageUrl())){
-		    resMap.put("msg","视频缩略图不能为空");
-		    return resMap;
-		}
+//		if(StringUtils.isBlank(video.getPreImageUrl())){
+//		    resMap.put("msg","视频缩略图不能为空");
+//		    return resMap;
+//		}
 		
 		String contentUrl = video.getContentUrl();
 		errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "视频内容路径");

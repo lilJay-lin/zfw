@@ -294,13 +294,13 @@
 				var url;
 				var data;
 				var rep = getREPData();
-				if(!rep.preImageUrl){
-					$(".uploade-img-error").html("图片不能为空");
-					$("body").scrollTop(0);
-					return;
-				}else{
-					$(".uploade-img-error").html("");
-				}	
+//				if(!rep.preImageUrl){
+//					$(".uploade-img-error").html("图片不能为空");
+//					$("body").scrollTop(0);
+//					return;
+//				}else{
+//					$(".uploade-img-error").html("");
+//				}	
 				if(inEdit){
 					url = "${ctx}/mi/xf/"+$("#repId").val();
 //					var rep = getREPData();
@@ -327,7 +327,7 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					p.length>0&&(p.focus(),showerror(p,data.msg));
 			   				}else{
 			   					alert(data.msg);
 			   				}

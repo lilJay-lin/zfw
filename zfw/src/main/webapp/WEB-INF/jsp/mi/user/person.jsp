@@ -387,7 +387,7 @@
 		   			if(!data.success){
 		   				if(name){
 		   					var p = form.find("[name='"+name+"']");
-		   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
+		   					p.length>0&&(p.focus(),showerror(p,data.msg))
 		   				}else{
 		   					alert(data.msg)
 		   				}

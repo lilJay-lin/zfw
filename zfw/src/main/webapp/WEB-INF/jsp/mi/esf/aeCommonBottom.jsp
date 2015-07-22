@@ -102,12 +102,12 @@
 			if(res){
 				var url;
 				var shh = getSHHData();
-				if(!shh.preImageUrl){
-					$(".uploade-img-error").html("图片不能为空");
-					return;
-				}else{
-					$(".uploade-img-error").html("");
-				}	
+//				if(!shh.preImageUrl){
+//					$(".uploade-img-error").html("图片不能为空");
+//					return;
+//				}else{
+//					$(".uploade-img-error").html("");
+//				}	
 				if(inEdit){
 					url = "${ctx}/mi/esf/"+$("#shhId").val();
 				}else{
@@ -127,7 +127,7 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					p.length>0&&(p.focus(),showerror(p,data.msg));
 			   				}else{
 			   					alert(data.msg);
 			   				}

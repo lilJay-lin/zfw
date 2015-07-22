@@ -156,10 +156,10 @@ public class OBPanoServiceImpl extends
 	}
 
 	
-	if(StringUtils.isBlank(oBPano.getPreImageUrl())){
-	    resMap.put("msg","全景缩略图不能为空");
-	    return resMap;
-	}
+//	if(StringUtils.isBlank(oBPano.getPreImageUrl())){
+//	    resMap.put("msg","全景缩略图不能为空");
+//	    return resMap;
+//	}
 	
 	String contentUrl = oBPano.getContentUrl();
 	errStr = FormatUtil.checkFormate(contentUrl, true, FormatUtil.MAX_LENGTH_COMMON_NORMAL_L2, "全景内容路径");

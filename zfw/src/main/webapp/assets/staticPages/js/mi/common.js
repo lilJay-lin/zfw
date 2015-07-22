@@ -251,6 +251,21 @@
 	//	document.cookie = name + "=; expires=" + date.toGMTString() + ";domain=.sanga321.com;path=/";
 		document.cookie = name + "=v; expires=" + date.toGMTString() + ";path=/";
 	}
+	
+	
+	/*
+	 * showerror
+	 */
+	r.showerror = function(el,err){
+		var h =null;
+		(h=el.next(".help-inline")).length==0&& (h=$("<div class='help-inline'></div>"),el.after(h));
+		if(arguments.length==1){
+			h.hide()
+		}else {
+			h.html(err);
+			h.show();
+		}
+	}
 })(window);
 /*
 *jquery fn

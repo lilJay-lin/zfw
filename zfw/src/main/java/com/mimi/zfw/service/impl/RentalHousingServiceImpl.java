@@ -698,10 +698,10 @@ public class RentalHousingServiceImpl extends
 			resMap.put("msg", "租房所属小区不能为空");
 			return resMap;
 		}
-		if (StringUtils.isBlank(rh.getPreImageUrl())) {
-			resMap.put("msg", "租房缩略图不能为空");
-			return resMap;
-		}
+//		if (StringUtils.isBlank(rh.getPreImageUrl())) {
+//			resMap.put("msg", "租房缩略图不能为空");
+//			return resMap;
+//		}
 		String name = rh.getName();
 		String errStr = FormatUtil.checkFormate(name,true, FormatUtil.MAX_LENGTH_COMMON_SHORT_L2, "名称");
 		if(StringUtils.isNotBlank(errStr)){

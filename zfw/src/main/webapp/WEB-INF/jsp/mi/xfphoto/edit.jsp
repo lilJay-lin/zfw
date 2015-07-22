@@ -50,14 +50,21 @@
 			var btn=$(this);
 			var form = $(".form");
 			var res = form.validate();
+			var contentUrl = $("[name='contentUrl']").val();
+			if(!contentUrl){
+				$(".uploade-img-error").html("图片不能为空");
+				return;
+			}else{
+				$(".uploade-img-error").html("");
+			}
 			if(res){
 				var image = getImageData();
-				if(!image.contentUrl){
-					$(".uploade-img-error").html("图片不能为空");
-					return;
-				}else{
-					$(".uploade-img-error").html("");
-				}
+//				if(!image.contentUrl){
+//					$(".uploade-img-error").html("图片不能为空");
+//					return;
+//				}else{
+//					$(".uploade-img-error").html("");
+//				}
 			   var url = "${ctx}/mi/xfphoto/${imageId}";
 			btn.attr("disabled","disabled");
 			btn.addClass("disabled");
@@ -73,7 +80,7 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					p.length>0&&(p.focus(),showerror(p,data.msg));
 			   				}else{
 			   					alert(data.msg);
 			   				}

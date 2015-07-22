@@ -81,12 +81,12 @@
 			var res = form.validate();
 			if(res){
 				var ring = getPanoData();
-				if(!ring.preImageUrl){
-					$(".uploade-img-error").html("缩略图不能为空");
-					return;
-				}else{
-					$(".uploade-img-error").html("");
-				}
+//				if(!ring.preImageUrl){
+//					$(".uploade-img-error").html("缩略图不能为空");
+//					return;
+//				}else{
+//					$(".uploade-img-error").html("");
+//				}
 			   var url;
 			   if(inEdit){
 				   url = "${ctx}/mi/hxring/${ringId}";
@@ -107,7 +107,7 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					p.length>0&&(p.focus(),showerror(p,data.msg));
 			   				}else{
 			   					alert(data.msg);
 			   				}

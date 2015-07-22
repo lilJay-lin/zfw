@@ -56,12 +56,12 @@
 			var res = form.validate();
 			if(res){
 				var pano = getPanoData();
-				if(!pano.preImageUrl){
-					$(".uploade-img-error").html("图片不能为空");
-					return;
-				}else{
-					$(".uploade-img-error").html("");
-				}	
+//				if(!pano.preImageUrl){
+//					$(".uploade-img-error").html("图片不能为空");
+//					return;
+//				}else{
+//					$(".uploade-img-error").html("");
+//				}	
 			   var url = "${ctx}/mi/xfpano/add";
 			btn.attr("disabled","disabled");
 			btn.addClass("disabled");
@@ -77,7 +77,7 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+			   					p.length>0&&(p.focus(),showerror(p,data.msg));
 			   				}else{
 			   					alert(data.msg);
 			   				}

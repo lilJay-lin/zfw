@@ -82,12 +82,12 @@ $("#submit").click(function(){
 	var res = form.validate();
 	if(res){
 		var pano = getPanoData();
-		if(!pano.preImageUrl){
-			$(".uploade-img-error").html("全景缩略图不能为空");
-			return;
-		}else{
-			$(".uploade-img-error").html("");
-		}	
+//		if(!pano.preImageUrl){
+//			$(".uploade-img-error").html("全景缩略图不能为空");
+//			return;
+//		}else{
+//			$(".uploade-img-error").html("");
+//		}	
 		if(inEdit){
 			url = "${ctx}/mi/sppano/${panoId}";
 		}else{
@@ -106,7 +106,7 @@ $("#submit").click(function(){
 	   				var name = data.field;
 	   				if(name){
 	   					var p = form.find("[name='"+name+"']");
-	   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show());
+	   					p.length>0&&(p.focus(),showerror(p,data.msg));
 	   				}else{
 	   					alert(data.msg);
 	   				}

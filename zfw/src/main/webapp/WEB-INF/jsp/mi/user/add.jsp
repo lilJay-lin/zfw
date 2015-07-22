@@ -27,12 +27,12 @@
 								<fieldset>
 									<input type="hidden" name="publicExponent" id="publicExponent" value="${publicExponent }" />
 									<input type="hidden" name="modulus" id="modulus" value="${modulus }"  />
-									<div class="control-group">
+									<!--<div class="control-group">
 										<label class="control-label">图像</label>
 										<div class="control control-img-box">
 											<img class="control-user-img" />
 										</div>
-									</div>
+									</div>-->
 									<form enctype="multipart/form-data" method="post" id="uploadForm">
 									<div class="control-group">
 										<label class="control-label">上传图像</label>
@@ -48,6 +48,9 @@
 											<div class="loading">
 												<img src="${ctx}/assets/img/loading.gif"/>
 											</div>
+										</div>
+										<div class="control-img">
+											<img class="control-user-img" />
 										</div>
 									</div>
 									</form>
@@ -394,7 +397,7 @@
 			   				var name = data.field;
 			   				if(name){
 			   					var p = form.find("[name='"+name+"']");
-			   					p.length>0&&(p.focus(),p.next(".help-inline").html(data.msg),p.next(".help-inline").show())
+			   					p.length>0&&(p.focus(),showerror(p,data.msg))
 			   				}else{
 			   					alert(data.msg)
 			   				}

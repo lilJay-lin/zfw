@@ -6,9 +6,9 @@
 			<form enctype="multipart/form-data" method="post" id="uploadForm">
 				<div class="control-group">
 					<label class="control-label">上传缩略图</label>
-					<div class="control control-img-box">
+					<!--<div class="control control-img-box">
 						<img class="control-user-img" />
-					</div>
+					</div>-->
 					<div class="control js-not-detail">
 						<div class="uploader">
 							<input type="hidden" name="preImageUrl" />
@@ -21,6 +21,9 @@
 						<div class="loading">
 							<img src="${ctx}/assets/img/loading.gif"  />
 						</div>
+					</div>
+					<div class="control-img">
+						<img class="control-user-img" />
 					</div>
 				</div>
 			</form>
