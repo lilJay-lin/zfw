@@ -5,3 +5,4 @@
 <title><c:out value="${headTitle}" default="肇房网"></c:out></title>
 <link href="${ctx }/assets/css/ui.css" rel="stylesheet" type="text/css" />
 <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<%@include file="../../inc/icoImport.jsp" %>

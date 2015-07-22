@@ -6,7 +6,7 @@
 <c:set var="headKeywords" value="二手房地图"/>
 <c:set var="headTitle" value="二手房地图"/>
 <%@include file="../inc/header.jsp" %>
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script>
+<%@include file="../../inc/bmapImport.jsp" %>
 </head>
 <body>
 	<div class="main">
