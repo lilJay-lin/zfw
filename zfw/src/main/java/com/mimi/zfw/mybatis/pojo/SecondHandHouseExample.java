@@ -606,6 +606,66 @@ public class SecondHandHouseExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andInsideAreaIsNull() {
+            addCriterion("inside_area is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaIsNotNull() {
+            addCriterion("inside_area is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaEqualTo(Float value) {
+            addCriterion("inside_area =", value, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaNotEqualTo(Float value) {
+            addCriterion("inside_area <>", value, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaGreaterThan(Float value) {
+            addCriterion("inside_area >", value, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaGreaterThanOrEqualTo(Float value) {
+            addCriterion("inside_area >=", value, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaLessThan(Float value) {
+            addCriterion("inside_area <", value, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaLessThanOrEqualTo(Float value) {
+            addCriterion("inside_area <=", value, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaIn(List<Float> values) {
+            addCriterion("inside_area in", values, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaNotIn(List<Float> values) {
+            addCriterion("inside_area not in", values, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaBetween(Float value1, Float value2) {
+            addCriterion("inside_area between", value1, value2, "insideArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsideAreaNotBetween(Float value1, Float value2) {
+            addCriterion("inside_area not between", value1, value2, "insideArea");
+            return (Criteria) this;
+        }
+
         public Criteria andGrossFloorAreaIsNull() {
             addCriterion("gross_floor_area is null");
             return (Criteria) this;

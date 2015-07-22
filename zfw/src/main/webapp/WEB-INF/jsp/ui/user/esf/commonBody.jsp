@@ -25,7 +25,7 @@
 		</dl>
 		<dl>
 			<dt>
-				<span class="fc00">*</span>户<span style="margin-right: 2em;"></span>型：
+				<span style="margin-right: 0.4em;"></span>户<span style="margin-right: 2em;"></span>型：
 			</dt>
 			<dd>
 				<select name="roomNum" id="roomNum" style="width: 23%">
@@ -63,10 +63,20 @@
 		</dl>
 		<dl>
 			<dt>
-				<span class="fc00">*</span>面<span style="margin-right: 2em;"></span>积：
+				<span class="fc00">*</span>建筑面积：
 			</dt>
 			<dd>
 				<input id="grossFloorArea" type="text" class="ipt-text referprice" onkeyup="assessment()"
+					style="width: 85%;" pattern="^[0-9]+\.{0,1}[0-9]{0,2}$" required autocomplete="off">
+				平米
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<span class="fc00">*</span>套内面积：
+			</dt>
+			<dd>
+				<input id="insideArea" type="text" class="ipt-text referprice" 
 					style="width: 85%;" pattern="^[0-9]+\.{0,1}[0-9]{0,2}$" required autocomplete="off">
 				平米
 			</dd>
@@ -108,7 +118,7 @@
 		</dl>
 		<dl>
 			<dt>
-				<span style="margin-right: 0.4em;"></span>楼<span
+				<span class="fc00">*</span>楼<span
 					style="margin-right: 2em;"></span>层：
 			</dt>
 			<dd>

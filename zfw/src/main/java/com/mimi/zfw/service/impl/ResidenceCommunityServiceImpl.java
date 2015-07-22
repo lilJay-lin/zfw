@@ -250,6 +250,7 @@ public class ResidenceCommunityServiceImpl extends
 					shh.setTotalPrice((int) (30 + Math.random() * 100));
 					shh.setGrossFloorArea((float) (tempRGFA * Math.random() + rc
 							.getShhMinRoomGrossFloorArea()));
+					shh.setInsideArea(shh.getGrossFloorArea()*0.8f);
 					shh.setRoomNum((int) (Math.random() * 5 + 1));
 					shh.setHallNum((int) (Math.random() * 2 + 1));
 					shh.setToiletNum((int) (Math.random() + 1));
@@ -332,6 +333,7 @@ public class ResidenceCommunityServiceImpl extends
 					rh.setRental((int) (300 + Math.random() * 1000));
 					rh.setGrossFloorArea((float) (tempRGFA * Math.random() + rc
 							.getShhMinRoomGrossFloorArea()));
+					rh.setInsideArea(rh.getGrossFloorArea()*0.8f);
 					rh.setRoomNum((int) (Math.random() * 5 + 1));
 					rh.setHallNum((int) (Math.random() * 2 + 1));
 					rh.setToiletNum((int) (Math.random() + 1));

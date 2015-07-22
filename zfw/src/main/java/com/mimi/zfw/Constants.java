@@ -33,19 +33,18 @@ public class Constants {
 
 	public static final String DEFAULT_DATA_URL = "http://data.uniqueid.cn";
 
-	public static final String BAIDU_MAP_AK = "44843934aa23b524f4456723fea8dbdf";
-
-	public static final int BAIDU_MAP_REAL_ESTATE_GEOTABLE_ID = 92345;
-
-	public static final String BAIDU_MAP_BOUND_SEARCH_URL = "http://api.map.baidu.com/geosearch/v3/bound";
+	public static final String BAIDU_MAP_AK = "WYhMGRmA9PkhrhkkH9KWGtiv";
 
 	public static final String CURRENT_USER = "user";
 
 	public static final String SHIRO_HASH_ALGORITHM_NAME = "md5";
 	public static final int SHIRO_HASH_ITERATIONS = 2;
 
-	public static final String GEETEST_ID = "61658dd2f0dfc210aeb78192ea4fde05";
-	public static final String GEETEST_KEY = "abceaa2fd512253fb743ba7e06780635";
+//	public static final String GEETEST_ID = "61658dd2f0dfc210aeb78192ea4fde05";
+//	public static final String GEETEST_KEY = "abceaa2fd512253fb743ba7e06780635";
+
+	public static final String GEETEST_ID = "d6a7e899d71732327628b9d9f34c042b";
+	public static final String GEETEST_KEY = "2145feb53f5390977193d74837992e82";
 
 	public static final String ROLE_NAME_ADMIN_DEFAULT = "超级管理员";
 	public static final String ROLE_NAME_NORMAL_DEFAULT = "注册用户";

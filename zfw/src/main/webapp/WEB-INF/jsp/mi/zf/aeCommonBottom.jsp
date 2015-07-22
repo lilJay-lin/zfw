@@ -63,6 +63,7 @@
 				phoneNum:"",
 				rental:"",
 				grossFloorArea:"",
+				insideArea:"",
 				roomNum:"",
 				hallNum:"",
 				toiletNum:"",

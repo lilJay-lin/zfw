@@ -9,6 +9,7 @@
     <result column="region" property="region" jdbcType="VARCHAR" />
     <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
     <result column="rental" property="rental" jdbcType="INTEGER" />
+    <result column="inside_area" property="insideArea" jdbcType="REAL" />
     <result column="gross_floor_area" property="grossFloorArea" jdbcType="REAL" />
     <result column="room_num" property="roomNum" jdbcType="INTEGER" />
     <result column="hall_num" property="hallNum" jdbcType="INTEGER" />
@@ -99,11 +100,11 @@
   </sql>
   <sql id="Base_Column_List" >
     id, residence_community_id, residence_community_name, name, region, phone_num, rental, 
-    gross_floor_area, room_num, hall_num, toilet_num, forward, cur_floor, total_floor, 
-    decoration_status, address, introduction, facility_bed, facility_refrigerator, facility_broadband, 
-    facility_air_conditioner, facility_tv, facility_heating, facility_washer, facility_heater, 
-    lease_way, out_of_date, description, tags, priority, pre_image_url, creater, last_editor, 
-    create_date, update_date, del_flag
+    inside_area, gross_floor_area, room_num, hall_num, toilet_num, forward, cur_floor, 
+    total_floor, decoration_status, address, introduction, facility_bed, facility_refrigerator, 
+    facility_broadband, facility_air_conditioner, facility_tv, facility_heating, facility_washer, 
+    facility_heater, lease_way, out_of_date, description, tags, priority, pre_image_url, 
+    creater, last_editor, create_date, update_date, del_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mimi.zfw.mybatis.pojo.RentalHousingExample" >
     select
@@ -141,30 +142,30 @@
   <insert id="insert" parameterType="com.mimi.zfw.mybatis.pojo.RentalHousing" >
     insert into tbl_rental_housing (id, residence_community_id, residence_community_name, 
       name, region, phone_num, 
-      rental, gross_floor_area, room_num, 
-      hall_num, toilet_num, forward, 
-      cur_floor, total_floor, decoration_status, 
-      address, introduction, facility_bed, 
-      facility_refrigerator, facility_broadband, facility_air_conditioner, 
-      facility_tv, facility_heating, facility_washer, 
-      facility_heater, lease_way, out_of_date, 
-      description, tags, priority, 
-      pre_image_url, creater, last_editor, 
-      create_date, update_date, del_flag
-      )
+      rental, inside_area, gross_floor_area, 
+      room_num, hall_num, toilet_num, 
+      forward, cur_floor, total_floor, 
+      decoration_status, address, introduction, 
+      facility_bed, facility_refrigerator, facility_broadband, 
+      facility_air_conditioner, facility_tv, facility_heating, 
+      facility_washer, facility_heater, lease_way, 
+      out_of_date, description, tags, 
+      priority, pre_image_url, creater, 
+      last_editor, create_date, update_date, 
+      del_flag)
     values (#{id,jdbcType=VARCHAR}, #{residenceCommunityId,jdbcType=VARCHAR}, #{residenceCommunityName,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
-      #{rental,jdbcType=INTEGER}, #{grossFloorArea,jdbcType=REAL}, #{roomNum,jdbcType=INTEGER}, 
-      #{hallNum,jdbcType=INTEGER}, #{toiletNum,jdbcType=INTEGER}, #{forward,jdbcType=VARCHAR}, 
-      #{curFloor,jdbcType=INTEGER}, #{totalFloor,jdbcType=INTEGER}, #{decorationStatus,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{facilityBed,jdbcType=BIT}, 
-      #{facilityRefrigerator,jdbcType=BIT}, #{facilityBroadband,jdbcType=BIT}, #{facilityAirConditioner,jdbcType=BIT}, 
-      #{facilityTv,jdbcType=BIT}, #{facilityHeating,jdbcType=BIT}, #{facilityWasher,jdbcType=BIT}, 
-      #{facilityHeater,jdbcType=BIT}, #{leaseWay,jdbcType=VARCHAR}, #{outOfDate,jdbcType=BIT}, 
-      #{description,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, 
-      #{preImageUrl,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{lastEditor,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT}
-      )
+      #{rental,jdbcType=INTEGER}, #{insideArea,jdbcType=REAL}, #{grossFloorArea,jdbcType=REAL}, 
+      #{roomNum,jdbcType=INTEGER}, #{hallNum,jdbcType=INTEGER}, #{toiletNum,jdbcType=INTEGER}, 
+      #{forward,jdbcType=VARCHAR}, #{curFloor,jdbcType=INTEGER}, #{totalFloor,jdbcType=INTEGER}, 
+      #{decorationStatus,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
+      #{facilityBed,jdbcType=BIT}, #{facilityRefrigerator,jdbcType=BIT}, #{facilityBroadband,jdbcType=BIT}, 
+      #{facilityAirConditioner,jdbcType=BIT}, #{facilityTv,jdbcType=BIT}, #{facilityHeating,jdbcType=BIT}, 
+      #{facilityWasher,jdbcType=BIT}, #{facilityHeater,jdbcType=BIT}, #{leaseWay,jdbcType=VARCHAR}, 
+      #{outOfDate,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=INTEGER}, #{preImageUrl,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
+      #{lastEditor,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.mimi.zfw.mybatis.pojo.RentalHousing" >
     insert into tbl_rental_housing
@@ -189,6 +190,9 @@
       </if>
       <if test="rental != null" >
         rental,
+      </if>
+      <if test="insideArea != null" >
+        inside_area,
       </if>
       <if test="grossFloorArea != null" >
         gross_floor_area,
@@ -299,6 +303,9 @@
       </if>
       <if test="rental != null" >
         #{rental,jdbcType=INTEGER},
+      </if>
+      <if test="insideArea != null" >
+        #{insideArea,jdbcType=REAL},
       </if>
       <if test="grossFloorArea != null" >
         #{grossFloorArea,jdbcType=REAL},
@@ -419,6 +426,9 @@
       <if test="record.rental != null" >
         rental = #{record.rental,jdbcType=INTEGER},
       </if>
+      <if test="record.insideArea != null" >
+        inside_area = #{record.insideArea,jdbcType=REAL},
+      </if>
       <if test="record.grossFloorArea != null" >
         gross_floor_area = #{record.grossFloorArea,jdbcType=REAL},
       </if>
@@ -520,6 +530,7 @@
       region = #{record.region,jdbcType=VARCHAR},
       phone_num = #{record.phoneNum,jdbcType=VARCHAR},
       rental = #{record.rental,jdbcType=INTEGER},
+      inside_area = #{record.insideArea,jdbcType=REAL},
       gross_floor_area = #{record.grossFloorArea,jdbcType=REAL},
       room_num = #{record.roomNum,jdbcType=INTEGER},
       hall_num = #{record.hallNum,jdbcType=INTEGER},
@@ -573,6 +584,9 @@
       </if>
       <if test="rental != null" >
         rental = #{rental,jdbcType=INTEGER},
+      </if>
+      <if test="insideArea != null" >
+        inside_area = #{insideArea,jdbcType=REAL},
       </if>
       <if test="grossFloorArea != null" >
         gross_floor_area = #{grossFloorArea,jdbcType=REAL},
@@ -672,6 +686,7 @@
       region = #{region,jdbcType=VARCHAR},
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       rental = #{rental,jdbcType=INTEGER},
+      inside_area = #{insideArea,jdbcType=REAL},
       gross_floor_area = #{grossFloorArea,jdbcType=REAL},
       room_num = #{roomNum,jdbcType=INTEGER},
       hall_num = #{hallNum,jdbcType=INTEGER},

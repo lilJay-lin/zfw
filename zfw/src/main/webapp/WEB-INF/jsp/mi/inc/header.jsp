@@ -10,3 +10,4 @@
 <!--<script src="${ctx}/assets/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>-->
 <script src="${ctx}/assets/js/handlebars-v3.0.3.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx}/assets/js/mi/common.min.js" type="text/javascript" charset="utf-8"></script>
+<%@include file="../../inc/icoImport.jsp" %>

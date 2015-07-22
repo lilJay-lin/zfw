@@ -86,7 +86,10 @@
 					</c:if>
 				</p>
 				<p>
-					面积：<span class="f999">约${zf.grossFloorArea}㎡</span>
+					建筑面积：<span class="f999">约${zf.grossFloorArea}㎡</span>
+				</p>
+				<p>
+					套内面积：<span class="f999">约${zf.insideArea}㎡</span>
 				</p>
 				<p>
 					装修：<span class="f999">${zf.decorationStatus }</span>

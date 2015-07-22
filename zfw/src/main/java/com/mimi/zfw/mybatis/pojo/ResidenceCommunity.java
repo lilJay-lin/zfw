@@ -100,6 +100,8 @@ public class ResidenceCommunity implements IBaseModel<String> {
 
     private Boolean active;
 
+    private String description;
+
     private String preImageUrl;
 
     private String creater;
@@ -111,8 +113,6 @@ public class ResidenceCommunity implements IBaseModel<String> {
     private Date updateDate;
 
     private Boolean delFlag;
-
-    private String description;
 
     private static final long serialVersionUID = 1L;
 
@@ -500,6 +500,14 @@ public class ResidenceCommunity implements IBaseModel<String> {
         this.active = active;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
     public String getPreImageUrl() {
         return preImageUrl;
     }
@@ -546,13 +554,5 @@ public class ResidenceCommunity implements IBaseModel<String> {
 
     public void setDelFlag(Boolean delFlag) {
         this.delFlag = delFlag;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 }

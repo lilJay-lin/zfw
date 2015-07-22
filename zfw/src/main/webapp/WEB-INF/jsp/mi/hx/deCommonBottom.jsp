@@ -38,7 +38,7 @@ function initHTData(){
 						ele.attr("readonly","readonly");
 						ele.attr("disabled","disabled");
 					}
-					if(i=="grossFloorArea"){
+					if(i=="grossFloorArea" || i=="insideArea"){
 						var num = Number(ht[i]);
 						if(num){
 							$("[name="+i+"]").val(Math.round(num*100)/100);

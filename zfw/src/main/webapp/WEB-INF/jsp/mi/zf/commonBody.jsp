@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=44843934aa23b524f4456723fea8dbdf"></script>
 						<div class="box-cnt js-rh-detail-container" style="display:none">
 							<div class="form">
 								<fieldset>
@@ -34,6 +33,14 @@
 										<div class="control">
 											<input type="text"  name="grossFloorArea" id="grossFloorArea" max="9"  error="建筑面积范围0.0-999999.99" 
 											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入建筑面积0.0-999999.99" value="0.0" />&nbsp;平方米
+											<span class="help-inline"></span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">套内面积</label>
+										<div class="control">
+											<input type="text"  name="insideArea" id="insideArea" max="9"  error="套内面积范围0.0-999999.99" 
+											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入套内面积0.0-999999.99" value="0.0" />&nbsp;平方米
 											<span class="help-inline"></span>
 										</div>
 									</div>

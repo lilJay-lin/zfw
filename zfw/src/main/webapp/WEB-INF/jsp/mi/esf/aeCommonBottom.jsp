@@ -63,6 +63,7 @@
 				phoneNum:"",
 				totalPrice:"",
 				grossFloorArea:"",
+				insideArea:"",
 				roomNum:"",
 				hallNum:"",
 				toiletNum:"",

@@ -44,70 +44,8 @@
 	</div>
 </body>
 <%@include file="../../inc/bottom.jsp" %>
+<%@include file="commonBottom.jsp" %>
 <script>
-function inputOnKeyup(event, element) {
-	nameChange(element);
-	assessment();
-}
-function inputOnFocus(event, element) {
-	var ele = $(element);
-	var container = $("#" + ele.attr("resultContainer"));
-	container.removeClass("none");
-	nameChange(element);
-}
-function inputOnBlus(event, element) {
-	var ele = $(element);
-	var container = $("#" + ele.attr("resultContainer"));
-	setTimeout(function(){
-		container.addClass("none");
-		
-	},200);
-}
-function nameChange(element) {
-	var ele = $(element);
-	if (ele.attr("searching") == "true" || ele.val() == "") {
-		return;
-	}
-	ele.attr("searching", "true");
-	ele.attr("searchingName", ele.val());
-	var url = "${ctx}/xq/json/{name}/search";
-	url = url.replace("{name}",ele.attr("searchingName"));
-	$.ajax({
-		type: "GET",
-		async: true,
-		url: url,
-		dataType: "json",
-		success: function (data) {
-			if(data.success){
-				var results = data.results;
-				if(results!=null){
-					var container = $("#" + ele.attr("resultContainer"));
-					container.empty();
-					for (var i = 0; i < results.length; i++) {
-						var result = results[i];
-						var str = ' <li class="li-loudong" dataId="'+result.id+'"  onclick="selectName(this)">' + result.name + '</li>';
-						container.append(str);
-					}
-				}
-				ele.attr("searching", "false");
-				if (ele.attr("searchingName") != ele.val()) {
-					nameChange(element);
-				}
-			}else{
-				alert(data.msg);
-			}
-		},
-		error: function (data) {
-			alert("查询失败，请稍后尝试！");
-		}
-	});
-}
-function selectName(element) {
-	var ele = $(element);
-	$("#xqName").attr("dataId",ele.attr("dataId"));
-	$("#xqName").val(ele.html());
-	assessment();
-}
 
 function submitForm() {
 	var btn = $("#submit");
@@ -124,6 +62,7 @@ function submitForm() {
 	var hallNum = $("#hallNum").val();
 	var toiletNum = $("#toiletNum").val();
 	var grossFloorArea = $("#grossFloorArea").val();
+	var insideArea = $("#insideArea").val();
 	var forward = $("#forward").val();
 	var decorationStatus = $("#decorationStatus").val();
 	var curFloor = $("#curFloor").val();
@@ -157,7 +96,7 @@ function submitForm() {
 		type: "POST",
 		async: true,
 		url: "${ctx}/user/esf/json/add",
-		data: {residenceCommunityName:xqName,residenceCommunityId:xqId,roomNum:roomNum,hallNum:hallNum,toiletNum:toiletNum,grossFloorArea:grossFloorArea,forward:forward,decorationStatus:decorationStatus,curFloor:curFloor,totalFloor:totalFloor,totalPrice:totalPrice,phoneNum:phoneNum,name:name,address:address,introduction:introduction,preImageUrl:preImageUrl,imgUrls:imgUrls},
+		data: {residenceCommunityName:xqName,residenceCommunityId:xqId,roomNum:roomNum,hallNum:hallNum,toiletNum:toiletNum,insideArea:insideArea,grossFloorArea:grossFloorArea,forward:forward,decorationStatus:decorationStatus,curFloor:curFloor,totalFloor:totalFloor,totalPrice:totalPrice,phoneNum:phoneNum,name:name,address:address,introduction:introduction,preImageUrl:preImageUrl,imgUrls:imgUrls},
 		dataType: "json",
 		success: function (data) {
 			if(data.success){
@@ -177,99 +116,5 @@ function submitForm() {
 	});
 	return false;
 }
-$(function(){
-	function checkImgType(element){
-		   var filePath=$(element).val();
-		   var extStart=filePath.lastIndexOf(".");
-		   var ext=filePath.substring(extStart,filePath.length).toUpperCase();
-		   if(ext!=".PNG"&&ext!=".GIF"&&ext!=".JPG"&&ext!=".JPEG"){
-			   return "图片限于png,gif,jpg,jpeg格式";
-		   }else{
-				if(element.files[0].size>20*1024*1024){
-					return "图片最大支持20M";
-				}
-		   }
-		   return null;
-		}
-	$(':file').change(function(){
-		var errorStr = checkImgType(this);
-		if(errorStr){
-			alert(errorStr);
-			return;
-		}
-		refreshImgTips();
-		var str = '<dd><img src="${ctx}/assets/img/loading.gif" class="imgClass"><a href="javascript:void(0);" class="del" onclick="delImg(this)"></a></dd>';
-		var imgObj =  $(str);
-		$(this).parents("dd:first").before(imgObj);
-		
-		var formData = new FormData($("#uploadForm")[0]);	
-	    $.ajax({
-	        type:'POST',
-	        url:'${ctx}/user/esf/uploadImg',
-	        data: formData,
-	        async: true,
-	        cache: false,
-			dataType : "json",
-	        contentType: false,
-	        processData: false,
-	        success: function (data) {
-				if(data.success){
-					var final_url = data.imgPath;	
-					imgObj.children(".imgClass").attr("src",final_url);
-				}else{
-					alert(data.msg);
-				}
-	        },
-	        error: function (data) {
-				alert("上传失败");
-				imgObj.remove();
-	        }
-	    });
-	});
-}); 
-
-
-	function refreshImgTips(){
-		if($(".imgClass").length>0){
-			$("#note").addClass("none");
-		}else{
-			$("#note").removeClass("none");
-		}
-	}
-	function delImg(element){
-		var flag = confirm("确定删除图片？");
-		if(flag){
-			var ele = $(element);
-			ele.parents("dd:first").remove();
-			refreshImgTips();
-		}
-	}
-	function assessment(){
-		var xqName = $("#xqName").val();
-		var xqId = $("#xqName").attr("dataId");
-		var grossFloorArea = $("#grossFloorArea").val();
-		var forward = $("#forward").val();
-		var curFloor = $("#curFloor").val();
-		if(xqName && grossFloorArea && forward && curFloor){
-			$.ajax({
-				type: "GET",
-				async: true,
-				url: "${ctx}/pg/miniAnalyse",
-				data: {residenceCommunityName:xqName,residenceCommunityId:xqId,grossFloorArea:grossFloorArea,forward:forward,curFloor:curFloor},
-				dataType: "json",
-				success: function (data) {
-					if(data.success){
-						$("#refPrice").html(data.totalPrice);
-						$("#priceUnit").html("万/套");
-					}else if(data.msg){
-						alert(data.msg);
-					}
-				},
-				error: function (data) {
-					alert("评估失败，请稍后尝试！");
-				}
-			});
-		}
-	}
 </script>
 </html>

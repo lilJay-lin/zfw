@@ -61,6 +61,7 @@
 				name:"",
 				onSaleDate:"",
 				grossFloorArea:"",
+				insideArea:"",
 				roomNum:"",
 				hallNum:"",
 				kitchenNum:"",
