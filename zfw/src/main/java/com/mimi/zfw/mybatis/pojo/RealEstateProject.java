@@ -78,6 +78,8 @@ public class RealEstateProject implements IBaseModel<String> {
 
     private String saleStatus;
 
+    private String description;
+
     private String creater;
 
     private String lastEditor;
@@ -87,8 +89,6 @@ public class RealEstateProject implements IBaseModel<String> {
     private Date updateDate;
 
     private Boolean delFlag;
-
-    private String description;
 
     private static final long serialVersionUID = 1L;
 
@@ -388,6 +388,14 @@ public class RealEstateProject implements IBaseModel<String> {
         this.saleStatus = saleStatus == null ? null : saleStatus.trim();
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
     public String getCreater() {
         return creater;
     }
@@ -426,13 +434,5 @@ public class RealEstateProject implements IBaseModel<String> {
 
     public void setDelFlag(Boolean delFlag) {
         this.delFlag = delFlag;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 }

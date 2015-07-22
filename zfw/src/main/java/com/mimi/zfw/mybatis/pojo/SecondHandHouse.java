@@ -18,6 +18,8 @@ public class SecondHandHouse implements IBaseModel<String> {
 
     private Integer totalPrice;
 
+    private Float insideArea;
+
     private Float grossFloorArea;
 
     private Integer roomNum;
@@ -114,6 +116,14 @@ public class SecondHandHouse implements IBaseModel<String> {
 
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Float getInsideArea() {
+        return insideArea;
+    }
+
+    public void setInsideArea(Float insideArea) {
+        this.insideArea = insideArea;
     }
 
     public Float getGrossFloorArea() {

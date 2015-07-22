@@ -36,7 +36,7 @@ function initSHHData(){
 						ele.attr("readonly","readonly");
 						ele.attr("disabled","disabled");
 					}
-					if(i=="grossFloorArea"){
+					if(i=="grossFloorArea" || i=="insideArea"){
 						var num = Number(shh[i]);
 						if(num){
 							$("[name="+i+"]").val(Math.round(num*100)/100);

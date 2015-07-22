@@ -18,6 +18,8 @@ public class RentalHousing implements IBaseModel<String> {
 
     private Integer rental;
 
+    private Float insideArea;
+
     private Float grossFloorArea;
 
     private Integer roomNum;
@@ -132,6 +134,14 @@ public class RentalHousing implements IBaseModel<String> {
 
     public void setRental(Integer rental) {
         this.rental = rental;
+    }
+
+    public Float getInsideArea() {
+        return insideArea;
+    }
+
+    public void setInsideArea(Float insideArea) {
+        this.insideArea = insideArea;
     }
 
     public Float getGrossFloorArea() {

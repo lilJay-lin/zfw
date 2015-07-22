@@ -37,6 +37,14 @@
 										</div>
 									</div>
 									<div class="control-group">
+										<label class="control-label">套内面积</label>
+										<div class="control">
+											<input type="text"  name="insideArea" id="insideArea" max="9"  error="套内面积范围0.0-999999.99" 
+											patterns = "^\d{1,6}(\.\d{1,2})?$"  placeholder="输入套内面积0.0-999999.99" value="0.0" />&nbsp;平方米
+											<span class="help-inline"></span>
+										</div>
+									</div>
+									<div class="control-group">
 										<label class="control-label">居室数量</label>
 										<div class="control">
 											<input type="text"  name="roomNum" id="roomNum" max="2" maxlength="2" error="居室数量范围0-99" 
